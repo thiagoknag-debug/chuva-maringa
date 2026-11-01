@@ -39,7 +39,7 @@ const fmt=(v,d=1)=>v==null?'—':Number(v).toLocaleString('pt-BR',{minimumFracti
 const mmTxt=v=>v<0.5?'0':(v<10?fmt(v):fmt(v,0));
 const sameDay=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
 const now=new Date(), tmw=new Date(now.getTime()+864e5);
-const dayName=d=>sameDay(d,now)?'Hoje':sameDay(d,tmw)?'Amanhã':wd[d.getDay()];
+const dayName=d=>sameDay(d,now)?'Hoje':sameDay(d,tmw)?'Amanhã':['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][d.getDay()];
 $('reload').addEventListener('click',()=>location.reload());
 
 let L,O;
@@ -82,7 +82,7 @@ const drop=p=>`<svg viewBox="0 0 20 24" aria-hidden="true"><path d="M10 1.5C10 1
 const hmax=Math.max(4,...H.mm.map(v=>v||0));
 $('hours').innerHTML=hrs.map((d,i)=>{const p=H.p[i]??0,v=H.mm[i]||0,nd=d.getHours()===0&&i>0;
   const t=i===0?'Agora':pad(d.getHours())+'h';
-  return `<div class="h${nd?' newday':''}" role="listitem" aria-label="${dayName(d)} ${pad(d.getHours())}h: ${p}% de chance, ${fmt(v)} mm"><div class="t">${nd?`<b>${dayName(d)}</b>`:''}${t}</div>${drop(p)}<div class="p" style="color:${p>=50?'var(--rain)':'var(--muted)'}">${p}%</div><div class="bar"><i style="height:${Math.round(100*Math.min(v,hmax)/hmax)}%"></i></div><div class="mm">${v>=0.2?mmTxt(v):''}</div><div class="deg">${H.t[i]??''}°</div></div>`;}).join('');
+  return `<div class="h${nd?' newday':''}" role="listitem" aria-label="${dayName(d)} ${pad(d.getHours())}h: ${p}% de chance, ${fmt(v)} mm"><div class="t">${nd?`<b>${dayName(d)}</b>`:''}${t}</div>${drop(p)}<div class="p" style="color:${p>=50?'var(--rain)':'var(--muted)'}">${p}%</div><div class="bar"><i style="height:${Math.round(100*Math.min(v,hmax)/hmax)}%"></i></div><div class="mm">${v>=0.1?fmt(v):''}</div><div class="deg">${H.t[i]??''}°</div></div>`;}).join('');
 
 /* dias */
 const S=Math.min(60,Math.max(20,...L.D.map(d=>d[3]||0)));
