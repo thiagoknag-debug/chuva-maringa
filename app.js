@@ -31,136 +31,101 @@ return {gen:new Date().toISOString(),H,D,alerts:A||[]};
 
 }
 (async function(){
-const ld=async u=>{const r=await fetch(u+'?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error(u);return r.json();};
-document.getElementById('stamp').textContent='Buscando a previsão mais recente…';
-let DATA,LIVE_;try{[DATA,LIVE_]=await Promise.all([ld('oct.json'),coletar()]);}catch(e){document.getElementById('stamp').textContent='Não foi possível buscar a previsão agora. Verifique a internet e recarregue.';return;}
-const O=DATA.oct, F=DATA.fc;
-const names=O.names;
-const order=['CM','AI','EC','IC','BM','GE','MF','JM','GF','UK'];
-const fmt=(v,d=1)=>v==null?'—':v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
-const pct=v=>v==null?'—':Math.round(v*100)+'%';
-const LIVE=LIVE_;
+const $=id=>document.getElementById(id);
 const wd=['dom','seg','ter','qua','qui','sex','sáb'];
+const WD=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
 const pad=n=>String(n).padStart(2,'0');
-const todayKey=(()=>{const d=new Date(Date.now()-3*3600e3);return d.toISOString().slice(0,10);})(); /* data em Brasília */
+const fmt=(v,d=1)=>v==null?'—':Number(v).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const mmTxt=v=>v<0.5?'0':(v<10?fmt(v):fmt(v,0));
+const sameDay=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
+const now=new Date(), tmw=new Date(now.getTime()+864e5);
+const dayName=d=>sameDay(d,now)?'Hoje':sameDay(d,tmw)?'Amanhã':wd[d.getDay()];
+$('reload').addEventListener('click',()=>location.reload());
+
+let L,O;
+try{[L,O]=await Promise.all([coletar(),fetch('oct.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json())]);}
+catch(e){$('stamp').textContent='Sem conexão com os serviços de tempo';$('hero').outerHTML='<div class="err">Não foi possível buscar a previsão agora. Verifique a internet e toque em ↻.</div>';return;}
+
 /* carimbo */
-(function(){const g=new Date(LIVE.gen);const h=(Date.now()-g)/3600e3;const b=new Date(g.getTime()-3*3600e3);
- const el=document.getElementById('stamp');if(h>12)el.classList.add('old');
- const rel=h<1?'há menos de 1 hora':(h<48?'há '+Math.round(h)+' h':'há '+Math.round(h/24)+' dias');
- el.innerHTML=`<i class="dot"></i><span>Atualizado em ${pad(b.getUTCDate())}/${pad(b.getUTCMonth()+1)} às ${pad(b.getUTCHours())}h${pad(b.getUTCMinutes())} (${rel})${h>12?' · os dados podem estar desatualizados':''}</span>`;})();
-/* alertas */
-(function(){const box=document.getElementById('alerts');(LIVE.alerts||[]).filter(a=>a.fim>=todayKey).forEach(a=>{const d=document.createElement('div');d.className='alert '+(a.lvl==='amarelo'?'amarelo':'');d.setAttribute('role','note');
- const dl=s=>{const x=new Date(s+'T12:00:00');return wd[x.getDay()]+' '+x.getDate()+'/'+(x.getMonth()+1);};
- d.innerHTML=`<b>Aviso INMET (${a.lvl}): ${a.tit} · ${a.ini===a.fim?dl(a.ini):dl(a.ini)+' a '+dl(a.fim)}</b><span>${a.txt}</span>`;box.appendChild(d);});
- if(box.children.length){const s=document.createElement('small');s.className='note';s.textContent='Defesa Civil 199 · Bombeiros 193';box.appendChild(s);}})();
-/* hora a hora */
-(function(){const H=LIVE.H;const st=new Date(H.start+':00');const n=H.mm.length;
- const hrs=[...Array(n)].map((_,i)=>new Date(st.getTime()+i*3600e3));
- /* janelas: horas com chance >=50% agrupadas */
- const wins=[];let cur=null;for(let i=0;i<n;i++){if(H.p[i]>=50){if(!cur)cur={a:i,b:i};else cur.b=i;}else if(cur){wins.push(cur);cur=null;}}if(cur)wins.push(cur);
- const lab=d=>{const k=d.toISOString().slice(0,10);const dd=new Date(d.getTime());const today=new Date();const sameDay=(x,y)=>x.getFullYear()===y.getFullYear()&&x.getMonth()===y.getMonth()&&x.getDate()===y.getDate();
-   const tm=new Date(today.getTime()+864e5);return sameDay(dd,today)?'Hoje':sameDay(dd,tm)?'Amanhã':wd[dd.getDay()]+' '+dd.getDate()+'/'+(dd.getMonth()+1);};
- const ul=document.getElementById('windows');
- if(!wins.length){ul.innerHTML='<li><b>Sem janela de chuva provável</b><span>Nenhuma hora com chance de 50% ou mais nas próximas 48 h.</span></li>';}
- wins.forEach(w=>{const a=hrs[w.a],b=new Date(hrs[w.b].getTime()+3600e3);let mm=0,pmax=0;for(let i=w.a;i<=w.b;i++){mm+=H.mm[i]||0;pmax=Math.max(pmax,H.p[i]);}
-   const li=document.createElement('li');li.innerHTML=`<b>${lab(a)}, ${pad(a.getHours())}h às ${pad(b.getHours())}h</b><span>chance até ${pmax}% · ~${fmt(mm)} mm no período</span>`;ul.appendChild(li);});
- /* gráfico */
- const W=Math.max(640,n*16+50),Hh=230,ml=34,mr=8,mt=26,mb=40,iw=W-ml-mr,ih=Hh-mt-mb;const top=Math.max(4,Math.ceil(Math.max(...H.mx,...H.mm)/2)*2);
- const y=v=>mt+ih-(v/top)*ih,bw=iw/n;
- let s=`<svg viewBox="0 0 ${W} ${Hh}" style="min-width:${W}px" role="img" aria-label="Chuva prevista hora a hora nas próximas 48 horas">`;
- const step=top>12?4:2;for(let t=0;t<=top;t+=step)s+=`<line x1="${ml}" x2="${W-mr}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)"/><text x="${ml-6}" y="${y(t)+4}" text-anchor="end" font-size="10.5" fill="var(--muted)" font-family="IBM Plex Mono,monospace">${t}</text>`;
- for(let i=0;i<n;i++){const x=ml+i*bw;const p=H.p[i]??0;
-   s+=`<rect x="${x+1}" y="4" width="${bw-2}" height="12" rx="2" fill="var(--rain)" fill-opacity="${(0.06+0.94*p/100).toFixed(2)}"><title>${pad(hrs[i].getHours())}h: chance ${p}%</title></rect>`;
-   const v=H.mm[i]||0;s+=`<rect x="${x+bw*.18}" y="${y(v)}" width="${bw*.64}" height="${Math.max(0,mt+ih-y(v))}" rx="1.5" fill="var(--rain)"><title>${lab(hrs[i])} ${pad(hrs[i].getHours())}h: ${fmt(v)} mm (máx. entre modelos ${fmt(H.mx[i])} mm), chance ${p}%, ${H.t[i]}°C</title></rect>`;
-   if(H.mx[i]>v)s+=`<line x1="${x+bw*.2}" x2="${x+bw*.8}" y1="${y(H.mx[i])}" y2="${y(H.mx[i])}" stroke="var(--ink)" stroke-width="1.4"/>`;
-   const hh=hrs[i].getHours();if(hh%3===0)s+=`<text x="${x+bw/2}" y="${Hh-mb+14}" text-anchor="middle" font-size="10.5" fill="var(--muted)" font-family="IBM Plex Mono,monospace">${pad(hh)}h</text>`;
-   if(hh===0&&i>0)s+=`<line x1="${x}" x2="${x}" y1="${mt}" y2="${Hh-mb+20}" stroke="var(--muted)" stroke-dasharray="3 3"/><text x="${x+4}" y="${Hh-6}" font-size="11" font-weight="600" fill="var(--ink)">${lab(hrs[i])}</text>`;}
- s+=`<text x="${ml}" y="${Hh-6}" font-size="11" font-weight="600" fill="var(--ink)">${lab(hrs[0])}</text><text x="${ml}" y="${mt-4}" font-size="0">.</text></svg>`;
- document.getElementById('hchart').innerHTML=s;})();
-/* 10 dias */
-const daysEl=document.getElementById('days');
-LIVE.D.forEach(([d,mm,mn,mx,P,P10,P25,P50,n,tx,tn],i)=>{
-  const dt=new Date(d+'T12:00:00');
-  const row=document.createElement('div');
-  row.className='day'+(mm>=20?' hot':'');
-  const label=d===todayKey?'Hoje':(i===1&&LIVE.D[0][0]===todayKey?'Amanhã':wd[dt.getDay()]);
-  row.innerHTML=`<div class="dname">${label}<small>${dt.getDate()}/${dt.getMonth()+1} · ${tn}–${tx}°</small></div>
-   <div class="prob">
-     <div class="pbar" aria-hidden="true"><i style="width:${P==null?0:P}%"></i></div>
-     <div class="pmeta"><span><b>${P==null?'—':P+'%'}</b> chance de chuva</span>${P10>=10?`<span>≥10 mm: <b>${P10}%</b></span>`:''}${P25>=10?`<span>≥25 mm: <b>${P25}%</b></span>`:''}${P50>=5?`<span>≥50 mm: <b>${P50}%</b></span>`:''}</div>
-   </div>
-   <div class="mm">${fmt(mm)}<small>${fmt(mn,0)}–${fmt(mx,0)} mm</small></div>`;
-  daysEl.appendChild(row);
-});
+const g=new Date(L.gen);$('stamp').textContent='Atualizado às '+pad(g.getHours())+'h'+pad(g.getMinutes())+' · '+WD[g.getDay()]+', '+g.getDate()+'/'+(g.getMonth()+1);
 
-/* ---------- october ---------- */
-let model='CM', lead='d1';
-const sel=document.getElementById('selModel');
-order.forEach(ab=>{const o=document.createElement('option');o.value=ab;o.textContent=names[ab];sel.appendChild(o);});
-sel.value=model;
-sel.addEventListener('change',()=>{model=sel.value;renderOct();});
-document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
-  lead=b.dataset.lead;document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));renderOct();renderRank();}));
+/* avisos */
+const todayKey=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
+const col={amarelo:'var(--amarelo)',laranja:'var(--laranja)',vermelho:'var(--vermelho)'};
+const dl=s=>{const x=new Date(s+'T12:00:00');return dayName(x).toLowerCase()==='hoje'?'hoje':(dayName(x)==='Amanhã'?'amanhã':wd[x.getDay()]+' '+x.getDate());};
+$('alerts').innerHTML=(L.alerts||[]).filter(a=>a.fim>=todayKey).map(a=>`<details class="chip"><summary><i class="dot" style="background:${col[a.lvl]||col.amarelo}"></i>${a.tit[0].toUpperCase()+a.tit.slice(1)} · ${a.ini===a.fim?dl(a.ini):dl(a.ini)+'–'+dl(a.fim)}</summary><p>Aviso ${a.lvl} do INMET. ${a.txt}</p></details>`).join('');
 
-const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-function renderOct(){
-  const r=O.res[model][lead].all, g=O.res[model][lead].gauge;
-  const st=document.getElementById('stats');
-  st.innerHTML=[
-    [pct(r.acc),'acerto chove/não chove (31 dias)'],
-    [r.miss+' / '+r.fa,'chuvas perdidas / alarmes falsos'],
-    [fmt(r.mae)+' mm','erro médio por dia'],
-    [fmt(r.sumf,0)+' / '+fmt(r.sumo,0),'mm no mês: previsto / real'],
-    [fmt(g.mae)+' mm','erro médio, só pluviômetro (22–31)'],
-  ].map(([v,k])=>`<div class="stat"><span class="v">${v}</span><span class="k">${k}</span></div>`).join('');
-  drawChart();
-}
-function drawChart(){
-  const truth=O.truth, src=O.src, fc=O.models[model][lead];
-  const W=760,H=300,ml=36,mr=10,mt=14,mb=34, iw=W-ml-mr, ih=H-mt-mb;
-  const maxV=Math.max(10,...truth.map(v=>v||0),...fc.map(v=>v||0));
-  const top=Math.ceil(maxV/10)*10;
-  const y=v=>mt+ih-(v/top)*ih, bw=iw/31;
-  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Chuva diária em outubro: medida e prevista por ${names[model]}">`;
-  for(let t=0;t<=top;t+=top>60?20:10){s+=`<line x1="${ml}" x2="${W-mr}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)" stroke-width="1"/><text x="${ml-6}" y="${y(t)+4}" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono,monospace">${t}</text>`;}
-  truth.forEach((v,i)=>{ if(v==null)return; const x=ml+i*bw+bw*.14, h=ih-(y(v)-mt);
-    s+=`<rect x="${x}" y="${y(v)}" width="${bw*.72}" height="${Math.max(0,h)}" rx="2" fill="${src[i]==='INMET'?'var(--rain)':'var(--era)'}"><title>${i+1}/10: ${fmt(v)} mm medidos (${src[i]==='INMET'?'pluviômetro INMET':'ERA5'}) · previsto ${fmt(fc[i])} mm</title></rect>`;});
-  let path='';fc.forEach((v,i)=>{if(v==null)return;const x=ml+i*bw+bw/2;path+=(path?'L':'M')+x.toFixed(1)+','+y(v).toFixed(1);});
-  s+=`<path d="${path}" fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round"/>`;
-  fc.forEach((v,i)=>{if(v==null)return;const x=ml+i*bw+bw/2;s+=`<circle cx="${x}" cy="${y(v)}" r="3.2" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.6"/>`;});
-  for(let i=0;i<31;i++){ if(i%2)continue; s+=`<text x="${ml+i*bw+bw/2}" y="${H-mb+16}" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono,monospace">${i+1}</text>`;}
-  const xg=ml+21*bw; s+=`<line x1="${xg}" x2="${xg}" y1="${mt}" y2="${mt+ih}" stroke="var(--muted)" stroke-dasharray="3 3"/><text x="${xg+4}" y="${mt+10}" font-size="10.5" fill="var(--muted)" font-family="IBM Plex Mono,monospace">pluviômetro →</text>`;
-  s+=`<text x="${ml}" y="${H-4}" font-size="11" fill="var(--muted)">mm por dia · dia de outubro</text></svg>`;
-  s+=`<div class="legend"><span><i class="sw" style="background:var(--rain)"></i>Medido no pluviômetro INMET</span><span><i class="sw" style="background:var(--era)"></i>Estimado (ERA5), 1–21/10</span><span><i class="sw" style="background:var(--ink);height:2px;vertical-align:3px"></i>${names[model]}, ${lead.slice(1)} dia${lead==='d1'?'':'s'} antes</span></div>`;
-  document.getElementById('chart').innerHTML=s;
-}
+/* horas */
+const H=L.H, n=H.mm.length, st=new Date(H.start+':00');
+const hrs=[...Array(n)].map((_,i)=>new Date(st.getTime()+i*3600e3));
+const wins=[];let cur=null;
+for(let i=0;i<n;i++){if(H.p[i]>=50){if(!cur)cur={a:i,b:i};else cur.b=i;}else if(cur){wins.push(cur);cur=null;}}if(cur)wins.push(cur);
+const winMm=w=>{let s=0,p=0;for(let i=w.a;i<=w.b;i++){s+=H.mm[i]||0;p=Math.max(p,H.p[i]);}return{s,p};};
 
-/* ---------- ranking ---------- */
-let sortKey='mae', sortDir=1;
-const cols=[
-  ['name','Modelo'],['acc','Acerto'],['miss','Perdidas'],['fa','Falsos'],['mae','Erro médio (mm/dia)'],['tot','Total previsto (real '+fmt(O.res.EC.d1.all.sumo,0)+')'],['gacc','Acerto · só pluv.'],['gmae','Erro · só pluv.'],['hcsi','Chuva forte ≥10 mm (acerto)'],['w','Peso na previsão']
-];
-function cls(k,v,all){ if(v==null)return''; const vals=all.map(r=>r[k]).filter(x=>x!=null).sort((a,b)=>a-b); const lowBetter=['miss','fa','mae','gmae'].includes(k);
-  const best=lowBetter?vals[0]:vals[vals.length-1], worst=lowBetter?vals[vals.length-1]:vals[0]; if(v===best)return'g'; if(v===worst)return'b'; return'';}
-function renderRank(){
-  const rows=order.map(ab=>{const r=O.res[ab][lead];return{ab,name:names[ab],acc:r.all.acc,miss:r.all.miss,fa:r.all.fa,mae:r.all.mae,tot:r.all.sumf,gacc:r.gauge.acc,gmae:r.gauge.mae,hcsi:r.heavy.csi,w:F.weights[ab]};});
-  rows.sort((a,b)=>{const x=a[sortKey],z=b[sortKey]; if(typeof x==='string')return x.localeCompare(z)*sortDir; return ((x??1e9)-(z??1e9))*sortDir;});
-  const t=document.getElementById('rank');
-  t.innerHTML='<thead><tr>'+cols.map(([k,l])=>`<th scope="col"><button type="button" data-k="${k}" style="all:unset;cursor:pointer">${l}${sortKey===k?(sortDir>0?' ↑':' ↓'):''}</button></th>`).join('')+'</tr></thead><tbody>'+
-   rows.map((r,i)=>`<tr${i===0&&sortKey!=='name'?' class="top"':''}><td>${r.name}</td><td class="${cls('acc',r.acc,rows)}">${pct(r.acc)}</td><td class="${cls('miss',r.miss,rows)}">${r.miss}</td><td class="${cls('fa',r.fa,rows)}">${r.fa}</td><td class="${cls('mae',r.mae,rows)}">${fmt(r.mae)}</td><td>${fmt(r.tot,0)} <span class="sub">(${r.tot>=O.res.EC.d1.all.sumo?'+':''}${Math.round((r.tot/O.res.EC.d1.all.sumo-1)*100)}%)</span></td><td class="${cls('gacc',r.gacc,rows)}">${pct(r.gacc)}</td><td class="${cls('gmae',r.gmae,rows)}">${fmt(r.gmae)}</td><td class="${cls('hcsi',r.hcsi,rows)}">${pct(r.hcsi)}</td><td>${Math.round(r.w*100)}%</td></tr>`).join('')+'</tbody>';
-  t.querySelectorAll('th button').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.k; if(sortKey===k)sortDir*=-1; else{sortKey=k;sortDir=['acc','gacc','hcsi','w'].includes(k)?-1:1;} renderRank();}));
-}
+/* resumo */
+const dIdx=k=>L.D.findIndex(d=>d[0]===k);
+const key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const box=(lab,d)=>{if(!d)return'';return `<div class="box"><span>${lab}</span><b>${mmTxt(d[1])} mm</b><span>${d[4]??'—'}% de chance</span></div>`;};
+let head,sub,lab;
+const sig=wins.filter(w=>winMm(w).s>=1);
+if(wins.length){const w=sig[0]||wins[0],a=hrs[w.a],b=new Date(hrs[w.b].getTime()+3600e3),m=winMm(w);
+  const light=!sig.length;
+  lab=w.a===0?(light?'Garoa agora':'Chuva agora'):(light?'Próxima garoa':'Próxima chuva');
+  head=w.a===0?`Até as ${pad(b.getHours())}h`:`${dayName(a)}, das ${pad(a.getHours())}h às ${pad(b.getHours())}h`;
+  sub=`Cerca de ${mmTxt(m.s)} mm · chance de até ${m.p}%`;
+  const prev=wins.filter(x=>x.a<w.a);
+  if(prev.length)sub+=` · antes disso, garoa fraca ${prev[0].a===0?'agora':'às '+pad(hrs[prev[0].a].getHours())+'h'}`;}
+else{const pm=Math.max(...H.p);lab='Próximas 48 horas';head='Sem chuva provável';sub=`Chance máxima de ${pm}% em alguma hora`;}
+$('hero').innerHTML=`<div><div class="lab">${lab}</div><p class="head">${head}</p><p class="sub">${sub}</p></div><div class="pair">${box('Hoje',L.D[dIdx(key(now))])}${box('Amanhã',L.D[dIdx(key(tmw))])}</div>`;
 
-/* ---------- findings ---------- */
-const F1=O.res;
-const totReal=F1.EC.d1.all.sumo;
-document.getElementById('findings').innerHTML=[
- `Em outubro choveu cerca de <b>${fmt(totReal,0)} mm</b> em Maringá, somando a estimativa de 1 a 21 com o medido no pluviômetro de 22 a 31.`,
- `Com 1 dia de antecedência, quase todos os modelos acertam <b>se</b> vai chover (74% a 84% dos dias). O que erra é <b>quanto</b>: todos os 10 modelos previram mais chuva do que caiu no mês (o CMA por apenas 1%), e alguns previram quase o dobro (UK Met Office +98%, Météo-France +58%).`,
- `No período com pluviômetro (22 a 31/10) caíram só <b>32 mm</b>, e todos os modelos menos o CMA previram bem mais: de 56 a 129 mm. O caso mais claro é o dia 25: o pluviômetro marcou 2,8 mm, a estimativa ERA5 indicou 36,7 mm e o ECMWF previa 21,6 mm. Foi chuva em parte da região que não passou pela estação.`,
- `<b>ECMWF AIFS</b> e <b>ECMWF IFS</b> lideram no mês inteiro, mas parte dessa vantagem vem de a referência de 1 a 21 ser do próprio ECMWF. No pluviômetro, que é independente, o <b>CMA</b> teve o menor erro (3,2 mm/dia) e <b>ICON, CMA e Météo-France</b> acertaram chove/não chove em 9 de 10 dias.`,
- `Previsão de 3 dias atrás piora pouco no "vai chover ou não", mas o volume fica bem menos confiável. Para decidir algo pelo volume de chuva, confie na previsão da véspera.`
-].map(t=>`<li>${t}</li>`).join('');
+const drop=p=>`<svg viewBox="0 0 20 24" aria-hidden="true"><path d="M10 1.5C10 1.5 2.5 10.2 2.5 15a7.5 7.5 0 0 0 15 0C17.5 10.2 10 1.5 10 1.5z" fill="var(--rain)" fill-opacity="${(0.08+0.92*p/100).toFixed(2)}" stroke="var(--rain)" stroke-width="1.2"/></svg>`;
+const hmax=Math.max(4,...H.mm.map(v=>v||0));
+$('hours').innerHTML=hrs.map((d,i)=>{const p=H.p[i]??0,v=H.mm[i]||0,nd=d.getHours()===0&&i>0;
+  const t=i===0?'Agora':pad(d.getHours())+'h';
+  return `<div class="h${nd?' newday':''}" role="listitem" aria-label="${dayName(d)} ${pad(d.getHours())}h: ${p}% de chance, ${fmt(v)} mm"><div class="t">${nd?`<b>${dayName(d)}</b>`:''}${t}</div>${drop(p)}<div class="p" style="color:${p>=50?'var(--rain)':'var(--muted)'}">${p}%</div><div class="bar"><i style="height:${Math.round(100*Math.min(v,hmax)/hmax)}%"></i></div><div class="mm">${v>=0.2?mmTxt(v):''}</div><div class="deg">${H.t[i]??''}°</div></div>`;}).join('');
 
-renderOct();renderRank();
+/* dias */
+const S=Math.min(60,Math.max(20,...L.D.map(d=>d[3]||0)));
+const pos=v=>Math.min(100,100*(v||0)/S);
+$('days').innerHTML=L.D.map(d=>{const dt=new Date(d[0]+'T12:00:00'),P=d[4];
+  return `<div class="day"><div class="n">${dayName(dt)}<small>${dt.getDate()}/${dt.getMonth()+1}</small></div><div class="c${P<40?' lo':''}">${P??'—'}%</div><div class="track" title="Entre ${fmt(d[2],0)} e ${fmt(d[3],0)} mm conforme o modelo"><span class="rng" style="left:${pos(d[2])}%;width:${Math.max(2,pos(d[3])-pos(d[2]))}%"></span><span class="val" style="left:${pos(d[1])}%"></span></div><div class="v">${mmTxt(d[1])}<small> mm</small></div><div class="tmp">${d[10]}° a ${d[9]}°${d[6]>=20?` · ${d[6]}% de chance de passar de 25 mm`:''}</div></div>`;}).join('')+
+ `<div class="legend"><span><i class="sw" style="width:10px;height:10px;border-radius:50%;background:var(--rain)"></i>estimativa (mm)</span><span><i class="sw" style="width:16px;height:6px;border-radius:3px;background:var(--rain-2);opacity:.6"></i>variação entre os modelos</span><span>% = chance de chover</span></div>`;
+
+/* outubro */
+const oc=O.oct, W=O.fc.weights, names=oc.names;
+const short={EC:'ECMWF',AI:'ECMWF IA',GF:'GFS (EUA)',IC:'ICON (Alemanha)',MF:'Météo-France',UK:'UK Met Office',JM:'JMA (Japão)',GE:'GEM (Canadá)',CM:'CMA (China)',BM:'Best Match'};
+const real=oc.res.EC.d1.all.sumo;
+let base='gauge', model='CM';
+const ab=Object.keys(names);
+function rankHTML(){const rows=ab.map(k=>({k,v:oc.res[k].d1[base].mae,acc:oc.res[k].d1[base].acc})).sort((a,b)=>a.v-b.v);const mx=rows[rows.length-1].v;
+  return rows.map((r,i)=>`<div class="rk${i===0?' best':''}"><span class="nm">${short[r.k]}</span><span class="bt"><i style="width:${Math.max(4,100*r.v/mx)}%"></i></span><span class="vl">${fmt(r.v)} mm</span></div>`).join('');}
+function chartHTML(){const fc=oc.models[model].d1, tr=oc.truth;
+  const Wd=620,Hd=220,ml=30,mr=6,mt=22,mb=28,iw=Wd-ml-mr,ih=Hd-mt-mb,bw=iw/31;
+  const top=Math.max(10,Math.ceil(Math.max(...tr,...fc)/10)*10), y=v=>mt+ih-ih*v/top;
+  let s=`<svg viewBox="0 0 ${Wd} ${Hd}" role="img" aria-label="Chuva real e prevista por ${names[model]} em outubro">`;
+  const x0=ml+21*bw;s+=`<rect x="${x0}" y="${mt-18}" width="${iw-21*bw}" height="${ih+18}" fill="var(--rain-3)" opacity=".45" rx="6"/><text x="${x0+6}" y="${mt-6}" font-size="11" fill="var(--muted)">medido no pluviômetro</text>`;
+  const step=top>40?20:10;for(let t=0;t<=top;t+=step)s+=`<line x1="${ml}" x2="${Wd-mr}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)"/><text x="${ml-5}" y="${y(t)+4}" font-size="10.5" text-anchor="end" fill="var(--muted)">${t}</text>`;
+  for(let i=0;i<31;i++){const x=ml+i*bw;
+    s+=`<rect x="${x+bw*.1}" y="${y(tr[i])}" width="${bw*.38}" height="${mt+ih-y(tr[i])}" rx="1.5" fill="var(--rain)"><title>${i+1}/10 · real ${fmt(tr[i])} mm</title></rect>`;
+    s+=`<rect x="${x+bw*.52}" y="${y(fc[i])}" width="${bw*.38}" height="${mt+ih-y(fc[i])}" rx="1.5" fill="var(--bad)" fill-opacity=".75"><title>${i+1}/10 · previsto ${fmt(fc[i])} mm</title></rect>`;
+    if(i%5===0||i===30)s+=`<text x="${x+bw/2}" y="${Hd-10}" font-size="10.5" text-anchor="middle" fill="var(--muted)">${i+1}</text>`;}
+  return s+'</svg>';}
+function verdict(){const r=oc.res[model].d1.all,g=oc.res[model].d1.gauge,d=Math.round((r.sumf/r.sumo-1)*100);
+  return `No mês choveu <b>${fmt(r.sumo,0)} mm</b> e o ${short[model]} previu <b>${fmt(r.sumf,0)} mm</b> (${d>=0?'+':''}${d}%). Acertou se ia chover ou não em <b>${Math.round(r.acc*100)}%</b> dos dias. No período do pluviômetro, errou em média <b>${fmt(g.mae)} mm</b> por dia.`;}
+$('auditBody').innerHTML=`<ul class="takeaways">
+<li>Os modelos acertam bem <b>se</b> vai chover: 74% a 84% dos dias, com a previsão da véspera.</li>
+<li>Eles <b>exageram o volume</b>: todos previram mais chuva que o real (${fmt(real,0)} mm no mês). Alguns quase o dobro.</li>
+<li>No pluviômetro (22 a 31/10), o <b>CMA</b> foi o mais preciso. Por isso ele tem o maior peso na previsão.</li></ul>
+<p class="sub-h">Erro médio por dia (quanto menor, melhor)</p><p class="sub-p">Previsão feita na véspera.</p>
+<div class="seg" role="group" aria-label="Base de comparação"><button type="button" data-b="gauge" aria-pressed="true">Pluviômetro (22–31)</button><button type="button" data-b="all" aria-pressed="false">Mês todo</button></div>
+<div class="rank" id="rank"></div>
+<p class="sub-h">Dia a dia: real × previsto</p>
+<select id="selModel" aria-label="Modelo">${ab.map(k=>`<option value="${k}">${names[k]}</option>`).join('')}</select>
+<div class="legend"><span><i class="sw" style="width:10px;height:10px;border-radius:2px;background:var(--rain)"></i>choveu (real)</span><span><i class="sw" style="width:10px;height:10px;border-radius:2px;background:var(--bad);opacity:.75"></i>previsto na véspera</span></div>
+<div class="chartbox" id="ochart"></div><p class="verdict" id="verdict"></p>`;
+const sel=$('selModel');sel.value=model;
+const draw=()=>{$('rank').innerHTML=rankHTML();$('ochart').innerHTML=chartHTML();$('verdict').innerHTML=verdict();};
+sel.addEventListener('change',()=>{model=sel.value;draw();});
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{base=b.dataset.b;document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));draw();}));
+draw();
 })();

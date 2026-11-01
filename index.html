@@ -5,95 +5,49 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Chuva">
-<meta name="theme-color" content="#1f6fb2">
+<meta name="theme-color" content="#0f4c81">
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="icon" href="icon.png">
 <title>Chuva em Maringá</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="app.css">
-
-
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="eyebrow">Maringá · PR · −23,42 / −51,94</div>
-    <h1>Chuva em Maringá</h1>
-    <p class="lede">Previsão de chuva combinando 10 modelos, com peso maior para quem acertou mais aqui em outubro. Abaixo, a auditoria completa: o que cada modelo previu e o que caiu de verdade.</p>
-    <p class="stamp" id="stamp"></p>
+<main id="app" class="wrap">
+  <header class="top">
+    <div>
+      <h1>Maringá</h1>
+      <p class="stamp" id="stamp">Buscando a previsão…</p>
+    </div>
+    <button type="button" id="reload" class="icon-btn" aria-label="Atualizar">↻</button>
   </header>
-
-  <div id="alerts" style="display:flex;flex-direction:column;gap:8px"></div>
-
-  <section aria-labelledby="h-hora">
-    <div>
-      <div class="eyebrow">Próximas 48 horas</div>
-      <h2 id="h-hora">Chuva hora a hora</h2>
-    </div>
-    <ul class="windows" id="windows"></ul>
-    <div class="card chart" id="hchart"></div>
-    <p class="note">Barras: chuva prevista em cada hora (média ponderada dos 10 modelos). Tracinho: o maior valor entre os modelos naquela hora. Faixa colorida no topo: chance de chover naquela hora, pela fração dos cenários dos conjuntos com 0,2 mm ou mais. Pancadas de verão costumam variar de 1 a 2 horas no horário previsto.</p>
+  <div id="alerts" class="alerts"></div>
+  <section id="hero" class="hero" aria-live="polite"><div class="skeleton"></div></section>
+  <section class="card">
+    <h2>Próximas 48 horas</h2>
+    <div class="hours" id="hours" role="list"></div>
+    <p class="hint">Gota mais escura = mais chance de chover. Barra = quantidade (mm).</p>
   </section>
-
-  <section aria-labelledby="h-prev">
-    <div>
-      <div class="eyebrow">Próximos 10 dias</div>
-      <h2 id="h-prev">Previsão de chuva</h2>
-    </div>
-    <div class="days" id="days"></div>
-    <p class="note"><b>Chance de chuva</b>: fração dos até 122 cenários dos conjuntos ECMWF, GFS e ICON com pelo menos 1 mm no dia. <b>mm</b>: média dos 10 modelos ponderada pelo desempenho de outubro. A faixa mostra o menor e o maior valor entre os modelos. O dia de hoje soma o dia inteiro, incluindo horas que já passaram.</p>
+  <section class="card">
+    <h2>Próximos 10 dias</h2>
+    <div id="days"></div>
   </section>
-
-  <section aria-labelledby="h-oct">
-    <div>
-      <div class="eyebrow">Outubro de 2026</div>
-      <h2 id="h-oct">Previsto × aconteceu</h2>
-    </div>
-    <div class="controls">
-      <div class="ctl"><label for="selModel">Modelo</label><select id="selModel"></select></div>
-      <div class="ctl"><span style="font-size:12px;color:var(--muted)">Previsão feita com</span>
-        <div class="seg" role="group" aria-label="Antecedência">
-          <button type="button" data-lead="d1" aria-pressed="true">1 dia</button>
-          <button type="button" data-lead="d2" aria-pressed="false">2 dias</button>
-          <button type="button" data-lead="d3" aria-pressed="false">3 dias</button>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="stats" id="stats"></div>
-    </div>
-    <div class="card chart" id="chart"></div>
-  </section>
-
-  <section aria-labelledby="h-rank">
-    <div>
-      <div class="eyebrow">Placar dos modelos</div>
-      <h2 id="h-rank">Quem acertou a chuva de outubro</h2>
-    </div>
-    <div class="tbl"><table id="rank"></table></div>
-    <p class="note">Chuva = 1 mm ou mais no dia. <b>Acerto</b>: dias em que o modelo acertou se ia chover ou não. <b>Perdidas</b>: choveu e o modelo disse que não. <b>Falsos</b>: o modelo previu chuva e não choveu. <b>Erro médio</b>: diferença média, em mm por dia, entre previsto e medido. Toque no nome da coluna para ordenar.</p>
-  </section>
-
-  <section aria-labelledby="h-find">
-    <div><div class="eyebrow">Leitura</div><h2 id="h-find">O que os números dizem</h2></div>
-    <ul class="findings" id="findings"></ul>
-  </section>
-
-  <section aria-labelledby="h-met">
-    <div><div class="eyebrow">Método e limites</div><h2 id="h-met">De onde vêm os dados</h2></div>
+  <details class="card fold" id="audit">
+    <summary><h2>Como os modelos se saíram em outubro</h2><span class="chev" aria-hidden="true"></span></summary>
+    <div id="auditBody"></div>
+  </details>
+  <details class="card fold">
+    <summary><h2>Como a previsão é feita</h2><span class="chev" aria-hidden="true"></span></summary>
     <ul class="method">
-      <li><b>Previsões arquivadas</b>: Open-Meteo, Previous Runs API. Para cada dia de outubro, o valor que cada modelo previa 1, 2 e 3 dias antes.</li>
-      <li><b>Chuva medida, 22 a 31/10</b>: pluviômetro da estação automática do INMET em Maringá (A835), somada por dia no horário de Brasília. É o dado mais confiável da página.</li>
-      <li><b>Chuva de 1 a 21/10</b>: o pluviômetro do INMET ficou sem registro nesse período. Usei a reanálise ERA5 (ECMWF), uma estimativa em grade de cerca de 30 km. Ela suaviza pancadas localizadas e, por ser da mesma família, tende a favorecer os modelos ECMWF e o AIFS. Leia o ranking geral com isso em mente.</li>
-      <li><b>Só pluviômetro</b>: a coluna separada usa apenas os 10 dias medidos. É a comparação mais justa, mas a amostra é pequena e tem um único dia de chuva forte.</li>
-      <li><b>Pesos da combinação</b>: inverso do erro médio de cada modelo com 1 dia de antecedência, na média entre o mês todo e o período só com pluviômetro.</li>
-      <li><b>Não usei</b> o "arquivo histórico" padrão do Open-Meteo como chuva real: em outubro ele é idêntico à análise do próprio modelo Best Match, não é observação.</li>
+      <li>Combina 10 modelos meteorológicos (ECMWF, GFS, ICON, CMA e outros). Quem errou menos em Maringá em outubro tem mais peso.</li>
+      <li>A chance de chuva vem de 122 cenários dos conjuntos ECMWF, GFS e ICON: é a fração deles que mostra chuva.</li>
+      <li>Avisos oficiais do INMET para Maringá.</li>
+      <li>Outubro foi conferido contra o pluviômetro do INMET (22 a 31/10) e a reanálise ERA5 (1 a 21/10, quando o pluviômetro ficou sem registro).</li>
+      <li>Pancadas de verão variam de 1 a 2 horas e de bairro para bairro. Use os horários como janela, não como hora exata.</li>
     </ul>
-  </section>
-</div>
-
+  </details>
+  <p class="foot">Dados: Open-Meteo e INMET. Calculado no seu aparelho a cada abertura.</p>
+</main>
 <script src="app.js"></script>
 </body>
 </html>
