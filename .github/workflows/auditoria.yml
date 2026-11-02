@@ -1,0 +1,310 @@
+name: Auditoria chuva e vento
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 10 2 * *"
+permissions:
+  contents: write
+jobs:
+  auditoria:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy requests
+      - name: Rodar analise
+        run: |
+          cat > /tmp/analise.py <<'PYEOF'
+          import io, json, math, os, re, sys, time, zipfile, datetime as dt
+          import numpy as np, pandas as pd, requests
+
+          LAT, LON, TZ = -23.4053, -51.9328, "America/Sao_Paulo"   # estação INMET A835
+          MODELS = ["ecmwf_ifs", "ecmwf_ifs025", "ecmwf_aifs025_single", "gfs_seamless", "icon_seamless",
+                    "meteofrance_seamless", "ukmo_seamless", "jma_seamless", "gem_seamless", "cma_grapes_global", "best_match"]
+          NOMES = {"ecmwf_ifs": "ECMWF 9 km", "ecmwf_ifs025": "ECMWF 25 km", "ecmwf_aifs025_single": "ECMWF IA",
+                   "gfs_seamless": "GFS (EUA)", "icon_seamless": "ICON (Alemanha)", "meteofrance_seamless": "Météo-France",
+                   "ukmo_seamless": "UK Met Office", "jma_seamless": "JMA (Japão)", "gem_seamless": "GEM (Canadá)",
+                   "cma_grapes_global": "CMA (China)", "best_match": "Best Match"}
+          LEADS = [1, 2, 3]
+          HOJE = pd.Timestamp.now(tz=TZ).tz_localize(None).normalize()
+          FIM = HOJE.replace(day=1) - pd.Timedelta(days=1)          # último dia do mês anterior
+          SEASONS = {}                                              # temporadas chuvosas: set → mar
+          for _y in range(2024, HOJE.year + 1):
+              _a, _b = pd.Timestamp(f"{_y}-09-01"), min(pd.Timestamp(f"{_y+1}-03-31"), FIM)
+              if _a <= _b: SEASONS[f"{_y}-{str(_y+1)[2:]}"] = (_a.strftime("%Y-%m-%d"), _b.strftime("%Y-%m-%d"))
+          OUT = sys.argv[1] if len(sys.argv) > 1 else "lab"
+          os.makedirs(OUT, exist_ok=True)
+          LOG = []
+          def log(*a):
+              s = " ".join(str(x) for x in a); print(s, flush=True); LOG.append(s)
+
+          def get(url, params=None, tries=4, timeout=180):
+              for k in range(tries):
+                  try:
+                      r = requests.get(url, params=params, timeout=timeout, headers={"User-Agent": "chuva-maringa-auditoria"})
+                      if r.status_code == 200: return r
+                      log("HTTP", r.status_code, url, str(r.text)[:200])
+                  except Exception as e:
+                      log("erro", url, e)
+                  time.sleep(5 * (k + 1))
+              return None
+
+          # ---------------- 1. pluviômetro/anemômetro INMET (arquivos anuais públicos) ----------------
+          def inmet_ano(ano):
+              r = get(f"https://portal.inmet.gov.br/uploads/dadoshistoricos/{ano}.zip", timeout=600)
+              if r is None: return None
+              z = zipfile.ZipFile(io.BytesIO(r.content))
+              nomes = [n for n in z.namelist() if "A835" in n.upper()]
+              if not nomes: log("A835 não encontrada no arquivo", ano); return None
+              raw = z.read(nomes[0]).decode("latin-1")
+              linhas = raw.splitlines()
+              h = next(i for i, l in enumerate(linhas) if l.upper().startswith("DATA") and "HORA" in l.upper())
+              df = pd.read_csv(io.StringIO("\n".join(linhas[h:])), sep=";", decimal=",", dtype=str)
+              cols = {c: c.upper() for c in df.columns}
+              def acha(*ks):
+                  for c, u in cols.items():
+                      if all(k in u for k in ks): return c
+                  return None
+              cd, ch = df.columns[0], df.columns[1]
+              cp, cr, cv = acha("PRECIPITA"), acha("RAJADA"), acha("VELOCIDADE")
+              def num(s):
+                  x = pd.to_numeric(s.astype(str).str.replace(",", ".").str.strip(), errors="coerce")
+                  return x.where(x > -9000)
+              t = pd.to_datetime(df[cd].str.replace("/", "-").str.strip() + " " + df[ch].str.extract(r"(\d{2})")[0] + ":00",
+                                 errors="coerce")
+              out = pd.DataFrame({"utc": t, "chuva": num(df[cp]), "rajada": num(df[cr]) * 3.6 if cr else np.nan,
+                                  "vento": num(df[cv]) * 3.6 if cv else np.nan}).dropna(subset=["utc"])
+              log(f"INMET {ano}: {nomes[0]} — {len(out)} horas, chuva válida {out.chuva.notna().sum()}")
+              return out
+
+          obs = pd.concat([d for d in (inmet_ano(a) for a in (2024, 2025, 2026)) if d is not None], ignore_index=True)
+          # hora UTC H mede a chuva de H-1 a H; rótulo local = H-3 (mesma convenção do Open-Meteo)
+          obs["local"] = obs["utc"] - pd.Timedelta(hours=3)
+          obs = obs.drop_duplicates("local").set_index("local").sort_index()
+          fim_obs = obs["chuva"].last_valid_index()
+          log("último dado de chuva do INMET:", fim_obs)
+
+          def diario(serie, exige=24, how="sum"):
+              g = serie.groupby(serie.index.normalize())
+              v = g.sum(min_count=1) if how == "sum" else g.max()
+              n = g.count()
+              return v.where(n >= exige)
+
+          obs_dia = diario(obs["chuva"])
+          obs_raj = diario(obs["rajada"], exige=20, how="max")
+
+          # ---------------- 2. previsões arquivadas (Open-Meteo Previous Runs) ----------------
+          def meses():
+              for s, (a, b) in SEASONS.items():
+                  d = pd.Timestamp(a)
+                  while d <= pd.Timestamp(b):
+                      e = min(d + pd.offsets.MonthEnd(0), pd.Timestamp(b))
+                      yield s, d.strftime("%Y-%m-%d"), e.strftime("%Y-%m-%d")
+                      d = e + pd.Timedelta(days=1)
+
+          hv = [f"precipitation_previous_day{l}" for l in LEADS] + ["wind_speed_10m_previous_day1", "wind_gusts_10m_previous_day1"]
+          partes = []
+          for s, a, b in meses():
+              r = get("https://previous-runs-api.open-meteo.com/v1/forecast",
+                      {"latitude": LAT, "longitude": LON, "timezone": TZ, "start_date": a, "end_date": b,
+                       "hourly": ",".join(hv), "models": ",".join(MODELS)})
+              if r is None: log("falhou", a, b); continue
+              j = r.json()
+              if "hourly" not in j: log("sem dados", a, b, str(j)[:200]); continue
+              df = pd.DataFrame(j["hourly"]); df["time"] = pd.to_datetime(df["time"]); df["temporada"] = s
+              partes.append(df.set_index("time")); log("previsões", a, b, "ok")
+              time.sleep(1)
+          fc = pd.concat(partes).sort_index()
+          fc = fc[~fc.index.duplicated()]
+
+          def col(m, var):
+              c = f"{var}_{m}"
+              return fc[c] if c in fc.columns else pd.Series(np.nan, index=fc.index)
+
+          dias = obs_dia.dropna().index
+          dias = dias[dias.isin(fc.index.normalize().unique())]
+          temporada = fc["temporada"].groupby(fc.index.normalize()).first()
+          log("dias com pluviômetro completo e previsão:", len(dias))
+
+          P = {}   # P[lead][model] = série diária prevista
+          for l in LEADS:
+              P[l] = {}
+              for m in MODELS:
+                  P[l][m] = diario(col(m, f"precipitation_previous_day{l}")).reindex(dias)
+          Y = obs_dia.reindex(dias)
+          SEA = temporada.reindex(dias)
+
+          # ---------------- 3. métricas ----------------
+          def placar(f, o, thr=1.0):
+              k = f.notna() & o.notna(); f, o = f[k], o[k]
+              if len(f) < 15: return None
+              F, O = f >= thr, o >= thr
+              h, mi, fa, cn = int((F & O).sum()), int((~F & O).sum()), int((F & ~O).sum()), int((~F & ~O).sum())
+              return {"n": int(len(f)), "acerto": round((h + cn) / len(f), 3), "perdidas": mi, "falsos": fa,
+                      "csi": round(h / (h + mi + fa), 3) if h + mi + fa else None,
+                      "erro_mm": round(float((f - o).abs().mean()), 2),
+                      "vies": round(float(f.sum() / o.sum()), 2) if o.sum() > 0 else None}
+
+          ranking = {}
+          for l in LEADS:
+              ranking[l] = {}
+              for m in MODELS:
+                  r = {"geral": placar(P[l][m], Y), "forte10": placar(P[l][m], Y, 10)}
+                  for s in SEASONS: r[s] = placar(P[l][m][SEA == s], Y[SEA == s])
+                  ranking[l][m] = r
+
+          # ---------------- 4. métodos de combinação, testados fora da amostra ----------------
+          def pesos_inv(train_idx, l, minimo=30):
+              w = {}
+              for m in MODELS:
+                  p = placar(P[l][m].loc[train_idx], Y.loc[train_idx])
+                  if p and p["n"] >= minimo: w[m] = 1 / max(p["erro_mm"], 0.5)
+              t = sum(w.values()); return {m: v / t for m, v in w.items()}
+
+          def fatores(train_idx, l):
+              f = {}
+              for m in MODELS:
+                  a, o = P[l][m].loc[train_idx], Y.loc[train_idx]; k = a.notna() & o.notna()
+                  if k.sum() >= 30 and a[k].sum() > 0: f[m] = float(np.clip(o[k].sum() / a[k].sum(), 0.4, 1.5))
+              return f
+
+          def combina(idx, l, w, fat=None, modo="media"):
+              M = pd.DataFrame({m: P[l][m].loc[idx] * ((fat or {}).get(m, 1.0)) for m in w})
+              if modo == "mediana": return M.median(axis=1)
+              W = pd.Series(w); num = (M * W).sum(axis=1, min_count=1); den = M.notna().mul(W).sum(axis=1)
+              return num / den.replace(0, np.nan)
+
+          def frac_chuva(idx, l, w):
+              M = pd.DataFrame({m: P[l][m].loc[idx] for m in w})
+              return (M >= 1).sum(axis=1) / M.notna().sum(axis=1).replace(0, np.nan)
+
+          def fv(x): return pd.to_numeric(x, errors='coerce').astype(float).fillna(0).values
+
+          def logit_fit(X, y, it=50, lam=1e-3):
+              X = np.c_[np.ones(len(X)), X]; b = np.zeros(X.shape[1])
+              for _ in range(it):
+                  p = 1 / (1 + np.exp(-X @ b)); W = p * (1 - p)
+                  H = X.T @ (X * W[:, None]) + lam * np.eye(len(b)); g = X.T @ (y - p) - lam * b
+                  b = b + np.linalg.solve(H, g)
+              return b
+          def logit_pred(b, X): return 1 / (1 + np.exp(-(np.c_[np.ones(len(X)), X] @ b)))
+          def brier(p, y): return round(float(np.mean((p - y) ** 2)), 4)
+
+          dobras = [(s, [x for x in SEASONS if x != s]) for s in SEASONS]
+          metodos = {}
+          prob = {}
+          for l in LEADS:
+              res = {}
+              for tr, te in dobras:
+                  itr, ite = dias[(SEA == tr).values], dias[SEA.isin(te).values]
+                  if len(itr) < 30 or len(ite) < 30: continue
+                  w = pesos_inv(itr, l); fat = fatores(itr, l)
+                  melhor = min(w, key=lambda m: placar(P[l][m].loc[itr], Y.loc[itr])["erro_mm"])
+                  cand = {
+                      "ECMWF 25 km sozinho (referência)": P[l]["ecmwf_ifs025"].loc[ite],
+                      "Melhor modelo do treino sozinho": P[l][melhor].loc[ite],
+                      "Média simples de todos": combina(ite, l, {m: 1 for m in w}),
+                      "Mediana de todos": combina(ite, l, w, modo="mediana"),
+                      "Pesos por acerto (atual do site)": combina(ite, l, w),
+                      "Pesos + correção de volume": combina(ite, l, w, fat),
+                  }
+                  for nome, serie in cand.items():
+                      res.setdefault(nome, []).append({"treino": tr, "teste": te, **(placar(serie, Y.loc[ite]) or {}),
+                                                       "csi10": (placar(serie, Y.loc[ite], 10) or {}).get("csi")})
+                  # chance de chuva calibrada (≥1 mm e ≥10 mm)
+                  for thr in (1, 10):
+                      f_tr, f_te = frac_chuva(itr, l, w), frac_chuva(ite, l, w)
+                      m_tr, m_te = combina(itr, l, w, fat), combina(ite, l, w, fat)
+                      Xtr = np.c_[fv(f_tr), np.log1p(fv(m_tr))]; ytr = (Y.loc[itr] >= thr).astype(float).values
+                      Xte = np.c_[fv(f_te), np.log1p(fv(m_te))]; yte = (Y.loc[ite] >= thr).astype(float).values
+                      b = logit_fit(Xtr, ytr); pc = logit_pred(b, Xte)
+                      bins = np.clip((pc * 10).astype(int), 0, 9); conf = []
+                      for k in range(10):
+                          s = bins == k
+                          if s.sum() >= 5: conf.append({"faixa": f"{k*10}-{k*10+10}%", "n": int(s.sum()),
+                                                         "prevista": round(float(pc[s].mean()), 2), "real": round(float(yte[s].mean()), 2)})
+                      prob.setdefault(f"d{l}_{thr}mm", []).append({"treino": tr, "brier_bruto": brier(fv(f_te), yte),
+                                                                 "brier_calibrado": brier(pc, yte), "confiabilidade": conf})
+              metodos[l] = res
+
+          # ---------------- 5. vento ----------------
+          vento = {}
+          vh = obs["vento"]
+          for m in MODELS:
+              f = col(m, "wind_speed_10m_previous_day1"); k = f.notna() & vh.reindex(f.index).notna()
+              g = diario(col(m, "wind_gusts_10m_previous_day1"), exige=20, how="max")
+              kk = g.index.intersection(obs_raj.dropna().index); kk = kk[g.loc[kk].notna()]
+              if k.sum() < 200: continue
+              o = vh.reindex(f.index)[k]
+              vento[m] = {"horas": int(k.sum()), "erro_vento_kmh": round(float((f[k] - o).abs().mean()), 1),
+                          "vies_vento": round(float(f[k].mean() / o.mean()), 2),
+                          "dias_rajada": int(len(kk)),
+                          "erro_rajada_kmh": round(float((g.loc[kk] - obs_raj.loc[kk]).abs().mean()), 1) if len(kk) else None,
+                          "vies_rajada": round(float(g.loc[kk].mean() / obs_raj.loc[kk].mean()), 2) if len(kk) else None,
+                          "acerto_rajada50": round(float(((g.loc[kk] >= 50) == (obs_raj.loc[kk] >= 50)).mean()), 3) if len(kk) else None}
+
+          # ---------------- 6. pesos finais (todas as temporadas) para o site ----------------
+          pesos = {"gerado": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "chuva": {}, "fator_volume": {}, "prob": {}, "vento": {}}
+          for l in LEADS:
+              pesos["chuva"][f"d{l}"] = {m: round(v, 4) for m, v in pesos_inv(dias, l).items()}
+              pesos["fator_volume"][f"d{l}"] = {m: round(v, 3) for m, v in fatores(dias, l).items()}
+              w = pesos_inv(dias, l)
+              for thr in (1, 10):
+                  X = np.c_[fv(frac_chuva(dias, l, w)), np.log1p(fv(combina(dias, l, w, fatores(dias, l))))]
+                  pesos["prob"][f"d{l}_{thr}mm"] = [round(float(x), 4) for x in logit_fit(X, (Y >= thr).astype(float).values)]
+          if vento:
+              iv = {m: 1 / v["erro_vento_kmh"] for m, v in vento.items()}; t = sum(iv.values())
+              pesos["vento"] = {"pesos": {m: round(v / t, 4) for m, v in iv.items()},
+                                "fator_vento": {m: round(1 / v["vies_vento"], 3) for m, v in vento.items()},
+                                "fator_rajada": {m: round(1 / v["vies_rajada"], 3) for m, v in vento.items() if v["vies_rajada"]}}
+
+          res = {"gerado": pesos["gerado"], "ultimo_dado_inmet": str(fim_obs), "dias_validos": len(dias),
+                 "dias_por_temporada": {s: int((SEA == s).sum()) for s in SEASONS},
+                 "ranking": {f"d{l}": {NOMES[m]: v for m, v in ranking[l].items()} for l in LEADS},
+                 "metodos": {f"d{l}": v for l, v in metodos.items()}, "probabilidade": prob,
+                 "vento": {NOMES[m]: v for m, v in vento.items()}, "log": LOG[-60:]}
+          json.dump(res, open(f"{OUT}/resultados.json", "w"), ensure_ascii=False, indent=1, default=str)
+          json.dump(pesos, open(f"{OUT}/pesos.json", "w"), ensure_ascii=False, indent=1)
+
+          # ---------------- 7. relatório legível ----------------
+          def tab(linhas, cab):
+              h = "<table><tr>" + "".join(f"<th>{c}</th>" for c in cab) + "</tr>"
+              return h + "".join("<tr>" + "".join(f"<td>{'' if x is None else x}</td>" for x in l) + "</tr>" for l in linhas) + "</table>"
+          pct = lambda x: "—" if x is None else f"{round(x*100)}%"
+          H = [f"<h1>Auditoria da chuva em Maringá</h1><p>Gerado em {pesos['gerado'][:16].replace('T',' ')} UTC · "
+               f"{len(dias)} dias com pluviômetro completo · por temporada: {res['dias_por_temporada']} · último dado do INMET: {fim_obs}</p>"]
+          for l in LEADS:
+              lin = []
+              for m in MODELS:
+                  g = ranking[l][m]["geral"]
+                  if g: lin.append([NOMES[m], g["n"], pct(g["acerto"]), g["perdidas"], g["falsos"], g["erro_mm"], g["vies"],
+                                    pct((ranking[l][m]["forte10"] or {}).get("csi"))])
+              lin.sort(key=lambda x: x[5])
+              H.append(f"<h2>Modelos sozinhos — previsão feita {l} dia(s) antes</h2>" +
+                       tab(lin, ["Modelo", "Dias", "Acerto chove/não", "Perdidas", "Falsos", "Erro mm/dia", "Volume (1=certo)", "Acerto chuva ≥10mm"]))
+              lin = []
+              for nome, v in metodos.get(l, {}).items():
+                  for x in v: lin.append([nome, x["treino"], "+".join(x["teste"]), x.get("n"), pct(x.get("acerto")), x.get("erro_mm"), x.get("vies"), pct(x.get("csi10"))])
+              H.append(f"<h3>Métodos de combinação testados fora da amostra ({l} dia(s) antes)</h3>" +
+                       tab(lin, ["Método", "Treino", "Teste", "Dias", "Acerto", "Erro mm/dia", "Volume", "Acerto ≥10mm"]))
+          lin = [[k, x["treino"], x["brier_bruto"], x["brier_calibrado"]] for k, v in prob.items() for x in v]
+          H.append("<h2>Chance de chuva: bruta × calibrada (Brier, menor é melhor)</h2>" + tab(lin, ["Alvo", "Treino", "Bruta", "Calibrada"]))
+          lin = [[NOMES[m], v["horas"], v["erro_vento_kmh"], v["vies_vento"], v["dias_rajada"], v["erro_rajada_kmh"], v["vies_rajada"], pct(v["acerto_rajada50"])] for m, v in vento.items()]
+          lin.sort(key=lambda x: x[2])
+          H.append("<h2>Vento (previsão da véspera)</h2>" + tab(lin, ["Modelo", "Horas", "Erro vento km/h", "Vento (1=certo)", "Dias", "Erro rajada km/h", "Rajada (1=certo)", "Acerto rajada ≥50"]))
+          H.append("<h2>Registro</h2><pre>" + "\n".join(LOG[-60:]) + "</pre>")
+          css = "<style>body{font:14px system-ui;margin:16px;max-width:1000px}table{border-collapse:collapse;margin:8px 0 20px;font-size:13px}td,th{border:1px solid #ccc;padding:4px 6px;text-align:right}td:first-child,th:first-child{text-align:left}pre{white-space:pre-wrap;font-size:11px}</style>"
+          open(f"{OUT}/relatorio.html", "w").write("<!doctype html><meta charset=utf-8><meta name=viewport content='width=device-width'>" + css + "".join(H))
+          log("pronto")
+          PYEOF
+          python /tmp/analise.py lab
+      - name: Salvar resultados
+        run: |
+          git config user.name "auditoria-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add lab
+          git commit -m "Auditoria automatica" || echo "sem mudancas"
+          git push
