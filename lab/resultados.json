@@ -1,0 +1,2410 @@
+{
+ "gerado": "2026-11-02T08:34Z",
+ "ultimo_dado_inmet": "2026-08-31 20:00:00",
+ "dias_validos": 189,
+ "dias_por_temporada": {
+  "2024-25": 153,
+  "2025-26": 36,
+  "2026-27": 0
+ },
+ "ranking": {
+  "d1": {
+   "ECMWF 9 km": {
+    "geral": {
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 4,
+     "falsos": 9,
+     "csi": 0.409,
+     "erro_mm": 3.63,
+     "vies": 1.19
+    },
+    "forte10": {
+     "n": 36,
+     "acerto": 0.833,
+     "perdidas": 3,
+     "falsos": 3,
+     "csi": 0.4,
+     "erro_mm": 3.63,
+     "vies": 1.19
+    },
+    "2024-25": null,
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 4,
+     "falsos": 9,
+     "csi": 0.409,
+     "erro_mm": 3.63,
+     "vies": 1.19
+    },
+    "2026-27": null
+   },
+   "ECMWF 25 km": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.762,
+     "perdidas": 11,
+     "falsos": 34,
+     "csi": 0.511,
+     "erro_mm": 4.31,
+     "vies": 1.02
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.873,
+     "perdidas": 10,
+     "falsos": 14,
+     "csi": 0.429,
+     "erro_mm": 4.31,
+     "vies": 1.02
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.784,
+     "perdidas": 7,
+     "falsos": 26,
+     "csi": 0.535,
+     "erro_mm": 4.49,
+     "vies": 1.04
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.667,
+     "perdidas": 4,
+     "falsos": 8,
+     "csi": 0.429,
+     "erro_mm": 3.54,
+     "vies": 0.87
+    },
+    "2026-27": null
+   },
+   "ECMWF IA": {
+    "geral": {
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 4,
+     "falsos": 7,
+     "csi": 0.45,
+     "erro_mm": 3.51,
+     "vies": 0.8
+    },
+    "forte10": {
+     "n": 36,
+     "acerto": 0.778,
+     "perdidas": 6,
+     "falsos": 2,
+     "csi": 0.111,
+     "erro_mm": 3.51,
+     "vies": 0.8
+    },
+    "2024-25": null,
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 4,
+     "falsos": 7,
+     "csi": 0.45,
+     "erro_mm": 3.51,
+     "vies": 0.8
+    },
+    "2026-27": null
+   },
+   "GFS (EUA)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.778,
+     "perdidas": 13,
+     "falsos": 29,
+     "csi": 0.517,
+     "erro_mm": 4.56,
+     "vies": 0.74
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.841,
+     "perdidas": 18,
+     "falsos": 12,
+     "csi": 0.25,
+     "erro_mm": 4.56,
+     "vies": 0.74
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.797,
+     "perdidas": 9,
+     "falsos": 22,
+     "csi": 0.537,
+     "erro_mm": 4.76,
+     "vies": 0.77
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 4,
+     "falsos": 7,
+     "csi": 0.45,
+     "erro_mm": 3.71,
+     "vies": 0.55
+    },
+    "2026-27": null
+   },
+   "ICON (Alemanha)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.794,
+     "perdidas": 11,
+     "falsos": 28,
+     "csi": 0.547,
+     "erro_mm": 4.22,
+     "vies": 1.04
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.841,
+     "perdidas": 12,
+     "falsos": 18,
+     "csi": 0.348,
+     "erro_mm": 4.22,
+     "vies": 1.04
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.817,
+     "perdidas": 6,
+     "falsos": 22,
+     "csi": 0.582,
+     "erro_mm": 4.36,
+     "vies": 1.08
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 5,
+     "falsos": 6,
+     "csi": 0.421,
+     "erro_mm": 3.63,
+     "vies": 0.8
+    },
+    "2026-27": null
+   },
+   "Météo-France": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.767,
+     "perdidas": 13,
+     "falsos": 31,
+     "csi": 0.506,
+     "erro_mm": 4.63,
+     "vies": 0.87
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.831,
+     "perdidas": 18,
+     "falsos": 14,
+     "csi": 0.238,
+     "erro_mm": 4.63,
+     "vies": 0.87
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.797,
+     "perdidas": 8,
+     "falsos": 23,
+     "csi": 0.544,
+     "erro_mm": 4.74,
+     "vies": 0.92
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 5,
+     "falsos": 8,
+     "csi": 0.381,
+     "erro_mm": 4.14,
+     "vies": 0.62
+    },
+    "2026-27": null
+   },
+   "UK Met Office": {
+    "geral": {
+     "n": 150,
+     "acerto": 0.767,
+     "perdidas": 12,
+     "falsos": 23,
+     "csi": 0.5,
+     "erro_mm": 5.17,
+     "vies": 0.94
+    },
+    "forte10": {
+     "n": 150,
+     "acerto": 0.827,
+     "perdidas": 14,
+     "falsos": 12,
+     "csi": 0.235,
+     "erro_mm": 5.17,
+     "vies": 0.94
+    },
+    "2024-25": {
+     "n": 114,
+     "acerto": 0.789,
+     "perdidas": 6,
+     "falsos": 18,
+     "csi": 0.538,
+     "erro_mm": 5.68,
+     "vies": 1.03
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 6,
+     "falsos": 5,
+     "csi": 0.389,
+     "erro_mm": 3.54,
+     "vies": 0.51
+    },
+    "2026-27": null
+   },
+   "JMA (Japão)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.772,
+     "perdidas": 9,
+     "falsos": 34,
+     "csi": 0.533,
+     "erro_mm": 4.07,
+     "vies": 0.88
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.868,
+     "perdidas": 10,
+     "falsos": 15,
+     "csi": 0.419,
+     "erro_mm": 4.07,
+     "vies": 0.88
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.784,
+     "perdidas": 5,
+     "falsos": 28,
+     "csi": 0.548,
+     "erro_mm": 4.22,
+     "vies": 0.91
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 4,
+     "falsos": 6,
+     "csi": 0.474,
+     "erro_mm": 3.46,
+     "vies": 0.73
+    },
+    "2026-27": null
+   },
+   "GEM (Canadá)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.783,
+     "perdidas": 17,
+     "falsos": 24,
+     "csi": 0.5,
+     "erro_mm": 5.13,
+     "vies": 0.87
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.857,
+     "perdidas": 17,
+     "falsos": 10,
+     "csi": 0.289,
+     "erro_mm": 5.13,
+     "vies": 0.87
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.817,
+     "perdidas": 10,
+     "falsos": 18,
+     "csi": 0.556,
+     "erro_mm": 5.28,
+     "vies": 0.93
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 7,
+     "falsos": 6,
+     "csi": 0.316,
+     "erro_mm": 4.47,
+     "vies": 0.51
+    },
+    "2026-27": null
+   },
+   "CMA (China)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.783,
+     "perdidas": 9,
+     "falsos": 32,
+     "csi": 0.544,
+     "erro_mm": 4.28,
+     "vies": 0.9
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.857,
+     "perdidas": 14,
+     "falsos": 13,
+     "csi": 0.341,
+     "erro_mm": 4.28,
+     "vies": 0.9
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.797,
+     "perdidas": 7,
+     "falsos": 24,
+     "csi": 0.551,
+     "erro_mm": 4.59,
+     "vies": 0.93
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 2,
+     "falsos": 8,
+     "csi": 0.524,
+     "erro_mm": 2.96,
+     "vies": 0.79
+    },
+    "2026-27": null
+   },
+   "Best Match": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.783,
+     "perdidas": 10,
+     "falsos": 31,
+     "csi": 0.539,
+     "erro_mm": 4.22,
+     "vies": 1.1
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.857,
+     "perdidas": 9,
+     "falsos": 18,
+     "csi": 0.413,
+     "erro_mm": 4.22,
+     "vies": 1.1
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.817,
+     "perdidas": 6,
+     "falsos": 22,
+     "csi": 0.582,
+     "erro_mm": 4.36,
+     "vies": 1.08
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 4,
+     "falsos": 9,
+     "csi": 0.409,
+     "erro_mm": 3.63,
+     "vies": 1.19
+    },
+    "2026-27": null
+   }
+  },
+  "d2": {
+   "ECMWF 9 km": {
+    "geral": {
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 4,
+     "falsos": 9,
+     "csi": 0.409,
+     "erro_mm": 4.97,
+     "vies": 1.29
+    },
+    "forte10": {
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 4,
+     "falsos": 7,
+     "csi": 0.214,
+     "erro_mm": 4.97,
+     "vies": 1.29
+    },
+    "2024-25": null,
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 4,
+     "falsos": 9,
+     "csi": 0.409,
+     "erro_mm": 4.97,
+     "vies": 1.29
+    },
+    "2026-27": null
+   },
+   "ECMWF 25 km": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.73,
+     "perdidas": 11,
+     "falsos": 40,
+     "csi": 0.48,
+     "erro_mm": 4.97,
+     "vies": 1.06
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.852,
+     "perdidas": 12,
+     "falsos": 16,
+     "csi": 0.364,
+     "erro_mm": 4.97,
+     "vies": 1.06
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.745,
+     "perdidas": 7,
+     "falsos": 32,
+     "csi": 0.494,
+     "erro_mm": 5.15,
+     "vies": 1.05
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.667,
+     "perdidas": 4,
+     "falsos": 8,
+     "csi": 0.429,
+     "erro_mm": 4.21,
+     "vies": 1.11
+    },
+    "2026-27": null
+   },
+   "ECMWF IA": {
+    "geral": {
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 4,
+     "falsos": 7,
+     "csi": 0.45,
+     "erro_mm": 3.39,
+     "vies": 0.75
+    },
+    "forte10": {
+     "n": 36,
+     "acerto": 0.806,
+     "perdidas": 6,
+     "falsos": 1,
+     "csi": 0.125,
+     "erro_mm": 3.39,
+     "vies": 0.75
+    },
+    "2024-25": null,
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 4,
+     "falsos": 7,
+     "csi": 0.45,
+     "erro_mm": 3.39,
+     "vies": 0.75
+    },
+    "2026-27": null
+   },
+   "GFS (EUA)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.772,
+     "perdidas": 9,
+     "falsos": 34,
+     "csi": 0.533,
+     "erro_mm": 4.54,
+     "vies": 0.81
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.857,
+     "perdidas": 16,
+     "falsos": 11,
+     "csi": 0.308,
+     "erro_mm": 4.54,
+     "vies": 0.81
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.784,
+     "perdidas": 6,
+     "falsos": 27,
+     "csi": 0.542,
+     "erro_mm": 4.54,
+     "vies": 0.81
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 3,
+     "falsos": 7,
+     "csi": 0.5,
+     "erro_mm": 4.53,
+     "vies": 0.82
+    },
+    "2026-27": null
+   },
+   "ICON (Alemanha)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.772,
+     "perdidas": 12,
+     "falsos": 31,
+     "csi": 0.517,
+     "erro_mm": 4.64,
+     "vies": 0.99
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.836,
+     "perdidas": 15,
+     "falsos": 16,
+     "csi": 0.295,
+     "erro_mm": 4.64,
+     "vies": 0.99
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.791,
+     "perdidas": 7,
+     "falsos": 25,
+     "csi": 0.543,
+     "erro_mm": 4.77,
+     "vies": 1.02
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 5,
+     "falsos": 6,
+     "csi": 0.421,
+     "erro_mm": 4.12,
+     "vies": 0.8
+    },
+    "2026-27": null
+   },
+   "Météo-France": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.704,
+     "perdidas": 17,
+     "falsos": 39,
+     "csi": 0.423,
+     "erro_mm": 5.65,
+     "vies": 1.06
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.815,
+     "perdidas": 16,
+     "falsos": 19,
+     "csi": 0.255,
+     "erro_mm": 5.65,
+     "vies": 1.06
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.725,
+     "perdidas": 12,
+     "falsos": 30,
+     "csi": 0.44,
+     "erro_mm": 6.02,
+     "vies": 1.12
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.611,
+     "perdidas": 5,
+     "falsos": 9,
+     "csi": 0.364,
+     "erro_mm": 4.05,
+     "vies": 0.7
+    },
+    "2026-27": null
+   },
+   "UK Met Office": {
+    "geral": {
+     "n": 126,
+     "acerto": 0.754,
+     "perdidas": 8,
+     "falsos": 23,
+     "csi": 0.544,
+     "erro_mm": 6.03,
+     "vies": 1.3
+    },
+    "forte10": {
+     "n": 126,
+     "acerto": 0.794,
+     "perdidas": 13,
+     "falsos": 13,
+     "csi": 0.257,
+     "erro_mm": 6.03,
+     "vies": 1.3
+    },
+    "2024-25": {
+     "n": 90,
+     "acerto": 0.733,
+     "perdidas": 5,
+     "falsos": 19,
+     "csi": 0.529,
+     "erro_mm": 6.84,
+     "vies": 1.39
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.806,
+     "perdidas": 3,
+     "falsos": 4,
+     "csi": 0.588,
+     "erro_mm": 3.99,
+     "vies": 0.98
+    },
+    "2026-27": null
+   },
+   "JMA (Japão)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.799,
+     "perdidas": 10,
+     "falsos": 28,
+     "csi": 0.558,
+     "erro_mm": 4.33,
+     "vies": 0.85
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.841,
+     "perdidas": 15,
+     "falsos": 15,
+     "csi": 0.302,
+     "erro_mm": 4.33,
+     "vies": 0.85
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.817,
+     "perdidas": 6,
+     "falsos": 22,
+     "csi": 0.582,
+     "erro_mm": 4.5,
+     "vies": 0.85
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 4,
+     "falsos": 6,
+     "csi": 0.474,
+     "erro_mm": 3.59,
+     "vies": 0.85
+    },
+    "2026-27": null
+   },
+   "GEM (Canadá)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.757,
+     "perdidas": 12,
+     "falsos": 34,
+     "csi": 0.5,
+     "erro_mm": 6.34,
+     "vies": 1.34
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.847,
+     "perdidas": 11,
+     "falsos": 18,
+     "csi": 0.37,
+     "erro_mm": 6.34,
+     "vies": 1.34
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.797,
+     "perdidas": 5,
+     "falsos": 26,
+     "csi": 0.563,
+     "erro_mm": 6.69,
+     "vies": 1.4
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.583,
+     "perdidas": 7,
+     "falsos": 8,
+     "csi": 0.286,
+     "erro_mm": 4.85,
+     "vies": 1.05
+    },
+    "2026-27": null
+   },
+   "CMA (China)": {
+    "geral": {
+     "n": 188,
+     "acerto": 0.745,
+     "perdidas": 12,
+     "falsos": 36,
+     "csi": 0.489,
+     "erro_mm": 5.13,
+     "vies": 0.92
+    },
+    "forte10": {
+     "n": 188,
+     "acerto": 0.83,
+     "perdidas": 17,
+     "falsos": 15,
+     "csi": 0.256,
+     "erro_mm": 5.13,
+     "vies": 0.92
+    },
+    "2024-25": {
+     "n": 152,
+     "acerto": 0.73,
+     "perdidas": 9,
+     "falsos": 32,
+     "csi": 0.468,
+     "erro_mm": 5.67,
+     "vies": 0.95
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.806,
+     "perdidas": 3,
+     "falsos": 4,
+     "csi": 0.588,
+     "erro_mm": 2.86,
+     "vies": 0.77
+    },
+    "2026-27": null
+   },
+   "Best Match": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.762,
+     "perdidas": 11,
+     "falsos": 34,
+     "csi": 0.511,
+     "erro_mm": 4.8,
+     "vies": 1.06
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.825,
+     "perdidas": 12,
+     "falsos": 21,
+     "csi": 0.327,
+     "erro_mm": 4.8,
+     "vies": 1.06
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.791,
+     "perdidas": 7,
+     "falsos": 25,
+     "csi": 0.543,
+     "erro_mm": 4.77,
+     "vies": 1.02
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 4,
+     "falsos": 9,
+     "csi": 0.409,
+     "erro_mm": 4.97,
+     "vies": 1.29
+    },
+    "2026-27": null
+   }
+  },
+  "d3": {
+   "ECMWF 9 km": {
+    "geral": {
+     "n": 30,
+     "acerto": 0.7,
+     "perdidas": 3,
+     "falsos": 6,
+     "csi": 0.471,
+     "erro_mm": 4.19,
+     "vies": 1.05
+    },
+    "forte10": {
+     "n": 30,
+     "acerto": 0.7,
+     "perdidas": 5,
+     "falsos": 4,
+     "csi": 0.182,
+     "erro_mm": 4.19,
+     "vies": 1.05
+    },
+    "2024-25": null,
+    "2025-26": {
+     "n": 30,
+     "acerto": 0.7,
+     "perdidas": 3,
+     "falsos": 6,
+     "csi": 0.471,
+     "erro_mm": 4.19,
+     "vies": 1.05
+    },
+    "2026-27": null
+   },
+   "ECMWF 25 km": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.709,
+     "perdidas": 10,
+     "falsos": 45,
+     "csi": 0.466,
+     "erro_mm": 5.12,
+     "vies": 1.12
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.825,
+     "perdidas": 12,
+     "falsos": 21,
+     "csi": 0.327,
+     "erro_mm": 5.12,
+     "vies": 1.12
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.725,
+     "perdidas": 7,
+     "falsos": 35,
+     "csi": 0.475,
+     "erro_mm": 5.42,
+     "vies": 1.13
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 3,
+     "falsos": 10,
+     "csi": 0.435,
+     "erro_mm": 3.84,
+     "vies": 1.09
+    },
+    "2026-27": null
+   },
+   "ECMWF IA": {
+    "geral": {
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 3,
+     "falsos": 7,
+     "csi": 0.5,
+     "erro_mm": 2.96,
+     "vies": 0.68
+    },
+    "forte10": {
+     "n": 36,
+     "acerto": 0.833,
+     "perdidas": 6,
+     "falsos": 0,
+     "csi": 0.143,
+     "erro_mm": 2.96,
+     "vies": 0.68
+    },
+    "2024-25": null,
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 3,
+     "falsos": 7,
+     "csi": 0.5,
+     "erro_mm": 2.96,
+     "vies": 0.68
+    },
+    "2026-27": null
+   },
+   "GFS (EUA)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.698,
+     "perdidas": 16,
+     "falsos": 41,
+     "csi": 0.424,
+     "erro_mm": 5.35,
+     "vies": 0.93
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.815,
+     "perdidas": 19,
+     "falsos": 16,
+     "csi": 0.205,
+     "erro_mm": 5.35,
+     "vies": 0.93
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.719,
+     "perdidas": 10,
+     "falsos": 33,
+     "csi": 0.449,
+     "erro_mm": 5.22,
+     "vies": 0.87
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.611,
+     "perdidas": 6,
+     "falsos": 8,
+     "csi": 0.333,
+     "erro_mm": 5.92,
+     "vies": 1.23
+    },
+    "2026-27": null
+   },
+   "ICON (Alemanha)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.757,
+     "perdidas": 13,
+     "falsos": 33,
+     "csi": 0.495,
+     "erro_mm": 5.13,
+     "vies": 1.09
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.825,
+     "perdidas": 12,
+     "falsos": 21,
+     "csi": 0.327,
+     "erro_mm": 5.13,
+     "vies": 1.09
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.791,
+     "perdidas": 8,
+     "falsos": 24,
+     "csi": 0.536,
+     "erro_mm": 5.3,
+     "vies": 1.15
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.611,
+     "perdidas": 5,
+     "falsos": 9,
+     "csi": 0.364,
+     "erro_mm": 4.39,
+     "vies": 0.79
+    },
+    "2026-27": null
+   },
+   "Météo-France": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.677,
+     "perdidas": 18,
+     "falsos": 43,
+     "csi": 0.396,
+     "erro_mm": 6.34,
+     "vies": 1.27
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.804,
+     "perdidas": 16,
+     "falsos": 21,
+     "csi": 0.245,
+     "erro_mm": 6.34,
+     "vies": 1.27
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.699,
+     "perdidas": 11,
+     "falsos": 35,
+     "csi": 0.425,
+     "erro_mm": 7.02,
+     "vies": 1.37
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.583,
+     "perdidas": 7,
+     "falsos": 8,
+     "csi": 0.286,
+     "erro_mm": 3.41,
+     "vies": 0.67
+    },
+    "2026-27": null
+   },
+   "UK Met Office": {
+    "geral": {
+     "n": 82,
+     "acerto": 0.732,
+     "perdidas": 7,
+     "falsos": 15,
+     "csi": 0.488,
+     "erro_mm": 4.85,
+     "vies": 1.26
+    },
+    "forte10": {
+     "n": 82,
+     "acerto": 0.841,
+     "perdidas": 5,
+     "falsos": 8,
+     "csi": 0.381,
+     "erro_mm": 4.85,
+     "vies": 1.26
+    },
+    "2024-25": {
+     "n": 46,
+     "acerto": 0.739,
+     "perdidas": 3,
+     "falsos": 9,
+     "csi": 0.5,
+     "erro_mm": 4.94,
+     "vies": 1.13
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 4,
+     "falsos": 6,
+     "csi": 0.474,
+     "erro_mm": 4.72,
+     "vies": 1.48
+    },
+    "2026-27": null
+   },
+   "JMA (Japão)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.741,
+     "perdidas": 10,
+     "falsos": 39,
+     "csi": 0.495,
+     "erro_mm": 4.87,
+     "vies": 0.99
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.82,
+     "perdidas": 14,
+     "falsos": 20,
+     "csi": 0.292,
+     "erro_mm": 4.87,
+     "vies": 0.99
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.765,
+     "perdidas": 5,
+     "falsos": 31,
+     "csi": 0.526,
+     "erro_mm": 4.98,
+     "vies": 0.96
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 5,
+     "falsos": 8,
+     "csi": 0.381,
+     "erro_mm": 4.38,
+     "vies": 1.17
+    },
+    "2026-27": null
+   },
+   "GEM (Canadá)": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.767,
+     "perdidas": 11,
+     "falsos": 33,
+     "csi": 0.516,
+     "erro_mm": 6.53,
+     "vies": 1.26
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.794,
+     "perdidas": 17,
+     "falsos": 22,
+     "csi": 0.22,
+     "erro_mm": 6.53,
+     "vies": 1.26
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.791,
+     "perdidas": 5,
+     "falsos": 27,
+     "csi": 0.556,
+     "erro_mm": 7.03,
+     "vies": 1.37
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.667,
+     "perdidas": 6,
+     "falsos": 6,
+     "csi": 0.368,
+     "erro_mm": 4.43,
+     "vies": 0.63
+    },
+    "2026-27": null
+   },
+   "CMA (China)": {
+    "geral": {
+     "n": 187,
+     "acerto": 0.733,
+     "perdidas": 11,
+     "falsos": 39,
+     "csi": 0.485,
+     "erro_mm": 5.87,
+     "vies": 1.11
+    },
+    "forte10": {
+     "n": 187,
+     "acerto": 0.829,
+     "perdidas": 14,
+     "falsos": 18,
+     "csi": 0.304,
+     "erro_mm": 5.87,
+     "vies": 1.11
+    },
+    "2024-25": {
+     "n": 151,
+     "acerto": 0.735,
+     "perdidas": 8,
+     "falsos": 32,
+     "csi": 0.481,
+     "erro_mm": 6.17,
+     "vies": 1.09
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 3,
+     "falsos": 7,
+     "csi": 0.5,
+     "erro_mm": 4.65,
+     "vies": 1.2
+    },
+    "2026-27": null
+   },
+   "Best Match": {
+    "geral": {
+     "n": 189,
+     "acerto": 0.772,
+     "perdidas": 12,
+     "falsos": 31,
+     "csi": 0.517,
+     "erro_mm": 5.01,
+     "vies": 1.14
+    },
+    "forte10": {
+     "n": 189,
+     "acerto": 0.82,
+     "perdidas": 11,
+     "falsos": 23,
+     "csi": 0.333,
+     "erro_mm": 5.01,
+     "vies": 1.14
+    },
+    "2024-25": {
+     "n": 153,
+     "acerto": 0.791,
+     "perdidas": 8,
+     "falsos": 24,
+     "csi": 0.536,
+     "erro_mm": 5.3,
+     "vies": 1.15
+    },
+    "2025-26": {
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 4,
+     "falsos": 7,
+     "csi": 0.45,
+     "erro_mm": 3.79,
+     "vies": 1.07
+    },
+    "2026-27": null
+   }
+  }
+ },
+ "metodos": {
+  "d1": {
+   "ECMWF 25 km sozinho (referência)": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.667,
+     "perdidas": 4,
+     "falsos": 8,
+     "csi": 0.429,
+     "erro_mm": 3.54,
+     "vies": 0.87,
+     "csi10": 0.222
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.784,
+     "perdidas": 7,
+     "falsos": 26,
+     "csi": 0.535,
+     "erro_mm": 4.49,
+     "vies": 1.04,
+     "csi10": 0.485
+    }
+   ],
+   "Melhor modelo do treino sozinho": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 4,
+     "falsos": 6,
+     "csi": 0.474,
+     "erro_mm": 3.46,
+     "vies": 0.73,
+     "csi10": 0.1
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.797,
+     "perdidas": 7,
+     "falsos": 24,
+     "csi": 0.551,
+     "erro_mm": 4.59,
+     "vies": 0.93,
+     "csi10": 0.364
+    }
+   ],
+   "Média simples de todos": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 3,
+     "falsos": 8,
+     "csi": 0.476,
+     "erro_mm": 3.52,
+     "vies": 0.73,
+     "csi10": 0.0
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.784,
+     "perdidas": 4,
+     "falsos": 29,
+     "csi": 0.554,
+     "erro_mm": 4.05,
+     "vies": 0.97,
+     "csi10": 0.485
+    }
+   ],
+   "Mediana de todos": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 4,
+     "falsos": 7,
+     "csi": 0.45,
+     "erro_mm": 3.54,
+     "vies": 0.6,
+     "csi10": 0.0
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.843,
+     "perdidas": 5,
+     "falsos": 19,
+     "csi": 0.625,
+     "erro_mm": 3.89,
+     "vies": 0.87,
+     "csi10": 0.424
+    }
+   ],
+   "Pesos por acerto (atual do site)": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 3,
+     "falsos": 8,
+     "csi": 0.476,
+     "erro_mm": 3.5,
+     "vies": 0.74,
+     "csi10": 0.0
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.784,
+     "perdidas": 4,
+     "falsos": 29,
+     "csi": 0.554,
+     "erro_mm": 4.02,
+     "vies": 0.97,
+     "csi10": 0.485
+    }
+   ],
+   "Pesos + correção de volume": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.694,
+     "perdidas": 3,
+     "falsos": 8,
+     "csi": 0.476,
+     "erro_mm": 3.54,
+     "vies": 0.76,
+     "csi10": 0.0
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.771,
+     "perdidas": 4,
+     "falsos": 31,
+     "csi": 0.539,
+     "erro_mm": 4.74,
+     "vies": 1.26,
+     "csi10": 0.486
+    }
+   ]
+  },
+  "d2": {
+   "ECMWF 25 km sozinho (referência)": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.667,
+     "perdidas": 4,
+     "falsos": 8,
+     "csi": 0.429,
+     "erro_mm": 4.21,
+     "vies": 1.11,
+     "csi10": 0.2
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.745,
+     "perdidas": 7,
+     "falsos": 32,
+     "csi": 0.494,
+     "erro_mm": 5.15,
+     "vies": 1.05,
+     "csi10": 0.412
+    }
+   ],
+   "Melhor modelo do treino sozinho": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 4,
+     "falsos": 6,
+     "csi": 0.474,
+     "erro_mm": 3.59,
+     "vies": 0.85,
+     "csi10": 0.222
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 152,
+     "acerto": 0.73,
+     "perdidas": 9,
+     "falsos": 32,
+     "csi": 0.468,
+     "erro_mm": 5.67,
+     "vies": 0.95,
+     "csi10": 0.257
+    }
+   ],
+   "Média simples de todos": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.75,
+     "perdidas": 2,
+     "falsos": 7,
+     "csi": 0.55,
+     "erro_mm": 3.64,
+     "vies": 0.93,
+     "csi10": 0.125
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.752,
+     "perdidas": 3,
+     "falsos": 35,
+     "csi": 0.525,
+     "erro_mm": 4.68,
+     "vies": 1.05,
+     "csi10": 0.371
+    }
+   ],
+   "Mediana de todos": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 4,
+     "falsos": 6,
+     "csi": 0.474,
+     "erro_mm": 3.62,
+     "vies": 0.8,
+     "csi10": 0.125
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.784,
+     "perdidas": 7,
+     "falsos": 26,
+     "csi": 0.535,
+     "erro_mm": 4.26,
+     "vies": 0.87,
+     "csi10": 0.375
+    }
+   ],
+   "Pesos por acerto (atual do site)": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.75,
+     "perdidas": 2,
+     "falsos": 7,
+     "csi": 0.55,
+     "erro_mm": 3.71,
+     "vies": 0.93,
+     "csi10": 0.111
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.752,
+     "perdidas": 3,
+     "falsos": 35,
+     "csi": 0.525,
+     "erro_mm": 4.67,
+     "vies": 1.03,
+     "csi10": 0.382
+    }
+   ],
+   "Pesos + correção de volume": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.75,
+     "perdidas": 2,
+     "falsos": 7,
+     "csi": 0.55,
+     "erro_mm": 3.76,
+     "vies": 0.91,
+     "csi10": 0.111
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.752,
+     "perdidas": 3,
+     "falsos": 35,
+     "csi": 0.525,
+     "erro_mm": 5.01,
+     "vies": 1.17,
+     "csi10": 0.417
+    }
+   ]
+  },
+  "d3": {
+   "ECMWF 25 km sozinho (referência)": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 3,
+     "falsos": 10,
+     "csi": 0.435,
+     "erro_mm": 3.84,
+     "vies": 1.09,
+     "csi10": 0.273
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.725,
+     "perdidas": 7,
+     "falsos": 35,
+     "csi": 0.475,
+     "erro_mm": 5.42,
+     "vies": 1.13,
+     "csi10": 0.342
+    }
+   ],
+   "Melhor modelo do treino sozinho": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.722,
+     "perdidas": 4,
+     "falsos": 6,
+     "csi": 0.474,
+     "erro_mm": 4.72,
+     "vies": 1.48,
+     "csi10": 0.364
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "csi10": null
+    }
+   ],
+   "Média simples de todos": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 3,
+     "falsos": 10,
+     "csi": 0.435,
+     "erro_mm": 3.89,
+     "vies": 1.03,
+     "csi10": 0.222
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.719,
+     "perdidas": 3,
+     "falsos": 40,
+     "csi": 0.494,
+     "erro_mm": 5.21,
+     "vies": 1.14,
+     "csi10": 0.359
+    }
+   ],
+   "Mediana de todos": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 5,
+     "falsos": 8,
+     "csi": 0.381,
+     "erro_mm": 3.56,
+     "vies": 0.81,
+     "csi10": 0.222
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.771,
+     "perdidas": 7,
+     "falsos": 28,
+     "csi": 0.521,
+     "erro_mm": 4.68,
+     "vies": 0.94,
+     "csi10": 0.371
+    }
+   ],
+   "Pesos por acerto (atual do site)": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.639,
+     "perdidas": 3,
+     "falsos": 10,
+     "csi": 0.435,
+     "erro_mm": 3.93,
+     "vies": 1.06,
+     "csi10": 0.222
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.725,
+     "perdidas": 3,
+     "falsos": 39,
+     "csi": 0.5,
+     "erro_mm": 5.3,
+     "vies": 1.16,
+     "csi10": 0.35
+    }
+   ],
+   "Pesos + correção de volume": [
+    {
+     "treino": "2024-25",
+     "teste": [
+      "2025-26",
+      "2026-27"
+     ],
+     "n": 36,
+     "acerto": 0.611,
+     "perdidas": 4,
+     "falsos": 10,
+     "csi": 0.391,
+     "erro_mm": 3.84,
+     "vies": 0.98,
+     "csi10": 0.222
+    },
+    {
+     "treino": "2025-26",
+     "teste": [
+      "2024-25",
+      "2026-27"
+     ],
+     "n": 153,
+     "acerto": 0.725,
+     "perdidas": 3,
+     "falsos": 39,
+     "csi": 0.5,
+     "erro_mm": 5.8,
+     "vies": 1.3,
+     "csi10": 0.318
+    }
+   ]
+  }
+ },
+ "probabilidade": {
+  "d1_1mm": [
+   {
+    "treino": "2024-25",
+    "brier_bruto": 0.2483,
+    "brier_calibrado": 0.1937,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 18,
+      "prevista": 0.05,
+      "real": 0.17
+     },
+     {
+      "faixa": "60-70%",
+      "n": 5,
+      "prevista": 0.66,
+      "real": 0.8
+     }
+    ]
+   },
+   {
+    "treino": "2025-26",
+    "brier_bruto": 0.1348,
+    "brier_calibrado": 0.1485,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 50,
+      "prevista": 0.08,
+      "real": 0.04
+     },
+     {
+      "faixa": "10-20%",
+      "n": 27,
+      "prevista": 0.14,
+      "real": 0.11
+     },
+     {
+      "faixa": "20-30%",
+      "n": 7,
+      "prevista": 0.23,
+      "real": 0.0
+     },
+     {
+      "faixa": "30-40%",
+      "n": 6,
+      "prevista": 0.33,
+      "real": 0.17
+     },
+     {
+      "faixa": "40-50%",
+      "n": 5,
+      "prevista": 0.48,
+      "real": 0.4
+     },
+     {
+      "faixa": "50-60%",
+      "n": 6,
+      "prevista": 0.55,
+      "real": 0.33
+     },
+     {
+      "faixa": "60-70%",
+      "n": 6,
+      "prevista": 0.65,
+      "real": 0.5
+     },
+     {
+      "faixa": "70-80%",
+      "n": 5,
+      "prevista": 0.75,
+      "real": 0.6
+     },
+     {
+      "faixa": "90-100%",
+      "n": 38,
+      "prevista": 0.98,
+      "real": 0.74
+     }
+    ]
+   }
+  ],
+  "d1_10mm": [
+   {
+    "treino": "2024-25",
+    "brier_bruto": 0.2791,
+    "brier_calibrado": 0.154,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 27,
+      "prevista": 0.02,
+      "real": 0.07
+     }
+    ]
+   },
+   {
+    "treino": "2025-26",
+    "brier_bruto": 0.213,
+    "brier_calibrado": 0.1148,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 81,
+      "prevista": 0.05,
+      "real": 0.0
+     },
+     {
+      "faixa": "10-20%",
+      "n": 10,
+      "prevista": 0.14,
+      "real": 0.0
+     },
+     {
+      "faixa": "20-30%",
+      "n": 15,
+      "prevista": 0.24,
+      "real": 0.07
+     },
+     {
+      "faixa": "30-40%",
+      "n": 6,
+      "prevista": 0.36,
+      "real": 0.33
+     },
+     {
+      "faixa": "50-60%",
+      "n": 7,
+      "prevista": 0.56,
+      "real": 0.29
+     },
+     {
+      "faixa": "70-80%",
+      "n": 6,
+      "prevista": 0.76,
+      "real": 0.33
+     },
+     {
+      "faixa": "80-90%",
+      "n": 8,
+      "prevista": 0.85,
+      "real": 0.38
+     },
+     {
+      "faixa": "90-100%",
+      "n": 16,
+      "prevista": 0.95,
+      "real": 0.69
+     }
+    ]
+   }
+  ],
+  "d2_1mm": [
+   {
+    "treino": "2024-25",
+    "brier_bruto": 0.2061,
+    "brier_calibrado": 0.1845,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 15,
+      "prevista": 0.05,
+      "real": 0.13
+     },
+     {
+      "faixa": "10-20%",
+      "n": 6,
+      "prevista": 0.13,
+      "real": 0.33
+     },
+     {
+      "faixa": "40-50%",
+      "n": 5,
+      "prevista": 0.46,
+      "real": 0.4
+     },
+     {
+      "faixa": "60-70%",
+      "n": 6,
+      "prevista": 0.64,
+      "real": 0.67
+     }
+    ]
+   },
+   {
+    "treino": "2025-26",
+    "brier_bruto": 0.1646,
+    "brier_calibrado": 0.1647,
+    "confiabilidade": [
+     {
+      "faixa": "10-20%",
+      "n": 74,
+      "prevista": 0.12,
+      "real": 0.05
+     },
+     {
+      "faixa": "20-30%",
+      "n": 11,
+      "prevista": 0.23,
+      "real": 0.27
+     },
+     {
+      "faixa": "30-40%",
+      "n": 5,
+      "prevista": 0.36,
+      "real": 0.8
+     },
+     {
+      "faixa": "40-50%",
+      "n": 9,
+      "prevista": 0.46,
+      "real": 0.33
+     },
+     {
+      "faixa": "50-60%",
+      "n": 7,
+      "prevista": 0.56,
+      "real": 0.71
+     },
+     {
+      "faixa": "70-80%",
+      "n": 13,
+      "prevista": 0.75,
+      "real": 0.38
+     },
+     {
+      "faixa": "80-90%",
+      "n": 11,
+      "prevista": 0.87,
+      "real": 0.73
+     },
+     {
+      "faixa": "90-100%",
+      "n": 18,
+      "prevista": 0.97,
+      "real": 0.72
+     }
+    ]
+   }
+  ],
+  "d2_10mm": [
+   {
+    "treino": "2024-25",
+    "brier_bruto": 0.237,
+    "brier_calibrado": 0.1449,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 22,
+      "prevista": 0.02,
+      "real": 0.09
+     },
+     {
+      "faixa": "10-20%",
+      "n": 6,
+      "prevista": 0.15,
+      "real": 0.17
+     },
+     {
+      "faixa": "20-30%",
+      "n": 5,
+      "prevista": 0.24,
+      "real": 0.6
+     }
+    ]
+   },
+   {
+    "treino": "2025-26",
+    "brier_bruto": 0.2465,
+    "brier_calibrado": 0.0917,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 76,
+      "prevista": 0.05,
+      "real": 0.0
+     },
+     {
+      "faixa": "10-20%",
+      "n": 16,
+      "prevista": 0.14,
+      "real": 0.12
+     },
+     {
+      "faixa": "20-30%",
+      "n": 8,
+      "prevista": 0.24,
+      "real": 0.12
+     },
+     {
+      "faixa": "30-40%",
+      "n": 18,
+      "prevista": 0.35,
+      "real": 0.11
+     },
+     {
+      "faixa": "40-50%",
+      "n": 22,
+      "prevista": 0.45,
+      "real": 0.32
+     },
+     {
+      "faixa": "50-60%",
+      "n": 13,
+      "prevista": 0.56,
+      "real": 0.69
+     }
+    ]
+   }
+  ],
+  "d3_1mm": [
+   {
+    "treino": "2024-25",
+    "brier_bruto": 0.2359,
+    "brier_calibrado": 0.2059,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 16,
+      "prevista": 0.05,
+      "real": 0.19
+     },
+     {
+      "faixa": "50-60%",
+      "n": 5,
+      "prevista": 0.56,
+      "real": 0.8
+     }
+    ]
+   },
+   {
+    "treino": "2025-26",
+    "brier_bruto": 0.1788,
+    "brier_calibrado": 0.1404,
+    "confiabilidade": [
+     {
+      "faixa": "10-20%",
+      "n": 63,
+      "prevista": 0.15,
+      "real": 0.05
+     },
+     {
+      "faixa": "20-30%",
+      "n": 15,
+      "prevista": 0.25,
+      "real": 0.0
+     },
+     {
+      "faixa": "30-40%",
+      "n": 13,
+      "prevista": 0.34,
+      "real": 0.38
+     },
+     {
+      "faixa": "40-50%",
+      "n": 6,
+      "prevista": 0.45,
+      "real": 0.5
+     },
+     {
+      "faixa": "50-60%",
+      "n": 10,
+      "prevista": 0.55,
+      "real": 0.3
+     },
+     {
+      "faixa": "60-70%",
+      "n": 33,
+      "prevista": 0.66,
+      "real": 0.58
+     },
+     {
+      "faixa": "70-80%",
+      "n": 13,
+      "prevista": 0.72,
+      "real": 0.92
+     }
+    ]
+   }
+  ],
+  "d3_10mm": [
+   {
+    "treino": "2024-25",
+    "brier_bruto": 0.2668,
+    "brier_calibrado": 0.1449,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 23,
+      "prevista": 0.02,
+      "real": 0.13
+     },
+     {
+      "faixa": "10-20%",
+      "n": 5,
+      "prevista": 0.14,
+      "real": 0.2
+     }
+    ]
+   },
+   {
+    "treino": "2025-26",
+    "brier_bruto": 0.2599,
+    "brier_calibrado": 0.0988,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 71,
+      "prevista": 0.08,
+      "real": 0.0
+     },
+     {
+      "faixa": "10-20%",
+      "n": 18,
+      "prevista": 0.14,
+      "real": 0.11
+     },
+     {
+      "faixa": "20-30%",
+      "n": 14,
+      "prevista": 0.26,
+      "real": 0.14
+     },
+     {
+      "faixa": "30-40%",
+      "n": 12,
+      "prevista": 0.36,
+      "real": 0.25
+     },
+     {
+      "faixa": "40-50%",
+      "n": 20,
+      "prevista": 0.45,
+      "real": 0.2
+     },
+     {
+      "faixa": "50-60%",
+      "n": 6,
+      "prevista": 0.54,
+      "real": 0.17
+     },
+     {
+      "faixa": "60-70%",
+      "n": 6,
+      "prevista": 0.65,
+      "real": 1.0
+     },
+     {
+      "faixa": "70-80%",
+      "n": 6,
+      "prevista": 0.74,
+      "real": 0.5
+     }
+    ]
+   }
+  ]
+ },
+ "vento": {
+  "ECMWF 9 km": {
+   "horas": 1045,
+   "erro_vento_kmh": 3.3,
+   "vies_vento": 1.23,
+   "dias_rajada": 0,
+   "erro_rajada_kmh": null,
+   "vies_rajada": null,
+   "acerto_rajada50": null
+  },
+  "ECMWF 25 km": {
+   "horas": 4815,
+   "erro_vento_kmh": 3.9,
+   "vies_vento": 1.24,
+   "dias_rajada": 0,
+   "erro_rajada_kmh": null,
+   "vies_rajada": null,
+   "acerto_rajada50": null
+  },
+  "ECMWF IA": {
+   "horas": 924,
+   "erro_vento_kmh": 2.8,
+   "vies_vento": 1.05,
+   "dias_rajada": 0,
+   "erro_rajada_kmh": null,
+   "vies_rajada": null,
+   "acerto_rajada50": null
+  },
+  "GFS (EUA)": {
+   "horas": 4815,
+   "erro_vento_kmh": 5.1,
+   "vies_vento": 1.53,
+   "dias_rajada": 198,
+   "erro_rajada_kmh": 9.3,
+   "vies_rajada": 1.02,
+   "acerto_rajada50": 0.864
+  },
+  "ICON (Alemanha)": {
+   "horas": 4815,
+   "erro_vento_kmh": 3.1,
+   "vies_vento": 0.99,
+   "dias_rajada": 198,
+   "erro_rajada_kmh": 6.4,
+   "vies_rajada": 0.94,
+   "acerto_rajada50": 0.914
+  },
+  "UK Met Office": {
+   "horas": 3006,
+   "erro_vento_kmh": 4.7,
+   "vies_vento": 1.49,
+   "dias_rajada": 147,
+   "erro_rajada_kmh": 9.0,
+   "vies_rajada": 1.13,
+   "acerto_rajada50": 0.871
+  },
+  "JMA (Japão)": {
+   "horas": 4815,
+   "erro_vento_kmh": 3.5,
+   "vies_vento": 0.7,
+   "dias_rajada": 0,
+   "erro_rajada_kmh": null,
+   "vies_rajada": null,
+   "acerto_rajada50": null
+  },
+  "GEM (Canadá)": {
+   "horas": 4815,
+   "erro_vento_kmh": 5.9,
+   "vies_vento": 1.66,
+   "dias_rajada": 198,
+   "erro_rajada_kmh": 9.1,
+   "vies_rajada": 0.9,
+   "acerto_rajada50": 0.894
+  },
+  "CMA (China)": {
+   "horas": 4815,
+   "erro_vento_kmh": 6.8,
+   "vies_vento": 1.82,
+   "dias_rajada": 198,
+   "erro_rajada_kmh": 8.3,
+   "vies_rajada": 1.06,
+   "acerto_rajada50": 0.848
+  },
+  "Best Match": {
+   "horas": 4815,
+   "erro_vento_kmh": 3.2,
+   "vies_vento": 1.04,
+   "dias_rajada": 198,
+   "erro_rajada_kmh": 6.4,
+   "vies_rajada": 0.94,
+   "acerto_rajada50": 0.914
+  }
+ },
+ "log": [
+  "INMET 2024: INMET_S_PR_A835_MARINGA_01-01-2024_A_31-12-2024.CSV — 8784 horas, chuva válida 8476",
+  "INMET 2025: 2025/INMET_S_PR_A835_MARINGA_01-01-2025_A_31-12-2025.CSV — 8760 horas, chuva válida 966",
+  "INMET 2026: INMET_S_PR_A835_MARINGA_01-01-2026_A_31-08-2026.CSV — 5832 horas, chuva válida 4592",
+  "último dado de chuva do INMET: 2026-08-31 20:00:00",
+  "previsões 2024-09-01 2024-09-30 ok",
+  "previsões 2024-10-01 2024-10-31 ok",
+  "previsões 2024-11-01 2024-11-30 ok",
+  "previsões 2024-12-01 2024-12-31 ok",
+  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
+  "previsões 2025-01-01 2025-01-31 ok",
+  "previsões 2025-02-01 2025-02-28 ok",
+  "previsões 2025-03-01 2025-03-31 ok",
+  "previsões 2025-09-01 2025-09-30 ok",
+  "previsões 2025-10-01 2025-10-31 ok",
+  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
+  "previsões 2025-11-01 2025-11-30 ok",
+  "previsões 2025-12-01 2025-12-31 ok",
+  "previsões 2026-01-01 2026-01-31 ok",
+  "previsões 2026-02-01 2026-02-28 ok",
+  "previsões 2026-03-01 2026-03-31 ok",
+  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
+  "previsões 2026-09-01 2026-09-30 ok",
+  "previsões 2026-10-01 2026-10-31 ok",
+  "dias com pluviômetro completo e previsão: 189"
+ ]
+}
