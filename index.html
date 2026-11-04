@@ -240,6 +240,8 @@ body.noscroll{overflow:hidden}
 .pleg{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px;color:var(--muted)}
 .pleg i{display:inline-block;width:12px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
 .pinfo{margin:0;font-size:14px;line-height:1.5;background:var(--bg);border-radius:10px;padding:9px 11px}
+
+.rk-chip{border-radius:12px!important;line-height:1.3}
 </style>
 </head>
 <body>
@@ -423,7 +425,10 @@ async function radar(){
   if(!LF){msg.textContent='Mapa indisponível agora.';return;}
   const dark=matchMedia('(prefers-color-scheme: dark)').matches;
   const map=LF.map('rmap',{zoomControl:false,maxZoom:8,minZoom:4,attributionControl:true}).setView([-23.42,-51.94],7);
-  LF.tileLayer(`https://{s}.basemaps.cartocdn.com/${dark?'dark_all':'light_all'}/{z}/{x}/{y}{r}.png`,{subdomains:'abcd',maxZoom:8,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
+  const ES='https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_'+(dark?'Dark':'Light')+'_Gray_';
+  LF.tileLayer(ES+'Base/MapServer/tile/{z}/{y}/{x}',{maxZoom:8,attribution:'Mapa © Esri'}).addTo(map);
+  map.createPane('rotulos');map.getPane('rotulos').style.zIndex=650;map.getPane('rotulos').style.pointerEvents='none';
+  LF.tileLayer(ES+'Reference/MapServer/tile/{z}/{y}/{x}',{maxZoom:8,pane:'rotulos'}).addTo(map);
   LF.marker([-23.42,-51.94],{icon:LF.divIcon({className:'mga-dot',iconSize:[12,12]}),title:'Maringá'}).addTo(map);
   let frames=[],layers=[],k=0,timer=null,sat=null;
   window.__RD={map,parar:()=>{clearInterval(timer);layers.forEach(l=>l.setOpacity(0));if(sat)map.removeLayer(sat);$('rbtn').setAttribute('aria-pressed','false');$('rbtn').textContent='Satélite';},voltar:()=>{if(frames.length){show(k);play();}else lab.textContent='';}};
@@ -539,7 +544,7 @@ function horaTemp(d){const k=L.D.indexOf(d);let hh=(L.DH||[])[k]||[];if(d[0]===k
     return {txt:a===b-1?`~${pad(a)}h`:`${pad(a)}h–${b===24?'24':pad(b)}h`,pico:pk.h,pct:v,a,b};}
   return {txt:`~${pad(pk.h)}h`,pico:pk.h,pct:v,a:pk.h,b:pk.h+1};}
 const dir8=d=>d==null?'':['N','NE','L','SE','S','SO','O','NO'][Math.round(d/45)%8];
-const box=(lab,d)=>{if(!d)return'';return `<div class="box tap" role="button" tabindex="0" data-k="${L.D.indexOf(d)}" aria-label="Ver detalhes de ${lab}"><span class="bxh">${lab} ${ic(condD(d))}</span><b>${mmTxt(d[1])} mm</b><span>${d[4]??'—'}% de chance</span><span class="bx2">${d[10]}° a ${d[9]}°</span><span class="bx2${d[11]>=50?' bxw':''}">Rajadas até ${d[11]??'—'} km/h</span>${d[15]?`<span class="rk-chip rk-${riscoK(d[15].pct)}">Temporal: ${d[15].nivel.toLowerCase()} · ${d[15].pct}%${(()=>{const h=d[15].pct>=10&&horaTemp(d);return h?` · ${h.txt}`:(d[15].aviso&&d[15].bruto!=null&&d[15].bruto<d[15].pct-5?' · pelo aviso INMET':'');})()}</span>`:''}<span class="more">Ver horários ›</span></div>`;};
+const box=(lab,d)=>{if(!d)return'';return `<div class="box tap" role="button" tabindex="0" data-k="${L.D.indexOf(d)}" aria-label="Ver detalhes de ${lab}"><span class="bxh">${lab} ${ic(condD(d))}</span><b>${mmTxt(d[1])} mm</b><span>${d[4]??'—'}% de chance</span><span class="bx2">${d[10]}° a ${d[9]}°</span><span class="bx2${d[11]>=50?' bxw':''}">Rajadas até ${d[11]??'—'} km/h</span>${d[15]?`<span class="rk-chip rk-${riscoK(d[15].pct)}">Temporal: ${d[15].nivel.toLowerCase()} · ${d[15].pct}%${(()=>{const h=d[15].pct>=10&&horaTemp(d);return h?` · ${h.txt}`:(d[15].aviso&&d[15].bruto!=null&&d[15].bruto<d[15].pct-5?' · aviso INMET':'');})()}</span>`:''}<span class="more">Ver horários ›</span></div>`;};
 /* ícones de tempo */
 const condH=i=>{const p=H.p[i]??0,mm=H.mm[i]||0,g=H.wg?H.wg[i]||0:0,cc=H.cc?H.cc[i]:null,dia=H.dia?H.dia[i]:1;
   if(p>=50&&(mm>=4||g>=55))return{e:'⛈️',t:'Tempestade',k:'storm'};
