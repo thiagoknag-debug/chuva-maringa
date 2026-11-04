@@ -1,18 +1,44 @@
 {
- "gerado": "2026-11-04T14:25:24.162Z",
+ "gerado": "2026-11-04T14:29:15.510Z",
  "erros": [],
- "resumo": "",
- "classe_resumo": "hero",
- "avisos": [],
- "horas": 0,
- "horas_amostra": [],
- "dias": [],
- "radar_msg": "Carregando radar…",
- "radar_hora": "",
+ "resumo": "🌦️30°PancadasVento N 17 km/h · rajadas 38 km/hPróxima chuvaAmanhã, das 04h às 16hCerca de 13 mm · chance de até 72%Hoje 🌧️4,6 mm59% de chance23° a 30°Rajadas até 43 km/hTemporal: baixo · 9%Amanhã ⛈️16 mm96% de chance22° a 27°Rajadas até 40 km/hTemporal: moderado · 15%",
+ "classe_resumo": "hero sky-rain",
+ "avisos": [
+  "Avisos do INMET não carregaram"
+ ],
+ "horas": 48,
+ "horas_amostra": [
+  "Agora🌦️33%0,230°1738",
+  "15h🌦️34%0,230°1636",
+  "16h🌦️30%0,130°1535",
+  "17h☁️29%0,129°1333",
+  "18h☁️29%0,128°1025",
+  "19h☁️25%0,127°8",
+  "20h☁️25%0,226°9",
+  "21h☁️26%0,426°8",
+  "22h☁️16%0,525°9",
+  "23h☁️15%0,525°11",
+  "Amanhã00h☁️16%0,424°10",
+  "01h☁️16%0,124°11"
+ ],
+ "dias": [
+  "Hoje4/11🌧️59%4,6 mmChuva · 23° a 30° · rajadas até 43 km/h",
+  "Amanhã5/11⛈️96%16 mmTempestades · temporal 15% · 22° a 27° · rajadas até 40 km/h",
+  "Sex6/11🌧️77%4,0 mmChuva · 21° a 30° · rajadas até 26 km/h",
+  "Sáb7/11⛈️98%17 mmTempestades · 22° a 27° · rajadas até 41 km/h · 20% de chance de passar de 25 mm",
+  "Dom8/11🌦️37%0,9 mmPancadas isoladas · 18° a 25° · rajadas até 34 km/h",
+  "Seg9/11☀️4%0 mmEnsolarado · 14° a 25° · rajadas até 38 km/h",
+  "Ter10/11☀️2%0 mmEnsolarado · 14° a 26° · rajadas até 44 km/h",
+  "Qua11/11🌦️34%0 mmPancadas isoladas · 17° a 28° · rajadas até 43 km/h",
+  "Qui12/11🌧️56%1,4 mmChuva · 21° a 28° · rajadas até 38 km/h",
+  "Sex13/11🌧️53%8,6 mmChuva · 20° a 28° · rajadas até 30 km/h"
+ ],
+ "radar_msg": "Animação das últimas 2 horas. Ponto vermelho = Maringá. Áreas escurecidas estão fora da cobertura do radar.",
+ "radar_hora": "Radar 14:00",
  "leaflet": true,
  "radar_erro": null,
- "camadas": 0,
- "rodape": "Dados: Open-Meteo e INMET. Calculado no seu aparelho a cada abertura.",
- "carimbo": "Buscando a previsão…",
- "auditoria_ranking": 0
+ "camadas": 30,
+ "rodape": "Dados: Open-Meteo e INMET. Calculado no seu aparelho a cada abertura. Chance de chuva com 212 cenários de 6 sistemas (ECMWF, ECMWF IA, GFS, ICON, GEM (Canadá), UK Met Office). Pesos da auditoria de 04/11/2026.",
+ "carimbo": "Atualizado às 14h28 · Quarta, 4/11",
+ "auditoria_ranking": 10
 }
