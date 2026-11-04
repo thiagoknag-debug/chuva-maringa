@@ -1,5 +1,5 @@
 {
- "gerado": "2026-11-04T15:36:45.861169+00:00",
+ "gerado": "2026-11-04T15:39:03.662825+00:00",
  "dias": [
   {
    "dia": "2026-11-04",
@@ -11,12 +11,7 @@
    "aviso": "laranja",
    "pico_chuva": null,
    "pico_rajada": 16,
-   "trovoada": {
-    "de": 12,
-    "ate": 16,
-    "pico": 15,
-    "pct": 23
-   },
+   "trovoada": null,
    "risco": {
     "pct": 35,
     "nivel": "Alto",
@@ -38,7 +33,7 @@
    "pico_rajada": 15,
    "trovoada": {
     "de": 13,
-    "ate": 19,
+    "ate": 18,
     "pico": 16,
     "pct": 29
    },
