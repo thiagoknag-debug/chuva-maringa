@@ -211,6 +211,21 @@ body.noscroll{overflow:hidden}
 @media (max-width:380px){.pers{grid-template-columns:repeat(2,1fr)}}
 .sh-w li .pk{flex-basis:100%;color:var(--ink);font-weight:600}
 .sh-pk{margin:12px 0 0;padding:10px 12px;border-radius:12px;background:var(--bg);font-size:15px;line-height:1.6}
+
+.per.past,.h.past,.vb.past{opacity:.4}
+.sh-vento{background:var(--bg);border-radius:12px;padding:10px 12px;border-left:4px solid var(--muted)}
+.sh-vento.vm{border-left-color:#0ea5e9}.sh-vento.vfo{border-left-color:var(--laranja)}.sh-vento.vf{border-left-color:var(--vermelho)}
+.sh-vento .vt{font-size:15px}.sh-vento p{margin:6px 0 8px;font-size:13.5px;color:var(--muted);line-height:1.45}
+.vgraf{display:flex;align-items:flex-end;gap:2px;height:70px;padding-bottom:14px;position:relative}
+.vb{flex:1;height:100%;position:relative;min-width:0}
+.vb i{position:absolute;left:0;right:0;bottom:0;border-radius:3px 3px 0 0}
+.vb i.g{background:rgba(14,165,233,.35)}.vb i.g.hi{background:rgba(234,88,12,.6)}
+.vb i.s{background:#0ea5e9;left:25%;right:25%}
+.vb span{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted)}
+.vleg{display:flex;gap:14px;font-size:11.5px;color:var(--muted);margin-top:4px}
+.vleg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.vleg i.s{background:#0ea5e9}.vleg i.g{background:rgba(14,165,233,.35)}
+.per .pg .arr{width:11px;height:11px;vertical-align:-1px}
 </style>
 </head>
 <body>
@@ -499,7 +514,8 @@ const condO=o=>{const p=o.p??0,mm=o.mm||0,g=o.wg||0,pt=o.pt??0;
   return o.dia?{e:'☀️',t:'Céu limpo',k:'clear'}:{e:'🌙',t:'Céu limpo',k:'night'};};
 const janelas=(hh,camp,lim)=>{const w=[];let c=null;hh.forEach((o,j)=>{if((o[camp]??0)>=lim){if(!c)c={a:j,b:j};else c.b=j;}else if(c){w.push(c);c=null;}});if(c)w.push(c);return w;};
 const hTxt=h=>h===24?'24h':pad(h)+'h';
-function openDay(k){const d=L.D[k],hh=(L.DH||[])[k]||[];if(!d)return;const dt=new Date(d[0]+'T12:00:00'),nm=dayName(dt),cd=condD(d);
+function openDay(k){const d=L.D[k],hAll=(L.DH||[])[k]||[];if(!d)return;const dt=new Date(d[0]+'T12:00:00'),nm=dayName(dt),cd=condD(d);
+  const hoje=d[0]===key(now),h0=now.getHours(),hh=hoje?hAll.filter(o=>o.h>=h0):hAll,resto=hoje?' (daqui pra frente)':'';
   const titulo=(nm==='Hoje'||nm==='Amanhã'?nm+', ':'')+WD[dt.getDay()].toLowerCase()+' '+dt.getDate()+'/'+(dt.getMonth()+1);
   const av=(L.alerts||[]).filter(a=>a.ini<=d[0]&&d[0]<=a.fim);
   const wc=janelas(hh,'p',50), wt=janelas(hh,'pt',30);
@@ -512,20 +528,31 @@ function openDay(k){const d=L.D[k],hh=(L.DH||[])[k]||[];if(!d)return;const dt=ne
       const pk=s.reduce((a,o)=>(o.pt||0)>(a.pt||0)?o:a,s[0]);
       return `<li class="tw"><b>⛈️ Das ${hTxt(hh[w.a].h)} às ${hTxt(hh[w.b].h+1)}</b><span>chance de trovoada até ${pm}% · rajadas até ${g} km/h</span><span class="pk">Pico perto das ${hTxt(pk.h)}</span></li>`;}).join('')
     :`<li><b>Chance baixa de trovoada</b><span>Maior chance: ${tmax.pt||0}%${tmax.h!=null&&tmax.pt?' às '+hTxt(tmax.h):''}</span></li>`;
-  const per=[['Madrugada',0,6],['Manhã',6,12],['Tarde',12,18],['Noite',18,24]].map(([n,a,b])=>{const s=hh.filter(o=>o.h>=a&&o.h<b);if(!s.length)return'';
+  const per=[['Madrugada',0,6],['Manhã',6,12],['Tarde',12,18],['Noite',18,24]].map(([n,a,b])=>{const s=hAll.filter(o=>o.h>=a&&o.h<b);if(!s.length)return'';const pas=hoje&&b<=h0;
     const mm=s.reduce((x,o)=>x+(o.mm||0),0),p=Math.max(...s.map(o=>o.p||0)),pt=Math.max(...s.map(o=>o.pt||0)),g=Math.max(...s.map(o=>o.wg||0)),
       tn=Math.min(...s.map(o=>o.t??99)),tx=Math.max(...s.map(o=>o.t??-99)),mid=s[Math.floor(s.length/2)],
       ce=condO({p,mm:Math.max(...s.map(o=>o.mm||0)),wg:g,pt,cc:mid.cc,dia:mid.dia});
-    return `<div class="per"><span class="pn">${n}</span>${ic(ce)}<span class="pv">${p}%</span><span class="pm">${mmTxt(mm)} mm</span><span class="pt">${tn}°–${tx}°</span><span class="pg">💨 ${g}</span>${pt>=15?`<span class="ptt">⛈️ ${pt}%</span>`:''}</div>`;}).join('');
-  const hmx=Math.max(3,...hh.map(o=>o.mm||0));
-  const horas=hh.map(o=>`<div class="h" role="listitem" aria-label="${hTxt(o.h)}: ${o.p}% de chance, ${fmt(o.mm)} mm, trovoada ${o.pt??0}%"><div class="t">${hTxt(o.h)}</div>${ic(condO(o))}<div class="p" style="color:${(o.p??0)>=50?'var(--rain)':'var(--muted)'}">${o.p??'—'}%</div><div class="bar"><i style="height:${Math.round(100*Math.min(o.mm||0,hmx)/hmx)}%"></i></div><div class="mm">${(o.mm||0)>=0.1?fmt(o.mm):''}</div><div class="deg">${o.t??''}°</div>${o.ws!=null?`<div class="wnd">${arrow(o.wd)}<span>${o.ws}</span></div><div class="gst${(o.wg||0)>=50?' hi':''}">${(o.wg||0)>=25?o.wg:''}</div>`:''}${(o.pt??0)>=15?`<div class="tsx">⛈️${o.pt}</div>`:'<div class="tsx"></div>'}</div>`).join('');
+    return `<div class="per${pas?' past':''}"><span class="pn">${n}</span>${ic(ce)}<span class="pv">${p}%</span><span class="pm">${mmTxt(mm)} mm</span><span class="pt">${tn}°–${tx}°</span><span class="pg">${arrow(mid.wd)} ${Math.round(s.reduce((x,o)=>x+(o.ws||0),0)/s.length)} · raj. ${g}</span>${pt>=15?`<span class="ptt">⛈️ ${pt}%</span>`:''}</div>`;}).join('');
+  const vw=(()=>{const s=hh.filter(o=>o.ws!=null);if(!s.length)return'';
+    const gx=s.reduce((a,o)=>(o.wg||0)>(a.wg||0)?o:a,s[0]),wsm=Math.round(s.reduce((x,o)=>x+o.ws,0)/s.length),wsx=Math.max(...s.map(o=>o.ws));
+    const cnt={};s.forEach(o=>{const k=dir8(o.wd);if(k)cnt[k]=(cnt[k]||0)+1;});const pred=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0]?.[0]||'';
+    const G=gx.wg||0,cls=G>=70?['Muito forte','Risco de queda de árvores e destelhamento. Evite áreas abertas e carro sob árvores.','vf']:G>=50?['Forte','Pode derrubar galhos e objetos soltos. Guarde o que estiver solto na área externa.','vfo']:G>=30?['Moderado','Rajadas perceptíveis, sem risco relevante.','vm']:['Fraco','Vento tranquilo.','vl'];
+    const lim=Math.max(30,Math.round(G*0.85)),jw=s.filter(o=>(o.wg||0)>=lim),wtxt=jw.length>1?`Rajadas mais fortes entre ${hTxt(jw[0].h)} e ${hTxt(jw[jw.length-1].h+1)}, pico perto das ${hTxt(gx.h)}`:`Rajada mais forte perto das ${hTxt(gx.h)}`;
+    const mx=Math.max(40,G);
+    const graf=hAll.filter(o=>o.ws!=null).map(o=>`<div class="vb${hoje&&o.h<h0?' past':''}" title="${hTxt(o.h)}: ${o.ws} km/h, rajada ${o.wg}"><i class="g${(o.wg||0)>=50?' hi':''}" style="height:${Math.round(100*(o.wg||0)/mx)}%"></i><i class="s" style="height:${Math.round(100*o.ws/mx)}%"></i><span>${o.h%3===0?pad(o.h):''}</span></div>`).join('');
+    return `<h4>💨 Vento${resto}</h4><div class="sh-vento ${cls[2]}"><div class="vt"><b>${cls[0]}</b> · rajada máx. <b>${G} km/h</b></div>
+      <p>Vento médio ${wsm} km/h${pred?' vindo do '+({N:'norte',NE:'nordeste',L:'leste',SE:'sudeste',S:'sul',SO:'sudoeste',O:'oeste',NO:'noroeste'}[pred]||pred):''} (até ${wsx} km/h). ${wtxt}. ${cls[1]}</p>
+      <div class="vgraf" aria-hidden="true">${graf}</div><div class="vleg"><span><i class="s"></i>vento médio</span><span><i class="g"></i>rajada</span></div></div>`;})();
+  const hmx=Math.max(3,...hAll.map(o=>o.mm||0));
+  const horas=hAll.map(o=>`<div class="h${hoje&&o.h<h0?' past':''}" role="listitem" aria-label="${hTxt(o.h)}: ${o.p}% de chance, ${fmt(o.mm)} mm, trovoada ${o.pt??0}%"><div class="t">${hTxt(o.h)}</div>${ic(condO(o))}<div class="p" style="color:${(o.p??0)>=50?'var(--rain)':'var(--muted)'}">${o.p??'—'}%</div><div class="bar"><i style="height:${Math.round(100*Math.min(o.mm||0,hmx)/hmx)}%"></i></div><div class="mm">${(o.mm||0)>=0.1?fmt(o.mm):''}</div><div class="deg">${o.t??''}°</div>${o.ws!=null?`<div class="wnd">${arrow(o.wd)}<span>${o.ws}</span></div><div class="gst${(o.wg||0)>=50?' hi':''}">${(o.wg||0)>=25?o.wg:''}</div>`:''}${(o.pt??0)>=15?`<div class="tsx">⛈️${o.pt}</div>`:'<div class="tsx"></div>'}</div>`).join('');
   $('sheet-body').innerHTML=`<div class="sh-head">${ic(cd,'big')}<div><h3 id="sh-t">${titulo}</h3><p>${cd.t}${d[15]?` · temporal ${d[15].nivel.toLowerCase()} (${d[15].pct}%)`:''}</p></div></div>
    ${av.map(a=>`<p class="sh-av"><i class="dot" style="background:${col[a.lvl]||col.amarelo}"></i>Aviso ${a.lvl} do INMET: ${a.tit}. ${a.txt}</p>`).join('')}
    <div class="sh-sum"><div><b>${mmTxt(d[1])} mm</b><span>chuva (${fmt(d[2],0)}–${fmt(d[3],0)} entre modelos)</span></div><div><b>${d[4]??'—'}%</b><span>chance de chover</span></div>
      <div><b>${d[10]}°–${d[9]}°</b><span>mín – máx</span></div><div><b>${d[11]??'—'} km/h</b><span>rajada máxima${d[12]!=null?' ~'+hTxt(d[12]):''}</span></div></div>
    ${(()=>{const pc=hh.reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,{mm:0}),pt=hh.reduce((a,o)=>(o.pt||0)>(a.pt||0)?o:a,{pt:0});const x=[];if((pc.mm||0)>=0.5)x.push(`🌧️ Chuva mais forte perto das <b>${hTxt(pc.h)}</b>`);if((pt.pt||0)>=25)x.push(`⛈️ Trovoada mais provável perto das <b>${hTxt(pt.h)}</b>`);return x.length?`<p class="sh-pk">${x.join('<br>')}</p>`:'';})()}
-   <h4>🌧️ Quando deve chover</h4><ul class="sh-w">${chuvaTxt}</ul>
-   <h4>⛈️ Tempestade (trovoada)</h4><ul class="sh-w">${tempTxt}</ul>
+   <h4>🌧️ Quando deve chover${resto}</h4><ul class="sh-w">${chuvaTxt}</ul>
+   <h4>⛈️ Tempestade (trovoada)${resto}</h4><ul class="sh-w">${tempTxt}</ul>
+   ${vw}
    <h4>Por período</h4><div class="pers">${per}</div>
    <h4>Hora a hora</h4><div class="hours" role="list">${horas}</div>
    <p class="hint">Na auditoria, o início da chuva previsto variou em média 4 a 5 horas. Trate os horários como período do dia. Chance de trovoada = fração dos cenários com chuva e atmosfera instável (ou rajada forte) naquela hora.</p>`;

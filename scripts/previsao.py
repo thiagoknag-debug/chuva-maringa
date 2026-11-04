@@ -100,9 +100,36 @@ def calcular():
         for a in avisos:
             if a["ini"] <= d <= a["fim"] and any(w in a["tit"] for w in ("tempestade", "chuva", "vento", "vendaval", "granizo")):
                 if lvl is None or ordem[a["lvl"]] > ordem[lvl]: lvl = a["lvl"]
+        # horários: chuva mais forte, rajada mais forte e janela de trovoada (cenários com chuva + CAPE>=1500 ou rajada>=55)
+        def medh(var, i, fr=False):
+            v = [H[f"{var}_{m}"][i] * (FR.get(m, 1) if fr else 1) for m in M if H.get(f"{var}_{m}") and H[f"{var}_{m}"][i] is not None]
+            return st.median(v) if v else None
+        agora_h = dt.datetime.now(dt.timezone(dt.timedelta(hours=-3))).hour if k == 0 else 0
+        fut = [i for i in idx if int(T[i][11:13]) >= agora_h]
+        pr = [(medh("precipitation", i) or 0, int(T[i][11:13])) for i in fut]
+        pico_chuva = max(pr)[1] if pr and max(pr)[0] >= 0.5 else None
+        gr = [(medh("wind_gusts_10m", i, True) or 0, int(T[i][11:13])) for i in fut]
+        pico_rajada = max(gr)[1] if gr else None
+        tro = []
+        for i in fut:
+            n = ts = 0
+            for j in E:
+                h = j["hourly"]; tix = {t: q for q, t in enumerate(h["time"])}
+                if T[i] not in tix: continue
+                q = tix[T[i]]
+                for key in [x for x in h if x.startswith("precipitation")]:
+                    suf = key[len("precipitation"):]; pv = h[key][q]
+                    gv = (h.get("wind_gusts_10m" + suf) or [None] * len(h["time"]))[q]; cv = (h.get("cape" + suf) or [None] * len(h["time"]))[q]
+                    if pv is None or (gv is None and cv is None): continue
+                    n += 1; ts += pv >= 0.5 and ((cv is not None and cv >= 1500) or (gv is not None and gv >= 55))
+            tro.append((round(100 * ts / n) if n else 0, int(T[i][11:13])))
+        janela_tro = None
+        if tro and max(tro)[0] >= 20:
+            pk = max(tro); lim = max(20, round(pk[0] * 0.75)); hs = [h_ for v_, h_ in tro if v_ >= lim]
+            janela_tro = {"de": hs[0], "ate": hs[-1] + 1, "pico": pk[1], "pct": pk[0]}
         dias.append({"dia": d, "chuva_mm": round(st.median(chuva), 1) if chuva else None, "chance": chance,
                      "tmin": round(tmin), "tmax": round(tmax), "rajada": round(gust) if gust else None,
-                     "aviso": lvl, "risco": risco_dia(mem, det, lvl, PJ.get("risco_cape")), "cenarios": len(mem)})
+                     "aviso": lvl, "pico_chuva": pico_chuva, "pico_rajada": pico_rajada, "trovoada": janela_tro, "risco": risco_dia(mem, det, lvl, PJ.get("risco_cape")), "cenarios": len(mem)})
     return {"gerado": dt.datetime.now(dt.timezone.utc).isoformat(), "dias": dias, "avisos": avisos}
 
 if __name__ == "__main__":

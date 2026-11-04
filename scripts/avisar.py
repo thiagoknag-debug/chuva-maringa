@@ -14,6 +14,12 @@ def linha(nome, d):
     r = d["risco"]
     s = f"{nome}: {d['tmin']}°–{d['tmax']}° · chuva {d['chance'] if d['chance'] is not None else '—'}% (~{d['chuva_mm']:g} mm)"
     if d["rajada"]: s += f" · rajadas {d['rajada']} km/h"
+    hs = []
+    if d.get("pico_chuva") is not None: hs.append(f"chuva mais forte ~{d['pico_chuva']:02d}h")
+    tw = d.get("trovoada")
+    if tw: hs.append(f"trovoada {tw['de']:02d}h–{tw['ate']:02d}h (pico ~{tw['pico']:02d}h)")
+    if d["rajada"] and d["rajada"] >= 40 and d.get("pico_rajada") is not None: hs.append(f"rajada mais forte ~{d['pico_rajada']:02d}h")
+    if hs: s += " · " + ", ".join(hs)
     s += f" · temporal: {r['nivel'].lower()} ({r['pct']}%)"
     if d["aviso"]: s += f" · aviso {d['aviso']} INMET"
     return s
