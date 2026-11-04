@@ -1,0 +1,39 @@
+name: Aviso no celular
+on:
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: "manha (sempre envia) ou tarde (só se houver risco)"
+        default: "manha"
+  schedule:
+    - cron: "37 9 * * *"    # 06:37 em Maringá: resumo do dia
+    - cron: "37 19 * * *"   # 16:37 em Maringá: só se houver risco alto
+permissions:
+  contents: write
+jobs:
+  aviso:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Calcular e enviar
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          MODO="${{ github.event.inputs.modo }}"
+          if [ -z "$MODO" ]; then
+            if [ "$(date -u +%H)" -lt 15 ]; then MODO=manha; else MODO=tarde; fi
+          fi
+          python scripts/avisar.py "$MODO"
+      - name: Salvar última previsão
+        run: |
+          git config user.name "auditoria-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add lab/ultima_previsao.json
+          git commit -q -m "Previsão do aviso" || echo "sem mudancas"
+          git pull --rebase -q origin main || true
+          git push || true
