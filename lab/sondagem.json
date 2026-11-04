@@ -1,0 +1,528 @@
+{
+ "gerado": "2026-11-04T13:38Z",
+ "conjuntos": {
+  "ecmwf_ifs025": {
+   "seg": 0.5,
+   "status": 200,
+   "horas": 72,
+   "chuva": {
+    "membros": 51,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "precipitation_member01"
+   },
+   "rajada": {
+    "membros": 51,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "wind_gusts_10m_member01"
+   },
+   "cape": {
+    "membros": 51,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "cape_member01"
+   }
+  },
+  "ecmwf_aifs025": {
+   "seg": 0.4,
+   "status": 200,
+   "horas": 72,
+   "chuva": {
+    "membros": 51,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "precipitation_member01"
+   },
+   "rajada": {
+    "membros": 51,
+    "horas_com_dado_media": 0.0,
+    "exemplo_chave": "wind_gusts_10m_member01"
+   },
+   "cape": {
+    "membros": 51,
+    "horas_com_dado_media": 0.0,
+    "exemplo_chave": "cape_member01"
+   }
+  },
+  "ecmwf_aifs025_ensemble": {
+   "seg": 0.4,
+   "status": 200,
+   "horas": 72,
+   "chuva": {
+    "membros": 51,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "precipitation_member01"
+   },
+   "rajada": {
+    "membros": 51,
+    "horas_com_dado_media": 0.0,
+    "exemplo_chave": "wind_gusts_10m_member01"
+   },
+   "cape": {
+    "membros": 51,
+    "horas_com_dado_media": 0.0,
+    "exemplo_chave": "cape_member01"
+   }
+  },
+  "gfs025": {
+   "seg": 0.4,
+   "status": 200,
+   "horas": 72,
+   "chuva": {
+    "membros": 31,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "precipitation_member01"
+   },
+   "rajada": {
+    "membros": 31,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "wind_gusts_10m_member01"
+   },
+   "cape": {
+    "membros": 31,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "cape_member01"
+   }
+  },
+  "icon_seamless": {
+   "seg": 0.4,
+   "status": 200,
+   "horas": 72,
+   "chuva": {
+    "membros": 40,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "precipitation_member01"
+   },
+   "rajada": {
+    "membros": 40,
+    "horas_com_dado_media": 0.0,
+    "exemplo_chave": "wind_gusts_10m_member01"
+   },
+   "cape": {
+    "membros": 40,
+    "horas_com_dado_media": 0.0,
+    "exemplo_chave": "cape_member01"
+   }
+  },
+  "gem_global": {
+   "seg": 0.4,
+   "status": 200,
+   "horas": 72,
+   "chuva": {
+    "membros": 21,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "precipitation_member01"
+   },
+   "rajada": {
+    "membros": 21,
+    "horas_com_dado_media": 0.0,
+    "exemplo_chave": "wind_gusts_10m_member01"
+   },
+   "cape": {
+    "membros": 21,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "cape_member01"
+   }
+  },
+  "gem_global_ensemble": {
+   "seg": 0.4,
+   "status": 200,
+   "horas": 72,
+   "chuva": {
+    "membros": 21,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "precipitation_member01"
+   },
+   "rajada": {
+    "membros": 21,
+    "horas_com_dado_media": 0.0,
+    "exemplo_chave": "wind_gusts_10m_member01"
+   },
+   "cape": {
+    "membros": 21,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "cape_member01"
+   }
+  },
+  "ukmo_global_ensemble_20km": {
+   "seg": 0.4,
+   "status": 200,
+   "horas": 72,
+   "chuva": {
+    "membros": 18,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "precipitation_member01"
+   },
+   "rajada": {
+    "membros": 18,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "wind_gusts_10m_member01"
+   },
+   "cape": {
+    "membros": 18,
+    "horas_com_dado_media": 72.0,
+    "exemplo_chave": "cape_member01"
+   }
+  },
+  "bom_access_global_ensemble": {
+   "seg": 0.4,
+   "status": 200,
+   "horas": 72,
+   "chuva": {
+    "membros": 18,
+    "horas_com_dado_media": 0.0,
+    "exemplo_chave": "precipitation_member01"
+   },
+   "rajada": {
+    "membros": 18,
+    "horas_com_dado_media": 0.0,
+    "exemplo_chave": "wind_gusts_10m_member01"
+   },
+   "cape": {
+    "membros": 18,
+    "horas_com_dado_media": 0.0,
+    "exemplo_chave": "cape_member01"
+   }
+  },
+  "ncep_aigefs025": {
+   "seg": 60.2,
+   "erro": "HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Read timed out. (read timeout=60)"
+  }
+ },
+ "deterministicos": {
+  "wind_gusts_10m_ecmwf_ifs": {
+   "n": 48,
+   "max": 55.4
+  },
+  "cape_ecmwf_ifs": {
+   "n": 48,
+   "max": 3700.0
+  },
+  "lifted_index_ecmwf_ifs": {
+   "n": 0,
+   "max": null
+  },
+  "convective_inhibition_ecmwf_ifs": {
+   "n": 48,
+   "max": 136.0
+  },
+  "wind_gusts_10m_ecmwf_ifs025": {
+   "n": 48,
+   "max": 42.8
+  },
+  "cape_ecmwf_ifs025": {
+   "n": 48,
+   "max": 3790.0
+  },
+  "lifted_index_ecmwf_ifs025": {
+   "n": 0,
+   "max": null
+  },
+  "convective_inhibition_ecmwf_ifs025": {
+   "n": 0,
+   "max": null
+  },
+  "wind_gusts_10m_ecmwf_aifs025_single": {
+   "n": 0,
+   "max": null
+  },
+  "cape_ecmwf_aifs025_single": {
+   "n": 0,
+   "max": null
+  },
+  "lifted_index_ecmwf_aifs025_single": {
+   "n": 0,
+   "max": null
+  },
+  "convective_inhibition_ecmwf_aifs025_single": {
+   "n": 0,
+   "max": null
+  },
+  "wind_gusts_10m_gfs_seamless": {
+   "n": 48,
+   "max": 45.0
+  },
+  "cape_gfs_seamless": {
+   "n": 48,
+   "max": 3890.0
+  },
+  "lifted_index_gfs_seamless": {
+   "n": 48,
+   "max": 3.2
+  },
+  "convective_inhibition_gfs_seamless": {
+   "n": 48,
+   "max": 410.0
+  },
+  "wind_gusts_10m_icon_seamless": {
+   "n": 48,
+   "max": 56.2
+  },
+  "cape_icon_seamless": {
+   "n": 48,
+   "max": 3220.0
+  },
+  "lifted_index_icon_seamless": {
+   "n": 0,
+   "max": null
+  },
+  "convective_inhibition_icon_seamless": {
+   "n": 0,
+   "max": null
+  },
+  "wind_gusts_10m_meteofrance_seamless": {
+   "n": 48,
+   "max": 40.7
+  },
+  "cape_meteofrance_seamless": {
+   "n": 48,
+   "max": 2970.0
+  },
+  "lifted_index_meteofrance_seamless": {
+   "n": 0,
+   "max": null
+  },
+  "convective_inhibition_meteofrance_seamless": {
+   "n": 0,
+   "max": null
+  },
+  "wind_gusts_10m_ukmo_seamless": {
+   "n": 48,
+   "max": 42.5
+  },
+  "cape_ukmo_seamless": {
+   "n": 48,
+   "max": 4890.0
+  },
+  "lifted_index_ukmo_seamless": {
+   "n": 0,
+   "max": null
+  },
+  "convective_inhibition_ukmo_seamless": {
+   "n": 48,
+   "max": 0.0
+  },
+  "wind_gusts_10m_jma_seamless": {
+   "n": 0,
+   "max": null
+  },
+  "cape_jma_seamless": {
+   "n": 0,
+   "max": null
+  },
+  "lifted_index_jma_seamless": {
+   "n": 0,
+   "max": null
+  },
+  "convective_inhibition_jma_seamless": {
+   "n": 0,
+   "max": null
+  },
+  "wind_gusts_10m_gem_seamless": {
+   "n": 48,
+   "max": 42.5
+  },
+  "cape_gem_seamless": {
+   "n": 48,
+   "max": 5400.0
+  },
+  "lifted_index_gem_seamless": {
+   "n": 0,
+   "max": null
+  },
+  "convective_inhibition_gem_seamless": {
+   "n": 0,
+   "max": null
+  },
+  "wind_gusts_10m_cma_grapes_global": {
+   "n": 48,
+   "max": 38.2
+  },
+  "cape_cma_grapes_global": {
+   "n": 48,
+   "max": 3430.0
+  },
+  "lifted_index_cma_grapes_global": {
+   "n": 48,
+   "max": 0.6
+  },
+  "convective_inhibition_cma_grapes_global": {
+   "n": 48,
+   "max": 206.0
+  },
+  "wind_gusts_10m_best_match": {
+   "n": 48,
+   "max": 55.4
+  },
+  "cape_best_match": {
+   "n": 48,
+   "max": 3700.0
+  },
+  "lifted_index_best_match": {
+   "n": 48,
+   "max": 3.2
+  },
+  "convective_inhibition_best_match": {
+   "n": 48,
+   "max": 136.0
+  }
+ },
+ "caso_2_11_vespera": {
+  "precipitation_previous_day1_ecmwf_ifs": 11.6,
+  "wind_gusts_10m_previous_day1_ecmwf_ifs": null,
+  "cape_previous_day1_ecmwf_ifs": null,
+  "precipitation_previous_day1_ecmwf_ifs025": 6.0,
+  "wind_gusts_10m_previous_day1_ecmwf_ifs025": null,
+  "cape_previous_day1_ecmwf_ifs025": null,
+  "precipitation_previous_day1_ecmwf_aifs025_single": 29.0,
+  "wind_gusts_10m_previous_day1_ecmwf_aifs025_single": null,
+  "cape_previous_day1_ecmwf_aifs025_single": null,
+  "precipitation_previous_day1_gfs_seamless": 75.2,
+  "wind_gusts_10m_previous_day1_gfs_seamless": 42.8,
+  "cape_previous_day1_gfs_seamless": 1370.0,
+  "precipitation_previous_day1_icon_seamless": 20.8,
+  "wind_gusts_10m_previous_day1_icon_seamless": 43.6,
+  "cape_previous_day1_icon_seamless": null,
+  "precipitation_previous_day1_meteofrance_seamless": 47.6,
+  "wind_gusts_10m_previous_day1_meteofrance_seamless": 29.2,
+  "cape_previous_day1_meteofrance_seamless": 2210.0,
+  "precipitation_previous_day1_ukmo_seamless": 64.6,
+  "wind_gusts_10m_previous_day1_ukmo_seamless": 28.4,
+  "cape_previous_day1_ukmo_seamless": 3150.0,
+  "precipitation_previous_day1_jma_seamless": 24.0,
+  "wind_gusts_10m_previous_day1_jma_seamless": null,
+  "cape_previous_day1_jma_seamless": null,
+  "precipitation_previous_day1_gem_seamless": 31.2,
+  "wind_gusts_10m_previous_day1_gem_seamless": 38.2,
+  "cape_previous_day1_gem_seamless": 2270.0,
+  "precipitation_previous_day1_cma_grapes_global": 34.6,
+  "wind_gusts_10m_previous_day1_cma_grapes_global": 43.2,
+  "cape_previous_day1_cma_grapes_global": 2330.0,
+  "precipitation_previous_day1_best_match": 11.6,
+  "wind_gusts_10m_previous_day1_best_match": 40.7,
+  "cape_previous_day1_best_match": 1370.0
+ },
+ "radar": {
+  "lista": {
+   "status": 200,
+   "tipo": "application/json",
+   "bytes": 818,
+   "inicio": "{\"version\":\"2.0\",\"generated\":1793799327,\"host\":\"https://tilecache.rainviewer.com\",\"radar\":{\"past\":[{\"time\":1793791800,\"path\":\"/v2/radar/a1bac5bcec89\"},{\"time\":1793792400,\"path\":\"/v2/radar/2acf7256c81a"
+  },
+  "quadros": 13,
+  "cobertura_tile": {
+   "status": 200,
+   "tipo": "image/png",
+   "bytes": 914,
+   "inicio": ""
+  },
+  "cobertura_pixel_maringa_rgba": [
+   255,
+   255,
+   255,
+   0
+  ],
+  "cobertura_transparente_maringa": true,
+  "fracao_coberta_arredores": 1.0,
+  "radar_tile": {
+   "status": 200,
+   "tipo": "image/png",
+   "bytes": 2539,
+   "inicio": ""
+  }
+ },
+ "satelite": {
+  "status": 400,
+  "tipo": "text/xml",
+  "bytes": 431,
+  "inicio": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<ExceptionReport xmlns=\"http://www.opengis.net/ows/1.1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://schemas.opengis.net/ows/"
+ },
+ "satelite_alt": {
+  "status": 400,
+  "tipo": "text/xml",
+  "bytes": 431,
+  "inicio": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<ExceptionReport xmlns=\"http://www.opengis.net/ows/1.1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://schemas.opengis.net/ows/"
+ },
+ "mapa_base": {
+  "status": 200,
+  "tipo": "image/png",
+  "bytes": 2049,
+  "inicio": ""
+ },
+ "leaflet": {
+  "status": 200,
+  "tipo": "application/javascript; charset=utf-8",
+  "bytes": 147171,
+  "inicio": ""
+ },
+ "aeroporto_SBMG": {
+  "status": 200,
+  "tipo": "text/plain; charset=UTF-8",
+  "bytes": 5267,
+  "inicio": "station,valid,sknt,gust,wxcodes,metar\nSBMG,2026-11-01 00:00,4.00,,,SBMG 010000Z 12004KT CAVOK 27/16 Q1012\nSBMG,2026-11-01 01:00,5.00,,,SBMG 010100Z 11005KT CAVOK 26/16 Q1013\nSBMG,2026-11-01 02:00,7.00",
+  "linhas": 56,
+  "primeiras": [
+   "station,valid,sknt,gust,wxcodes,metar",
+   "SBMG,2026-11-01 00:00,4.00,,,SBMG 010000Z 12004KT CAVOK 27/16 Q1012",
+   "SBMG,2026-11-01 01:00,5.00,,,SBMG 010100Z 11005KT CAVOK 26/16 Q1013"
+  ],
+  "dia_2_11": [
+   "SBMG,2026-11-02 00:00,15.00,,-RA VCTS,SBMG 020000Z 03015KT 9999 -RA VCTS FEW045CB OVC100 23/21 Q1012 RETS",
+   "SBMG,2026-11-02 01:00,13.00,,VCTS,SBMG 020100Z 02013KT 9999 VCTS FEW045CB OVC100 22/21 Q1013",
+   "SBMG,2026-11-02 02:00,7.00,,-TSRA,SBMG 020200Z 04007KT 9999 -TSRA FEW040 FEW050CB OVC100 22/21 Q1012",
+   "SBMG,2026-11-02 03:00,7.00,,-TSRA,SBMG 020300Z 14007KT 9999 -TSRA FEW040 FEW050CB OVC100 22/21 Q1013 RETS",
+   "SBMG,2026-11-02 04:00,11.00,,VCTS,SBMG 020400Z AUTO 09011KT 9999 VCTS //////CB 22/21 Q1012",
+   "SBMG,2026-11-02 05:00,9.00,,,SBMG 020500Z AUTO 04009KT CAVOK 21/20 Q1012",
+   "SBMG,2026-11-02 06:00,10.00,,TS,SBMG 020600Z AUTO 16010KT 9999 TS //////CB 21/19 Q1012",
+   "SBMG,2026-11-02 06:05,15.00,32.00,TS,SBMG 020605Z AUTO 18015G32KT 150V230 9999 TS FEW010 //////CB 21/19 Q1013",
+   "SBMG,2026-11-02 06:06,28.00,,TS,COR SBMG 020606Z AUTO 22028KT 9999 TS FEW008 //////CB 21/19 Q1014",
+   "SBMG,2026-11-02 06:08,29.00,39.00,TS,SBMG 020608Z AUTO 22029G39KT 9999 TS SCT005 //////CB 21/19 Q1014",
+   "SBMG,2026-11-02 06:09,30.00,42.00,TS,COR SBMG 020609Z AUTO 22030G42KT 9999 TS SCT003 //////CB 21/19 Q1014",
+   "SBMG,2026-11-02 07:00,9.00,,-TSRA,SBMG 020700Z AUTO 11009KT 070V190 9999 -TSRA FEW002 //////CB 20/19 Q1013"
+  ],
+  "seg": 0.3,
+  "historico_2024": {
+   "status": 429,
+   "tipo": "text/plain; charset=UTF-8",
+   "bytes": 50,
+   "inicio": "Too many requests from your IP address, slow down."
+  }
+ },
+ "cemaden": {
+  "https://resources.cemaden.gov.br/graficos/interativo/getJson2.php?uf=PR": {
+   "status": 200,
+   "tipo": "text/html; charset=UTF-8",
+   "bytes": 63427,
+   "inicio": "[{\"idestacao\":19026,\"uf\":\"PR\",\"codibge\":4102901,\"cidade\":\"BITURUNA\",\"nomeestacao\":\"G2-410290101A\",\"ultimovalor\":0,\"datahoraUltimovalor\":\"04\\/11\\/26 13:10\",\"acc1hr\":\"-\",\"acc3hr\":\"-\",\"acc6hr\":\"-\",\"acc12",
+   "seg": 1.1
+  },
+  "http://sjc.salvar.cemaden.gov.br/resources/graficos/interativo/getJson2.php?uf=PR": {
+   "erro": "HTTPConnectionPool(host='sjc.salvar.cemaden.gov.br', port=80): Max retries exceeded with url: /resources/graficos/interativo/getJson2.php?uf=PR (Caused by NameResolutionError(\"HTTPConnection(host='sjc",
+   "seg": 0.3
+  },
+  "https://mapainterativo.cemaden.gov.br/MapainterativoCemaden/": {
+   "status": 404,
+   "tipo": "text/html; charset=UTF-8",
+   "bytes": 42857,
+   "inicio": "<!DOCTYPE html>\r\n<html lang=\"pt-BR\" prefix=\"og: http://ogp.me/ns#\">\r\n<head>\r\n<meta charset=\"UTF-8\" />\r\n<link rel=\"profile\" href=\"http://gmpg.org/xfn/11\" />\r\n<link rel=\"pingback\" href=\"https://www2.cem",
+   "seg": 1.7
+  },
+  "https://sws.cemaden.gov.br/PED/rest/pcds-cadastro/municipio?codibge=4115200": {
+   "status": 404,
+   "tipo": "",
+   "bytes": 0,
+   "inicio": "",
+   "seg": 1.1
+  }
+ },
+ "inmet": {
+  "apitempo": {
+   "status": 204,
+   "tipo": "",
+   "bytes": 0,
+   "inicio": ""
+  },
+  "arquivo_2026": {
+   "status": 200,
+   "tamanho": "136911232",
+   "modificado": "Mon, 05 Oct 2026 11:47:31 GMT"
+  }
+ }
+}
