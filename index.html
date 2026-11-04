@@ -310,7 +310,7 @@ D.slice(0,3).forEach(dd=>{const day=dd[0],idx=T.map((t,i)=>t.startsWith(day)?i:-
   let lvl=null;(A||[]).forEach(a=>{if(a.ini<=day&&day<=a.fim&&/tempestade|chuva|vento|vendaval|granizo/.test(a.tit)&&(!lvl||ORD[a.lvl]>ORD[lvl]))lvl=a.lvl;});
   const piso={amarelo:10,laranja:35,vermelho:65}[lvl]||0, p=Math.round(Math.min(95,Math.max(raw,piso)));
   const gmed=med(det.map(x=>x[1]))||0, p50=mem.length?100*mem.filter(x=>x[0]>=50).length/mem.length:0;
-  dd[15]={pct:p,nivel:p>=50?'Muito alto':p>=25?'Alto':p>=10?'Moderado':'Baixo',par:(p>=35&&(gmed>=55||p50>=15))||lvl==='laranja'||lvl==='vermelho',aviso:lvl,cen:mem.length};});
+  dd[15]={pct:p,nivel:p>=50?'Muito alto':p>=25?'Alto':p>=10?'Moderado':'Baixo',par:p>=35&&(gmed>=55||p50>=15||((lvl==='laranja'||lvl==='vermelho')&&raw>=15)),aviso:lvl,cen:mem.length};});
 return {gen:new Date().toISOString(),H,D,alerts:A||[],pesos:PJ?PJ.gerado:null,ens:ensOK};
 }
 (async function(){

@@ -37,7 +37,7 @@ def risco_dia(mem, det, alerta_lvl):
     p = int(round(min(95, max(raw, piso))))
     gmed = st.median([x[1] for x in det if x[1] is not None]) if any(x[1] is not None for x in det) else 0
     p50 = 100 * sum(1 for x in mem if x[0] is not None and x[0] >= 50) / len(mem) if mem else 0
-    parecido = (p >= 35 and (gmed >= 55 or p50 >= 15)) or alerta_lvl in ("laranja", "vermelho")
+    parecido = p >= 35 and (gmed >= 55 or p50 >= 15 or (alerta_lvl in ("laranja", "vermelho") and raw >= 15))
     nivel = "Muito alto" if p >= 50 else "Alto" if p >= 25 else "Moderado" if p >= 10 else "Baixo"
     return {"pct": p, "nivel": nivel, "parecido_2_11": bool(parecido), "bruto": round(raw), "piso_inmet": piso}
 
