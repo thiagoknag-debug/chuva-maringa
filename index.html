@@ -291,7 +291,7 @@ for(let i=s;i<s+48&&i<T.length;i++){let n=0,d=0,mx=0,tt=0,td=0;
  const vv=vento(i), sc=escala[T[i].slice(0,10)]??1;
  H.mm.push(d?r1(n/d*sc):null); H.mx.push(r1(mx)); H.p.push(k?Math.round(100*c/k):null); H.t.push(td?Math.round(tt/td):null);
  H.ws.push(vv.ws);H.wg.push(vv.wg);H.wgx.push(vv.wgx);H.wd.push(vv.wd);H.cc.push(nuvem(i));H.dia.push(diaH(i));}
-let A=[];try{const ac=new AbortController();setTimeout(()=>ac.abort(),20000);const j=await fetch("https://apiprevmet3.inmet.gov.br/avisos/ativos",{signal:ac.signal}).then(r=>r.json());
+let A=[];try{let j=null;for(let k=0;k<2&&!j;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),30000);const r=await fetch("https://apiprevmet3.inmet.gov.br/avisos/ativos",{signal:ac.signal});if(r.ok)j=await r.json();}catch(e){}}if(!j)throw new Error("avisos");
  const lv={"Perigo Potencial":"amarelo","Perigo":"laranja","Grande Perigo":"vermelho"};
  const L=[...(j.hoje||[]),...(j.futuro||[])].filter(a=>/(^|,\s*)Maring[aá]\s*-\s*PR/i.test(a.municipios||"")).map(a=>({lvl:lv[a.severidade]||"amarelo",tit:String(a.descricao).toLowerCase(),ini:a.data_inicio.slice(0,10),fim:a.data_fim.slice(0,10),txt:String(Array.isArray(a.riscos)?a.riscos[0]:a.riscos).split(/\.\s+(Baixo r|R)isco/)[0].replace(/\.$/,"")+"."})).sort((a,b)=>a.ini<b.ini?-1:1);
  for(const a of L){const p=A.find(x=>x.lvl===a.lvl&&x.tit===a.tit&&x.txt===a.txt&&(new Date(a.ini)-new Date(x.fim))<=864e5);if(p){if(a.fim>p.fim)p.fim=a.fim;}else A.push({...a});}}catch(e){A=null}
@@ -314,7 +314,7 @@ D.slice(0,3).forEach(dd=>{const day=dd[0],idx=T.map((t,i)=>t.startsWith(day)?i:-
   const piso={amarelo:10,laranja:35,vermelho:65}[lvl]||0, p=Math.round(Math.min(95,Math.max(raw,piso)));
   const gmed=med(det.map(x=>x[1]))||0, p50=mem.length?100*mem.filter(x=>x[0]>=50).length/mem.length:0;
   dd[15]={pct:p,nivel:p>=50?'Muito alto':p>=25?'Alto':p>=10?'Moderado':'Baixo',par:p>=35&&(gmed>=55||p50>=15||((lvl==='laranja'||lvl==='vermelho')&&raw>=15)),aviso:lvl,cen:mem.length};});
-return {gen:new Date().toISOString(),H,D,alerts:A||[],pesos:PJ?PJ.gerado:null,ens:ensOK};
+return {gen:new Date().toISOString(),H,D,alerts:A||[],alertasFalhou:A===null,pesos:PJ?PJ.gerado:null,ens:ensOK};
 }
 (async function(){
 const $=id=>document.getElementById(id);
@@ -365,7 +365,7 @@ const g=new Date(L.gen);if(L.ens&&L.ens.length){const f=document.querySelector('
 const todayKey=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
 const col={amarelo:'var(--amarelo)',laranja:'var(--laranja)',vermelho:'var(--vermelho)'};
 const dl=s=>{const x=new Date(s+'T12:00:00');return dayName(x).toLowerCase()==='hoje'?'hoje':(dayName(x)==='Amanhã'?'amanhã':wd[x.getDay()]+' '+x.getDate());};
-$('alerts').innerHTML=(L.alerts||[]).filter(a=>a.fim>=todayKey).map(a=>`<details class="chip"><summary><i class="dot" style="background:${col[a.lvl]||col.amarelo}"></i>${a.tit[0].toUpperCase()+a.tit.slice(1)} · ${a.ini===a.fim?dl(a.ini):dl(a.ini)+'–'+dl(a.fim)}</summary><p>Aviso ${a.lvl} do INMET. ${a.txt}</p></details>`).join('');
+$('alerts').innerHTML=(L.alertasFalhou?`<details class="chip"><summary><i class="dot" style="background:var(--muted)"></i>Avisos do INMET não carregaram</summary><p>Toque em ↻ para tentar de novo, ou confira em alertas2.inmet.gov.br. Sem os avisos, o risco de temporal pode aparecer menor.</p></details>`:'')+(L.alerts||[]).filter(a=>a.fim>=todayKey).map(a=>`<details class="chip"><summary><i class="dot" style="background:${col[a.lvl]||col.amarelo}"></i>${a.tit[0].toUpperCase()+a.tit.slice(1)} · ${a.ini===a.fim?dl(a.ini):dl(a.ini)+'–'+dl(a.fim)}</summary><p>Aviso ${a.lvl} do INMET. ${a.txt}</p></details>`).join('');
 
 /* horas */
 const H=L.H, n=H.mm.length, st=new Date(H.start+':00');
