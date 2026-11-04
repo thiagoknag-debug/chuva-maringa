@@ -30,4 +30,4 @@ setTimeout(() => {
   fs.writeFileSync('lab/verificacao.json', JSON.stringify(out, null, 1));
   console.log(JSON.stringify(out, null, 1).slice(0, 4000));
   process.exit(0);
-}, 45000);
+}, 70000);

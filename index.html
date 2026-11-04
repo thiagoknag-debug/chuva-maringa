@@ -230,6 +230,10 @@ const W0={ecmwf_ifs:.10,ecmwf_ifs025:.11,ecmwf_aifs025_single:.13,gfs_seamless:.
 async function coletar(){
 const B="latitude=-23.42&longitude=-51.94&timezone=America/Sao_Paulo";
 const get=async(u,opt)=>{for(let k=0;k<3;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),30000);const r=await fetch(u,{signal:ac.signal,...(opt||{})});if(r.ok)return r.json();}catch(e){} await new Promise(r=>setTimeout(r,1500));} throw new Error("falhou: "+u.slice(8,40));};
+const avisosP=(async()=>{let A=[];try{let j=null;for(let k=0;k<2&&!j;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),15000);const r=await fetch("https://apiprevmet3.inmet.gov.br/avisos/ativos",{signal:ac.signal});if(r.ok)j=await r.json();}catch(e){}}if(!j)throw new Error("avisos");
+ const lv={"Perigo Potencial":"amarelo","Perigo":"laranja","Grande Perigo":"vermelho"};
+ const L=[...(j.hoje||[]),...(j.futuro||[])].filter(a=>/(^|,\s*)Maring[aá]\s*-\s*PR/i.test(a.municipios||"")).map(a=>({lvl:lv[a.severidade]||"amarelo",tit:String(a.descricao).toLowerCase(),ini:a.data_inicio.slice(0,10),fim:a.data_fim.slice(0,10),txt:String(Array.isArray(a.riscos)?a.riscos[0]:a.riscos).split(/\.\s+(Baixo r|R)isco/)[0].replace(/\.$/,"")+"."})).sort((a,b)=>a.ini<b.ini?-1:1);
+ for(const a of L){const p=A.find(x=>x.lvl===a.lvl&&x.tit===a.tit&&x.txt===a.txt&&(new Date(a.ini)-new Date(x.fim))<=864e5);if(p){if(a.fim>p.fim)p.fim=a.fim;}else A.push({...a});}}catch(e){A=null}return A;})();
 let PJ=null;try{PJ=await fetch('lab/pesos.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null);}catch(e){}
 const M=Object.keys(W0);
 const wLead=l=>{const p=PJ&&PJ.chuva&&PJ.chuva['d'+l];return p&&Object.keys(p).length>=4?p:W0;};
@@ -291,10 +295,7 @@ for(let i=s;i<s+48&&i<T.length;i++){let n=0,d=0,mx=0,tt=0,td=0;
  const vv=vento(i), sc=escala[T[i].slice(0,10)]??1;
  H.mm.push(d?r1(n/d*sc):null); H.mx.push(r1(mx)); H.p.push(k?Math.round(100*c/k):null); H.t.push(td?Math.round(tt/td):null);
  H.ws.push(vv.ws);H.wg.push(vv.wg);H.wgx.push(vv.wgx);H.wd.push(vv.wd);H.cc.push(nuvem(i));H.dia.push(diaH(i));}
-let A=[];try{let j=null;for(let k=0;k<2&&!j;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),30000);const r=await fetch("https://apiprevmet3.inmet.gov.br/avisos/ativos",{signal:ac.signal});if(r.ok)j=await r.json();}catch(e){}}if(!j)throw new Error("avisos");
- const lv={"Perigo Potencial":"amarelo","Perigo":"laranja","Grande Perigo":"vermelho"};
- const L=[...(j.hoje||[]),...(j.futuro||[])].filter(a=>/(^|,\s*)Maring[aá]\s*-\s*PR/i.test(a.municipios||"")).map(a=>({lvl:lv[a.severidade]||"amarelo",tit:String(a.descricao).toLowerCase(),ini:a.data_inicio.slice(0,10),fim:a.data_fim.slice(0,10),txt:String(Array.isArray(a.riscos)?a.riscos[0]:a.riscos).split(/\.\s+(Baixo r|R)isco/)[0].replace(/\.$/,"")+"."})).sort((a,b)=>a.ini<b.ini?-1:1);
- for(const a of L){const p=A.find(x=>x.lvl===a.lvl&&x.tit===a.tit&&x.txt===a.txt&&(new Date(a.ini)-new Date(x.fim))<=864e5);if(p){if(a.fim>p.fim)p.fim=a.fim;}else A.push({...a});}}catch(e){A=null}
+const A=await avisosP;
 /* risco de temporal (rajada ≥70 km/h, chuva ≥50 mm, ou muita instabilidade com chuva) — hoje, amanhã e depois */
 const ORD={amarelo:1,laranja:2,vermelho:3};
 const sev=(r,g,cp)=>(g!=null&&g>=70)||(r!=null&&r>=50)||(cp!=null&&r!=null&&cp>=2000&&r>=20)||(cp!=null&&g!=null&&r!=null&&cp>=1000&&g>=55&&r>=10);
