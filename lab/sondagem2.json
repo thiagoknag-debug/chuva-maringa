@@ -1,0 +1,91 @@
+{
+ "gibs": {
+  "GOES-East_ABI_Band13_Clean_Infrared|GoogleMapsCompatible_Level6|4": {
+   "status": 200,
+   "tipo": "image/png",
+   "cors": "*",
+   "bytes": 102345
+  },
+  "GOES-East_ABI_Band13_Clean_Infrared|GoogleMapsCompatible_Level6|5": {
+   "status": 200,
+   "tipo": "image/png",
+   "cors": "*",
+   "bytes": 74054
+  },
+  "GOES-East_ABI_GeoColor|GoogleMapsCompatible_Level7|4": {
+   "status": 200,
+   "tipo": "image/png",
+   "cors": "*",
+   "bytes": 123782
+  },
+  "GOES-East_ABI_GeoColor|GoogleMapsCompatible_Level7|5": {
+   "status": 200,
+   "tipo": "image/png",
+   "cors": "*",
+   "bytes": 125721
+  }
+ },
+ "cemaden": {
+  "status": 200,
+  "tipo": "text/html; charset=UTF-8",
+  "cors": null,
+  "bytes": 63427,
+  "total": 213,
+  "maringa": [],
+  "campos": [
+   "idestacao",
+   "uf",
+   "codibge",
+   "cidade",
+   "nomeestacao",
+   "ultimovalor",
+   "datahoraUltimovalor",
+   "acc1hr",
+   "acc3hr",
+   "acc6hr",
+   "acc12hr",
+   "acc24hr",
+   "acc48hr",
+   "acc72hr",
+   "acc96hr",
+   "tipoestacao",
+   "status"
+  ]
+ },
+ "cors_openmeteo": {
+  "status": 200,
+  "tipo": "application/json; charset=utf-8",
+  "cors": "*",
+  "bytes": 846
+ },
+ "cors_ensemble": {
+  "status": 200,
+  "tipo": "application/json; charset=utf-8",
+  "cors": "*",
+  "bytes": 6143
+ },
+ "cors_inmet_avisos": {
+  "status": 200,
+  "tipo": "application/json; charset=utf-8",
+  "cors": "https://thiagoknag-debug.github.io",
+  "bytes": 677116
+ },
+ "cors_rainviewer": {
+  "status": 200,
+  "tipo": "application/json",
+  "cors": "*",
+  "bytes": 818
+ },
+ "sbmg_hist": {
+  "status": 200,
+  "tipo": "text/plain; charset=UTF-8",
+  "cors": "*",
+  "bytes": 22654,
+  "linhas_set2024": 710,
+  "exemplo": [
+   "SBMG,2024-09-01 00:00,8.00,M,M",
+   "SBMG,2024-09-01 01:00,9.00,M,M"
+  ],
+  "horas_distintas": 685
+ }
+}
