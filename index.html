@@ -326,25 +326,26 @@ const dayName=d=>sameDay(d,now)?'Hoje':sameDay(d,tmw)?'Amanhã':['Dom','Seg','Te
 
 /* radar (RainViewer, últimas 2 h) com satélite (NASA GIBS / GOES) como alternativa */
 async function radar(){
+  const LF=window.L;
   const box=$('radar'),msg=$('rmsg'),lab=$('rtime');
-  if(!window.L){msg.textContent='Mapa indisponível agora.';return;}
+  if(!LF){msg.textContent='Mapa indisponível agora.';return;}
   const dark=matchMedia('(prefers-color-scheme: dark)').matches;
-  const map=L.map('rmap',{zoomControl:false,maxZoom:7,minZoom:4,attributionControl:true}).setView([-23.42,-51.94],7);
-  L.tileLayer(`https://{s}.basemaps.cartocdn.com/${dark?'dark_all':'light_all'}/{z}/{x}/{y}{r}.png`,{subdomains:'abcd',maxZoom:7,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
-  L.circleMarker([-23.42,-51.94],{radius:5,color:'#fff',weight:2,fillColor:'#e11d48',fillOpacity:1}).addTo(map).bindTooltip('Maringá');
+  const map=LF.map('rmap',{zoomControl:false,maxZoom:7,minZoom:4,attributionControl:true}).setView([-23.42,-51.94],7);
+  LF.tileLayer(`https://{s}.basemaps.cartocdn.com/${dark?'dark_all':'light_all'}/{z}/{x}/{y}{r}.png`,{subdomains:'abcd',maxZoom:7,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
+  LF.circleMarker([-23.42,-51.94],{radius:5,color:'#fff',weight:2,fillColor:'#e11d48',fillOpacity:1}).addTo(map).bindTooltip('Maringá');
   let frames=[],layers=[],k=0,timer=null,sat=null;
   const show=n=>{layers.forEach((l,j)=>l.setOpacity(j===n?.8:0));const t=new Date(frames[n].time*1000);lab.textContent=`Radar ${pad(t.getHours())}:${pad(t.getMinutes())}`+(n===frames.length-1?' · mais recente':'');};
   const play=()=>{clearInterval(timer);timer=setInterval(()=>{k=(k+1)%frames.length;show(k);},k===frames.length-1?1600:650);};
   try{const j=await fetch('https://api.rainviewer.com/public/weather-maps.json',{cache:'no-store'}).then(r=>r.json());
     frames=(j.radar&&j.radar.past)||[];
-    L.tileLayer(`${j.host}/v2/coverage/0/256/{z}/{x}/{y}/0/0_0.png`,{opacity:.22,maxZoom:7}).addTo(map);
-    layers=frames.map(fr=>L.tileLayer(`${j.host}${fr.path}/256/{z}/{x}/{y}/2/1_1.png`,{opacity:0,maxZoom:7,attribution:'Radar: RainViewer'}).addTo(map));}
+    LF.tileLayer(`${j.host}/v2/coverage/0/256/{z}/{x}/{y}/0/0_0.png`,{opacity:.22,maxZoom:7}).addTo(map);
+    layers=frames.map(fr=>LF.tileLayer(`${j.host}${fr.path}/256/{z}/{x}/{y}/2/1_1.png`,{opacity:0,maxZoom:7,attribution:'Radar: RainViewer'}).addTo(map));}
   catch(e){}
   if(frames.length){k=frames.length-1;show(k);play();msg.textContent='Animação das últimas 2 horas. Ponto vermelho = Maringá. Áreas escurecidas estão fora da cobertura do radar.';}
   else msg.textContent='Radar indisponível agora. Toque em Satélite para ver as nuvens.';
   $('rbtn').addEventListener('click',()=>{const on=$('rbtn').getAttribute('aria-pressed')==='true';
     if(!on){clearInterval(timer);layers.forEach(l=>l.setOpacity(0));
-      sat=sat||L.tileLayer('https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/GOES-East_ABI_Band13_Clean_Infrared/default/default/GoogleMapsCompatible_Level6/{z}/{y}/{x}.png',{opacity:.7,maxZoom:7,maxNativeZoom:6,attribution:'Satélite: NASA GIBS / GOES'});
+      sat=sat||LF.tileLayer('https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/GOES-East_ABI_Band13_Clean_Infrared/default/default/GoogleMapsCompatible_Level6/{z}/{y}/{x}.png',{opacity:.7,maxZoom:7,maxNativeZoom:6,attribution:'Satélite: NASA GIBS / GOES'});
       sat.addTo(map);lab.textContent='Satélite infravermelho (nuvens frias = tempestade)';$('rbtn').setAttribute('aria-pressed','true');$('rbtn').textContent='Radar';}
     else{if(sat)map.removeLayer(sat);$('rbtn').setAttribute('aria-pressed','false');$('rbtn').textContent='Satélite';if(frames.length){show(k);play();}}});
 }
@@ -415,7 +416,7 @@ const arrow=d=>d==null?'':`<svg class="arr" viewBox="0 0 16 16" aria-hidden="tru
 const DIRS=['N','NE','L','SE','S','SO','O','NO'], dirTxt=d=>d==null?'':DIRS[Math.round(d/45)%8];
 const windCell=i=>{const ws=H.ws?H.ws[i]:null,wg=H.wg?H.wg[i]:null;if(ws==null)return'';
   return `<div class="wnd" title="Vento de ${dirTxt(H.wd[i])}">${arrow(H.wd[i])}<span>${ws}</span></div><div class="gst${wg>=50?' hi':''}">${wg>=25?wg:''}</div>`;};
-radar();
+radar().catch(()=>{const m=document.getElementById('rmsg');if(m)m.textContent='Radar indisponível agora.';});
 const drop=p=>`<svg viewBox="0 0 20 24" aria-hidden="true"><path d="M10 1.5C10 1.5 2.5 10.2 2.5 15a7.5 7.5 0 0 0 15 0C17.5 10.2 10 1.5 10 1.5z" fill="var(--rain)" fill-opacity="${(0.08+0.92*p/100).toFixed(2)}" stroke="var(--rain)" stroke-width="1.2"/></svg>`;
 const hmax=Math.max(4,...H.mm.map(v=>v||0));
 $('hours').innerHTML=hrs.map((d,i)=>{const p=H.p[i]??0,v=H.mm[i]||0,nd=d.getHours()===0&&i>0;
