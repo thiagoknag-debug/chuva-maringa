@@ -1,5 +1,5 @@
 {
- "gerado": "2026-11-04T14:07Z",
+ "gerado": "2026-11-04T14:21Z",
  "ultimo_dado_inmet": "2026-08-31 20:00:00",
  "dias_validos": 189,
  "dias_por_temporada": {
@@ -2634,6 +2634,36 @@
    "usar": false
   },
   "dias_avaliados": 273,
+  "por_cape": [
+   {
+    "de": 0,
+    "ate": 1000,
+    "dias": 70,
+    "eventos": 0,
+    "taxa": 0.0
+   },
+   {
+    "de": 1000,
+    "ate": 2000,
+    "dias": 60,
+    "eventos": 1,
+    "taxa": 0.017
+   },
+   {
+    "de": 2000,
+    "ate": 3000,
+    "dias": 78,
+    "eventos": 6,
+    "taxa": 0.077
+   },
+   {
+    "de": 3000,
+    "ate": 99999,
+    "dias": 65,
+    "eventos": 6,
+    "taxa": 0.092
+   }
+  ],
   "eventos": [
    {
     "dia": "2024-09-20",
@@ -2788,12 +2818,11 @@
   "previsões 2024-09-01 2024-09-30 ok",
   "previsões 2024-10-01 2024-10-31 ok",
   "previsões 2024-11-01 2024-11-30 ok",
-  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
   "previsões 2024-12-01 2024-12-31 ok",
   "previsões 2025-01-01 2025-01-31 ok",
+  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
   "previsões 2025-02-01 2025-02-28 ok",
   "previsões 2025-03-01 2025-03-31 ok",
-  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
   "previsões 2025-09-01 2025-09-30 ok",
   "previsões 2025-10-01 2025-10-31 ok",
   "previsões 2025-11-01 2025-11-30 ok",
@@ -2803,13 +2832,13 @@
   "previsões 2026-02-01 2026-02-28 ok",
   "previsões 2026-03-01 2026-03-31 ok",
   "previsões 2026-09-01 2026-09-30 ok",
-  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
   "previsões 2026-10-01 2026-10-31 ok",
   "dias com pluviômetro completo e previsão: 189",
   "SBMG: horas 11562 dias completos 484 dias com trovoada 149",
   "horário: {'dias': 28, 'erro_medio_h': 4.7, 'vies_h': -1.7, 'ate_2h': 0.32, 'ate_4h': 0.61}",
   "temporal: dias avaliados 273 dias severos 13",
   "risco calibrado: {'coef': [-2.5129, -0.2646, -0.0854, 0.3126], 'n_eventos': 13, 'n_dias': 273, 'brier': 0.0451, 'brier_fora_amostra': 0.0516, 'brier_climatologia': 0.0454, 'brier_regra_modelos': 0.0489}",
-  "calibração do risco não superou a climatologia fora da amostra: não será usada no site"
+  "calibração do risco não superou a climatologia fora da amostra: não será usada no site",
+  "temporal por CAPE: [{'de': 0, 'ate': 1000, 'dias': 70, 'eventos': 0, 'taxa': 0.0}, {'de': 1000, 'ate': 2000, 'dias': 60, 'eventos': 1, 'taxa': 0.017}, {'de': 2000, 'ate': 3000, 'dias': 78, 'eventos': 6, 'taxa': 0.077}, {'de': 3000, 'ate': 99999, 'dias': 65, 'eventos': 6, 'taxa': 0.092}]"
  ]
 }

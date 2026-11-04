@@ -1,5 +1,5 @@
 {
- "gerado": "2026-11-04T14:07Z",
+ "gerado": "2026-11-04T14:21Z",
  "chuva": {
   "d1": {
    "ecmwf_ifs": 0.1072,
@@ -128,16 +128,16 @@
    "best_match": 0.1219
   },
   "fator_vento": {
-   "ecmwf_ifs": 0.813,
-   "ecmwf_ifs025": 0.806,
-   "ecmwf_aifs025_single": 0.952,
-   "gfs_seamless": 0.654,
-   "icon_seamless": 1.01,
-   "ukmo_seamless": 0.671,
-   "jma_seamless": 1.429,
-   "gem_seamless": 0.602,
-   "cma_grapes_global": 0.549,
-   "best_match": 0.962
+   "ecmwf_ifs": 1.154,
+   "ecmwf_ifs025": 1.15,
+   "ecmwf_aifs025_single": 1.341,
+   "gfs_seamless": 0.921,
+   "icon_seamless": 1.407,
+   "ukmo_seamless": 0.959,
+   "jma_seamless": 1.914,
+   "gem_seamless": 0.852,
+   "cma_grapes_global": 0.777,
+   "best_match": 1.31
   },
   "fator_rajada": {
    "gfs_seamless": 0.98,
@@ -147,5 +147,35 @@
    "cma_grapes_global": 0.943,
    "best_match": 1.064
   }
- }
+ },
+ "risco_cape": [
+  {
+   "de": 0,
+   "ate": 1000,
+   "dias": 70,
+   "eventos": 0,
+   "taxa": 0.0
+  },
+  {
+   "de": 1000,
+   "ate": 2000,
+   "dias": 60,
+   "eventos": 1,
+   "taxa": 0.017
+  },
+  {
+   "de": 2000,
+   "ate": 3000,
+   "dias": 78,
+   "eventos": 6,
+   "taxa": 0.077
+  },
+  {
+   "de": 3000,
+   "ate": 99999,
+   "dias": 65,
+   "eventos": 6,
+   "taxa": 0.092
+  }
+ ]
 }
