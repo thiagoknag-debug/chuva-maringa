@@ -1,11 +1,13 @@
 {
- "erros": [],
- "chips": [
-  "Temporal: alto · 35% · pelo aviso INMET",
-  "Temporal: alto · 35% · 13h–18h"
+ "erros": [
+  "Failed to load resource: the server responded with a status of 429 (Too Many Requests)"
  ],
- "sheet_head": "⛈️Amanhã, quinta 5/11Tempestades · temporal alto (35%), mais provável entre 13h e 18h, pico ~15h",
- "pinfo": "Amanhã às 18h — sobre Maringá: 0,5 mm/h (fraca). Pelos 212 cenários: 44% de chance de chuva, 22% de trovoada, rajada ~26 km/h. Chuva mais forte do mapa: 1,1 mm/h a ~98 km ao sudeste.",
+ "chips": [
+  "Temporal: alto · 35% · 14h–16h",
+  "Temporal: alto · 35% · 13h–19h"
+ ],
+ "sheet_head": "⛈️Amanhã, quinta 5/11Tempestades · temporal alto (35%), mais provável entre 13h e 19h, pico ~16h",
+ "pinfo": "Amanhã às 18h — sobre Maringá: 0,5 mm/h (fraca). Pelos 194 cenários: 46% de chance de chuva, 25% de trovoada, rajada ~26 km/h. Chuva mais forte do mapa: 1,1 mm/h a ~98 km ao sudeste.",
  "overlay": 1,
- "volta": "Radar 12:10"
+ "volta": "Radar 12:20"
 }
