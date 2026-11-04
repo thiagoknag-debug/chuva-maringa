@@ -1,5 +1,5 @@
 {
- "gerado": "2026-11-02T08:34Z",
+ "gerado": "2026-11-04T14:07Z",
  "ultimo_dado_inmet": "2026-08-31 20:00:00",
  "dias_validos": 189,
  "dias_por_temporada": {
@@ -2381,6 +2381,405 @@
    "acerto_rajada50": 0.914
   }
  },
+ "vento_aeroporto": {
+  "ECMWF 9 km": {
+   "horas": 5900,
+   "erro_vento_kmh": 6.9,
+   "vies_vento": 0.61
+  },
+  "ECMWF 25 km": {
+   "horas": 11549,
+   "erro_vento_kmh": 6.8,
+   "vies_vento": 0.61
+  },
+  "ECMWF IA": {
+   "horas": 7499,
+   "erro_vento_kmh": 7.6,
+   "vies_vento": 0.53
+  },
+  "GFS (EUA)": {
+   "horas": 11549,
+   "erro_vento_kmh": 5.9,
+   "vies_vento": 0.77
+  },
+  "ICON (Alemanha)": {
+   "horas": 11549,
+   "erro_vento_kmh": 7.9,
+   "vies_vento": 0.51
+  },
+  "Météo-France": {
+   "horas": 1460,
+   "erro_vento_kmh": 7.8,
+   "vies_vento": 0.59
+  },
+  "UK Met Office": {
+   "horas": 8984,
+   "erro_vento_kmh": 6.1,
+   "vies_vento": 0.73
+  },
+  "JMA (Japão)": {
+   "horas": 11549,
+   "erro_vento_kmh": 9.5,
+   "vies_vento": 0.39
+  },
+  "GEM (Canadá)": {
+   "horas": 11549,
+   "erro_vento_kmh": 5.9,
+   "vies_vento": 0.83
+  },
+  "CMA (China)": {
+   "horas": 10159,
+   "erro_vento_kmh": 5.6,
+   "vies_vento": 0.91
+  },
+  "Best Match": {
+   "horas": 11549,
+   "erro_vento_kmh": 7.4,
+   "vies_vento": 0.56
+  }
+ },
+ "horario": {
+  "resumo": {
+   "dias": 28,
+   "erro_medio_h": 4.7,
+   "vies_h": -1.7,
+   "ate_2h": 0.32,
+   "ate_4h": 0.61
+  },
+  "dias": [
+   {
+    "dia": "2024-09-15",
+    "obs": 7,
+    "prev": 16,
+    "erro_h": 9
+   },
+   {
+    "dia": "2024-09-20",
+    "obs": 18,
+    "prev": 19,
+    "erro_h": 1
+   },
+   {
+    "dia": "2024-10-09",
+    "obs": 11,
+    "prev": 13,
+    "erro_h": 2
+   },
+   {
+    "dia": "2024-10-10",
+    "obs": 13,
+    "prev": 0,
+    "erro_h": -13
+   },
+   {
+    "dia": "2024-10-11",
+    "obs": 0,
+    "prev": 0,
+    "erro_h": 0
+   },
+   {
+    "dia": "2024-10-19",
+    "obs": 17,
+    "prev": 8,
+    "erro_h": -9
+   },
+   {
+    "dia": "2024-10-24",
+    "obs": 0,
+    "prev": 15,
+    "erro_h": 15
+   },
+   {
+    "dia": "2024-11-02",
+    "obs": 10,
+    "prev": 11,
+    "erro_h": 1
+   },
+   {
+    "dia": "2024-11-04",
+    "obs": 17,
+    "prev": 9,
+    "erro_h": -8
+   },
+   {
+    "dia": "2024-11-06",
+    "obs": 12,
+    "prev": 10,
+    "erro_h": -2
+   },
+   {
+    "dia": "2024-11-07",
+    "obs": 9,
+    "prev": 0,
+    "erro_h": -9
+   },
+   {
+    "dia": "2024-11-28",
+    "obs": 13,
+    "prev": 9,
+    "erro_h": -4
+   },
+   {
+    "dia": "2024-11-29",
+    "obs": 0,
+    "prev": 3,
+    "erro_h": 3
+   },
+   {
+    "dia": "2024-12-02",
+    "obs": 14,
+    "prev": 10,
+    "erro_h": -4
+   },
+   {
+    "dia": "2024-12-07",
+    "obs": 16,
+    "prev": 10,
+    "erro_h": -6
+   },
+   {
+    "dia": "2024-12-08",
+    "obs": 0,
+    "prev": 7,
+    "erro_h": 7
+   },
+   {
+    "dia": "2024-12-09",
+    "obs": 0,
+    "prev": 0,
+    "erro_h": 0
+   },
+   {
+    "dia": "2024-12-14",
+    "obs": 0,
+    "prev": 3,
+    "erro_h": 3
+   },
+   {
+    "dia": "2024-12-20",
+    "obs": 8,
+    "prev": 8,
+    "erro_h": 0
+   },
+   {
+    "dia": "2024-12-21",
+    "obs": 7,
+    "prev": 0,
+    "erro_h": -7
+   },
+   {
+    "dia": "2025-01-23",
+    "obs": 16,
+    "prev": 11,
+    "erro_h": -5
+   },
+   {
+    "dia": "2025-02-04",
+    "obs": 16,
+    "prev": 8,
+    "erro_h": -8
+   },
+   {
+    "dia": "2025-02-05",
+    "obs": 10,
+    "prev": 7,
+    "erro_h": -3
+   },
+   {
+    "dia": "2025-02-06",
+    "obs": 7,
+    "prev": 3,
+    "erro_h": -4
+   },
+   {
+    "dia": "2026-03-09",
+    "obs": 1,
+    "prev": 0,
+    "erro_h": -1
+   },
+   {
+    "dia": "2026-03-10",
+    "obs": 5,
+    "prev": 6,
+    "erro_h": 1
+   },
+   {
+    "dia": "2026-03-11",
+    "obs": 14,
+    "prev": 11,
+    "erro_h": -3
+   },
+   {
+    "dia": "2026-03-18",
+    "obs": 17,
+    "prev": 14,
+    "erro_h": -3
+   }
+  ]
+ },
+ "temporal": {
+  "calibracao": {
+   "coef": [
+    -2.5129,
+    -0.2646,
+    -0.0854,
+    0.3126
+   ],
+   "n_eventos": 13,
+   "n_dias": 273,
+   "brier": 0.0451,
+   "brier_fora_amostra": 0.0516,
+   "brier_climatologia": 0.0454,
+   "brier_regra_modelos": 0.0489,
+   "usar": false
+  },
+  "dias_avaliados": 273,
+  "eventos": [
+   {
+    "dia": "2024-09-20",
+    "chuva_mm": 13.8,
+    "raj_inmet": 71,
+    "raj_sbmg": 74,
+    "trovoada": true,
+    "prev_chuva_med": 4.7,
+    "prev_raj_med": 41,
+    "prev_cape_max": 2760,
+    "prev_frac_modelos": 0.0
+   },
+   {
+    "dia": "2024-10-02",
+    "chuva_mm": 1.2,
+    "raj_inmet": 53,
+    "raj_sbmg": 80,
+    "trovoada": true,
+    "prev_chuva_med": 0.4,
+    "prev_raj_med": 40,
+    "prev_cape_max": 3250,
+    "prev_frac_modelos": 0.0
+   },
+   {
+    "dia": "2024-11-04",
+    "chuva_mm": 91.2,
+    "raj_inmet": 36,
+    "raj_sbmg": null,
+    "trovoada": true,
+    "prev_chuva_med": 7.4,
+    "prev_raj_med": 32,
+    "prev_cape_max": 1920,
+    "prev_frac_modelos": 0.0
+   },
+   {
+    "dia": "2024-11-29",
+    "chuva_mm": 57.6,
+    "raj_inmet": 30,
+    "raj_sbmg": null,
+    "trovoada": true,
+    "prev_chuva_med": 22.7,
+    "prev_raj_med": 37,
+    "prev_cape_max": 4120,
+    "prev_frac_modelos": 0.11
+   },
+   {
+    "dia": "2024-12-19",
+    "chuva_mm": 23.2,
+    "raj_inmet": 62,
+    "raj_sbmg": 70,
+    "trovoada": true,
+    "prev_chuva_med": 2.0,
+    "prev_raj_med": 43,
+    "prev_cape_max": 2140,
+    "prev_frac_modelos": 0.0
+   },
+   {
+    "dia": "2025-03-25",
+    "chuva_mm": null,
+    "raj_inmet": null,
+    "raj_sbmg": 85,
+    "trovoada": true,
+    "prev_chuva_med": 1.7,
+    "prev_raj_med": 22,
+    "prev_cape_max": 2960,
+    "prev_frac_modelos": 0.0
+   },
+   {
+    "dia": "2025-09-21",
+    "chuva_mm": null,
+    "raj_inmet": null,
+    "raj_sbmg": 74,
+    "trovoada": true,
+    "prev_chuva_med": 1.7,
+    "prev_raj_med": 61,
+    "prev_cape_max": 2020,
+    "prev_frac_modelos": 0.2
+   },
+   {
+    "dia": "2025-10-16",
+    "chuva_mm": null,
+    "raj_inmet": null,
+    "raj_sbmg": 70,
+    "trovoada": false,
+    "prev_chuva_med": 0.0,
+    "prev_raj_med": 33,
+    "prev_cape_max": 2260,
+    "prev_frac_modelos": 0.0
+   },
+   {
+    "dia": "2025-10-17",
+    "chuva_mm": null,
+    "raj_inmet": null,
+    "raj_sbmg": 76,
+    "trovoada": false,
+    "prev_chuva_med": 4.4,
+    "prev_raj_med": 46,
+    "prev_cape_max": 2730,
+    "prev_frac_modelos": 0.0
+   },
+   {
+    "dia": "2026-03-17",
+    "chuva_mm": 0.8,
+    "raj_inmet": 80,
+    "raj_sbmg": 61,
+    "trovoada": true,
+    "prev_chuva_med": 2.4,
+    "prev_raj_med": 36,
+    "prev_cape_max": 3430,
+    "prev_frac_modelos": 0.0
+   },
+   {
+    "dia": "2026-09-11",
+    "chuva_mm": null,
+    "raj_inmet": null,
+    "raj_sbmg": 83,
+    "trovoada": true,
+    "prev_chuva_med": 13.1,
+    "prev_raj_med": 53,
+    "prev_cape_max": 3990,
+    "prev_frac_modelos": 0.18
+   },
+   {
+    "dia": "2026-09-21",
+    "chuva_mm": null,
+    "raj_inmet": null,
+    "raj_sbmg": 87,
+    "trovoada": true,
+    "prev_chuva_med": 1.0,
+    "prev_raj_med": 40,
+    "prev_cape_max": 3930,
+    "prev_frac_modelos": 0.09
+   },
+   {
+    "dia": "2026-09-28",
+    "chuva_mm": null,
+    "raj_inmet": null,
+    "raj_sbmg": 87,
+    "trovoada": true,
+    "prev_chuva_med": 0.0,
+    "prev_raj_med": 35,
+    "prev_cape_max": 6180,
+    "prev_frac_modelos": 0.0
+   }
+  ]
+ },
  "log": [
   "INMET 2024: INMET_S_PR_A835_MARINGA_01-01-2024_A_31-12-2024.CSV — 8784 horas, chuva válida 8476",
   "INMET 2025: 2025/INMET_S_PR_A835_MARINGA_01-01-2025_A_31-12-2025.CSV — 8760 horas, chuva válida 966",
@@ -2389,22 +2788,28 @@
   "previsões 2024-09-01 2024-09-30 ok",
   "previsões 2024-10-01 2024-10-31 ok",
   "previsões 2024-11-01 2024-11-30 ok",
-  "previsões 2024-12-01 2024-12-31 ok",
   "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
+  "previsões 2024-12-01 2024-12-31 ok",
   "previsões 2025-01-01 2025-01-31 ok",
   "previsões 2025-02-01 2025-02-28 ok",
   "previsões 2025-03-01 2025-03-31 ok",
+  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
   "previsões 2025-09-01 2025-09-30 ok",
   "previsões 2025-10-01 2025-10-31 ok",
-  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
   "previsões 2025-11-01 2025-11-30 ok",
   "previsões 2025-12-01 2025-12-31 ok",
+  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
   "previsões 2026-01-01 2026-01-31 ok",
   "previsões 2026-02-01 2026-02-28 ok",
   "previsões 2026-03-01 2026-03-31 ok",
-  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
   "previsões 2026-09-01 2026-09-30 ok",
+  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
   "previsões 2026-10-01 2026-10-31 ok",
-  "dias com pluviômetro completo e previsão: 189"
+  "dias com pluviômetro completo e previsão: 189",
+  "SBMG: horas 11562 dias completos 484 dias com trovoada 149",
+  "horário: {'dias': 28, 'erro_medio_h': 4.7, 'vies_h': -1.7, 'ate_2h': 0.32, 'ate_4h': 0.61}",
+  "temporal: dias avaliados 273 dias severos 13",
+  "risco calibrado: {'coef': [-2.5129, -0.2646, -0.0854, 0.3126], 'n_eventos': 13, 'n_dias': 273, 'brier': 0.0451, 'brier_fora_amostra': 0.0516, 'brier_climatologia': 0.0454, 'brier_regra_modelos': 0.0489}",
+  "calibração do risco não superou a climatologia fora da amostra: não será usada no site"
  ]
 }
