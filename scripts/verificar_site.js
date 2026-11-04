@@ -26,6 +26,12 @@ setTimeout(() => {
     rodape: t('.foot'), carimbo: t('#stamp'),
     auditoria_ranking: d.querySelectorAll('.rk').length
   };
+  try { const b = d.querySelectorAll('.hero .box')[1] || d.querySelector('.day'); b && b.click();
+    out.detalhe_aberto = d.getElementById('sheet') ? !d.getElementById('sheet').hidden : false;
+    out.detalhe = t('#sheet-body').slice(0, 2500); out.detalhe_horas = d.querySelectorAll('#sheet-body .h').length;
+    d.querySelector('.sheet-x')?.click(); out.detalhe_fechou = d.getElementById('sheet')?.hidden;
+    const dd = d.querySelectorAll('.day'); dd[3]?.click(); out.detalhe_dia4 = t('#sheet-body').slice(0, 600);
+  } catch (e) { out.detalhe_erro = String(e).slice(0, 300); }
   fs.mkdirSync('lab', { recursive: true });
   fs.writeFileSync('lab/verificacao.json', JSON.stringify(out, null, 1));
   console.log(JSON.stringify(out, null, 1).slice(0, 4000));

@@ -11,8 +11,7 @@
 <title>Chuva em Maringá</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<style>
-/* Layout: app de tempo em coluna única; resumo no topo, horas em faixa rolável, dias em lista, auditoria recolhida */
+<style>/* Layout: app de tempo em coluna única; resumo no topo, horas em faixa rolável, dias em lista, auditoria recolhida */
 :root{
   --bg:#eef3f8; --card:#ffffff; --ink:#0e1d2b; --muted:#5d6f80; --line:#dde5ee;
   --rain:#1673c8; --rain-2:#7db7ea; --rain-3:#d6e8f8;
@@ -171,6 +170,44 @@ select{font:inherit;font-size:14px;padding:7px 10px;border-radius:10px;border:1p
 .rk-t{font-weight:700}.rk-t.rk-md{color:#b58900}.rk-t.rk-al{color:#e8590c}.rk-t.rk-mx{color:#d93025}
 .hero .par211{background:rgba(217,48,37,.85);border-radius:10px;padding:8px 10px;margin-top:8px;font-weight:700}
 .mga-dot{width:12px;height:12px;border-radius:50%;background:#e11d48;border:2px solid #fff;box-sizing:border-box;box-shadow:0 0 0 1px rgba(0,0,0,.25)}
+
+/* toque para detalhes */
+.tap{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tap:active{opacity:.75}
+.hero .box .more{display:block;font-size:12px;font-weight:700;margin-top:6px;opacity:.95}
+.day.tap:hover{background:var(--bg)}
+.h2hint{text-transform:none;letter-spacing:0;font-weight:500;font-size:12px;color:var(--muted);margin-left:6px}
+/* painel do dia */
+body.noscroll{overflow:hidden}
+.sheet{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.sheet-bg{position:absolute;inset:0;background:rgba(5,12,20,.55)}
+.sheet-card{position:relative;width:100%;max-width:560px;max-height:90vh;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--card);color:var(--ink);
+  border-radius:20px 20px 0 0;padding:18px 16px calc(24px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));box-shadow:0 -8px 30px rgba(0,0,0,.3)}
+@media (prefers-reduced-motion:no-preference){.sheet:not([hidden]) .sheet-card{animation:sobe .22s ease-out}@keyframes sobe{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}}
+.sheet-x{position:sticky;top:0;float:right;font:inherit;font-size:22px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;z-index:2}
+.sh-head{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.sh-head h3{margin:0;font-size:22px;font-weight:800}
+.sh-head p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.sh-av{font-size:13px;background:var(--bg);border-radius:10px;padding:8px 10px;margin:6px 0;display:flex;gap:6px;align-items:flex-start}
+.sh-av .dot{width:8px;height:8px;border-radius:50%;flex:none;margin-top:5px}
+.sh-sum{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.sh-sum div{background:var(--bg);border-radius:12px;padding:10px}
+.sh-sum b{display:block;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+.sh-sum span{font-size:12px;color:var(--muted)}
+.sheet h4{margin:16px 0 8px;font-size:15px}
+.sh-w{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.sh-w li{background:var(--bg);border-radius:10px;padding:9px 11px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sh-w li b{font-size:15px}
+.sh-w li span{font-size:13px;color:var(--muted)}
+.sh-w li.tw{background:rgba(124,58,237,.12)}
+.pers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.per{background:var(--bg);border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;text-align:center}
+.per .pn{font-weight:700;font-size:11.5px}
+.per .pv{font-weight:800;color:var(--rain);font-size:14px}
+.per .pm,.per .pt,.per .pg{color:var(--muted)}
+.per .ptt{color:#7c3aed;font-weight:700}
+.h .tsx{font-size:10px;height:13px;color:#7c3aed;font-weight:700}
+@media (max-width:380px){.pers{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -196,7 +233,7 @@ select{font:inherit;font-size:14px;padding:7px 10px;border-radius:10px;border:1p
     <p class="hint">Ícone = tempo previsto. % = chance de chover. Barra = quantidade (mm). O horário pode variar algumas horas. Seta = de onde vem o vento e velocidade em km/h; o número embaixo é a rajada.</p>
   </section>
   <section class="card">
-    <h2>Próximos 10 dias</h2>
+    <h2>Próximos 10 dias <span class="h2hint">toque num dia para ver os horários</span></h2>
     <div id="days"></div>
   </section>
   <details class="card fold" id="audit">
@@ -220,9 +257,9 @@ select{font:inherit;font-size:14px;padding:7px 10px;border-radius:10px;border:1p
   </details>
   <p class="foot">Dados: Open-Meteo e INMET. Calculado no seu aparelho a cada abertura.</p>
 </main>
+<div id="sheet" class="sheet" hidden><div class="sheet-bg" data-close></div><div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="sh-t"><button type="button" class="sheet-x" data-close aria-label="Fechar">×</button><div id="sheet-body"></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script>
-/* Configuração: o que usar do arquivo de pesos da auditoria (lab/pesos.json) */
+<script>/* Configuração: o que usar do arquivo de pesos da auditoria (lab/pesos.json) */
 /* Decidido pela auditoria de 189 dias (set/2024–ago/2026): mediana dos modelos venceu; correção de volume piorou;
    chance de chuva forte calibrada melhorou muito; vento calibrado pela estação do INMET. */
 const CFG={mediana:true, chanceForteCalibrada:true, ventoCalibrado:true};
@@ -315,7 +352,15 @@ D.slice(0,3).forEach(dd=>{const day=dd[0],idx=T.map((t,i)=>t.startsWith(day)?i:-
   const piso={amarelo:10,laranja:35,vermelho:65}[lvl]||0, p=Math.round(Math.min(95,Math.max(raw,piso)));
   const gmed=med(det.map(x=>x[1]))||0, p50=mem.length?100*mem.filter(x=>x[0]>=50).length/mem.length:0;
   dd[15]={pct:p,nivel:p>=50?'Muito alto':p>=25?'Alto':p>=10?'Moderado':'Baixo',par:p>=35&&(gmed>=55||p50>=15||((lvl==='laranja'||lvl==='vermelho')&&raw>=15)),aviso:lvl,cen:mem.length};});
-return {gen:new Date().toISOString(),H,D,alerts:A||[],alertasFalhou:A===null,pesos:PJ?PJ.gerado:null,ens:ensOK};
+/* detalhe por dia: hora a hora para os 10 dias (chuva, chance, trovoada, temperatura, vento) */
+const MEMG=MEMX.filter(x=>x.g||x.c);
+const DH=D.map(dd=>{const day=dd[0],idx=T.map((t,i)=>t.startsWith(day)?i:-1).filter(i=>i>=0),sc=escala[day]??1;
+ return idx.map(i=>{let n=0,d=0,tt=0,td=0;for(const m of M){const x=hv('precipitation',m,i);if(x!=null){n+=x;d++;}const y=hv('temperature_2m',m,i);if(y!=null){tt+=y;td++;}}
+  let c=0,k=0;for(const a0 of (MEMH.length?MEMH:MEM)){const x=a0[i];if(x==null)continue;k++;if(x>=0.2)c++;}
+  let ts=0,tk=0;for(const x of MEMG){const p=x.p[i],g=x.g?x.g[i]:null,cp=x.c?x.c[i]:null;if(p==null||(g==null&&cp==null))continue;tk++;if(p>=0.5&&((cp!=null&&cp>=1500)||(g!=null&&g>=55)))ts++;}
+  const vv=vento(i);
+  return {h:+T[i].slice(11,13),p:k?Math.round(100*c/k):null,mm:d?r1(n/d*sc):null,pt:tk?Math.round(100*ts/tk):null,t:td?Math.round(tt/td):null,ws:vv.ws,wg:vv.wg,wd:vv.wd,cc:nuvem(i),dia:diaH(i)};});});
+return {gen:new Date().toISOString(),H,D,DH,alerts:A||[],alertasFalhou:A===null,pesos:PJ?PJ.gerado:null,ens:ensOK};
 }
 (async function(){
 const $=id=>document.getElementById(id);
@@ -380,7 +425,7 @@ const dIdx=k=>L.D.findIndex(d=>d[0]===k);
 const key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 const riscoK=p=>p>=50?'mx':p>=25?'al':p>=10?'md':'bx';
 const dir8=d=>d==null?'':['N','NE','L','SE','S','SO','O','NO'][Math.round(d/45)%8];
-const box=(lab,d)=>{if(!d)return'';return `<div class="box"><span class="bxh">${lab} ${ic(condD(d))}</span><b>${mmTxt(d[1])} mm</b><span>${d[4]??'—'}% de chance</span><span class="bx2">${d[10]}° a ${d[9]}°</span><span class="bx2${d[11]>=50?' bxw':''}">Rajadas até ${d[11]??'—'} km/h</span>${d[15]?`<span class="rk-chip rk-${riscoK(d[15].pct)}">Temporal: ${d[15].nivel.toLowerCase()} · ${d[15].pct}%</span>`:''}</div>`;};
+const box=(lab,d)=>{if(!d)return'';return `<div class="box tap" role="button" tabindex="0" data-k="${L.D.indexOf(d)}" aria-label="Ver detalhes de ${lab}"><span class="bxh">${lab} ${ic(condD(d))}</span><b>${mmTxt(d[1])} mm</b><span>${d[4]??'—'}% de chance</span><span class="bx2">${d[10]}° a ${d[9]}°</span><span class="bx2${d[11]>=50?' bxw':''}">Rajadas até ${d[11]??'—'} km/h</span>${d[15]?`<span class="rk-chip rk-${riscoK(d[15].pct)}">Temporal: ${d[15].nivel.toLowerCase()} · ${d[15].pct}%</span>`:''}<span class="more">Ver horários ›</span></div>`;};
 /* ícones de tempo */
 const condH=i=>{const p=H.p[i]??0,mm=H.mm[i]||0,g=H.wg?H.wg[i]||0:0,cc=H.cc?H.cc[i]:null,dia=H.dia?H.dia[i]:1;
   if(p>=50&&(mm>=4||g>=55))return{e:'⛈️',t:'Tempestade',k:'storm'};
@@ -430,9 +475,52 @@ $('hours').innerHTML=hrs.map((d,i)=>{const p=H.p[i]??0,v=H.mm[i]||0,nd=d.getHour
 /* dias */
 const S=Math.min(60,Math.max(20,...L.D.map(d=>d[3]||0)));
 const pos=v=>Math.min(100,100*(v||0)/S);
-$('days').innerHTML=L.D.map(d=>{const dt=new Date(d[0]+'T12:00:00'),P=d[4];
-  return `<div class="day"><div class="n">${dayName(dt)}<small>${dt.getDate()}/${dt.getMonth()+1}</small></div>${ic(condD(d),'dic')}<div class="c${P<40?' lo':''}">${P??'—'}%</div><div class="track" title="Entre ${fmt(d[2],0)} e ${fmt(d[3],0)} mm conforme o modelo"><span class="rng" style="left:${pos(d[2])}%;width:${Math.max(2,pos(d[3])-pos(d[2]))}%"></span><span class="val" style="left:${pos(d[1])}%"></span></div><div class="v">${mmTxt(d[1])}<small> mm</small></div><div class="tmp">${condD(d).t}${d[11]>=50?' 💨':''}${d[15]&&d[15].pct>=10?` · <span class="rk-t rk-${riscoK(d[15].pct)}">temporal ${d[15].pct}%</span>`:''} · ${d[10]}° a ${d[9]}°${d[11]?` · <span class="${d[11]>=60?'wx':''}">rajadas até ${d[11]} km/h</span>`:''}${d[6]>=20?` · ${d[6]}% de chance de passar de 25 mm`:''}</div></div>`;}).join('')+
+$('days').innerHTML=L.D.map((d,k)=>{const dt=new Date(d[0]+'T12:00:00'),P=d[4];
+  return `<div class="day tap" role="button" tabindex="0" data-k="${k}" aria-label="Ver detalhes do dia"><div class="n">${dayName(dt)}<small>${dt.getDate()}/${dt.getMonth()+1}</small></div>${ic(condD(d),'dic')}<div class="c${P<40?' lo':''}">${P??'—'}%</div><div class="track" title="Entre ${fmt(d[2],0)} e ${fmt(d[3],0)} mm conforme o modelo"><span class="rng" style="left:${pos(d[2])}%;width:${Math.max(2,pos(d[3])-pos(d[2]))}%"></span><span class="val" style="left:${pos(d[1])}%"></span></div><div class="v">${mmTxt(d[1])}<small> mm</small></div><div class="tmp">${condD(d).t}${d[11]>=50?' 💨':''}${d[15]&&d[15].pct>=10?` · <span class="rk-t rk-${riscoK(d[15].pct)}">temporal ${d[15].pct}%</span>`:''} · ${d[10]}° a ${d[9]}°${d[11]?` · <span class="${d[11]>=60?'wx':''}">rajadas até ${d[11]} km/h</span>`:''}${d[6]>=20?` · ${d[6]}% de chance de passar de 25 mm`:''}</div></div>`;}).join('')+
  `<div class="legend"><span><i class="sw" style="width:10px;height:10px;border-radius:50%;background:var(--rain)"></i>estimativa (mm)</span><span><i class="sw" style="width:16px;height:6px;border-radius:3px;background:var(--rain-2);opacity:.6"></i>variação entre os modelos</span><span>% = chance de chover</span></div>`;
+
+
+/* painel de detalhes do dia */
+const condO=o=>{const p=o.p??0,mm=o.mm||0,g=o.wg||0,pt=o.pt??0;
+  if(p>=50&&(pt>=30||mm>=4||g>=55))return{e:'⛈️',t:'Tempestade',k:'storm'};
+  if(p>=50&&mm>=0.5)return{e:'🌧️',t:'Chuva',k:'rain'};
+  if(p>=30&&mm>=0.1)return o.dia?{e:'🌦️',t:'Pancadas',k:'rain'}:{e:'🌧️',t:'Chuva fraca',k:'rain'};
+  if(o.cc!=null&&o.cc>=80)return{e:'☁️',t:'Nublado',k:'cloud'};
+  if(o.cc!=null&&o.cc>=35)return o.dia?{e:'⛅',t:'Sol entre nuvens',k:'clear'}:{e:'☁️',t:'Parcialmente nublado',k:'night'};
+  return o.dia?{e:'☀️',t:'Céu limpo',k:'clear'}:{e:'🌙',t:'Céu limpo',k:'night'};};
+const janelas=(hh,camp,lim)=>{const w=[];let c=null;hh.forEach((o,j)=>{if((o[camp]??0)>=lim){if(!c)c={a:j,b:j};else c.b=j;}else if(c){w.push(c);c=null;}});if(c)w.push(c);return w;};
+const hTxt=h=>h===24?'24h':pad(h)+'h';
+function openDay(k){const d=L.D[k],hh=(L.DH||[])[k]||[];if(!d)return;const dt=new Date(d[0]+'T12:00:00'),nm=dayName(dt),cd=condD(d);
+  const titulo=(nm==='Hoje'||nm==='Amanhã'?nm+', ':'')+WD[dt.getDay()].toLowerCase()+' '+dt.getDate()+'/'+(dt.getMonth()+1);
+  const av=(L.alerts||[]).filter(a=>a.ini<=d[0]&&d[0]<=a.fim);
+  const wc=janelas(hh,'p',50), wt=janelas(hh,'pt',30);
+  const pmax=hh.reduce((a,o)=>(o.p??0)>(a.p??0)?o:a,{p:0}), tmax=hh.reduce((a,o)=>(o.pt??0)>(a.pt??0)?o:a,{pt:0});
+  const chuvaTxt=wc.length?wc.map(w=>{const s=hh.slice(w.a,w.b+1);const mm=s.reduce((x,o)=>x+(o.mm||0),0),pm=Math.max(...s.map(o=>o.p||0));
+      return `<li><b>Das ${hTxt(hh[w.a].h)} às ${hTxt(hh[w.b].h+1)}</b><span>~${mmTxt(mm)} mm · chance até ${pm}%</span></li>`;}).join('')
+    :`<li><b>Sem horário com chance alta</b><span>Maior chance: ${pmax.p||0}%${pmax.h!=null?' às '+hTxt(pmax.h):''}</span></li>`;
+  const tempTxt=wt.length?wt.map(w=>{const s=hh.slice(w.a,w.b+1);const pm=Math.max(...s.map(o=>o.pt||0)),g=Math.max(...s.map(o=>o.wg||0));
+      return `<li class="tw"><b>⛈️ Das ${hTxt(hh[w.a].h)} às ${hTxt(hh[w.b].h+1)}</b><span>chance de trovoada até ${pm}% · rajadas até ${g} km/h</span></li>`;}).join('')
+    :`<li><b>Chance baixa de trovoada</b><span>Maior chance: ${tmax.pt||0}%${tmax.h!=null&&tmax.pt?' às '+hTxt(tmax.h):''}</span></li>`;
+  const per=[['Madrugada',0,6],['Manhã',6,12],['Tarde',12,18],['Noite',18,24]].map(([n,a,b])=>{const s=hh.filter(o=>o.h>=a&&o.h<b);if(!s.length)return'';
+    const mm=s.reduce((x,o)=>x+(o.mm||0),0),p=Math.max(...s.map(o=>o.p||0)),pt=Math.max(...s.map(o=>o.pt||0)),g=Math.max(...s.map(o=>o.wg||0)),
+      tn=Math.min(...s.map(o=>o.t??99)),tx=Math.max(...s.map(o=>o.t??-99)),mid=s[Math.floor(s.length/2)],
+      ce=condO({p,mm:Math.max(...s.map(o=>o.mm||0)),wg:g,pt,cc:mid.cc,dia:mid.dia});
+    return `<div class="per"><span class="pn">${n}</span>${ic(ce)}<span class="pv">${p}%</span><span class="pm">${mmTxt(mm)} mm</span><span class="pt">${tn}°–${tx}°</span><span class="pg">💨 ${g}</span>${pt>=15?`<span class="ptt">⛈️ ${pt}%</span>`:''}</div>`;}).join('');
+  const hmx=Math.max(3,...hh.map(o=>o.mm||0));
+  const horas=hh.map(o=>`<div class="h" role="listitem" aria-label="${hTxt(o.h)}: ${o.p}% de chance, ${fmt(o.mm)} mm, trovoada ${o.pt??0}%"><div class="t">${hTxt(o.h)}</div>${ic(condO(o))}<div class="p" style="color:${(o.p??0)>=50?'var(--rain)':'var(--muted)'}">${o.p??'—'}%</div><div class="bar"><i style="height:${Math.round(100*Math.min(o.mm||0,hmx)/hmx)}%"></i></div><div class="mm">${(o.mm||0)>=0.1?fmt(o.mm):''}</div><div class="deg">${o.t??''}°</div>${o.ws!=null?`<div class="wnd">${arrow(o.wd)}<span>${o.ws}</span></div><div class="gst${(o.wg||0)>=50?' hi':''}">${(o.wg||0)>=25?o.wg:''}</div>`:''}${(o.pt??0)>=15?`<div class="tsx">⛈️${o.pt}</div>`:'<div class="tsx"></div>'}</div>`).join('');
+  $('sheet-body').innerHTML=`<div class="sh-head">${ic(cd,'big')}<div><h3 id="sh-t">${titulo}</h3><p>${cd.t}${d[15]?` · temporal ${d[15].nivel.toLowerCase()} (${d[15].pct}%)`:''}</p></div></div>
+   ${av.map(a=>`<p class="sh-av"><i class="dot" style="background:${col[a.lvl]||col.amarelo}"></i>Aviso ${a.lvl} do INMET: ${a.tit}. ${a.txt}</p>`).join('')}
+   <div class="sh-sum"><div><b>${mmTxt(d[1])} mm</b><span>chuva (${fmt(d[2],0)}–${fmt(d[3],0)} entre modelos)</span></div><div><b>${d[4]??'—'}%</b><span>chance de chover</span></div>
+     <div><b>${d[10]}°–${d[9]}°</b><span>mín – máx</span></div><div><b>${d[11]??'—'} km/h</b><span>rajada máxima${d[12]!=null?' ~'+hTxt(d[12]):''}</span></div></div>
+   <h4>🌧️ Quando deve chover</h4><ul class="sh-w">${chuvaTxt}</ul>
+   <h4>⛈️ Tempestade (trovoada)</h4><ul class="sh-w">${tempTxt}</ul>
+   <h4>Por período</h4><div class="pers">${per}</div>
+   <h4>Hora a hora</h4><div class="hours" role="list">${horas}</div>
+   <p class="hint">Na auditoria, o início da chuva previsto variou em média 4 a 5 horas. Trate os horários como período do dia. Chance de trovoada = fração dos cenários com chuva e atmosfera instável (ou rajada forte) naquela hora.</p>`;
+  const sh=$('sheet');sh.hidden=false;document.body.classList.add('noscroll');sh.querySelector('.sheet-card').scrollTop=0;sh.querySelector('.sheet-x').focus();}
+const fecha=()=>{$('sheet').hidden=true;document.body.classList.remove('noscroll');};
+document.addEventListener('click',e=>{if(e.target.closest('[data-close]')){fecha();return;}const t=e.target.closest('[data-k]');if(t&&!e.target.closest('.sheet-card'))openDay(+t.dataset.k);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')fecha();if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[data-k]')){e.preventDefault();openDay(+e.target.dataset.k);}});
 
 /* outubro */
 const oc=O.oct, W=O.fc.weights, names=oc.names;
