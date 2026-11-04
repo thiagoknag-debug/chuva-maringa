@@ -226,6 +226,20 @@ body.noscroll{overflow:hidden}
 .vleg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
 .vleg i.s{background:#0ea5e9}.vleg i.g{background:rgba(14,165,233,.35)}
 .per .pg .arr{width:11px;height:11px;vertical-align:-1px}
+
+.rtabs{display:flex;gap:4px;background:var(--bg);border-radius:999px;padding:3px;margin-bottom:10px}
+.rtabs button{flex:1;font:inherit;font-size:13.5px;font-weight:600;border:0;background:transparent;color:var(--muted);border-radius:999px;padding:7px 8px;cursor:pointer}
+.rtabs button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.pctl{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.prow{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.prow label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted);flex:1;min-width:130px}
+.prow select,.prow input[type=time]{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:7px 9px;min-height:38px;width:100%}
+.prow input[type=range]{flex:1;min-width:0;accent-color:var(--rain)}
+.pq{display:flex;gap:6px;flex-wrap:wrap}
+.pq button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 11px;cursor:pointer}
+.pleg{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px;color:var(--muted)}
+.pleg i{display:inline-block;width:12px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.pinfo{margin:0;font-size:14px;line-height:1.5;background:var(--bg);border-radius:10px;padding:9px 11px}
 </style>
 </head>
 <body>
@@ -240,7 +254,18 @@ body.noscroll{overflow:hidden}
   <div id="alerts" class="alerts"></div>
   <section id="hero" class="hero" aria-live="polite"><div class="skeleton"></div></section>
   <section class="card" id="radar">
-    <div class="rhead"><h2>Radar ao vivo</h2><button type="button" id="rbtn" class="pill-btn" aria-pressed="false">Satélite</button></div>
+    <div class="rhead"><h2>Radar</h2><button type="button" id="rbtn" class="pill-btn" aria-pressed="false">Satélite</button></div>
+    <div class="rtabs" role="tablist"><button type="button" role="tab" id="tab-agora" aria-selected="true">Ao vivo</button><button type="button" role="tab" id="tab-prev" aria-selected="false">Previsão por horário</button></div>
+    <div id="pctl" class="pctl" hidden>
+      <div class="prow"><label>Dia<select id="pdia"></select></label><label>Horário<input type="time" id="phora" step="3600" value="18:00"></label></div>
+      <div class="pq" aria-label="Atalhos de horário"><button type="button" data-h="06:00">06h</button><button type="button" data-h="09:00">09h</button><button type="button" data-h="12:00">12h</button><button type="button" data-h="15:00">15h</button><button type="button" data-h="18:00">18h</button><button type="button" data-h="21:00">21h</button></div>
+      <div class="prow"><input type="range" id="pslider" min="0" max="71" value="0" aria-label="Horário da previsão"><button type="button" id="pplay" class="pill-btn" aria-pressed="false">▶︎ Animar</button></div>
+      <div class="prow"><label>Modelo<select id="pmod"><option value="cons">Consenso de 6 modelos</option><option value="ecmwf_ifs">ECMWF (Europa)</option><option value="icon_seamless">ICON (Alemanha)</option><option value="gfs_seamless">GFS (EUA)</option><option value="ukmo_seamless">UKMO (Reino Unido)</option><option value="gem_seamless">GEM (Canadá)</option><option value="meteofrance_seamless">Météo-France</option></select></label>
+        <label>Mostrar<select id="pcam"><option value="mm">Intensidade (mm/h)</option><option value="p">Quantos modelos chovem</option></select></label></div>
+      <div id="pleg" class="pleg"></div>
+      <p id="pinfo" class="pinfo"></p>
+      <p class="hint">Simulação do radar feita com 6 modelos numa grade de ~28 km. Mostra onde e quando a chuva deve estar, mas não acerta a posição exata de cada célula de tempestade, e o horário pode variar 4 a 5 horas. Para as próximas 2 horas, o radar ao vivo é mais confiável.</p>
+    </div>
     <div id="rmap" class="rmap" role="img" aria-label="Mapa de radar de chuva da região de Maringá"></div>
     <p class="rtime" id="rtime"></p>
     <p class="hint" id="rmsg">Carregando radar…</p>
@@ -401,6 +426,7 @@ async function radar(){
   LF.tileLayer(`https://{s}.basemaps.cartocdn.com/${dark?'dark_all':'light_all'}/{z}/{x}/{y}{r}.png`,{subdomains:'abcd',maxZoom:7,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
   LF.marker([-23.42,-51.94],{icon:LF.divIcon({className:'mga-dot',iconSize:[12,12]}),title:'Maringá'}).addTo(map);
   let frames=[],layers=[],k=0,timer=null,sat=null;
+  window.__RD={map,parar:()=>{clearInterval(timer);layers.forEach(l=>l.setOpacity(0));if(sat)map.removeLayer(sat);$('rbtn').setAttribute('aria-pressed','false');$('rbtn').textContent='Satélite';},voltar:()=>{if(frames.length){show(k);play();}else lab.textContent='';}};
   const show=n=>{layers.forEach((l,j)=>l.setOpacity(j===n?.8:0));const t=new Date(frames[n].time*1000);lab.textContent=`Radar ${pad(t.getHours())}:${pad(t.getMinutes())}`+(n===frames.length-1?' · mais recente':'');};
   const play=()=>{clearInterval(timer);timer=setInterval(()=>{k=(k+1)%frames.length;show(k);},k===frames.length-1?1600:650);};
   try{const j=await fetch('https://api.rainviewer.com/public/weather-maps.json',{cache:'no-store'}).then(r=>r.json());
@@ -416,6 +442,70 @@ async function radar(){
       sat.addTo(map);lab.textContent='Satélite infravermelho (nuvens frias = tempestade)';$('rbtn').setAttribute('aria-pressed','true');$('rbtn').textContent='Radar';}
     else{if(sat)map.removeLayer(sat);$('rbtn').setAttribute('aria-pressed','false');$('rbtn').textContent='Satélite';if(frames.length){show(k);play();}}});
 }
+
+/* previsão do radar: chuva simulada pelos modelos numa grade em volta de Maringá */
+const PG={n:13,step:0.25,lat0:-23.42,lon0:-51.94},PMOD=[['ecmwf_ifs','ECMWF'],['icon_seamless','ICON (Alemanha)'],['gfs_seamless','GFS (EUA)'],['ukmo_seamless','UKMO (Reino Unido)'],['gem_seamless','GEM (Canadá)'],['meteofrance_seamless','Météo-France']];
+let PV=null,PVp=null,povl=null,ptimer=null;
+const pLat=i=>PG.lat0+(Math.floor(PG.n/2)-i)*PG.step, pLon=j=>PG.lon0+(j-Math.floor(PG.n/2))*PG.step; /* i=0 é o norte */
+async function prevCarrega(){if(PV)return PV;if(PVp)return PVp;
+  PVp=(async()=>{const la=[],lo=[];for(let i=0;i<PG.n;i++)for(let j=0;j<PG.n;j++){la.push(pLat(i).toFixed(3));lo.push(pLon(j).toFixed(3));}
+    const u='https://api.open-meteo.com/v1/forecast?latitude='+la.join(',')+'&longitude='+lo.join(',')+'&hourly=precipitation&models='+PMOD.map(m=>m[0]).join(',')+'&forecast_days=3&timezone=America%2FSao_Paulo';
+    let j=null;for(let t=0;t<2&&!j;t++){try{const x=await fetch(u);if(x.ok)j=await x.json();}catch(e){}}
+    if(!j)throw new Error('sem dados');const arr=Array.isArray(j)?j:[j],T=arr[0].hourly.time,nc=arr.length;
+    const V={};for(const [m] of PMOD){const a=T.map((_,t)=>{const c=new Float32Array(nc);let ok=0;for(let q=0;q<nc;q++){const v=arr[q].hourly['precipitation_'+m];const x=v?v[t]:null;c[q]=x==null?NaN:x;if(x!=null)ok++;}return ok>nc/2?c:null;});V[m]=a;}
+    PV={T,V,nc};return PV;})();
+  try{return await PVp;}finally{PVp=null;}}
+const pCampo=(t,mod,cam)=>{const {V,nc}=PV,ms=mod==='cons'?PMOD.map(m=>m[0]):[mod],out=new Float32Array(nc);let nm=0;
+  const cols=ms.map(m=>V[m]&&V[m][t]).filter(Boolean);nm=cols.length;if(!nm)return null;
+  for(let q=0;q<nc;q++){let s=0,c=0,w=0;for(const a of cols){const x=a[q];if(isNaN(x))continue;s+=x;c++;if(x>=0.3)w++;}out[q]=c?(cam==='p'?100*w/c:s/c):0;}
+  return {v:out,nm};};
+const pCor=(x,cam)=>{if(cam==='p'){if(x<17)return null;const a=Math.min(1,x/100);return x>=67?[220,38,38,170]:x>=50?[234,140,20,160]:x>=34?[234,200,30,140]:[60,150,230,110];}
+  if(x<0.1)return null;return x<0.5?[120,190,255,110]:x<2?[40,120,240,160]:x<5?[30,190,80,180]:x<10?[245,215,30,195]:x<20?[245,130,20,210]:x<40?[225,30,30,220]:[200,40,200,230];};
+function pDesenha(t,mod,cam){const LF=window.L,RD=window.__RD;if(!LF||!RD||!PV)return null;const f=pCampo(t,mod,cam);if(!f)return null;
+  const n=PG.n,S=12,W=n*S,cv=document.createElement('canvas');cv.width=W;cv.height=W;const g=cv.getContext('2d'),im=g.createImageData(W,W);
+  for(let y=0;y<W;y++){const fi=Math.min(n-1,Math.max(0,(y+0.5)/S-0.5)),i0=Math.floor(fi),i1=Math.min(n-1,i0+1),di=fi-i0;
+    for(let x=0;x<W;x++){const fj=Math.min(n-1,Math.max(0,(x+0.5)/S-0.5)),j0=Math.floor(fj),j1=Math.min(n-1,j0+1),dj=fj-j0,v=f.v;
+      const val=(v[i0*n+j0]*(1-dj)+v[i0*n+j1]*dj)*(1-di)+(v[i1*n+j0]*(1-dj)+v[i1*n+j1]*dj)*di,c=pCor(val,cam);
+      if(c){const o=(y*W+x)*4;im.data[o]=c[0];im.data[o+1]=c[1];im.data[o+2]=c[2];im.data[o+3]=c[3];}}}
+  g.putImageData(im,0,0);const h=PG.step/2,b=[[pLat(n-1)-h,pLon(0)-h],[pLat(0)+h,pLon(n-1)+h]];
+  if(povl)povl.setUrl(cv.toDataURL());else povl=LF.imageOverlay(cv.toDataURL(),b,{opacity:1,attribution:'Previsão: Open-Meteo (6 modelos)'}).addTo(RD.map);
+  return f;}
+const pLegenda=cam=>cam==='p'?[['#3c96e6','1–2 de 6'],['#eac81e','2–3'],['#ea8c14','3–4'],['#dc2626','4+ modelos']]:[['#78beff','fraca'],['#2878f0','0,5–2 mm/h'],['#1ebe50','2–5'],['#f5d71e','5–10'],['#f58214','10–20'],['#e11e1e','20–40'],['#c828c8','40+ (temporal)']];
+function pAtualiza(){if(!PV)return;const sl=$('pslider'),t=+sl.value,mod=$('pmod').value,cam=$('pcam').value,f=pDesenha(t,mod,cam);
+  const ts=PV.T[t],dd=ts.slice(0,10),hh=+ts.slice(11,13),dt=new Date(dd+'T12:00:00');
+  $('pdia').value=dd;$('phora').value=pad(hh)+':00';
+  $('pleg').innerHTML=pLegenda(cam).map(([c,t])=>`<span><i style="background:${c}"></i>${t}</span>`).join('');
+  if(!f){$('pinfo').textContent='Esse modelo não tem dados para esse horário.';return;}
+  const n=PG.n,ci=Math.floor(n/2)*n+Math.floor(n/2),aqui=f.v[ci];
+  let mx=0,mq=0;for(let q=0;q<f.v.length;q++)if(f.v[q]>mx){mx=f.v[q];mq=q;}
+  const mi=Math.floor(mq/n),mj=mq%n,dy=(pLat(mi)-PG.lat0)*111,dx=(pLon(mj)-PG.lon0)*111*Math.cos(PG.lat0*Math.PI/180),km=Math.round(Math.hypot(dx,dy)),
+    az=(Math.atan2(dx,dy)*180/Math.PI+360)%360,dn=['norte','nordeste','leste','sudeste','sul','sudoeste','oeste','noroeste'][Math.round(az/45)%8];
+  const k=L.D.findIndex(x=>x[0]===dd),o=((L.DH||[])[k]||[]).find(x=>x.h===hh);
+  const quando=`${dayName(dt)} às ${pad(hh)}h`;
+  let s=`<b>${quando}</b> — sobre Maringá: `;
+  if(cam==='p')s+=`${Math.round(aqui)}% dos modelos com chuva`;
+  else s+=aqui<0.1?'sem chuva no '+(mod==='cons'?'consenso':'modelo'):`${fmt(aqui)} mm/h (${aqui<2?'fraca':aqui<10?'moderada':'forte'})`;
+  if(o)s+=`. Pelos ${L.ens?L.ens.reduce((a,e)=>a+(e[1]||0),0)||'':''} cenários: <b>${o.p??'—'}%</b> de chance de chuva${(o.pt??0)>=10?`, <b>${o.pt}%</b> de trovoada`:''}${o.wg?`, rajada ~${o.wg} km/h`:''}`;
+  s+='.';
+  if(cam!=='p'&&mx>=0.5&&km>=15)s+=` Chuva mais forte do mapa: ${fmt(mx)} mm/h a ~${km} km ao ${dn}.`;
+  $('pinfo').innerHTML=s;}
+function pPlay(){const b=$('pplay');if(ptimer){clearInterval(ptimer);ptimer=null;b.textContent='▶︎ Animar';b.setAttribute('aria-pressed','false');return;}
+  b.textContent='⏸ Pausar';b.setAttribute('aria-pressed','true');ptimer=setInterval(()=>{const sl=$('pslider');sl.value=(+sl.value+1)%PV.T.length;pAtualiza();},800);}
+function pVaiPara(){if(!PV)return;const d=$('pdia').value,h=($('phora').value||'00:00').slice(0,2),t=PV.T.indexOf(d+'T'+h+':00');if(t>=0){$('pslider').value=t;pAtualiza();}}
+async function pModo(on){const RD=window.__RD;$('tab-agora').setAttribute('aria-selected',String(!on));$('tab-prev').setAttribute('aria-selected',String(on));
+  $('pctl').hidden=!on;$('rbtn').hidden=on;$('rtime').hidden=on;$('rmsg').hidden=on;
+  if(!on){if(ptimer)pPlay();if(povl&&RD){RD.map.removeLayer(povl);povl=null;}RD&&RD.voltar();return;}
+  RD&&RD.parar();
+  if(!PV){$('pinfo').textContent='Carregando a previsão de 6 modelos para a região…';
+    try{await prevCarrega();}catch(e){$('pinfo').textContent='Não consegui carregar a previsão do mapa agora. Tente de novo em alguns minutos.';return;}
+    const ds=[...new Set(PV.T.map(t=>t.slice(0,10)))];$('pdia').innerHTML=ds.map(d=>`<option value="${d}">${dayName(new Date(d+'T12:00:00'))} ${+d.slice(8)}/${+d.slice(5,7)}</option>`).join('');
+    const sl=$('pslider');sl.max=PV.T.length-1;const n0=new Date(),k0=key(n0)+'T'+pad(n0.getHours())+':00';const t0=PV.T.indexOf(k0);sl.value=t0>=0?t0:0;}
+  if($('tab-prev').getAttribute('aria-selected')!=='true')return;
+  pAtualiza();}
+$('tab-agora').addEventListener('click',()=>pModo(false));$('tab-prev').addEventListener('click',()=>pModo(true));
+$('pslider').addEventListener('input',pAtualiza);$('pmod').addEventListener('change',pAtualiza);$('pcam').addEventListener('change',pAtualiza);
+$('phora').addEventListener('change',pVaiPara);$('pdia').addEventListener('change',pVaiPara);$('pplay').addEventListener('click',()=>PV&&pPlay());
+document.querySelectorAll('[data-h]').forEach(b=>b.addEventListener('click',()=>{$('phora').value=b.dataset.h;pVaiPara();}));
 $('reload').addEventListener('click',()=>location.reload());
 
 let L,O;
@@ -442,8 +532,14 @@ const winMm=w=>{let s=0,p=0;for(let i=w.a;i<=w.b;i++){s+=H.mm[i]||0;p=Math.max(p
 const dIdx=k=>L.D.findIndex(d=>d[0]===k);
 const key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 const riscoK=p=>p>=50?'mx':p>=25?'al':p>=10?'md':'bx';
+/* horário provável do temporal no dia (cenários com trovoada), só daqui pra frente se for hoje */
+function horaTemp(d){const k=L.D.indexOf(d);let hh=(L.DH||[])[k]||[];if(d[0]===key(new Date()))hh=hh.filter(o=>o.h>=new Date().getHours());if(!hh.length)return null;
+  const pk=hh.reduce((a,o)=>(o.pt||0)>(a.pt||0)?o:a,hh[0]),v=pk.pt||0;if(v<15)return null;
+  if(v>=25){const lim=Math.max(25,Math.round(v*0.75)),s=hh.filter(o=>(o.pt||0)>=lim),a=s[0].h,b=s[s.length-1].h+1;
+    return {txt:a===b-1?`~${pad(a)}h`:`${pad(a)}h–${b===24?'24':pad(b)}h`,pico:pk.h,pct:v,a,b};}
+  return {txt:`~${pad(pk.h)}h`,pico:pk.h,pct:v,a:pk.h,b:pk.h+1};}
 const dir8=d=>d==null?'':['N','NE','L','SE','S','SO','O','NO'][Math.round(d/45)%8];
-const box=(lab,d)=>{if(!d)return'';return `<div class="box tap" role="button" tabindex="0" data-k="${L.D.indexOf(d)}" aria-label="Ver detalhes de ${lab}"><span class="bxh">${lab} ${ic(condD(d))}</span><b>${mmTxt(d[1])} mm</b><span>${d[4]??'—'}% de chance</span><span class="bx2">${d[10]}° a ${d[9]}°</span><span class="bx2${d[11]>=50?' bxw':''}">Rajadas até ${d[11]??'—'} km/h</span>${d[15]?`<span class="rk-chip rk-${riscoK(d[15].pct)}">Temporal: ${d[15].nivel.toLowerCase()} · ${d[15].pct}%</span>`:''}<span class="more">Ver horários ›</span></div>`;};
+const box=(lab,d)=>{if(!d)return'';return `<div class="box tap" role="button" tabindex="0" data-k="${L.D.indexOf(d)}" aria-label="Ver detalhes de ${lab}"><span class="bxh">${lab} ${ic(condD(d))}</span><b>${mmTxt(d[1])} mm</b><span>${d[4]??'—'}% de chance</span><span class="bx2">${d[10]}° a ${d[9]}°</span><span class="bx2${d[11]>=50?' bxw':''}">Rajadas até ${d[11]??'—'} km/h</span>${d[15]?`<span class="rk-chip rk-${riscoK(d[15].pct)}">Temporal: ${d[15].nivel.toLowerCase()} · ${d[15].pct}%${(()=>{const h=d[15].pct>=10&&horaTemp(d);return h?` · ${h.txt}`:'';})()}</span>`:''}<span class="more">Ver horários ›</span></div>`;};
 /* ícones de tempo */
 const condH=i=>{const p=H.p[i]??0,mm=H.mm[i]||0,g=H.wg?H.wg[i]||0:0,cc=H.cc?H.cc[i]:null,dia=H.dia?H.dia[i]:1;
   if(p>=50&&(mm>=4||g>=55))return{e:'⛈️',t:'Tempestade',k:'storm'};
@@ -500,7 +596,7 @@ $('hours').innerHTML=hrs.map((d,i)=>{const p=H.p[i]??0,v=H.mm[i]||0,nd=d.getHour
 const S=Math.min(60,Math.max(20,...L.D.map(d=>d[3]||0)));
 const pos=v=>Math.min(100,100*(v||0)/S);
 $('days').innerHTML=L.D.map((d,k)=>{const dt=new Date(d[0]+'T12:00:00'),P=d[4];
-  return `<div class="day tap" role="button" tabindex="0" data-k="${k}" aria-label="Ver detalhes do dia"><div class="n">${dayName(dt)}<small>${dt.getDate()}/${dt.getMonth()+1}</small></div>${ic(condD(d),'dic')}<div class="c${P<40?' lo':''}">${P??'—'}%</div><div class="track" title="Entre ${fmt(d[2],0)} e ${fmt(d[3],0)} mm conforme o modelo"><span class="rng" style="left:${pos(d[2])}%;width:${Math.max(2,pos(d[3])-pos(d[2]))}%"></span><span class="val" style="left:${pos(d[1])}%"></span></div><div class="v">${mmTxt(d[1])}<small> mm</small></div><div class="tmp">${condD(d).t}${d[11]>=50?' 💨':''}${d[15]&&d[15].pct>=10?` · <span class="rk-t rk-${riscoK(d[15].pct)}">temporal ${d[15].pct}%</span>`:''} · ${d[10]}° a ${d[9]}°${d[11]?` · <span class="${d[11]>=60?'wx':''}">rajadas até ${d[11]} km/h</span>`:''}${d[6]>=20?` · ${d[6]}% de chance de passar de 25 mm`:''}</div></div>`;}).join('')+
+  return `<div class="day tap" role="button" tabindex="0" data-k="${k}" aria-label="Ver detalhes do dia"><div class="n">${dayName(dt)}<small>${dt.getDate()}/${dt.getMonth()+1}</small></div>${ic(condD(d),'dic')}<div class="c${P<40?' lo':''}">${P??'—'}%</div><div class="track" title="Entre ${fmt(d[2],0)} e ${fmt(d[3],0)} mm conforme o modelo"><span class="rng" style="left:${pos(d[2])}%;width:${Math.max(2,pos(d[3])-pos(d[2]))}%"></span><span class="val" style="left:${pos(d[1])}%"></span></div><div class="v">${mmTxt(d[1])}<small> mm</small></div><div class="tmp">${condD(d).t}${d[11]>=50?' 💨':''}${d[15]&&d[15].pct>=10?` · <span class="rk-t rk-${riscoK(d[15].pct)}">temporal ${d[15].pct}%${(()=>{const h=horaTemp(d);return h?' '+h.txt:'';})()}</span>`:''} · ${d[10]}° a ${d[9]}°${d[11]?` · <span class="${d[11]>=60?'wx':''}">rajadas até ${d[11]} km/h</span>`:''}${d[6]>=20?` · ${d[6]}% de chance de passar de 25 mm`:''}</div></div>`;}).join('')+
  `<div class="legend"><span><i class="sw" style="width:10px;height:10px;border-radius:50%;background:var(--rain)"></i>estimativa (mm)</span><span><i class="sw" style="width:16px;height:6px;border-radius:3px;background:var(--rain-2);opacity:.6"></i>variação entre os modelos</span><span>% = chance de chover</span></div>`;
 
 
@@ -545,7 +641,7 @@ function openDay(k){const d=L.D[k],hAll=(L.DH||[])[k]||[];if(!d)return;const dt=
       <div class="vgraf" aria-hidden="true">${graf}</div><div class="vleg"><span><i class="s"></i>vento médio</span><span><i class="g"></i>rajada</span></div></div>`;})();
   const hmx=Math.max(3,...hAll.map(o=>o.mm||0));
   const horas=hAll.map(o=>`<div class="h${hoje&&o.h<h0?' past':''}" role="listitem" aria-label="${hTxt(o.h)}: ${o.p}% de chance, ${fmt(o.mm)} mm, trovoada ${o.pt??0}%"><div class="t">${hTxt(o.h)}</div>${ic(condO(o))}<div class="p" style="color:${(o.p??0)>=50?'var(--rain)':'var(--muted)'}">${o.p??'—'}%</div><div class="bar"><i style="height:${Math.round(100*Math.min(o.mm||0,hmx)/hmx)}%"></i></div><div class="mm">${(o.mm||0)>=0.1?fmt(o.mm):''}</div><div class="deg">${o.t??''}°</div>${o.ws!=null?`<div class="wnd">${arrow(o.wd)}<span>${o.ws}</span></div><div class="gst${(o.wg||0)>=50?' hi':''}">${(o.wg||0)>=25?o.wg:''}</div>`:''}${(o.pt??0)>=15?`<div class="tsx">⛈️${o.pt}</div>`:'<div class="tsx"></div>'}</div>`).join('');
-  $('sheet-body').innerHTML=`<div class="sh-head">${ic(cd,'big')}<div><h3 id="sh-t">${titulo}</h3><p>${cd.t}${d[15]?` · temporal ${d[15].nivel.toLowerCase()} (${d[15].pct}%)`:''}</p></div></div>
+  $('sheet-body').innerHTML=`<div class="sh-head">${ic(cd,'big')}<div><h3 id="sh-t">${titulo}</h3><p>${cd.t}${d[15]?` · temporal ${d[15].nivel.toLowerCase()} (${d[15].pct}%)${(()=>{const h=horaTemp(d);return h?', mais provável '+(h.a===h.b-1?'perto das '+pad(h.a)+'h':'entre '+h.txt.replace('–',' e '))+(h.b-h.a>1?', pico ~'+pad(h.pico)+'h':''):'';})()}`:''}</p></div></div>
    ${av.map(a=>`<p class="sh-av"><i class="dot" style="background:${col[a.lvl]||col.amarelo}"></i>Aviso ${a.lvl} do INMET: ${a.tit}. ${a.txt}</p>`).join('')}
    <div class="sh-sum"><div><b>${mmTxt(d[1])} mm</b><span>chuva (${fmt(d[2],0)}–${fmt(d[3],0)} entre modelos)</span></div><div><b>${d[4]??'—'}%</b><span>chance de chover</span></div>
      <div><b>${d[10]}°–${d[9]}°</b><span>mín – máx</span></div><div><b>${d[11]??'—'} km/h</b><span>rajada máxima${d[12]!=null?' ~'+hTxt(d[12]):''}</span></div></div>

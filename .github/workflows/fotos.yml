@@ -1,0 +1,24 @@
+name: Fotos do site
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fotos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+      - run: node scripts/fotos.js
+      - name: Salvar
+        run: |
+          git config user.name "auditoria-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add lab/fotos
+          git commit -q -m "Fotos do site" || echo "sem mudancas"
+          git pull --rebase -q origin main || true
+          git push || true
