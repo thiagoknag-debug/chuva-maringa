@@ -1,0 +1,44 @@
+{
+ "gerado": "2026-11-04T13:50:14.433Z",
+ "erros": [],
+ "resumo": "🌦️29°PancadasVento N 12 km/h · rajadas 34 km/hPróxima chuvaAmanhã, das 04h às 16hCerca de 13 mm · chance de até 73%⚠️ Amanhã: cenário parecido com o temporal de 2/11 (risco 35%). Evite carro sob árvores e acompanhe o radar.Hoje 🌧️4,6 mm65% de chance23° a 30°Rajadas até 42 km/hTemporal: alto · 35%Amanhã ⛈️16 mm95% de chance22° a 27°Rajadas até 39 km/hTemporal: alto · 35%",
+ "classe_resumo": "hero sky-rain",
+ "avisos": [
+  "Tempestade · hoje–sáb 7",
+  "Tempestade · hoje–amanhã",
+  "Declínio de temperatura · dom 8"
+ ],
+ "horas": 48,
+ "horas_amostra": [
+  "Agora🌦️37%0,329°1234",
+  "14h🌦️37%0,230°1237",
+  "15h🌦️38%0,230°1135",
+  "16h🌦️35%0,130°1135",
+  "17h🌦️34%0,130°933",
+  "18h🌦️34%0,129°725",
+  "19h🌧️30%0,127°6",
+  "20h🌧️30%0,226°6",
+  "21h🌧️31%0,426°6",
+  "22h☁️22%0,525°6",
+  "23h☁️21%0,525°8",
+  "Amanhã00h☁️22%0,424°7"
+ ],
+ "dias": [
+  "Hoje4/11🌧️65%4,6 mmChuva · temporal 35% · 23° a 30° · rajadas até 42 km/h",
+  "Amanhã5/11⛈️95%16 mmTempestades · temporal 35% · 22° a 27° · rajadas até 39 km/h",
+  "Sex6/11🌧️77%4,0 mmChuva · temporal 10% · 21° a 30° · rajadas até 26 km/h",
+  "Sáb7/11⛈️99%17 mmTempestades · 22° a 27° · rajadas até 41 km/h · 20% de chance de passar de 25 mm",
+  "Dom8/11🌦️40%0,9 mmPancadas isoladas · 18° a 25° · rajadas até 34 km/h",
+  "Seg9/11☀️5%0 mmEnsolarado · 14° a 25° · rajadas até 38 km/h",
+  "Ter10/11☀️1%0 mmEnsolarado · 14° a 26° · rajadas até 44 km/h",
+  "Qua11/11🌦️36%0 mmPancadas isoladas · 17° a 28° · rajadas até 43 km/h",
+  "Qui12/11🌧️61%1,4 mmChuva · 21° a 28° · rajadas até 38 km/h",
+  "Sex13/11🌧️55%8,6 mmChuva · 20° a 28° · rajadas até 30 km/h"
+ ],
+ "radar_msg": "Radar indisponível agora.",
+ "radar_hora": "",
+ "leaflet": true,
+ "rodape": "Dados: Open-Meteo e INMET. Calculado no seu aparelho a cada abertura. Chance de chuva com 212 cenários de 6 sistemas (ECMWF, ECMWF IA, GFS, ICON, GEM (Canadá), UK Met Office). Pesos da auditoria de 02/11/2026.",
+ "carimbo": "Atualizado às 13h49 · Quarta, 4/11",
+ "auditoria_ranking": 10
+}
