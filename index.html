@@ -263,7 +263,7 @@ body.noscroll{overflow:hidden}
       <div class="prow"><label>Dia<select id="pdia"></select></label><label>Horário<input type="time" id="phora" step="3600" value="18:00"></label></div>
       <div class="pq" aria-label="Atalhos de horário"><button type="button" data-h="06:00">06h</button><button type="button" data-h="09:00">09h</button><button type="button" data-h="12:00">12h</button><button type="button" data-h="15:00">15h</button><button type="button" data-h="18:00">18h</button><button type="button" data-h="21:00">21h</button></div>
       <div class="prow"><input type="range" id="pslider" min="0" max="71" value="0" aria-label="Horário da previsão"><button type="button" id="pplay" class="pill-btn" aria-pressed="false">▶︎ Animar</button></div>
-      <div class="prow"><label>Modelo<select id="pmod"><option value="cons">Consenso (6 modelos)</option><option value="ecmwf_ifs">ECMWF (Europa)</option><option value="icon_seamless">ICON (Alemanha)</option><option value="gfs_seamless">GFS (EUA)</option><option value="ukmo_seamless">UKMO (Reino Unido)</option><option value="gem_seamless">GEM (Canadá)</option><option value="meteofrance_seamless">Météo-France</option></select></label>
+      <div class="prow"><label>Modelo<select id="pmod"><option value="cons">Consenso</option><option value="ecmwf_ifs">ECMWF (Europa)</option><option value="icon_seamless">ICON (Alemanha)</option><option value="gfs_seamless">GFS (EUA)</option><option value="ukmo_seamless">UKMO (Reino Unido)</option><option value="gem_seamless">GEM (Canadá)</option><option value="meteofrance_seamless">Météo-France</option></select></label>
         <label>Mostrar<select id="pcam"><option value="mm">Intensidade</option><option value="p">Chance (modelos)</option></select></label></div>
       <div id="pleg" class="pleg"></div>
       <p id="pinfo" class="pinfo"></p>
@@ -459,7 +459,7 @@ const pCampo=(t,mod,cam)=>{const {V,nc}=PV,ms=mod==='cons'?PMOD.map(m=>m[0]):[mo
   const cols=ms.map(m=>V[m]&&V[m][t]).filter(Boolean);nm=cols.length;if(!nm)return null;
   for(let q=0;q<nc;q++){let s=0,c=0,w=0;for(const a of cols){const x=a[q];if(isNaN(x))continue;s+=x;c++;if(x>=0.3)w++;}out[q]=c?(cam==='p'?100*w/c:s/c):0;}
   return {v:out,nm};};
-const pCor=(x,cam)=>{if(cam==='p'){if(x<17)return null;const a=Math.min(1,x/100);return x>=67?[220,38,38,170]:x>=50?[234,140,20,160]:x>=34?[234,200,30,140]:[60,150,230,110];}
+const pCor=(x,cam)=>{if(cam==='p'){if(x<16)return null;return x>=66?[220,38,38,170]:x>=50?[234,140,20,160]:x>=33?[234,200,30,140]:[60,150,230,110];}
   if(x<0.2)return null;return x<0.5?[120,190,255,110]:x<2?[40,120,240,160]:x<5?[30,190,80,180]:x<10?[245,215,30,195]:x<20?[245,130,20,210]:x<40?[225,30,30,220]:[200,40,200,230];};
 function pDesenha(t,mod,cam){const LF=window.L,RD=window.__RD;if(!LF||!RD||!PV)return null;const f=pCampo(t,mod,cam);if(!f)return null;
   const n=PG.n,S=12,W=n*S,cv=document.createElement('canvas');cv.width=W;cv.height=W;const g=cv.getContext('2d'),im=g.createImageData(W,W);
@@ -470,7 +470,7 @@ function pDesenha(t,mod,cam){const LF=window.L,RD=window.__RD;if(!LF||!RD||!PV)r
   g.putImageData(im,0,0);const h=PG.step/2,b=[[pLat(n-1)-h,pLon(0)-h],[pLat(0)+h,pLon(n-1)+h]];
   if(povl)povl.setUrl(cv.toDataURL());else povl=LF.imageOverlay(cv.toDataURL(),b,{opacity:1,attribution:'Previsão: Open-Meteo (6 modelos)'}).addTo(RD.map);
   return f;}
-const pLegenda=cam=>cam==='p'?[['#3c96e6','1–2 de 6'],['#eac81e','2–3'],['#ea8c14','3–4'],['#dc2626','4+ modelos']]:[['#78beff','fraca (0,2–0,5)'],['#2878f0','0,5–2 mm/h'],['#1ebe50','2–5'],['#f5d71e','5–10'],['#f58214','10–20'],['#e11e1e','20–40'],['#c828c8','40+ (temporal)']];
+const pLegenda=cam=>cam==='p'?[['#3c96e6','1 de 6 modelos'],['#eac81e','2 de 6'],['#ea8c14','3 de 6'],['#dc2626','4 ou mais']]:[['#78beff','fraca (0,2–0,5)'],['#2878f0','0,5–2 mm/h'],['#1ebe50','2–5'],['#f5d71e','5–10'],['#f58214','10–20'],['#e11e1e','20–40'],['#c828c8','40+ (temporal)']];
 function pAtualiza(){if(!PV)return;const sl=$('pslider'),t=+sl.value,mod=$('pmod').value,cam=$('pcam').value,f=pDesenha(t,mod,cam);
   const ts=PV.T[t],dd=ts.slice(0,10),hh=+ts.slice(11,13),dt=new Date(dd+'T12:00:00');
   $('pdia').value=dd;$('phora').value=pad(hh)+':00';
