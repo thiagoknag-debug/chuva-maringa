@@ -22,7 +22,7 @@ setTimeout(() => {
     horas: d.querySelectorAll('.h').length,
     horas_amostra: [...d.querySelectorAll('.h')].slice(0, 12).map(x => x.textContent.replace(/\s+/g, ' ').trim()),
     dias: [...d.querySelectorAll('.day')].map(x => x.textContent.replace(/\s+/g, ' ').trim()),
-    radar_msg: t('#rmsg'), radar_hora: t('#rtime'), leaflet: !!w.L,
+    radar_msg: t('#rmsg'), radar_hora: t('#rtime'), leaflet: !!w.L, radar_erro: w.__radarErr || null, camadas: d.querySelectorAll('.leaflet-tile-container,.leaflet-layer').length,
     rodape: t('.foot'), carimbo: t('#stamp'),
     auditoria_ranking: d.querySelectorAll('.rk').length
   };

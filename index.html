@@ -416,7 +416,7 @@ const arrow=d=>d==null?'':`<svg class="arr" viewBox="0 0 16 16" aria-hidden="tru
 const DIRS=['N','NE','L','SE','S','SO','O','NO'], dirTxt=d=>d==null?'':DIRS[Math.round(d/45)%8];
 const windCell=i=>{const ws=H.ws?H.ws[i]:null,wg=H.wg?H.wg[i]:null;if(ws==null)return'';
   return `<div class="wnd" title="Vento de ${dirTxt(H.wd[i])}">${arrow(H.wd[i])}<span>${ws}</span></div><div class="gst${wg>=50?' hi':''}">${wg>=25?wg:''}</div>`;};
-radar().catch(()=>{const m=document.getElementById('rmsg');if(m)m.textContent='Radar indisponível agora.';});
+radar().catch(e=>{window.__radarErr=String(e&&e.stack||e).slice(0,400);const m=document.getElementById('rmsg');if(m)m.textContent='Radar indisponível agora.';});
 const drop=p=>`<svg viewBox="0 0 20 24" aria-hidden="true"><path d="M10 1.5C10 1.5 2.5 10.2 2.5 15a7.5 7.5 0 0 0 15 0C17.5 10.2 10 1.5 10 1.5z" fill="var(--rain)" fill-opacity="${(0.08+0.92*p/100).toFixed(2)}" stroke="var(--rain)" stroke-width="1.2"/></svg>`;
 const hmax=Math.max(4,...H.mm.map(v=>v||0));
 $('hours').innerHTML=hrs.map((d,i)=>{const p=H.p[i]??0,v=H.mm[i]||0,nd=d.getHours()===0&&i>0;
