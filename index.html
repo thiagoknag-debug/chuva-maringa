@@ -511,7 +511,10 @@ $('tab-agora').addEventListener('click',()=>pModo(false));$('tab-prev').addEvent
 $('pslider').addEventListener('input',pAtualiza);$('pmod').addEventListener('change',pAtualiza);$('pcam').addEventListener('change',pAtualiza);
 $('phora').addEventListener('change',pVaiPara);$('pdia').addEventListener('change',pVaiPara);$('pplay').addEventListener('click',()=>PV&&pPlay());
 document.querySelectorAll('[data-h]').forEach(b=>b.addEventListener('click',()=>{$('phora').value=b.dataset.h;pVaiPara();}));
-$('reload').addEventListener('click',()=>location.reload());
+const recarrega=()=>{const u=new URL(location.href);u.searchParams.set('v',Date.now());location.replace(u.toString());};
+$('reload').addEventListener('click',recarrega);
+/* app aberto na tela de início fica parado em segundo plano: ao voltar depois de 20 min, recarrega com a versão nova */
+let saiu=Date.now();document.addEventListener('visibilitychange',()=>{if(document.hidden)saiu=Date.now();else if(Date.now()-saiu>20*60e3)recarrega();});
 
 let L,O;
 try{[L,O]=await Promise.all([coletar(),fetch('oct.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json())]);}
