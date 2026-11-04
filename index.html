@@ -170,6 +170,7 @@ select{font:inherit;font-size:14px;padding:7px 10px;border-radius:10px;border:1p
 .rk-chip.rk-md{background:#f2b705;color:#2a2100}.rk-chip.rk-al{background:#f07b1a;color:#fff}.rk-chip.rk-mx{background:#d93025;color:#fff}
 .rk-t{font-weight:700}.rk-t.rk-md{color:#b58900}.rk-t.rk-al{color:#e8590c}.rk-t.rk-mx{color:#d93025}
 .hero .par211{background:rgba(217,48,37,.85);border-radius:10px;padding:8px 10px;margin-top:8px;font-weight:700}
+.mga-dot{width:12px;height:12px;border-radius:50%;background:#e11d48;border:2px solid #fff;box-sizing:border-box;box-shadow:0 0 0 1px rgba(0,0,0,.25)}
 </style>
 </head>
 <body>
@@ -332,7 +333,7 @@ async function radar(){
   const dark=matchMedia('(prefers-color-scheme: dark)').matches;
   const map=LF.map('rmap',{zoomControl:false,maxZoom:7,minZoom:4,attributionControl:true}).setView([-23.42,-51.94],7);
   LF.tileLayer(`https://{s}.basemaps.cartocdn.com/${dark?'dark_all':'light_all'}/{z}/{x}/{y}{r}.png`,{subdomains:'abcd',maxZoom:7,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
-  LF.circleMarker([-23.42,-51.94],{radius:5,color:'#fff',weight:2,fillColor:'#e11d48',fillOpacity:1}).addTo(map).bindTooltip('Maringá');
+  LF.marker([-23.42,-51.94],{icon:LF.divIcon({className:'mga-dot',iconSize:[12,12]}),title:'Maringá'}).addTo(map);
   let frames=[],layers=[],k=0,timer=null,sat=null;
   const show=n=>{layers.forEach((l,j)=>l.setOpacity(j===n?.8:0));const t=new Date(frames[n].time*1000);lab.textContent=`Radar ${pad(t.getHours())}:${pad(t.getMinutes())}`+(n===frames.length-1?' · mais recente':'');};
   const play=()=>{clearInterval(timer);timer=setInterval(()=>{k=(k+1)%frames.length;show(k);},k===frames.length-1?1600:650);};
