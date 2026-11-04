@@ -26,6 +26,7 @@ setTimeout(() => {
     rodape: t('.foot'), carimbo: t('#stamp'),
     auditoria_ranking: d.querySelectorAll('.rk').length
   };
+  out.detalhe_oculto_ao_abrir = d.getElementById('sheet')?.hidden && w.getComputedStyle(d.getElementById('sheet')).display;
   try { const b = d.querySelectorAll('.hero .box')[1] || d.querySelector('.day'); b && b.click();
     out.detalhe_aberto = d.getElementById('sheet') ? !d.getElementById('sheet').hidden : false;
     out.detalhe = t('#sheet-body').slice(0, 2500); out.detalhe_horas = d.querySelectorAll('#sheet-body .h').length;
