@@ -462,7 +462,12 @@ let gi=-1,gv=0;(H.wg||[]).forEach((v,k)=>{if(v!=null&&v>gv){gv=v;gi=k;}});
 const ventoTxt=gv>=50?`<p class="sub wind-alert">Vento forte: rajadas de até ${gv} km/h ${dayName(hrs[gi]).toLowerCase()} por volta das ${pad(hrs[gi].getHours())}h</p>`:'';
 $('hero').className='hero sky-'+condH(0).k;
 const par=L.D.slice(0,2).find(d=>d[15]&&d[15].par);
-const parTxt=par?`<p class="sub par211">⚠️ ${par[0]===key(now)?'Hoje':'Amanhã'}: cenário parecido com o temporal de 2/11 (risco ${par[15].pct}%). Evite carro sob árvores e acompanhe o radar.</p>`:'';
+const parHora=(()=>{if(!par)return'';let hh=(L.DH||[])[L.D.indexOf(par)]||[];if(par[0]===key(now))hh=hh.filter(o=>o.h>=now.getHours());if(!hh.length)return'';
+  const pk=hh.reduce((a,o)=>(o.pt||0)>(a.pt||0)?o:a,hh[0]),lim=Math.max(20,Math.round((pk.pt||0)*0.75));
+  if((pk.pt||0)>=20){const s=hh.filter(o=>(o.pt||0)>=lim),a=s[0].h,b=s[s.length-1].h+1;
+    return a===b-1?` Horário mais provável: perto das ${pad(pk.h)}h.`:` Horário mais provável: entre ${pad(a)}h e ${b===24?'24':pad(b)}h, pico perto das ${pad(pk.h)}h.`;}
+  const pc=hh.reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,hh[0]);return (pc.mm||0)>=0.5?` Chuva mais forte perto das ${pad(pc.h)}h.`:'';})();
+const parTxt=par?`<p class="sub par211">⚠️ ${par[0]===key(now)?'Hoje':'Amanhã'}: cenário parecido com o temporal de 2/11 (risco ${par[15].pct}%).${parHora} Evite carro sob árvores e acompanhe o radar.</p>`:'';
 $('hero').innerHTML=`${agora()}<div><div class="lab">${lab}</div><p class="head">${head}</p><p class="sub">${sub}</p>${ventoTxt}${parTxt}</div><div class="pair">${box('Hoje',L.D[dIdx(key(now))])}${box('Amanhã',L.D[dIdx(key(tmw))])}</div>`;
 
 const arrow=d=>d==null?'':`<svg class="arr" viewBox="0 0 16 16" aria-hidden="true" style="transform:rotate(${(d+180)%360}deg)"><path d="M8 1.5 12.5 13 8 10.3 3.5 13z" fill="currentColor"/></svg>`;
