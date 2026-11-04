@@ -1,6 +1,9 @@
 name: Sondagem das fontes
 on:
   workflow_dispatch:
+    inputs:
+      script:
+        default: "sondagem.py"
 permissions:
   contents: write
 jobs:
@@ -13,12 +16,12 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install requests pillow
-      - run: python scripts/sondagem.py
+      - run: python scripts/${{ github.event.inputs.script || 'sondagem.py' }}
       - name: Salvar
         run: |
           git config user.name "auditoria-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add lab/sondagem.json
+          git add lab/sondagem*.json
           git commit -m "Sondagem das fontes" || echo "sem mudancas"
           git pull --rebase -q origin main || true
           git push
