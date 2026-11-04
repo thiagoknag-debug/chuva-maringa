@@ -27,7 +27,7 @@ try:
                 t = requests.get(u, headers=UA, timeout=30)
                 if t.status_code == 200: img.paste(Image.open(io.BytesIO(t.content)).convert("RGBA"), ((dx + 1) * 256, (dy + 1) * 256))
         p = img.load(); aneis = {"0-15": [0, 0], "15-40": [0, 0], "40-80": [0, 0], "80-150": [0, 0]}
-        setores = {k: 0 for k in ["N", "NE", "L", "SE", "S", "SO", "O", "NO"]}; forte = []
+        setores = {k: 0 for k in ["N", "NE", "L", "SE", "S", "SO", "O", "NO"]}; forte = []; cx = cy = cn = 0; perto = {}
         for yy in range(768):
             for xx in range(768):
                 d = math.hypot(xx - px, yy - py) * kmpx
@@ -40,11 +40,14 @@ try:
                     az = (math.degrees(math.atan2(xx - px, py - yy)) + 360) % 360
                     if d >= 5: setores[["N", "NE", "L", "SE", "S", "SO", "O", "NO"][int((az + 22.5) // 45) % 8]] += 1
                     forte.append((rr, round(d), round(az)))
+                    if d < 60: cx += (xx - px) * kmpx; cy += (py - yy) * kmpx; cn += 1
+                    if d < 30:
+                        sk = ["N", "NE", "L", "SE", "S", "SO", "O", "NO"][int((az + 22.5) // 45) % 8]; perto[sk] = perto.get(sk, 0) + 1
         forte.sort(reverse=True)
         quadros.append({"hora_utc": dt.datetime.fromtimestamp(f["time"], dt.timezone.utc).strftime("%H:%M"),
                         "cobertura_%": {k: round(100 * a / b, 1) if b else None for k, (a, b) in aneis.items()},
                         "pixels_por_setor": setores, "mais_intensos(valor,km,az)": forte[:8],
-                        "valor_maringa": p[int(px), int(py)]})
+                        "valor_maringa": p[int(px), int(py)], "centro_ecos_60km_km_L_N": [round(cx / cn, 1), round(cy / cn, 1)] if cn else None, "pixels_ecos_60km": cn, "setores_30km": perto})
     out["radar"] = quadros; out["km_por_pixel"] = round(kmpx, 2)
 except Exception as e: out["radar_erro"] = repr(e)
 json.dump(out, open("lab/sondagem_agora.json", "w"), ensure_ascii=False, indent=1)
