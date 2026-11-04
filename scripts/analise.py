@@ -343,6 +343,14 @@ if n_ev >= 5 and len(ok) >= 100:
         risco["usar"] = False
     else:
         risco["usar"] = True
+# frequência real de temporal por faixa de instabilidade (CAPE máximo previsto na véspera)
+faixas = [(0, 1000), (1000, 2000), (2000, 3000), (3000, 99999)]
+risco_cape = []
+for a_, b_ in faixas:
+    k_ = ok[(ok["prev_cape_max"] >= a_) & (ok["prev_cape_max"] < b_)]
+    risco_cape.append({"de": a_, "ate": b_, "dias": int(len(k_)), "eventos": int(k_["severo"].sum()),
+                       "taxa": round(float(k_["severo"].mean()), 3) if len(k_) else None})
+log("temporal por CAPE:", risco_cape)
 eventos = [{"dia": str(d_.date()), "chuva_mm": None if pd.isna(r_["chuva"]) else round(float(r_["chuva"]), 1),
             "raj_inmet": None if pd.isna(r_["raj_inmet"]) else round(float(r_["raj_inmet"])),
             "raj_sbmg": None if pd.isna(r_["raj_sbmg"]) else round(float(r_["raj_sbmg"])),
@@ -356,6 +364,7 @@ eventos = [{"dia": str(d_.date()), "chuva_mm": None if pd.isna(r_["chuva"]) else
 # ---------------- 6. pesos finais (todas as temporadas) para o site ----------------
 pesos = {"gerado": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "chuva": {}, "fator_volume": {}, "prob": {}, "vento": {}}
 if risco and risco.get("usar"): pesos["risco"] = risco
+if sum(x["eventos"] for x in risco_cape) >= 8: pesos["risco_cape"] = [x for x in risco_cape if x["dias"] >= 30]
 for l in LEADS:
     pesos["chuva"][f"d{l}"] = {m: round(v, 4) for m, v in pesos_inv(dias, l).items()}
     pesos["fator_volume"][f"d{l}"] = {m: round(v, 3) for m, v in fatores(dias, l).items()}
@@ -365,8 +374,11 @@ for l in LEADS:
         pesos["prob"][f"d{l}_{thr}mm"] = [round(float(x), 4) for x in logit_fit(X, (Y >= thr).astype(float).values)]
 if vento:
     iv = {m: 1 / v["erro_vento_kmh"] for m, v in vento.items()}; t = sum(iv.values())
+    def fvento(m, v):
+        b2 = vento_sb.get(m, {}).get("vies_vento")
+        return round(1 / math.sqrt(v["vies_vento"] * b2), 3) if b2 else round(1 / v["vies_vento"], 3)
     pesos["vento"] = {"pesos": {m: round(v / t, 4) for m, v in iv.items()},
-                      "fator_vento": {m: round(1 / v["vies_vento"], 3) for m, v in vento.items()},
+                      "fator_vento": {m: fvento(m, v) for m, v in vento.items()},
                       "fator_rajada": {m: round(1 / v["vies_rajada"], 3) for m, v in vento.items() if v["vies_rajada"]}}
 
 res = {"gerado": pesos["gerado"], "ultimo_dado_inmet": str(fim_obs), "dias_validos": len(dias),
@@ -374,7 +386,7 @@ res = {"gerado": pesos["gerado"], "ultimo_dado_inmet": str(fim_obs), "dias_valid
        "ranking": {f"d{l}": {NOMES[m]: v for m, v in ranking[l].items()} for l in LEADS},
        "metodos": {f"d{l}": v for l, v in metodos.items()}, "probabilidade": prob,
        "vento": {NOMES[m]: v for m, v in vento.items()}, "vento_aeroporto": {NOMES[m]: v for m, v in vento_sb.items()},
-       "horario": {"resumo": hor_res, "dias": hor[-60:]}, "temporal": {"calibracao": risco, "dias_avaliados": int(len(ok)), "eventos": eventos},
+       "horario": {"resumo": hor_res, "dias": hor[-60:]}, "temporal": {"calibracao": risco, "dias_avaliados": int(len(ok)), "por_cape": risco_cape, "eventos": eventos},
        "log": LOG[-80:]}
 json.dump(res, open(f"{OUT}/resultados.json", "w"), ensure_ascii=False, indent=1, default=str)
 json.dump(pesos, open(f"{OUT}/pesos.json", "w"), ensure_ascii=False, indent=1)
@@ -414,6 +426,8 @@ lin = [[e["dia"], e["chuva_mm"], e["raj_inmet"], e["raj_sbmg"], e["trovoada"], e
 H.append(f"<h2>Dias de temporal ({n_ev} de {len(ok)} dias)</h2><p>Temporal = chuva ≥50 mm ou rajada ≥70 km/h (INMET ou aeroporto). "
          + (f"Risco calibrado: Brier fora da amostra {risco['brier_fora_amostra']} (regra dos modelos {risco['brier_regra_modelos']}, climatologia {risco['brier_climatologia']}) · {'usado no site' if risco.get('usar') else 'ainda não usado no site'}." if risco else "Poucos eventos para calibrar ainda.") + "</p>"
          + tab(lin, ["Dia", "Chuva real", "Rajada INMET", "Rajada aeroporto", "Trovoada", "Chuva prevista", "Rajada prevista", "CAPE máx", "Modelos com alerta"]))
+lin = [[f"{x['de']}–{x['ate'] if x['ate'] < 99999 else '+'}", x["dias"], x["eventos"], pct(x["taxa"])] for x in risco_cape]
+H.append("<h3>Frequência de temporal por instabilidade prevista (CAPE máximo, J/kg)</h3>" + tab(lin, ["CAPE", "Dias", "Temporais", "Frequência"]))
 H.append("<h2>Registro</h2><pre>" + "\n".join(LOG[-80:]) + "</pre>")
 css = "<style>body{font:14px system-ui;margin:16px;max-width:1000px}table{border-collapse:collapse;margin:8px 0 20px;font-size:13px}td,th{border:1px solid #ccc;padding:4px 6px;text-align:right}td:first-child,th:first-child{text-align:left}pre{white-space:pre-wrap;font-size:11px}</style>"
 open(f"{OUT}/relatorio.html", "w").write("<!doctype html><meta charset=utf-8><meta name=viewport content='width=device-width'>" + css + "".join(H))

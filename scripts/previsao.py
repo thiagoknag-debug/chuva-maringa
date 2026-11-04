@@ -23,7 +23,7 @@ def pesos():
     try: return json.load(open("lab/pesos.json"))
     except Exception: return {}
 
-def risco_dia(mem, det, alerta_lvl):
+def risco_dia(mem, det, alerta_lvl, rcape=None):
     """mem: lista de (chuva_mm, rajada_max|None, cape_max|None) por cenário; det: idem por modelo (rajada já corrigida).
     alerta_lvl: None/'amarelo'/'laranja'/'vermelho' (avisos de tempestade/chuva/vento do INMET)."""
     def severo(r, g, c):
@@ -33,6 +33,10 @@ def risco_dia(mem, det, alerta_lvl):
     pe = sum(severo(*x) for x in mem) / len(mem) if mem else 0
     pd_ = sum(severo(*x) for x in det) / len(det) if det else 0
     raw = 100 * (0.7 * pe + 0.3 * pd_) if mem else 100 * pd_
+    if rcape and det:
+        cm = max([x[2] or 0 for x in det])
+        fx = next((x for x in rcape if x["de"] <= cm < x["ate"]), None)
+        if fx and fx.get("taxa") is not None and fx.get("eventos", 0) >= 2: raw = max(raw, 100 * fx["taxa"])
     piso = {"amarelo": 10, "laranja": 35, "vermelho": 65}.get(alerta_lvl, 0)
     p = int(round(min(95, max(raw, piso))))
     gmed = st.median([x[1] for x in det if x[1] is not None]) if any(x[1] is not None for x in det) else 0
@@ -98,7 +102,7 @@ def calcular():
                 if lvl is None or ordem[a["lvl"]] > ordem[lvl]: lvl = a["lvl"]
         dias.append({"dia": d, "chuva_mm": round(st.median(chuva), 1) if chuva else None, "chance": chance,
                      "tmin": round(tmin), "tmax": round(tmax), "rajada": round(gust) if gust else None,
-                     "aviso": lvl, "risco": risco_dia(mem, det, lvl), "cenarios": len(mem)})
+                     "aviso": lvl, "risco": risco_dia(mem, det, lvl, PJ.get("risco_cape")), "cenarios": len(mem)})
     return {"gerado": dt.datetime.now(dt.timezone.utc).isoformat(), "dias": dias, "avisos": avisos}
 
 if __name__ == "__main__":

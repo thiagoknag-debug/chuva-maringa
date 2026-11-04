@@ -193,7 +193,7 @@ select{font:inherit;font-size:14px;padding:7px 10px;border-radius:10px;border:1p
   <section class="card">
     <h2>Próximas 48 horas</h2>
     <div class="hours" id="hours" role="list"></div>
-    <p class="hint">Ícone = tempo previsto. % = chance de chover. Barra = quantidade (mm). Seta = de onde vem o vento e velocidade em km/h; o número embaixo é a rajada.</p>
+    <p class="hint">Ícone = tempo previsto. % = chance de chover. Barra = quantidade (mm). O horário pode variar algumas horas. Seta = de onde vem o vento e velocidade em km/h; o número embaixo é a rajada.</p>
   </section>
   <section class="card">
     <h2>Próximos 10 dias</h2>
@@ -214,7 +214,8 @@ select{font:inherit;font-size:14px;padding:7px 10px;border-radius:10px;border:1p
       <li>Radar: RainViewer (últimas 2 horas). Satélite: NASA GIBS / GOES.</li>
       <li>Avisos oficiais do INMET para Maringá.</li>
       <li>A auditoria roda sozinha todo dia 2 no GitHub e atualiza os pesos do vento e da chuva forte quando o INMET publica dados novos.</li>
-      <li>Pancadas de verão variam de 1 a 2 horas e de bairro para bairro. Use os horários como janela, não como hora exata.</li>
+      <li><b>Horário:</b> na auditoria, o início da chuva previsto na véspera errou em média 4 a 5 horas. Use como período do dia (madrugada, manhã, tarde ou noite), não como hora marcada. Pancadas também variam de bairro para bairro.</li>
+      <li><b>Temporais:</b> em 13 temporais medidos desde set/2024, os modelos da véspera quase nunca previram a rajada nem o volume. O sinal mais confiável foi a instabilidade da atmosfera (CAPE) e o aviso do INMET, que o site usa no risco.</li>
     </ul>
   </details>
   <p class="foot">Dados: Open-Meteo e INMET. Calculado no seu aparelho a cada abertura.</p>
@@ -308,6 +309,7 @@ D.slice(0,3).forEach(dd=>{const day=dd[0],idx=T.map((t,i)=>t.startsWith(day)?i:-
   const RC=PJ&&PJ.risco&&PJ.risco.coef;
   if(RC&&det.length){const gm=med(det.map(x=>x[1]))||0,rm=med(det.map(x=>x[0]))||0,cm=Math.max(0,...det.map(x=>x[2]||0));
     const pc=100/(1+Math.exp(-(RC[0]+RC[1]*gm/10+RC[2]*Math.log1p(rm)+RC[3]*cm/1000))); raw=0.5*raw+0.5*pc;}
+  const RCP=PJ&&PJ.risco_cape; if(RCP&&det.length){const cm=Math.max(0,...det.map(x=>x[2]||0));const fx=RCP.find(x=>cm>=x.de&&cm<x.ate);if(fx&&fx.taxa!=null&&fx.eventos>=2)raw=Math.max(raw,100*fx.taxa);}
   let lvl=null;(A||[]).forEach(a=>{if(a.ini<=day&&day<=a.fim&&/tempestade|chuva|vento|vendaval|granizo/.test(a.tit)&&(!lvl||ORD[a.lvl]>ORD[lvl]))lvl=a.lvl;});
   const piso={amarelo:10,laranja:35,vermelho:65}[lvl]||0, p=Math.round(Math.min(95,Math.max(raw,piso)));
   const gmed=med(det.map(x=>x[1]))||0, p50=mem.length?100*mem.filter(x=>x[0]>=50).length/mem.length:0;
