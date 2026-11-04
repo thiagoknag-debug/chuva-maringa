@@ -478,10 +478,10 @@ const ventoTxt=gv>=50?`<p class="sub wind-alert">Vento forte: rajadas de até ${
 $('hero').className='hero sky-'+condH(0).k;
 const par=L.D.slice(0,2).find(d=>d[15]&&d[15].par);
 const parHora=(()=>{if(!par)return'';let hh=(L.DH||[])[L.D.indexOf(par)]||[];if(par[0]===key(now))hh=hh.filter(o=>o.h>=now.getHours());if(!hh.length)return'';
-  const pk=hh.reduce((a,o)=>(o.pt||0)>(a.pt||0)?o:a,hh[0]),lim=Math.max(20,Math.round((pk.pt||0)*0.75));
-  if((pk.pt||0)>=20){const s=hh.filter(o=>(o.pt||0)>=lim),a=s[0].h,b=s[s.length-1].h+1;
+  const pk=hh.reduce((a,o)=>(o.pt||0)>(a.pt||0)?o:a,hh[0]),lim=Math.max(25,Math.round((pk.pt||0)*0.75));
+  if((pk.pt||0)>=25){const s=hh.filter(o=>(o.pt||0)>=lim),a=s[0].h,b=s[s.length-1].h+1;
     return a===b-1?` Horário mais provável: perto das ${pad(pk.h)}h.`:` Horário mais provável: entre ${pad(a)}h e ${b===24?'24':pad(b)}h, pico perto das ${pad(pk.h)}h.`;}
-  const pc=hh.reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,hh[0]);return (pc.mm||0)>=0.5?` Chuva mais forte perto das ${pad(pc.h)}h.`:'';})();
+  const pc=hh.filter(o=>(o.p||0)>=30).reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,{mm:0});return (pc.mm||0)>=0.5?` Chuva mais forte perto das ${pad(pc.h)}h.`:'';})();
 const parTxt=par?`<p class="sub par211">⚠️ ${par[0]===key(now)?'Hoje':'Amanhã'}: cenário parecido com o temporal de 2/11 (risco ${par[15].pct}%).${parHora} Evite carro sob árvores e acompanhe o radar.</p>`:'';
 $('hero').innerHTML=`${agora()}<div><div class="lab">${lab}</div><p class="head">${head}</p><p class="sub">${sub}</p>${ventoTxt}${parTxt}</div><div class="pair">${box('Hoje',L.D[dIdx(key(now))])}${box('Amanhã',L.D[dIdx(key(tmw))])}</div>`;
 
@@ -518,7 +518,7 @@ function openDay(k){const d=L.D[k],hAll=(L.DH||[])[k]||[];if(!d)return;const dt=
   const hoje=d[0]===key(now),h0=now.getHours(),hh=hoje?hAll.filter(o=>o.h>=h0):hAll,resto=hoje?' (daqui pra frente)':'';
   const titulo=(nm==='Hoje'||nm==='Amanhã'?nm+', ':'')+WD[dt.getDay()].toLowerCase()+' '+dt.getDate()+'/'+(dt.getMonth()+1);
   const av=(L.alerts||[]).filter(a=>a.ini<=d[0]&&d[0]<=a.fim);
-  const wc=janelas(hh,'p',50), wt=janelas(hh,'pt',30);
+  const wc=janelas(hh,'p',50), wt=janelas(hh,'pt',25);
   const pmax=hh.reduce((a,o)=>(o.p??0)>(a.p??0)?o:a,{p:0}), tmax=hh.reduce((a,o)=>(o.pt??0)>(a.pt??0)?o:a,{pt:0});
   const chuvaTxt=wc.length?wc.map(w=>{const s=hh.slice(w.a,w.b+1);const mm=s.reduce((x,o)=>x+(o.mm||0),0),pm=Math.max(...s.map(o=>o.p||0));
       const pk=s.reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,s[0]);
@@ -549,7 +549,7 @@ function openDay(k){const d=L.D[k],hAll=(L.DH||[])[k]||[];if(!d)return;const dt=
    ${av.map(a=>`<p class="sh-av"><i class="dot" style="background:${col[a.lvl]||col.amarelo}"></i>Aviso ${a.lvl} do INMET: ${a.tit}. ${a.txt}</p>`).join('')}
    <div class="sh-sum"><div><b>${mmTxt(d[1])} mm</b><span>chuva (${fmt(d[2],0)}–${fmt(d[3],0)} entre modelos)</span></div><div><b>${d[4]??'—'}%</b><span>chance de chover</span></div>
      <div><b>${d[10]}°–${d[9]}°</b><span>mín – máx</span></div><div><b>${d[11]??'—'} km/h</b><span>rajada máxima${d[12]!=null?' ~'+hTxt(d[12]):''}</span></div></div>
-   ${(()=>{const pc=hh.reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,{mm:0}),pt=hh.reduce((a,o)=>(o.pt||0)>(a.pt||0)?o:a,{pt:0});const x=[];if((pc.mm||0)>=0.5)x.push(`🌧️ Chuva mais forte perto das <b>${hTxt(pc.h)}</b>`);if((pt.pt||0)>=25)x.push(`⛈️ Trovoada mais provável perto das <b>${hTxt(pt.h)}</b>`);return x.length?`<p class="sh-pk">${x.join('<br>')}</p>`:'';})()}
+   ${(()=>{const pc=hh.filter(o=>(o.p||0)>=30).reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,{mm:0}),pt=hh.reduce((a,o)=>(o.pt||0)>(a.pt||0)?o:a,{pt:0});const x=[];if((pc.mm||0)>=0.5)x.push(`🌧️ Chuva mais forte perto das <b>${hTxt(pc.h)}</b>`);if((pt.pt||0)>=25)x.push(`⛈️ Trovoada mais provável perto das <b>${hTxt(pt.h)}</b>`);return x.length?`<p class="sh-pk">${x.join('<br>')}</p>`:'';})()}
    <h4>🌧️ Quando deve chover${resto}</h4><ul class="sh-w">${chuvaTxt}</ul>
    <h4>⛈️ Tempestade (trovoada)${resto}</h4><ul class="sh-w">${tempTxt}</ul>
    ${vw}

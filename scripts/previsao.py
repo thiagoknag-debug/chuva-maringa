@@ -106,7 +106,16 @@ def calcular():
             return st.median(v) if v else None
         agora_h = dt.datetime.now(dt.timezone(dt.timedelta(hours=-3))).hour if k == 0 else 0
         fut = [i for i in idx if int(T[i][11:13]) >= agora_h]
-        pr = [(medh("precipitation", i) or 0, int(T[i][11:13])) for i in fut]
+        def chance_h(i):
+            n = c = 0
+            for j in E:
+                h = j["hourly"]; tix = {t: q for q, t in enumerate(h["time"])}
+                if T[i] not in tix: continue
+                for key in [x for x in h if x.startswith("precipitation")]:
+                    v = h[key][tix[T[i]]]
+                    if v is not None: n += 1; c += v >= 0.2
+            return 100 * c / n if n else 0
+        pr = [(medh("precipitation", i) or 0, int(T[i][11:13])) for i in fut if chance_h(i) >= 30]
         pico_chuva = max(pr)[1] if pr and max(pr)[0] >= 0.5 else None
         gr = [(medh("wind_gusts_10m", i, True) or 0, int(T[i][11:13])) for i in fut]
         pico_rajada = max(gr)[1] if gr else None
@@ -124,8 +133,8 @@ def calcular():
                     n += 1; ts += pv >= 0.5 and ((cv is not None and cv >= 1500) or (gv is not None and gv >= 55))
             tro.append((round(100 * ts / n) if n else 0, int(T[i][11:13])))
         janela_tro = None
-        if tro and max(tro)[0] >= 20:
-            pk = max(tro); lim = max(20, round(pk[0] * 0.75)); hs = [h_ for v_, h_ in tro if v_ >= lim]
+        if tro and max(tro)[0] >= 25:
+            pk = max(tro); lim = max(25, round(pk[0] * 0.75)); hs = [h_ for v_, h_ in tro if v_ >= lim]
             janela_tro = {"de": hs[0], "ate": hs[-1] + 1, "pico": pk[1], "pct": pk[0]}
         dias.append({"dia": d, "chuva_mm": round(st.median(chuva), 1) if chuva else None, "chance": chance,
                      "tmin": round(tmin), "tmax": round(tmax), "rajada": round(gust) if gust else None,
