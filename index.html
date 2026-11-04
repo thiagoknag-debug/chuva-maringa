@@ -78,7 +78,7 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
 .h .deg{font-size:11px;color:var(--muted)}
 
 /* dias */
-.day{display:grid;grid-template-columns:62px 44px 1fr 52px;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.day{display:grid;grid-template-columns:58px 30px 40px 1fr 52px;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
 .day:first-child{border-top:0;padding-top:2px}
 .day .n{font-weight:700;line-height:1.15}
 .day .n small{display:block;font-weight:500;color:var(--muted);font-size:12px}
@@ -89,7 +89,7 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
 .track .val{position:absolute;top:-3px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--rain);border:2px solid var(--card)}
 .day .v{text-align:right;font-weight:800;font-size:16px;font-variant-numeric:tabular-nums}
 .day .v small{font-size:11px;font-weight:500;color:var(--muted)}
-.day .tmp{font-size:11.5px;color:var(--muted);grid-column:3;margin-top:-6px}
+.day .tmp{font-size:11.5px;color:var(--muted);grid-column:4;margin-top:-6px}
 .legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);margin-top:10px}
 .legend i{display:inline-block;vertical-align:-1px;margin-right:5px}
 
@@ -147,6 +147,23 @@ select{font:inherit;font-size:14px;padding:7px 10px;border-radius:10px;border:1p
 .hero .now .nw{font-size:14px;font-weight:600;opacity:.92}
 .hero .box .bx2{display:block;font-size:12.5px;opacity:.9;margin-top:2px}
 .hero .box .bx2.bxw{font-weight:700;opacity:1}
+
+/* ícones */
+.ic{display:inline-block;line-height:1;font-size:22px;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.ic.big{font-size:44px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.25))}
+.h .ic{font-size:22px;height:26px;display:flex;align-items:center}
+.day .dic{font-size:24px;text-align:center}
+.hero .now{align-items:center}
+.hero .now .ncond{font-size:15px;font-weight:700;flex-basis:100%;margin-top:-4px}
+.hero .bxh{display:flex;justify-content:space-between;align-items:center}
+.hero .bxh .ic{font-size:22px}
+/* céu do resumo conforme o tempo */
+.hero{transition:background .4s}
+.hero.sky-clear{background:linear-gradient(155deg,#0e6bc4,#3aa0f0 60%,#f2b45b 140%)}
+.hero.sky-cloud{background:linear-gradient(155deg,#455a70,#7f93a8)}
+.hero.sky-rain{background:linear-gradient(155deg,#26405e,#4f6f91)}
+.hero.sky-storm{background:linear-gradient(155deg,#1b1530,#3d2f5c 60%,#5a4a7a)}
+.hero.sky-night{background:linear-gradient(155deg,#0a1630,#1d3463)}
 </style>
 </head>
 <body>
@@ -169,7 +186,7 @@ select{font:inherit;font-size:14px;padding:7px 10px;border-radius:10px;border:1p
   <section class="card">
     <h2>Próximas 48 horas</h2>
     <div class="hours" id="hours" role="list"></div>
-    <p class="hint">Gota mais escura = mais chance de chover. Barra = quantidade (mm). Seta = de onde vem o vento e velocidade em km/h; o número embaixo é a rajada.</p>
+    <p class="hint">Ícone = tempo previsto. % = chance de chover. Barra = quantidade (mm). Seta = de onde vem o vento e velocidade em km/h; o número embaixo é a rajada.</p>
   </section>
   <section class="card">
     <h2>Próximos 10 dias</h2>
@@ -211,7 +228,7 @@ const fat=(l,m)=>PJ&&PJ.fator_volume&&PJ.fator_volume['d'+l]&&PJ.fator_volume['d
 const med=a=>{const b=a.filter(x=>x!=null).sort((x,y)=>x-y),n=b.length;return n?(n%2?b[(n-1)/2]:(b[n/2-1]+b[n/2])/2):null;};
 const VW=(CFG.ventoCalibrado&&PJ&&PJ.vento&&PJ.vento.pesos)||null, FV=(CFG.ventoCalibrado&&PJ&&PJ.vento&&PJ.vento.fator_vento)||{}, FR=(CFG.ventoCalibrado&&PJ&&PJ.vento&&PJ.vento.fator_rajada)||{};
 const [f,e]=await Promise.all([
- get(`https://api.open-meteo.com/v1/forecast?${B}&hourly=precipitation,temperature_2m,wind_speed_10m,wind_gusts_10m,wind_direction_10m&models=${M}&forecast_days=10`),
+ get(`https://api.open-meteo.com/v1/forecast?${B}&hourly=precipitation,temperature_2m,wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,is_day&models=${M}&forecast_days=10`),
  get(`https://ensemble-api.open-meteo.com/v1/ensemble?${B}&hourly=precipitation&models=ecmwf_ifs025,gfs025,icon_seamless&forecast_days=10`)]);
 const T=f.hourly.time, r1=x=>Math.round(x*10)/10, hv=(v,m,i)=>{const a=f.hourly[v+"_"+m];return a?a[i]:null;};
 const mk=Object.keys(e.hourly).filter(k=>k.startsWith("precipitation"));
@@ -219,6 +236,8 @@ const ei=Object.fromEntries(e.hourly.time.map((t,i)=>[t,i]));
 const pad=n=>String(n).padStart(2,"0"), d0=new Date();
 const dayKey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const nowKey=`${dayKey(d0)}T${pad(d0.getHours())}:00`, today=dayKey(d0);
+const nuvem=i=>{let s=0,n=0;for(const m of M){const x=hv('cloud_cover',m,i);if(x!=null){s+=x;n++;}}return n?Math.round(s/n):null;};
+const diaH=i=>{for(const m of M){const x=hv('is_day',m,i);if(x!=null)return x;}const h=+T[i].slice(11,13);return h>=6&&h<19?1:0;};
 const leadOf=t=>{const dd=Math.round((new Date(t.slice(0,10)+'T12:00')-new Date(today+'T12:00'))/864e5);return Math.min(3,Math.max(1,dd));};
 const s=Math.max(0,T.indexOf(nowKey));
 /* vento de uma hora: média ponderada (com fator de calibração) + direção pela média vetorial */
@@ -241,14 +260,15 @@ for(const day of dates){const idx=T.map((t,i)=>t.startsWith(day)?i:-1).filter(i=
  const cal=CFG.chanceForteCalibrada&&PJ&&PJ.prob&&PJ.prob[`d${l}_10mm`];
  if(cal&&nm>=4&&dw>0){const b=cal,x=b[0]+b[1]*(nr/nm)+b[2]*Math.log1p(mw/dw);P10=Math.round(100/(1+Math.exp(-x)));}
  let gmax=0,gmaxH=null,wmax=0;idx.forEach(i=>{const vv=vento(i);if(vv.wg!=null&&vv.wg>gmax){gmax=vv.wg;gmaxH=+T[i].slice(11,13);}if(vv.ws!=null)wmax=Math.max(wmax,vv.ws);});
- D.push([day,mm!=null?r1(mm):null,v.length?r1(Math.min(...v)):null,v.length?r1(Math.max(...v)):null,P1,P10,pr(25),pr(50),sums.length,Math.round(tx),Math.round(tn),gmax,gmaxH,Math.round(wmax)]);}
-const H={start:T[s],mm:[],mx:[],p:[],t:[],ws:[],wg:[],wgx:[],wd:[]};
+ const ccd=(()=>{const a=idx.filter(i=>{const h=+T[i].slice(11,13);return h>=7&&h<=18;}).map(nuvem).filter(x=>x!=null);return a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):null;})();
+ D.push([day,mm!=null?r1(mm):null,v.length?r1(Math.min(...v)):null,v.length?r1(Math.max(...v)):null,P1,P10,pr(25),pr(50),sums.length,Math.round(tx),Math.round(tn),gmax,gmaxH,Math.round(wmax),ccd]);}
+const H={start:T[s],mm:[],mx:[],p:[],t:[],ws:[],wg:[],wgx:[],wd:[],cc:[],dia:[]};
 for(let i=s;i<s+48&&i<T.length;i++){let n=0,d=0,mx=0,tt=0,td=0;
  for(const m of M){const x=hv("precipitation",m,i); if(x!=null){n+=x;d++;mx=Math.max(mx,x);} const y=hv("temperature_2m",m,i); if(y!=null){tt+=y;td++;}}
  let c=0,k=0; const j=ei[T[i]]; for(const q of mk){const x=e.hourly[q][j]; if(x==null)continue;k++; if(x>=0.2)c++;}
  const vv=vento(i), sc=escala[T[i].slice(0,10)]??1;
  H.mm.push(d?r1(n/d*sc):null); H.mx.push(r1(mx)); H.p.push(k?Math.round(100*c/k):null); H.t.push(td?Math.round(tt/td):null);
- H.ws.push(vv.ws);H.wg.push(vv.wg);H.wgx.push(vv.wgx);H.wd.push(vv.wd);}
+ H.ws.push(vv.ws);H.wg.push(vv.wg);H.wgx.push(vv.wgx);H.wd.push(vv.wd);H.cc.push(nuvem(i));H.dia.push(diaH(i));}
 let A=[];try{const ac=new AbortController();setTimeout(()=>ac.abort(),20000);const j=await fetch("https://apiprevmet3.inmet.gov.br/avisos/ativos",{signal:ac.signal}).then(r=>r.json());
  const lv={"Perigo Potencial":"amarelo","Perigo":"laranja","Grande Perigo":"vermelho"};
  const L=[...(j.hoje||[]),...(j.futuro||[])].filter(a=>/(^|,\s*)Maring[aá]\s*-\s*PR/i.test(a.municipios||"")).map(a=>({lvl:lv[a.severidade]||"amarelo",tit:String(a.descricao).toLowerCase(),ini:a.data_inicio.slice(0,10),fim:a.data_fim.slice(0,10),txt:String(Array.isArray(a.riscos)?a.riscos[0]:a.riscos).split(/\.\s+(Baixo r|R)isco/)[0].replace(/\.$/,"")+"."})).sort((a,b)=>a.ini<b.ini?-1:1);
@@ -316,9 +336,25 @@ const winMm=w=>{let s=0,p=0;for(let i=w.a;i<=w.b;i++){s+=H.mm[i]||0;p=Math.max(p
 const dIdx=k=>L.D.findIndex(d=>d[0]===k);
 const key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 const dir8=d=>d==null?'':['N','NE','L','SE','S','SO','O','NO'][Math.round(d/45)%8];
-const box=(lab,d)=>{if(!d)return'';return `<div class="box"><span>${lab}</span><b>${mmTxt(d[1])} mm</b><span>${d[4]??'—'}% de chance</span><span class="bx2">${d[10]}° a ${d[9]}°</span><span class="bx2${d[11]>=50?' bxw':''}">Rajadas até ${d[11]??'—'} km/h</span></div>`;};
+const box=(lab,d)=>{if(!d)return'';return `<div class="box"><span class="bxh">${lab} ${ic(condD(d))}</span><b>${mmTxt(d[1])} mm</b><span>${d[4]??'—'}% de chance</span><span class="bx2">${d[10]}° a ${d[9]}°</span><span class="bx2${d[11]>=50?' bxw':''}">Rajadas até ${d[11]??'—'} km/h</span></div>`;};
+/* ícones de tempo */
+const condH=i=>{const p=H.p[i]??0,mm=H.mm[i]||0,g=H.wg?H.wg[i]||0:0,cc=H.cc?H.cc[i]:null,dia=H.dia?H.dia[i]:1;
+  if(p>=50&&(mm>=4||g>=55))return{e:'⛈️',t:'Tempestade',k:'storm'};
+  if(p>=50&&mm>=0.5)return{e:'🌧️',t:'Chuva',k:'rain'};
+  if(p>=30&&mm>=0.1)return dia?{e:'🌦️',t:'Pancadas',k:'rain'}:{e:'🌧️',t:'Chuva fraca',k:'rain'};
+  if(cc!=null&&cc>=80)return{e:'☁️',t:'Nublado',k:'cloud'};
+  if(cc!=null&&cc>=35)return dia?{e:'⛅',t:'Sol entre nuvens',k:'clear'}:{e:'☁️',t:'Parcialmente nublado',k:'night'};
+  return dia?{e:'☀️',t:'Céu limpo',k:'clear'}:{e:'🌙',t:'Céu limpo',k:'night'};};
+const condD=d=>{const P=d[4]??0,mm=d[1]||0,P10=d[5]??0,g=d[11]||0,cc=d[14];
+  if(P>=50&&(mm>=15||P10>=40||g>=55))return{e:'⛈️',t:'Tempestades',k:'storm'};
+  if(P>=50&&mm>=1)return{e:'🌧️',t:'Chuva',k:'rain'};
+  if(P>=30)return{e:'🌦️',t:'Pancadas isoladas',k:'rain'};
+  if(cc!=null&&cc>=75)return{e:'☁️',t:'Nublado',k:'cloud'};
+  if(cc!=null&&cc>=35)return{e:'⛅',t:'Sol entre nuvens',k:'clear'};
+  return{e:'☀️',t:'Ensolarado',k:'clear'};};
+const ic=(c,cls='')=>`<span class="ic ${cls}" role="img" aria-label="${c.t}">${c.e}</span>`;
 const agora=()=>{const t=H.t[0],ws=H.ws?H.ws[0]:null,wg=H.wg?H.wg[0]:null,wd=H.wd?H.wd[0]:null;
-  return `<div class="now"><span class="nt">${t??'—'}°</span><span class="nw">Vento ${dir8(wd)} ${ws??'—'} km/h${wg!=null?` · rajadas ${wg} km/h`:''}</span></div>`;};
+  const c0=condH(0);return `<div class="now">${ic(c0,'big')}<span class="nt">${t??'—'}°</span><span class="ncond">${c0.t}</span><span class="nw">Vento ${dir8(wd)} ${ws??'—'} km/h${wg!=null?` · rajadas ${wg} km/h`:''}</span></div>`;};
 let head,sub,lab;
 const sig=wins.filter(w=>winMm(w).s>=1);
 if(wins.length){const w=sig[0]||wins[0],a=hrs[w.a],b=new Date(hrs[w.b].getTime()+3600e3),m=winMm(w);
@@ -331,6 +367,7 @@ if(wins.length){const w=sig[0]||wins[0],a=hrs[w.a],b=new Date(hrs[w.b].getTime()
 else{const pm=Math.max(...H.p);lab='Próximas 48 horas';head='Sem chuva provável';sub=`Chance máxima de ${pm}% em alguma hora`;}
 let gi=-1,gv=0;(H.wg||[]).forEach((v,k)=>{if(v!=null&&v>gv){gv=v;gi=k;}});
 const ventoTxt=gv>=50?`<p class="sub wind-alert">Vento forte: rajadas de até ${gv} km/h ${dayName(hrs[gi]).toLowerCase()} por volta das ${pad(hrs[gi].getHours())}h</p>`:'';
+$('hero').className='hero sky-'+condH(0).k;
 $('hero').innerHTML=`${agora()}<div><div class="lab">${lab}</div><p class="head">${head}</p><p class="sub">${sub}</p>${ventoTxt}</div><div class="pair">${box('Hoje',L.D[dIdx(key(now))])}${box('Amanhã',L.D[dIdx(key(tmw))])}</div>`;
 
 const arrow=d=>d==null?'':`<svg class="arr" viewBox="0 0 16 16" aria-hidden="true" style="transform:rotate(${(d+180)%360}deg)"><path d="M8 1.5 12.5 13 8 10.3 3.5 13z" fill="currentColor"/></svg>`;
@@ -342,13 +379,13 @@ const drop=p=>`<svg viewBox="0 0 20 24" aria-hidden="true"><path d="M10 1.5C10 1
 const hmax=Math.max(4,...H.mm.map(v=>v||0));
 $('hours').innerHTML=hrs.map((d,i)=>{const p=H.p[i]??0,v=H.mm[i]||0,nd=d.getHours()===0&&i>0;
   const t=i===0?'Agora':pad(d.getHours())+'h';
-  return `<div class="h${nd?' newday':''}" role="listitem" aria-label="${dayName(d)} ${pad(d.getHours())}h: ${p}% de chance, ${fmt(v)} mm"><div class="t">${nd?`<b>${dayName(d)}</b>`:''}${t}</div>${drop(p)}<div class="p" style="color:${p>=50?'var(--rain)':'var(--muted)'}">${p}%</div><div class="bar"><i style="height:${Math.round(100*Math.min(v,hmax)/hmax)}%"></i></div><div class="mm">${v>=0.1?fmt(v):''}</div><div class="deg">${H.t[i]??''}°</div>${windCell(i)}</div>`;}).join('');
+  return `<div class="h${nd?' newday':''}" role="listitem" aria-label="${dayName(d)} ${pad(d.getHours())}h: ${p}% de chance, ${fmt(v)} mm"><div class="t">${nd?`<b>${dayName(d)}</b>`:''}${t}</div>${ic(condH(i))}<div class="p" style="color:${p>=50?'var(--rain)':'var(--muted)'}">${p}%</div><div class="bar"><i style="height:${Math.round(100*Math.min(v,hmax)/hmax)}%"></i></div><div class="mm">${v>=0.1?fmt(v):''}</div><div class="deg">${H.t[i]??''}°</div>${windCell(i)}</div>`;}).join('');
 
 /* dias */
 const S=Math.min(60,Math.max(20,...L.D.map(d=>d[3]||0)));
 const pos=v=>Math.min(100,100*(v||0)/S);
 $('days').innerHTML=L.D.map(d=>{const dt=new Date(d[0]+'T12:00:00'),P=d[4];
-  return `<div class="day"><div class="n">${dayName(dt)}<small>${dt.getDate()}/${dt.getMonth()+1}</small></div><div class="c${P<40?' lo':''}">${P??'—'}%</div><div class="track" title="Entre ${fmt(d[2],0)} e ${fmt(d[3],0)} mm conforme o modelo"><span class="rng" style="left:${pos(d[2])}%;width:${Math.max(2,pos(d[3])-pos(d[2]))}%"></span><span class="val" style="left:${pos(d[1])}%"></span></div><div class="v">${mmTxt(d[1])}<small> mm</small></div><div class="tmp">${d[10]}° a ${d[9]}°${d[11]?` · <span class="${d[11]>=60?'wx':''}">rajadas até ${d[11]} km/h</span>`:''}${d[6]>=20?` · ${d[6]}% de chance de passar de 25 mm`:''}</div></div>`;}).join('')+
+  return `<div class="day"><div class="n">${dayName(dt)}<small>${dt.getDate()}/${dt.getMonth()+1}</small></div>${ic(condD(d),'dic')}<div class="c${P<40?' lo':''}">${P??'—'}%</div><div class="track" title="Entre ${fmt(d[2],0)} e ${fmt(d[3],0)} mm conforme o modelo"><span class="rng" style="left:${pos(d[2])}%;width:${Math.max(2,pos(d[3])-pos(d[2]))}%"></span><span class="val" style="left:${pos(d[1])}%"></span></div><div class="v">${mmTxt(d[1])}<small> mm</small></div><div class="tmp">${condD(d).t}${d[11]>=50?' 💨':''} · ${d[10]}° a ${d[9]}°${d[11]?` · <span class="${d[11]>=60?'wx':''}">rajadas até ${d[11]} km/h</span>`:''}${d[6]>=20?` · ${d[6]}% de chance de passar de 25 mm`:''}</div></div>`;}).join('')+
  `<div class="legend"><span><i class="sw" style="width:10px;height:10px;border-radius:50%;background:var(--rain)"></i>estimativa (mm)</span><span><i class="sw" style="width:16px;height:6px;border-radius:3px;background:var(--rain-2);opacity:.6"></i>variação entre os modelos</span><span>% = chance de chover</span></div>`;
 
 /* outubro */
