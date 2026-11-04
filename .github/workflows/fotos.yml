@@ -13,7 +13,10 @@ jobs:
         with:
           node-version: "22"
       - run: npm install --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
-      - run: node scripts/fotos.js
+      - run: |
+          python3 -m http.server 8000 >/dev/null 2>&1 &
+          sleep 2
+          node scripts/fotos.js
       - name: Salvar
         run: |
           git config user.name "auditoria-bot"

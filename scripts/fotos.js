@@ -8,7 +8,7 @@ const fs = require('fs');
   const p = await ctx.newPage(); const erros = [];
   p.on('pageerror', e => erros.push(String(e).slice(0, 300)));
   p.on('console', m => { if (m.type() === 'error') erros.push(m.text().slice(0, 300)); });
-  await p.goto('https://thiagoknag-debug.github.io/chuva-maringa/?t=' + Date.now(), { waitUntil: 'load' });
+  await p.goto((process.env.SITE || 'http://localhost:8000/') + '?t=' + Date.now(), { waitUntil: 'load' });
   await p.waitForSelector('.hero .box', { timeout: 90000 }).catch(() => {});
   await p.waitForTimeout(4000);
   await p.screenshot({ path: 'lab/fotos/1_topo.png' });
