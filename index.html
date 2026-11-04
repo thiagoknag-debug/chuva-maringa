@@ -201,7 +201,7 @@ select{font:inherit;font-size:14px;padding:7px 10px;border-radius:10px;border:1p
     <ul class="method">
       <li>Combina 11 modelos meteorológicos (ECMWF 9 km e 25 km, ECMWF IA, GFS, ICON, CMA e outros) pela mediana, o método que mais acertou na auditoria de 189 dias com o pluviômetro do INMET.</li>
       <li>A chance de chuva forte (≥10 mm) é calibrada pelo histórico. Na auditoria, o erro dessa chance caiu cerca de 45%.</li>
-      <li>A chance de chuva vem de 122 cenários dos conjuntos ECMWF, GFS e ICON: é a fração deles que mostra chuva.</li>
+      <li>A chance de chuva vem de cerca de 230 cenários de até 7 sistemas de previsão (ECMWF, ECMWF IA, GFS, ICON, Canadá, Reino Unido e Austrália): é a fração deles que mostra chuva. O rodapé mostra quantos foram usados.</li>
       <li>Vento: média dos modelos, com correção pelo que a estação do INMET mediu. Rajadas são picos de poucos segundos.</li>
       <li>Radar: RainViewer (últimas 2 horas). Satélite: NASA GIBS / GOES.</li>
       <li>Avisos oficiais do INMET para Maringá.</li>
@@ -227,12 +227,23 @@ const wLead=l=>{const p=PJ&&PJ.chuva&&PJ.chuva['d'+l];return p&&Object.keys(p).l
 const fat=(l,m)=>PJ&&PJ.fator_volume&&PJ.fator_volume['d'+l]&&PJ.fator_volume['d'+l][m]||1;
 const med=a=>{const b=a.filter(x=>x!=null).sort((x,y)=>x-y),n=b.length;return n?(n%2?b[(n-1)/2]:(b[n/2-1]+b[n/2])/2):null;};
 const VW=(CFG.ventoCalibrado&&PJ&&PJ.vento&&PJ.vento.pesos)||null, FV=(CFG.ventoCalibrado&&PJ&&PJ.vento&&PJ.vento.fator_vento)||{}, FR=(CFG.ventoCalibrado&&PJ&&PJ.vento&&PJ.vento.fator_rajada)||{};
-const [f,e]=await Promise.all([
+/* conjuntos (ensembles): cada sistema é buscado separado; se um falhar, os outros seguem */
+const ENS=[["ECMWF",["ecmwf_ifs025"]],["ECMWF IA",["ecmwf_aifs025","ecmwf_aifs025_ensemble"]],["GFS",["gfs025"]],["ICON",["icon_seamless"]],
+  ["GEM (Canadá)",["gem_global","gem_global_ensemble"]],["UK Met Office",["ukmo_global_ensemble_20km"]],["BOM (Austrália)",["bom_access_global_ensemble"]]];
+const ens1=async(ids)=>{for(const id of ids){try{const ac=new AbortController();setTimeout(()=>ac.abort(),25000);
+  const r=await fetch(`https://ensemble-api.open-meteo.com/v1/ensemble?${B}&hourly=precipitation&models=${id}&forecast_days=10`,{signal:ac.signal});
+  if(!r.ok)continue;const j=await r.json();if(j&&j.hourly&&Object.keys(j.hourly).some(k=>k.startsWith('precipitation')))return j;}catch(e){}}return null;};
+const [f,...ER]=await Promise.all([
  get(`https://api.open-meteo.com/v1/forecast?${B}&hourly=precipitation,temperature_2m,wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,is_day&models=${M}&forecast_days=10`),
- get(`https://ensemble-api.open-meteo.com/v1/ensemble?${B}&hourly=precipitation&models=ecmwf_ifs025,gfs025,icon_seamless&forecast_days=10`)]);
+ ...ENS.map(x=>ens1(x[1]))]);
 const T=f.hourly.time, r1=x=>Math.round(x*10)/10, hv=(v,m,i)=>{const a=f.hourly[v+"_"+m];return a?a[i]:null;};
-const mk=Object.keys(e.hourly).filter(k=>k.startsWith("precipitation"));
-const ei=Object.fromEntries(e.hourly.time.map((t,i)=>[t,i]));
+/* junta todos os cenários num só conjunto, alinhado pelo horário */
+const ensOK=[], MEM=[];
+ER.forEach((j,n)=>{if(!j)return;const idx=Object.fromEntries(j.hourly.time.map((t,i)=>[t,i]));let c=0;
+  for(const k of Object.keys(j.hourly)){if(!k.startsWith('precipitation'))continue;const a=j.hourly[k];MEM.push(T.map(t=>{const p=idx[t];return p==null?null:a[p];}));c++;}
+  ensOK.push([ENS[n][0],c]);});
+if(!MEM.length)throw new Error('sem conjuntos');
+const MEMH=MEM.filter(a=>{let n=0;for(let i=0;i<48&&i<a.length;i++)if(a[i]!=null)n++;return n>=44;}); /* só cenários hora a hora entram na chance por hora */
 const pad=n=>String(n).padStart(2,"0"), d0=new Date();
 const dayKey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const nowKey=`${dayKey(d0)}T${pad(d0.getHours())}:00`, today=dayKey(d0);
@@ -253,7 +264,7 @@ for(const day of dates){const idx=T.map((t,i)=>t.startsWith(day)?i:-1).filter(i=
  for(const m of M){const a=idx.map(i=>hv("precipitation",m,i)); if(a.some(x=>x==null))continue; const sm=a.reduce((x,y)=>x+y,0);
    v.push(sm); nm++; if(sm>=1)nr++; n+=sm; d++; if(W[m]){mw+=W[m]*sm*fat(l,m);dw+=W[m];}}
  idx.forEach(i=>{let tt=0,td=0; for(const m of M){const y=hv("temperature_2m",m,i); if(y!=null){tt+=y;td++;}} if(td){tx=Math.max(tx,tt/td);tn=Math.min(tn,tt/td);}});
- const sums=[]; for(const q of mk){const a=idx.map(i=>e.hourly[q][ei[T[i]]]); if(a.some(x=>x==null))continue; sums.push(a.reduce((x,y)=>x+y,0));}
+ const sums=[]; for(const a0 of MEM){const a=idx.map(i=>a0[i]).filter(x=>x!=null); if(!(a.length>=20||((a.length===4||a.length===8)&&idx.length===24)))continue; sums.push(a.reduce((x,y)=>x+y,0));}
  const pr=t=>sums.length?Math.round(100*sums.filter(x=>x>=t).length/sums.length):null;
  const media=d?n/d:null, mm=CFG.mediana?med(v):media; escala[day]=media>0.05&&mm!=null?mm/media:1;
  let P1=pr(1),P10=pr(10);
@@ -265,7 +276,7 @@ for(const day of dates){const idx=T.map((t,i)=>t.startsWith(day)?i:-1).filter(i=
 const H={start:T[s],mm:[],mx:[],p:[],t:[],ws:[],wg:[],wgx:[],wd:[],cc:[],dia:[]};
 for(let i=s;i<s+48&&i<T.length;i++){let n=0,d=0,mx=0,tt=0,td=0;
  for(const m of M){const x=hv("precipitation",m,i); if(x!=null){n+=x;d++;mx=Math.max(mx,x);} const y=hv("temperature_2m",m,i); if(y!=null){tt+=y;td++;}}
- let c=0,k=0; const j=ei[T[i]]; for(const q of mk){const x=e.hourly[q][j]; if(x==null)continue;k++; if(x>=0.2)c++;}
+ let c=0,k=0; for(const a0 of (MEMH.length?MEMH:MEM)){const x=a0[i]; if(x==null)continue;k++; if(x>=0.2)c++;}
  const vv=vento(i), sc=escala[T[i].slice(0,10)]??1;
  H.mm.push(d?r1(n/d*sc):null); H.mx.push(r1(mx)); H.p.push(k?Math.round(100*c/k):null); H.t.push(td?Math.round(tt/td):null);
  H.ws.push(vv.ws);H.wg.push(vv.wg);H.wgx.push(vv.wgx);H.wd.push(vv.wd);H.cc.push(nuvem(i));H.dia.push(diaH(i));}
@@ -273,7 +284,7 @@ let A=[];try{const ac=new AbortController();setTimeout(()=>ac.abort(),20000);con
  const lv={"Perigo Potencial":"amarelo","Perigo":"laranja","Grande Perigo":"vermelho"};
  const L=[...(j.hoje||[]),...(j.futuro||[])].filter(a=>/(^|,\s*)Maring[aá]\s*-\s*PR/i.test(a.municipios||"")).map(a=>({lvl:lv[a.severidade]||"amarelo",tit:String(a.descricao).toLowerCase(),ini:a.data_inicio.slice(0,10),fim:a.data_fim.slice(0,10),txt:String(Array.isArray(a.riscos)?a.riscos[0]:a.riscos).split(/\.\s+(Baixo r|R)isco/)[0].replace(/\.$/,"")+"."})).sort((a,b)=>a.ini<b.ini?-1:1);
  for(const a of L){const p=A.find(x=>x.lvl===a.lvl&&x.tit===a.tit&&x.txt===a.txt&&(new Date(a.ini)-new Date(x.fim))<=864e5);if(p){if(a.fim>p.fim)p.fim=a.fim;}else A.push({...a});}}catch(e){A=null}
-return {gen:new Date().toISOString(),H,D,alerts:A||[],pesos:PJ?PJ.gerado:null};
+return {gen:new Date().toISOString(),H,D,alerts:A||[],pesos:PJ?PJ.gerado:null,ens:ensOK};
 }
 (async function(){
 const $=id=>document.getElementById(id);
@@ -317,7 +328,7 @@ try{[L,O]=await Promise.all([coletar(),fetch('oct.json?v='+Date.now(),{cache:'no
 catch(e){$('stamp').textContent='Sem conexão com os serviços de tempo';$('hero').outerHTML='<div class="err">Não foi possível buscar a previsão agora. Verifique a internet e toque em ↻.</div>';return;}
 
 /* carimbo */
-const g=new Date(L.gen);if(L.pesos){const f=document.querySelector('.foot');if(f)f.textContent+=' Pesos da auditoria de '+L.pesos.slice(8,10)+'/'+L.pesos.slice(5,7)+'/'+L.pesos.slice(0,4)+'.';}$('stamp').textContent='Atualizado às '+pad(g.getHours())+'h'+pad(g.getMinutes())+' · '+WD[g.getDay()]+', '+g.getDate()+'/'+(g.getMonth()+1);
+const g=new Date(L.gen);if(L.ens&&L.ens.length){const f=document.querySelector('.foot');const n=L.ens.reduce((s,x)=>s+x[1],0);if(f)f.textContent+=` Chance de chuva com ${n} cenários de ${L.ens.length} sistemas (${L.ens.map(x=>x[0]).join(', ')}).`;}if(L.pesos){const f=document.querySelector('.foot');if(f)f.textContent+=' Pesos da auditoria de '+L.pesos.slice(8,10)+'/'+L.pesos.slice(5,7)+'/'+L.pesos.slice(0,4)+'.';}$('stamp').textContent='Atualizado às '+pad(g.getHours())+'h'+pad(g.getMinutes())+' · '+WD[g.getDay()]+', '+g.getDate()+'/'+(g.getMonth()+1);
 
 /* avisos */
 const todayKey=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
