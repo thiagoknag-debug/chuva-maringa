@@ -1,0 +1,466 @@
+{
+ "gerado": "2026-11-05T20:34:21.433Z",
+ "quadros": [
+  {
+   "hora": "18:30",
+   "tiles": 9,
+   "ecos20": 26538
+  },
+  {
+   "hora": "18:40",
+   "tiles": 9,
+   "ecos20": 25745
+  },
+  {
+   "hora": "18:50",
+   "tiles": 9,
+   "ecos20": 24745
+  },
+  {
+   "hora": "19:00",
+   "tiles": 9,
+   "ecos20": 25191
+  },
+  {
+   "hora": "19:10",
+   "tiles": 9,
+   "ecos20": 24964
+  },
+  {
+   "hora": "19:20",
+   "tiles": 9,
+   "ecos20": 24132
+  },
+  {
+   "hora": "19:30",
+   "tiles": 9,
+   "ecos20": 22382
+  },
+  {
+   "hora": "19:40",
+   "tiles": 9,
+   "ecos20": 20655
+  },
+  {
+   "hora": "19:50",
+   "tiles": 9,
+   "ecos20": 19837
+  },
+  {
+   "hora": "20:00",
+   "tiles": 9,
+   "ecos20": 18693
+  },
+  {
+   "hora": "20:10",
+   "tiles": 9,
+   "ecos20": 16380
+  },
+  {
+   "hora": "20:20",
+   "tiles": 9,
+   "ecos20": 15646
+  },
+  {
+   "hora": "20:30",
+   "tiles": 9,
+   "ecos20": 14446
+  }
+ ],
+ "cobertura": {
+  "44/71": {
+   "transp": 35798,
+   "opaco": 29738
+  },
+  "45/71": {
+   "transp": 62718,
+   "opaco": 2818
+  },
+  "46/71": {
+   "transp": 64318,
+   "opaco": 1218
+  },
+  "44/72": {
+   "transp": 65432,
+   "opaco": 104
+  },
+  "maringa": [
+   255,
+   255,
+   255,
+   0
+  ],
+  "45/72": {
+   "transp": 65536,
+   "opaco": 0
+  },
+  "46/72": {
+   "transp": 65536,
+   "opaco": 0
+  },
+  "44/73": {
+   "transp": 65475,
+   "opaco": 61
+  },
+  "45/73": {
+   "transp": 65432,
+   "opaco": 104
+  },
+  "46/73": {
+   "transp": 65432,
+   "opaco": 104
+  }
+ },
+ "velocidades": [
+  {
+   "hora": "19:00",
+   "fonte": "radar",
+   "kmh": 7,
+   "disp": 49,
+   "n": 3,
+   "dir_para": 332
+  },
+  {
+   "hora": "19:10",
+   "fonte": "radar",
+   "kmh": 31,
+   "disp": 11,
+   "n": 3,
+   "dir_para": 84
+  },
+  {
+   "hora": "19:20",
+   "fonte": "radar",
+   "kmh": 30,
+   "disp": 12,
+   "n": 3,
+   "dir_para": 87
+  },
+  {
+   "hora": "19:30",
+   "fonte": "radar",
+   "kmh": 23,
+   "disp": 19,
+   "n": 3,
+   "dir_para": 89
+  },
+  {
+   "hora": "19:40",
+   "fonte": "radar",
+   "kmh": 25,
+   "disp": 21,
+   "n": 3,
+   "dir_para": 90
+  },
+  {
+   "hora": "19:50",
+   "fonte": "radar",
+   "kmh": 25,
+   "disp": 21,
+   "n": 3,
+   "dir_para": 87
+  },
+  {
+   "hora": "20:00",
+   "fonte": "radar",
+   "kmh": 26,
+   "disp": 20,
+   "n": 3,
+   "dir_para": 86
+  },
+  {
+   "hora": "20:10",
+   "fonte": "radar",
+   "kmh": 18,
+   "disp": 13,
+   "n": 3,
+   "dir_para": 98
+  },
+  {
+   "hora": "20:20",
+   "fonte": "radar",
+   "kmh": 19,
+   "disp": 13,
+   "n": 3,
+   "dir_para": 97
+  }
+ ],
+ "placar": {
+  "nowcast_10": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 1260,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "nowcast_p35_10": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 1260,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "persistencia_10": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 1260,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "nowcast_20": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 1120,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "nowcast_p35_20": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 1120,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "persistencia_20": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 1120,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "nowcast_30": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 980,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "nowcast_p35_30": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 980,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "persistencia_30": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 980,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "nowcast_40": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 840,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "nowcast_p35_40": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 840,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "persistencia_40": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 840,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "nowcast_50": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 700,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "nowcast_p35_50": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 700,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "persistencia_50": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 700,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "nowcast_60": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 560,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "nowcast_p35_60": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 560,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  },
+  "persistencia_60": {
+   "H": 0,
+   "M": 0,
+   "F": 0,
+   "C": 560,
+   "CSI": 0,
+   "POD": 0,
+   "FAR": 0
+  }
+ },
+ "agora": {
+  "vel": {
+   "fonte": "radar",
+   "kmh": 26,
+   "disp": 6.763127994529424
+  },
+  "proximo": {
+   "km": 127,
+   "dir": "norte",
+   "z": 23,
+   "vem": "passando ao lado"
+  },
+  "tipo": {
+   "cob": 0,
+   "forte": 0
+  },
+  "minutos": [
+   [
+    0,
+    0,
+    null
+   ],
+   [
+    5,
+    0,
+    null
+   ],
+   [
+    10,
+    0,
+    null
+   ],
+   [
+    15,
+    0,
+    null
+   ],
+   [
+    20,
+    0,
+    null
+   ],
+   [
+    25,
+    0,
+    null
+   ],
+   [
+    30,
+    0,
+    null
+   ],
+   [
+    35,
+    0,
+    null
+   ],
+   [
+    40,
+    0,
+    null
+   ],
+   [
+    45,
+    0,
+    null
+   ],
+   [
+    50,
+    0,
+    null
+   ],
+   [
+    55,
+    0,
+    null
+   ],
+   [
+    60,
+    0,
+    null
+   ],
+   [
+    65,
+    0,
+    null
+   ],
+   [
+    70,
+    0,
+    null
+   ],
+   [
+    75,
+    0,
+    null
+   ],
+   [
+    80,
+    0,
+    null
+   ],
+   [
+    85,
+    0,
+    null
+   ],
+   [
+    90,
+    0,
+    null
+   ]
+  ]
+ }
+}
