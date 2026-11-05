@@ -14,6 +14,9 @@ function poeTile(G,rgba,ox,oy){const cache=new Map();for(let y=0;y<T;y++)for(let
   const k=((rgba[o]<<24)|(rgba[o+1]<<16)|(rgba[o+2]<<8)|a)>>>0;let z=MAPA.get(k);if(z===undefined){z=cache.get(k);if(z===undefined){z=perto(rgba[o],rgba[o+1],rgba[o+2],a);cache.set(k,z);}}
   G[(oy+y)*N+ox+x]=z;}}
 const novaGrade=()=>new Int8Array(N*N).fill(-128);
+/* cobertura: no tile de cobertura, pixel opaco = área SEM radar */
+function poeCobertura(C,rgba,ox,oy){for(let y=0;y<T;y++)for(let x=0;x<T;x++)if(rgba[(y*T+x)*4+3]>0)C[(oy+y)*N+ox+x]=1;}
+const semRadar=(C,x,y,r)=>{if(!C)return 0;let n=0,s=0;for(let j=Math.floor(y-r);j<=Math.ceil(y+r);j+=2)for(let i=Math.floor(x-r);i<=Math.ceil(x+r);i+=2){if((i-x)**2+(j-y)**2>r*r)continue;n++;if(i<0||j<0||i>=N||j>=N||C[j*N+i])s++;}return n?s/n:1;};
 /* deslocamento entre dois quadros (B depois de A) por correlação, em pixels; janela quadrada de meia-largura R em volta de (cx,cy) */
 function movimento(A,B,cx,cy,R,S){const D=2,W=Math.floor(2*R/D),x0=Math.round(cx-R),y0=Math.round(cy-R);
   const a=new Float32Array(W*W),b=new Float32Array(W*W);let nA=0,nB=0;
@@ -37,16 +40,16 @@ function disco(G,x,y,rp){const r=Math.max(1.5,rp),r2=r*r;let n=0,c=0,c15=0;const
 const cat=z=>z==null?null:z>=55?{k:5,t:'temporal (possível granizo)',c:'#d946ef'}:z>=48?{k:4,t:'muito forte',c:'#dc2626'}:z>=40?{k:3,t:'forte',c:'#f59e0b'}:z>=30?{k:2,t:'moderada',c:'#2563eb'}:{k:1,t:'fraca',c:'#38bdf8'};
 const mmh=z=>z==null?0:Math.pow(Math.pow(10,z/10)/200,1/1.6);
 /* previsão: quadros [{t (s), G}], velocidade v={vx,vy} px/min, tAgora (s); devolve minuto a minuto (0..90) */
-function prever(Q,v,tAgora,alvo){const [ax,ay]=alvo||[PX,PY];const f0=Q[Q.length-1],f1=Q.length>1?Q[Q.length-2]:null,out=[];
+function prever(Q,v,tAgora,alvo,Cv){const [ax,ay]=alvo||[PX,PY];const f0=Q[Q.length-1],f1=Q.length>1?Q[Q.length-2]:null,out=[];
   for(let m=0;m<=90;m++){const L=(tAgora-f0.t)/60+m,rk=(2.5+0.09*L)/KM;
     const a=disco(f0.G,ax-v.vx*L,ay-v.vy*L,rk);let p=a.p,z=a.z,p15=a.p15;
     if(f1){const L1=(tAgora-f1.t)/60+m,b=disco(f1.G,ax-v.vx*L1,ay-v.vy*L1,(2.5+0.09*L1)/KM);p=(2*a.p+b.p)/3;p15=(2*a.p15+b.p15)/3;if(z==null)z=b.z;else if(b.z!=null)z=Math.round((2*z+b.z)/3);}
-    out.push({m,p,z,p15});}
+    out.push({m,p,z,p15,u:semRadar(Cv,ax-v.vx*L,ay-v.vy*L,rk)});}
   return out;}
 /* estima o movimento com os últimos quadros; usa o vento em 700 hPa (vento={vx,vy} px/min) se o radar não tiver ecos suficientes */
-function velocidade(Q,vento,alvo){const [ax,ay]=alvo||[PX,PY];const vs=[];
+function velocidade(Q,vento,alvo,R1=130){const [ax,ay]=alvo||[PX,PY];const vs=[];
   for(let k=Math.max(1,Q.length-3);k<Q.length;k++){const dt=(Q[k].t-Q[k-1].t)/60;if(dt<=0||dt>20)continue;
-    let r=movimento(Q[k-1].G,Q[k].G,ax,ay,130,24);if(!r||r.c<0.3)r=movimento(Q[k-1].G,Q[k].G,ax,ay,250,24);
+    let r=movimento(Q[k-1].G,Q[k].G,ax,ay,R1,24);if(!r||r.c<0.3)r=movimento(Q[k-1].G,Q[k].G,ax,ay,250,24);
     if(r&&r.c>=0.3&&!r.borda)vs.push({vx:r.dx/dt,vy:r.dy/dt,c:r.c});}
   let v,fonte,disp=null;
   if(vs.length){const w=vs.reduce((s,x)=>s+x.c,0);v={vx:vs.reduce((s,x)=>s+x.vx*x.c,0)/w,vy:vs.reduce((s,x)=>s+x.vy*x.c,0)/w};fonte='radar';
@@ -63,5 +66,5 @@ function maisProximo(G,v,alvo){const [ax,ay]=alvo||[PX,PY];let best=null;const R
 /* área com chuva e chuva forte num raio, para classificar o tipo de evento */
 function tipo(G,R){const r=R/KM,r2=r*r;let n=0,c=0,f=0;for(let j=Math.floor(PY-r);j<=PY+r;j++)for(let i=Math.floor(PX-r);i<=PX+r;i++){if((i-PX)**2+(j-PY)**2>r2||i<0||j<0||i>=N||j>=N)continue;n++;const z=G[j*N+i];if(z>=20)c++;if(z>=40)f++;}
   return {cob:c/n,forte:c?f/c:0};}
-return {Z,T,N,PX,PY,KM,tiles,poeTile,novaGrade,movimento,velocidade,prever,disco,cat,mmh,maisProximo,tipo};})();
+return {Z,T,N,PX,PY,KM,tiles,poeTile,poeCobertura,semRadar,novaGrade,movimento,velocidade,prever,disco,cat,mmh,maisProximo,tipo};})();
 if(typeof module!=='undefined')module.exports=NC;
