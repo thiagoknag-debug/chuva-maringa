@@ -1,5 +1,5 @@
 {
- "gerado": "2026-11-05T20:34:21.433Z",
+ "gerado": "2026-11-05T20:35:12.655Z",
  "quadros": [
   {
    "hora": "18:30",
@@ -113,240 +113,816 @@
  },
  "velocidades": [
   {
+   "reg": "200,200",
    "hora": "19:00",
    "fonte": "radar",
-   "kmh": 7,
-   "disp": 49,
-   "n": 3,
-   "dir_para": 332
+   "kmh": 39,
+   "disp": 3,
+   "dir_para": 78
   },
   {
+   "reg": "200,200",
    "hora": "19:10",
    "fonte": "radar",
-   "kmh": 31,
-   "disp": 11,
-   "n": 3,
-   "dir_para": 84
+   "kmh": 40,
+   "disp": 3,
+   "dir_para": 76
   },
   {
+   "reg": "200,200",
    "hora": "19:20",
    "fonte": "radar",
-   "kmh": 30,
-   "disp": 12,
-   "n": 3,
-   "dir_para": 87
+   "kmh": 39,
+   "disp": 5,
+   "dir_para": 77
   },
   {
+   "reg": "200,200",
    "hora": "19:30",
    "fonte": "radar",
-   "kmh": 23,
-   "disp": 19,
-   "n": 3,
-   "dir_para": 89
+   "kmh": 37,
+   "disp": 5,
+   "dir_para": 77
   },
   {
+   "reg": "200,200",
    "hora": "19:40",
    "fonte": "radar",
-   "kmh": 25,
-   "disp": 21,
-   "n": 3,
-   "dir_para": 90
+   "kmh": 36,
+   "disp": 4,
+   "dir_para": 76
   },
   {
+   "reg": "200,200",
    "hora": "19:50",
    "fonte": "radar",
-   "kmh": 25,
-   "disp": 21,
-   "n": 3,
-   "dir_para": 87
+   "kmh": 38,
+   "disp": 2,
+   "dir_para": 72
   },
   {
+   "reg": "200,200",
    "hora": "20:00",
    "fonte": "radar",
-   "kmh": 26,
-   "disp": 20,
-   "n": 3,
+   "kmh": 40,
+   "disp": 2,
+   "dir_para": 71
+  },
+  {
+   "reg": "200,200",
+   "hora": "20:10",
+   "fonte": "radar",
+   "kmh": 41,
+   "disp": 1,
+   "dir_para": 70
+  },
+  {
+   "reg": "200,200",
+   "hora": "20:20",
+   "fonte": "radar",
+   "kmh": 40,
+   "disp": 2,
+   "dir_para": 69
+  },
+  {
+   "reg": "384,200",
+   "hora": "19:00",
+   "fonte": "radar",
+   "kmh": 31,
+   "disp": 6,
+   "dir_para": 77
+  },
+  {
+   "reg": "384,200",
+   "hora": "19:10",
+   "fonte": "radar",
+   "kmh": 33,
+   "disp": 9,
+   "dir_para": 76
+  },
+  {
+   "reg": "384,200",
+   "hora": "19:20",
+   "fonte": "radar",
+   "kmh": 33,
+   "disp": 9,
+   "dir_para": 76
+  },
+  {
+   "reg": "384,200",
+   "hora": "19:30",
+   "fonte": "radar",
+   "kmh": 32,
+   "disp": 9,
+   "dir_para": 77
+  },
+  {
+   "reg": "384,200",
+   "hora": "19:40",
+   "fonte": "radar",
+   "kmh": 30,
+   "disp": 5,
+   "dir_para": 82
+  },
+  {
+   "reg": "384,200",
+   "hora": "19:50",
+   "fonte": "radar",
+   "kmh": 30,
+   "disp": 5,
+   "dir_para": 80
+  },
+  {
+   "reg": "384,200",
+   "hora": "20:00",
+   "fonte": "radar",
+   "kmh": 30,
+   "disp": 5,
+   "dir_para": 80
+  },
+  {
+   "reg": "384,200",
+   "hora": "20:10",
+   "fonte": "radar",
+   "kmh": 29,
+   "disp": 5,
+   "dir_para": 85
+  },
+  {
+   "reg": "384,200",
+   "hora": "20:20",
+   "fonte": "radar",
+   "kmh": 27,
+   "disp": 6,
+   "dir_para": 85
+  },
+  {
+   "reg": "568,200",
+   "hora": "19:00",
+   "fonte": "radar",
+   "kmh": 19,
+   "disp": 15,
+   "dir_para": 49
+  },
+  {
+   "reg": "568,200",
+   "hora": "19:10",
+   "fonte": "radar",
+   "kmh": 9,
+   "disp": 5,
+   "dir_para": 41
+  },
+  {
+   "reg": "568,200",
+   "hora": "19:20",
+   "fonte": "radar",
+   "kmh": 5,
+   "disp": 1,
+   "dir_para": 43
+  },
+  {
+   "reg": "568,200",
+   "hora": "19:30",
+   "fonte": "radar",
+   "kmh": 4,
+   "disp": 1,
+   "dir_para": 38
+  },
+  {
+   "reg": "568,200",
+   "hora": "19:40",
+   "fonte": "radar",
+   "kmh": 4,
+   "disp": 2,
+   "dir_para": 33
+  },
+  {
+   "reg": "568,200",
+   "hora": "19:50",
+   "fonte": "radar",
+   "kmh": 4,
+   "disp": 2,
+   "dir_para": 41
+  },
+  {
+   "reg": "568,200",
+   "hora": "20:00",
+   "fonte": "radar",
+   "kmh": 4,
+   "disp": 2,
+   "dir_para": 39
+  },
+  {
+   "reg": "568,200",
+   "hora": "20:10",
+   "fonte": "radar",
+   "kmh": 2,
+   "disp": 2,
+   "dir_para": 42
+  },
+  {
+   "reg": "568,200",
+   "hora": "20:20",
+   "fonte": "radar",
+   "kmh": 1,
+   "disp": 1,
+   "dir_para": 25
+  },
+  {
+   "reg": "200,384",
+   "hora": "19:00",
+   "fonte": "radar",
+   "kmh": 39,
+   "disp": 2,
+   "dir_para": 82
+  },
+  {
+   "reg": "200,384",
+   "hora": "19:10",
+   "fonte": "radar",
+   "kmh": 41,
+   "disp": 4,
+   "dir_para": 81
+  },
+  {
+   "reg": "200,384",
+   "hora": "19:20",
+   "fonte": "radar",
+   "kmh": 40,
+   "disp": 4,
+   "dir_para": 80
+  },
+  {
+   "reg": "200,384",
+   "hora": "19:30",
+   "fonte": "radar",
+   "kmh": 40,
+   "disp": 5,
+   "dir_para": 80
+  },
+  {
+   "reg": "200,384",
+   "hora": "19:40",
+   "fonte": "radar",
+   "kmh": 37,
+   "disp": 3,
+   "dir_para": 80
+  },
+  {
+   "reg": "200,384",
+   "hora": "19:50",
+   "fonte": "radar",
+   "kmh": 40,
+   "disp": 3,
+   "dir_para": 79
+  },
+  {
+   "reg": "200,384",
+   "hora": "20:00",
+   "fonte": "radar",
+   "kmh": 41,
+   "disp": 3,
+   "dir_para": 80
+  },
+  {
+   "reg": "200,384",
+   "hora": "20:10",
+   "fonte": "radar",
+   "kmh": 43,
+   "disp": 1,
+   "dir_para": 77
+  },
+  {
+   "reg": "200,384",
+   "hora": "20:20",
+   "fonte": "radar",
+   "kmh": 41,
+   "disp": 3,
+   "dir_para": 76
+  },
+  {
+   "reg": "384,384",
+   "hora": "19:00",
+   "fonte": "radar",
+   "kmh": 30,
+   "disp": 5,
    "dir_para": 86
   },
   {
-   "hora": "20:10",
+   "reg": "384,384",
+   "hora": "19:10",
    "fonte": "radar",
-   "kmh": 18,
-   "disp": 13,
-   "n": 3,
-   "dir_para": 98
+   "kmh": 35,
+   "disp": 12,
+   "dir_para": 81
   },
   {
+   "reg": "384,384",
+   "hora": "19:20",
+   "fonte": "radar",
+   "kmh": 35,
+   "disp": 12,
+   "dir_para": 81
+  },
+  {
+   "reg": "384,384",
+   "hora": "19:30",
+   "fonte": "radar",
+   "kmh": 35,
+   "disp": 12,
+   "dir_para": 83
+  },
+  {
+   "reg": "384,384",
+   "hora": "19:40",
+   "fonte": "radar",
+   "kmh": 32,
+   "disp": 6,
+   "dir_para": 88
+  },
+  {
+   "reg": "384,384",
+   "hora": "19:50",
+   "fonte": "radar",
+   "kmh": 31,
+   "disp": 6,
+   "dir_para": 84
+  },
+  {
+   "reg": "384,384",
+   "hora": "20:00",
+   "fonte": "radar",
+   "kmh": 30,
+   "disp": 7,
+   "dir_para": 82
+  },
+  {
+   "reg": "384,384",
+   "hora": "20:10",
+   "fonte": "radar",
+   "kmh": 34,
+   "disp": 13,
+   "dir_para": 79
+  },
+  {
+   "reg": "384,384",
    "hora": "20:20",
    "fonte": "radar",
-   "kmh": 19,
+   "kmh": 33,
+   "disp": 14,
+   "dir_para": 79
+  },
+  {
+   "reg": "568,384",
+   "hora": "19:00",
+   "fonte": "radar",
+   "kmh": 1,
+   "disp": 1,
+   "dir_para": 77
+  },
+  {
+   "reg": "568,384",
+   "hora": "19:10",
+   "fonte": "radar",
+   "kmh": 0,
+   "disp": 1,
+   "dir_para": 40
+  },
+  {
+   "reg": "568,384",
+   "hora": "19:20",
+   "fonte": "radar",
+   "kmh": 0,
+   "disp": 1,
+   "dir_para": 322
+  },
+  {
+   "reg": "568,384",
+   "hora": "19:30",
+   "fonte": "radar",
+   "kmh": 1,
+   "disp": 1,
+   "dir_para": 236
+  },
+  {
+   "reg": "568,384",
+   "hora": "19:40",
+   "fonte": "radar",
+   "kmh": 0,
+   "disp": 1,
+   "dir_para": 241
+  },
+  {
+   "reg": "568,384",
+   "hora": "19:50",
+   "fonte": "radar",
+   "kmh": 1,
+   "disp": 1,
+   "dir_para": 195
+  },
+  {
+   "reg": "568,384",
+   "hora": "20:00",
+   "fonte": "radar",
+   "kmh": 0,
+   "disp": 1,
+   "dir_para": 224
+  },
+  {
+   "reg": "568,384",
+   "hora": "20:10",
+   "fonte": "radar",
+   "kmh": 1,
+   "disp": 1,
+   "dir_para": 219
+  },
+  {
+   "reg": "568,384",
+   "hora": "20:20",
+   "fonte": "radar",
+   "kmh": 1,
+   "disp": 1,
+   "dir_para": 245
+  },
+  {
+   "reg": "200,568",
+   "hora": "19:00",
+   "fonte": "radar",
+   "kmh": 24,
+   "disp": 3,
+   "dir_para": 79
+  },
+  {
+   "reg": "200,568",
+   "hora": "19:10",
+   "fonte": "radar",
+   "kmh": 27,
+   "disp": 3,
+   "dir_para": 81
+  },
+  {
+   "reg": "200,568",
+   "hora": "19:20",
+   "fonte": "radar",
+   "kmh": 25,
+   "disp": 3,
+   "dir_para": 83
+  },
+  {
+   "reg": "200,568",
+   "hora": "19:30",
+   "fonte": "radar",
+   "kmh": 25,
+   "disp": 3,
+   "dir_para": 83
+  },
+  {
+   "reg": "200,568",
+   "hora": "19:40",
+   "fonte": "radar",
+   "kmh": 27,
+   "disp": 6,
+   "dir_para": 87
+  },
+  {
+   "reg": "200,568",
+   "hora": "19:50",
+   "fonte": "radar",
+   "kmh": 31,
+   "disp": 4,
+   "dir_para": 88
+  },
+  {
+   "reg": "200,568",
+   "hora": "20:00",
+   "fonte": "radar",
+   "kmh": 34,
+   "disp": 3,
+   "dir_para": 86
+  },
+  {
+   "reg": "200,568",
+   "hora": "20:10",
+   "fonte": "radar",
+   "kmh": 33,
+   "disp": 4,
+   "dir_para": 81
+  },
+  {
+   "reg": "200,568",
+   "hora": "20:20",
+   "fonte": "radar",
+   "kmh": 32,
+   "disp": 4,
+   "dir_para": 81
+  },
+  {
+   "reg": "384,568",
+   "hora": "19:00",
+   "fonte": "radar",
+   "kmh": 29,
+   "disp": 4,
+   "dir_para": 96
+  },
+  {
+   "reg": "384,568",
+   "hora": "19:10",
+   "fonte": "radar",
+   "kmh": 33,
+   "disp": 10,
+   "dir_para": 91
+  },
+  {
+   "reg": "384,568",
+   "hora": "19:20",
+   "fonte": "radar",
+   "kmh": 29,
+   "disp": 12,
+   "dir_para": 90
+  },
+  {
+   "reg": "384,568",
+   "hora": "19:30",
+   "fonte": "radar",
+   "kmh": 25,
    "disp": 13,
-   "n": 3,
+   "dir_para": 89
+  },
+  {
+   "reg": "384,568",
+   "hora": "19:40",
+   "fonte": "radar",
+   "kmh": 21,
+   "disp": 4,
+   "dir_para": 92
+  },
+  {
+   "reg": "384,568",
+   "hora": "19:50",
+   "fonte": "radar",
+   "kmh": 24,
+   "disp": 6,
+   "dir_para": 93
+  },
+  {
+   "reg": "384,568",
+   "hora": "20:00",
+   "fonte": "radar",
+   "kmh": 38,
+   "disp": 80,
+   "dir_para": 12
+  },
+  {
+   "reg": "384,568",
+   "hora": "20:10",
+   "fonte": "radar",
+   "kmh": 45,
+   "disp": 79,
+   "dir_para": 3
+  },
+  {
+   "reg": "384,568",
+   "hora": "20:20",
+   "fonte": "radar",
+   "kmh": 47,
+   "disp": 79,
+   "dir_para": 357
+  },
+  {
+   "reg": "568,568",
+   "hora": "19:00",
+   "fonte": "radar",
+   "kmh": 66,
+   "disp": 35,
    "dir_para": 97
+  },
+  {
+   "reg": "568,568",
+   "hora": "19:10",
+   "fonte": "radar",
+   "kmh": 53,
+   "disp": 49,
+   "dir_para": 105
+  },
+  {
+   "reg": "568,568",
+   "hora": "19:20",
+   "fonte": "radar",
+   "kmh": 22,
+   "disp": 17,
+   "dir_para": 99
+  },
+  {
+   "reg": "568,568",
+   "hora": "19:30",
+   "fonte": "radar",
+   "kmh": 24,
+   "disp": 24,
+   "dir_para": 91
+  },
+  {
+   "reg": "568,568",
+   "hora": "19:40",
+   "fonte": "radar",
+   "kmh": 20,
+   "disp": 21,
+   "dir_para": 83
+  },
+  {
+   "reg": "568,568",
+   "hora": "19:50",
+   "fonte": "radar",
+   "kmh": 22,
+   "disp": 22,
+   "dir_para": 88
+  },
+  {
+   "reg": "568,568",
+   "hora": "20:00",
+   "fonte": "radar",
+   "kmh": 35,
+   "disp": 81,
+   "dir_para": 352
+  },
+  {
+   "reg": "568,568",
+   "hora": "20:10",
+   "fonte": "radar",
+   "kmh": 45,
+   "disp": 81,
+   "dir_para": 354
+  },
+  {
+   "reg": "568,568",
+   "hora": "20:20",
+   "fonte": "radar",
+   "kmh": 38,
+   "disp": 78,
+   "dir_para": 340
   }
  ],
  "placar": {
   "nowcast_10": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 1260,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+   "H": 640,
+   "M": 124,
+   "F": 151,
+   "C": 16419,
+   "CSI": 0.7,
+   "POD": 0.84,
+   "FAR": 0.19
   },
-  "nowcast_p35_10": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 1260,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "nowcast35_10": {
+   "H": 682,
+   "M": 82,
+   "F": 232,
+   "C": 16338,
+   "CSI": 0.68,
+   "POD": 0.89,
+   "FAR": 0.25
   },
-  "persistencia_10": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 1260,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "persist_10": {
+   "H": 586,
+   "M": 178,
+   "F": 190,
+   "C": 16380,
+   "CSI": 0.61,
+   "POD": 0.77,
+   "FAR": 0.24
   },
   "nowcast_20": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 1120,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+   "H": 532,
+   "M": 145,
+   "F": 229,
+   "C": 14502,
+   "CSI": 0.59,
+   "POD": 0.79,
+   "FAR": 0.3
   },
-  "nowcast_p35_20": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 1120,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "nowcast35_20": {
+   "H": 566,
+   "M": 111,
+   "F": 302,
+   "C": 14429,
+   "CSI": 0.58,
+   "POD": 0.84,
+   "FAR": 0.35
   },
-  "persistencia_20": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 1120,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "persist_20": {
+   "H": 425,
+   "M": 252,
+   "F": 268,
+   "C": 14463,
+   "CSI": 0.45,
+   "POD": 0.63,
+   "FAR": 0.39
   },
   "nowcast_30": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 980,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+   "H": 428,
+   "M": 161,
+   "F": 284,
+   "C": 12609,
+   "CSI": 0.49,
+   "POD": 0.73,
+   "FAR": 0.4
   },
-  "nowcast_p35_30": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 980,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "nowcast35_30": {
+   "H": 466,
+   "M": 123,
+   "F": 357,
+   "C": 12536,
+   "CSI": 0.49,
+   "POD": 0.79,
+   "FAR": 0.43
   },
-  "persistencia_30": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 980,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "persist_30": {
+   "H": 310,
+   "M": 279,
+   "F": 300,
+   "C": 12593,
+   "CSI": 0.35,
+   "POD": 0.53,
+   "FAR": 0.49
   },
   "nowcast_40": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 840,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+   "H": 352,
+   "M": 152,
+   "F": 292,
+   "C": 10760,
+   "CSI": 0.44,
+   "POD": 0.7,
+   "FAR": 0.45
   },
-  "nowcast_p35_40": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 840,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "nowcast35_40": {
+   "H": 385,
+   "M": 119,
+   "F": 371,
+   "C": 10681,
+   "CSI": 0.44,
+   "POD": 0.76,
+   "FAR": 0.49
   },
-  "persistencia_40": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 840,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "persist_40": {
+   "H": 232,
+   "M": 272,
+   "F": 286,
+   "C": 10766,
+   "CSI": 0.29,
+   "POD": 0.46,
+   "FAR": 0.55
   },
   "nowcast_50": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 700,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+   "H": 291,
+   "M": 128,
+   "F": 271,
+   "C": 8940,
+   "CSI": 0.42,
+   "POD": 0.69,
+   "FAR": 0.48
   },
-  "nowcast_p35_50": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 700,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "nowcast35_50": {
+   "H": 312,
+   "M": 107,
+   "F": 358,
+   "C": 8853,
+   "CSI": 0.4,
+   "POD": 0.74,
+   "FAR": 0.53
   },
-  "persistencia_50": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 700,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "persist_50": {
+   "H": 172,
+   "M": 247,
+   "F": 255,
+   "C": 8956,
+   "CSI": 0.26,
+   "POD": 0.41,
+   "FAR": 0.6
   },
   "nowcast_60": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 560,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+   "H": 227,
+   "M": 101,
+   "F": 249,
+   "C": 7127,
+   "CSI": 0.39,
+   "POD": 0.69,
+   "FAR": 0.52
   },
-  "nowcast_p35_60": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 560,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "nowcast35_60": {
+   "H": 248,
+   "M": 80,
+   "F": 322,
+   "C": 7054,
+   "CSI": 0.38,
+   "POD": 0.76,
+   "FAR": 0.56
   },
-  "persistencia_60": {
-   "H": 0,
-   "M": 0,
-   "F": 0,
-   "C": 560,
-   "CSI": 0,
-   "POD": 0,
-   "FAR": 0
+  "persist_60": {
+   "H": 121,
+   "M": 207,
+   "F": 221,
+   "C": 7155,
+   "CSI": 0.22,
+   "POD": 0.37,
+   "FAR": 0.65
   }
  },
  "agora": {
