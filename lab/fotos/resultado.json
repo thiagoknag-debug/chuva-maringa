@@ -1,9 +1,7 @@
 {
- "erros": [
-  "Failed to load resource: the server responded with a status of 429 (Too Many Requests)"
- ],
+ "erros": [],
  "nc": {
-  "txt": "PRÓXIMOS 60 MINUTOS\nConfiança alta\n\nSem chuva por no mínimo 60 min\n\n15\n30\n45\nAGORA\n🌧️\n25°\nradar 17h30\nfraca\nmoderada\nforte\nmuito forte\ntemporal\npossível\n\n⚠️ O radar ainda não mostra chuva vindo, mas há aviso laranja do INMET e os modelos dão 55% de chance de chuva e 28% de trovoada nas próximas horas. Pancadas podem se formar perto da cidade sem aparecer antes no radar.\n\nChuva mais próxima: fraca a 127 km ao norte, passando ao lado. A chuva na região anda do oeste para o leste a ~26 km/h.\n\nPor que confiança alta: a chuva mais próxima não vem para cá.\n\nComo funciona e quanto acerta",
+  "txt": "PRÓXIMOS 60 MINUTOS\nConfiança baixa\n\nSem chuva por no mínimo 60 min\n\n15\n30\n45\nAGORA\n☁️\n25°\nradar 17h30\nfraca\nmoderada\nforte\nmuito forte\ntemporal\npossível\n\n⚠️ O radar ainda não mostra chuva vindo, mas há aviso laranja do INMET e os modelos dão 57% de chance de chuva e 29% de trovoada nas próximas horas. Pancadas podem se formar perto da cidade sem aparecer antes no radar.\n\nChuva mais próxima: fraca a 127 km ao norte, passando ao lado. A chuva na região anda do oeste para o leste a ~26 km/h.\n\nPor que confiança baixa: a atmosfera está instável e pancadas podem se formar sem aparecer antes no radar.\n\nComo funciona e quanto acerta",
   "err": null,
   "est": {
    "fonte": "radar",
@@ -142,7 +140,7 @@
   "Temporal: moderado · 10% · 13h–19h"
  ],
  "sheet_head": "🌧️Amanhã, sexta 6/11Chuva · temporal moderado (10%), mais provável entre 13h e 19h, pico ~16h",
- "pinfo": "Amanhã às 18h — sobre Maringá: sem chuva no consenso. Pelos 194 cenários: 49% de chance de chuva, 41% de trovoada, rajada ~13 km/h. Chuva mais forte do mapa: 2,1 mm/h a ~132 km ao nordeste.",
+ "pinfo": "Amanhã às 18h — sobre Maringá: sem chuva no consenso. Pelos 212 cenários: 46% de chance de chuva, 37% de trovoada, rajada ~13 km/h. Chuva mais forte do mapa: 2,1 mm/h a ~132 km ao nordeste.",
  "overlay": 1,
  "volta": "Radar 16:10"
 }
