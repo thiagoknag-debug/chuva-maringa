@@ -442,9 +442,13 @@ function frase(){const {P,prox}=estado;const r=m=>P[m].p>=0.5,ps=m=>P[m].p>=0.3;
   for(let m=61;m<=90;m++)if(r(m))return{h:`Sem chuva nos próximos 60 min · pode chegar ${quando(m)}`,k:'depois',m};
   if(!prox)return{h:'Sem chuva por no mínimo 60 min · nenhuma chuva num raio de 170 km',k:'limpo'};
   return{h:'Sem chuva por no mínimo 60 min',k:'nada'};}
+function potencial(){const dh=ctx.DH&&ctx.DH[0];if(!dh)return ctx.aviso?{p:0,pt:0}:null;const h=new Date().getHours(),s=dh.filter(o=>o.h>=h&&o.h<=h+2);if(!s.length)return null;
+  const p=Math.max(...s.map(o=>o.p||0)),pt=Math.max(...s.map(o=>o.pt||0));return (p>=30||pt>=15||ctx.aviso)?{p,pt}:null;}
+const icone=F=>{const o=estado.P[0];if(o.p>=0.5){const c=NC.cat(o.z??22);return c.k>=3?['⛈️','Tempestade']:['🌧️','Chuva'];}
+  const cc=ctx.cc,d=ctx.dia!==0;if(cc!=null&&cc>=70)return['☁️','Nublado'];if(cc!=null&&cc>=30)return d?['⛅','Sol entre nuvens']:['☁️','Parcialmente nublado'];return d?['☀️','Céu limpo']:['🌙','Céu limpo'];};
 function confianca(F){const {V,tipo,prox,t0,agora}=estado,mot=[];let n=3;
   const atraso=(agora-t0)/60;
-  if(F.k==='limpo')return{t:'alta',m:'não há chuva no radar num raio de 170 km'};
+  if(F.k==='limpo'&&!potencial())return{t:'alta',m:'não há chuva no radar num raio de 170 km'};
   if(V.fonte!=='radar'){n=1;mot.push('poucos ecos para medir o movimento; usei o vento em altitude');}
   else if(V.disp!=null&&V.disp>15){n--;mot.push('o movimento da chuva está irregular');}
   const conv=(tipo.forte>0.2)||(prox&&prox.z>=45);
@@ -452,6 +456,8 @@ function confianca(F){const {V,tipo,prox,t0,agora}=estado,mot=[];let n=3;
   if(F.m!=null&&F.m>40){n--;mot.push('o evento está a mais de 40 min');}
   if(atraso>20){n--;mot.push(`o radar está atrasado ${Math.round(atraso)} min`);}
   if(F.k==='nada'&&prox&&prox.km<40&&conv){n=Math.min(n,1);}
+  const pot=potencial();
+  if(F.k!=='agora'&&F.k!=='vem'&&pot){n=Math.min(n,pot.pt>=25?1:2);mot.push('a atmosfera está instável e pancadas podem se formar sem aparecer antes no radar');}
   if(!mot.length)mot.push(F.k==='nada'?'a chuva mais próxima não vem para cá':'chuva organizada e movimento estável');
   return{t:n>=3?'alta':n===2?'média':'baixa',m:mot.join('; ')};}
 function anel(P){const R=118,r0=96,cx=130,cy=130;let s='';
@@ -471,7 +477,7 @@ function desenha(){if(!estado)return;const F=frase(),C=confianca(F),{P,prox,V,t0
     return (p>=30||pt>=15||ctx.aviso)?`<p class="nc-av">⚠️ O radar ainda não mostra chuva vindo, mas ${ctx.aviso?`há aviso ${ctx.aviso} do INMET e `:''}os modelos dão ${p}% de chance de chuva${pt>=15?` e ${pt}% de trovoada`:''} nas próximas horas. Pancadas podem se formar perto da cidade sem aparecer antes no radar.</p>`:'';})();
   el.innerHTML=`<div class="nc-top"><h2>Próximos 60 minutos</h2><span class="nc-conf c-${C.t}">Confiança ${C.t}</span></div>
    <p class="nc-h">${F.h}</p>
-   <div class="nc-dial">${anel(P)}<div class="nc-mid"><span class="nc-now">AGORA</span>${ctx.ic||''}<b>${ctx.temp!=null?ctx.temp+'°':''}</b><span class="nc-sm">radar ${hm(new Date(t0*1000))}</span></div></div>
+   <div class="nc-dial">${anel(P)}<div class="nc-mid"><span class="nc-now">AGORA</span>${(i=>`<span class="ic nc-ic" role="img" aria-label="${i[1]}">${i[0]}</span>`)(icone(F))}<b>${ctx.temp!=null?ctx.temp+'°':''}</b><span class="nc-sm">radar ${hm(new Date(t0*1000))}</span></div></div>
    <ul class="nc-leg"><li><i style="background:#38bdf8"></i>fraca</li><li><i style="background:#2563eb"></i>moderada</li><li><i style="background:#f59e0b"></i>forte</li><li><i style="background:#dc2626"></i>muito forte</li><li><i style="background:#d946ef"></i>temporal</li><li><i class="ls"></i>possível</li></ul>
    ${hz}
    <p class="nc-d">${proxTxt} ${movTxt}</p>
@@ -768,7 +774,7 @@ const parHora=(()=>{if(!par)return'';let hh=(L.DH||[])[L.D.indexOf(par)]||[];if(
   const pc=hh.filter(o=>(o.p||0)>=30).reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,{mm:0});return (pc.mm||0)>=0.5?` Chuva mais forte perto das ${pad(pc.h)}h.`:'';})();
 const parTxt=par?`<p class="sub par211">⚠️ ${par[0]===key(now)?'Hoje':'Amanhã'}: cenário parecido com o temporal de 2/11 (risco ${par[15].pct}%).${parHora} Evite carro sob árvores e acompanhe o radar.</p>`:'';
 $('hero').innerHTML=`${agora()}<div><div class="lab">${lab}</div><p class="head">${head}</p><p class="sub">${sub}</p>${ventoTxt}${parTxt}</div><div class="pair">${box('Hoje',L.D[dIdx(key(now))])}${box('Amanhã',L.D[dIdx(key(tmw))])}</div>`;
-try{window.__NCUI&&window.__NCUI.set({temp:H.t[0],ic:ic(condH(0),'nc-ic'),DH:L.DH,aviso:L.D[0]&&L.D[0][15]&&L.D[0][15].aviso});}catch(e){}
+try{window.__NCUI&&window.__NCUI.set({temp:H.t[0],cc:H.cc?H.cc[0]:null,dia:H.dia?H.dia[0]:1,DH:L.DH,aviso:L.D[0]&&L.D[0][15]&&L.D[0][15].aviso});}catch(e){}
 
 const arrow=d=>d==null?'':`<svg class="arr" viewBox="0 0 16 16" aria-hidden="true" style="transform:rotate(${(d+180)%360}deg)"><path d="M8 1.5 12.5 13 8 10.3 3.5 13z" fill="currentColor"/></svg>`;
 const DIRS=['N','NE','L','SE','S','SO','O','NO'], dirTxt=d=>d==null?'':DIRS[Math.round(d/45)%8];
