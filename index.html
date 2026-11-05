@@ -242,6 +242,30 @@ body.noscroll{overflow:hidden}
 .pinfo{margin:0;font-size:14px;line-height:1.5;background:var(--bg);border-radius:10px;padding:9px 11px}
 
 .rk-chip{border-radius:12px!important;line-height:1.3}
+
+/* próximos 60 minutos */
+.nc-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.nc-top h2{margin:0}
+.nc-conf{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;border:1px solid var(--line)}
+.nc-conf.c-alta{color:#16a34a;border-color:#16a34a}.nc-conf.c-média{color:#d97706;border-color:#d97706}.nc-conf.c-baixa{color:#dc2626;border-color:#dc2626}
+.nc-h{font-size:20px;font-weight:700;line-height:1.3;margin:12px 0 4px;text-align:center;text-wrap:balance}
+.nc.chove .nc-h{color:var(--rain)}
+.nc-dial{position:relative;width:min(280px,82vw);margin:6px auto 4px;aspect-ratio:1}
+.nc-ring{width:100%;height:100%;display:block}
+.nc-tk{font-size:11px;fill:var(--muted)}
+.nc-mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.nc-mid .nc-now{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--muted)}
+.nc-mid b{font-size:44px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.nc-mid .nc-ic{font-size:40px;line-height:1}
+.nc-mid .nc-sm{font-size:11.5px;color:var(--muted)}
+.nc-leg{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:4px 10px;padding:0;margin:4px 0 8px;font-size:11.5px;color:var(--muted)}
+.nc-leg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.nc-leg i.ls{background:#2563eb;opacity:.45}
+.nc-d{font-size:13.5px;line-height:1.5;margin:6px 0;color:var(--ink)}
+.nc-av{font-size:13.5px;line-height:1.45;background:rgba(245,158,11,.14);border-radius:10px;padding:8px 10px;margin:8px 0}
+.nc-how{font-size:13px;color:var(--muted);margin-top:6px}
+.nc-how summary{cursor:pointer;font-weight:600;color:var(--ink)}
+.nc-how p{line-height:1.5;margin:6px 0}
 </style>
 </head>
 <body>
@@ -255,6 +279,7 @@ body.noscroll{overflow:hidden}
   </header>
   <div id="alerts" class="alerts"></div>
   <section id="hero" class="hero" aria-live="polite"><div class="skeleton"></div></section>
+  <section class="card nc" id="nc" aria-live="polite"><div class="nc-top"><h2>Próximos 60 minutos</h2></div><p class="hint">Lendo o radar…</p></section>
   <section class="card" id="radar">
     <div class="rhead"><h2>Radar</h2><button type="button" id="rbtn" class="pill-btn" aria-pressed="false">Satélite</button></div>
     <div class="rtabs" role="tablist"><button type="button" role="tab" id="tab-agora" aria-selected="true">Ao vivo</button><button type="button" role="tab" id="tab-prev" aria-selected="false">Previsão por horário</button></div>
@@ -304,7 +329,162 @@ body.noscroll{overflow:hidden}
 </main>
 <div id="sheet" class="sheet" hidden><div class="sheet-bg" data-close></div><div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="sh-t"><button type="button" class="sheet-x" data-close aria-label="Fechar">×</button><div id="sheet-body"></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script>/* Configuração: o que usar do arquivo de pesos da auditoria (lab/pesos.json) */
+<script>/* ===== Nowcast (próximos 60–90 min) a partir do radar RainViewer: núcleo sem DOM, usado no site e no teste em Node ===== */
+const NC=(()=>{
+const Z=7,T=256,N=3*T,LAT=-23.42,LON=-51.94;
+const TAB=[[-10,"63615914"],[-9,"66635a19"],[-8,"69665c1e"],[-7,"6c685d24"],[-6,"6f6b5f29"],[-5,"726e612e"],[-4,"75706234"],[-3,"78736439"],[-2,"7c75653e"],[-1,"7f786744"],[0,"827b6949"],[1,"857d6a4e"],[2,"88806c54"],[3,"8b826d59"],[4,"8e856f5e"],[5,"92887164"],[6,"9e93756e"],[7,"aa9e7978"],[8,"b6a97e82"],[9,"c2b4828c"],[10,"cec08796"],[11,"d2c48ba0"],[12,"d6c88faa"],[13,"dacc93b4"],[14,"ded097be"],[15,"88ddeeff"],[16,"6cd1ebff"],[17,"51c5e8ff"],[18,"36bae5ff"],[19,"1baee2ff"],[20,"00a3e0ff"],[21,"009ad5ff"],[22,"0091caff"],[23,"0088bfff"],[24,"007fb4ff"],[25,"0077aaff"],[26,"0070a3ff"],[27,"00699cff"],[28,"006295ff"],[29,"005b8eff"],[30,"005588ff"],[31,"005180ff"],[32,"004e78ff"],[33,"004a70ff"],[34,"004768ff"],[35,"ffee00ff"],[36,"ffe000ff"],[37,"ffd200ff"],[38,"ffc500ff"],[39,"ffb700ff"],[40,"ffaa00ff"],[41,"ff9f00ff"],[42,"ff9500ff"],[43,"ff8b00ff"],[44,"ff8100ff"],[45,"ff4400ff"],[46,"f23600ff"],[47,"e62800ff"],[48,"d91b00ff"],[49,"cd0d00ff"],[50,"c10000ff"],[51,"a80000ff"],[52,"8f0000ff"],[53,"760000ff"],[54,"5d0000ff"],[55,"ffaaffff"],[56,"ff9fffff"],[57,"ff95ffff"],[58,"ff8bffff"],[59,"ff81ffff"],[60,"ff77ffff"],[61,"ff6cffff"],[62,"ff62ffff"],[63,"ff58ffff"],[64,"ff4effff"],[65,"ffffffff"],[66,"ffffffff"],[67,"ffffffff"],[68,"ffffffff"],[69,"ffffffff"],[70,"ffffffff"],[71,"ffffffff"],[72,"ffffffff"],[73,"ffffffff"],[74,"ffffffff"],[75,"00ff00ff"],[76,"00ff00ff"],[77,"00ff00ff"],[78,"00ff00ff"],[79,"00ff00ff"],[80,"00ff00ff"],[81,"00ff00ff"],[82,"00ff00ff"],[83,"00ff00ff"],[84,"00ff00ff"],[85,"00ff00ff"],[86,"00ff00ff"],[87,"00ff00ff"],[88,"00ff00ff"],[89,"00ff00ff"],[90,"00ff00ff"],[91,"00ff00ff"],[92,"00ff00ff"],[93,"00ff00ff"],[94,"00ff00ff"],[95,"00ff00ff"],[-9,"ceffff0c"],[-8,"cdffff19"],[-7,"ccffff26"],[-6,"cbffff33"],[-5,"cbffff3f"],[-4,"caffff4c"],[-3,"c9ffff59"],[-2,"c8ffff66"],[-1,"c7ffff72"],[0,"c7ffff7f"],[1,"c6ffff8c"],[2,"c5ffff99"],[3,"c4ffffa5"],[4,"c3ffffb2"],[5,"c3ffffbf"],[6,"c2ffffcc"],[7,"c1ffffd8"],[8,"c0ffffe5"],[9,"bffffff2"],[10,"bfffffff"],[11,"b8f8ffff"],[12,"b2f2ffff"],[13,"abebffff"],[14,"a5e5ffff"],[15,"9fdfffff"],[16,"98d8ffff"],[17,"92d2ffff"],[18,"8bcbffff"],[19,"85c5ffff"],[20,"7fbfffff"],[21,"78b8ffff"],[22,"72b2ffff"],[23,"6babffff"],[24,"65a5ffff"],[25,"5f9fffff"],[26,"5b9bffff"],[27,"5898ffff"],[28,"5595ffff"],[29,"5292ffff"],[30,"4f8fffff"],[31,"4b8bffff"],[32,"4888ffff"],[33,"4585ffff"],[34,"4282ffff"],[35,"3f7fffff"],[36,"3b7bffff"],[37,"3878ffff"],[38,"3575ffff"],[39,"3272ffff"],[40,"2f6fffff"],[41,"2b6bffff"],[42,"2868ffff"],[43,"2565ffff"],[44,"2262ffff"],[45,"1f5fffff"],[46,"1b5bffff"],[47,"1858ffff"],[48,"1555ffff"],[49,"1252ffff"],[50,"0f4fffff"],[51,"0c4bffff"],[52,"0948ffff"],[53,"0645ffff"],[54,"0242ffff"],[55,"003fffff"],[56,"003bffff"],[57,"0038ffff"],[58,"0035ffff"],[59,"0032ffff"],[60,"002fffff"],[61,"002bffff"],[62,"0028ffff"],[63,"0025ffff"],[64,"0022ffff"],[65,"001fffff"],[66,"001bffff"],[67,"0018ffff"],[68,"0015ffff"],[69,"0012ffff"],[70,"000fffff"],[71,"000cffff"],[72,"0009ffff"],[73,"0006ffff"],[74,"0002ffff"],[75,"0000ffff"],[76,"0000ffff"],[77,"0000ffff"],[78,"0000ffff"],[79,"0000ffff"],[80,"0000ffff"],[81,"0000ffff"],[82,"0000ffff"],[83,"0000ffff"],[84,"0000ffff"],[85,"0000ffff"],[86,"0000ffff"],[87,"0000ffff"],[88,"0000ffff"],[89,"0000ffff"],[90,"0000ffff"],[91,"0000ffff"],[92,"0000ffff"],[93,"0000ffff"],[94,"0000ffff"],[95,"0000ffff"]];
+const MAPA=new Map();const PAL=[];
+for(const [z,h] of TAB){const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16),a=parseInt(h.slice(6,8),16);const k=((r<<24)|(g<<16)|(b<<8)|a)>>>0;if(!MAPA.has(k))MAPA.set(k,z);PAL.push([r,g,b,a,z]);}
+const perto=(r,g,b,a)=>{let m=1e9,z=-128;for(const p of PAL){const d=(p[0]-r)**2+(p[1]-g)**2+(p[2]-b)**2+((p[3]-a)**2)/4;if(d<m){m=d;z=p[4];}}return m<600?z:-128;};
+const pxDe=(lat,lon)=>{const n=T*2**Z,x=(lon+180)/360*n,s=Math.sin(lat*Math.PI/180),y=(0.5-Math.log((1+s)/(1-s))/(4*Math.PI))*n;return [x,y];};
+const [GX,GY]=pxDe(LAT,LON),TX=Math.floor(GX/T),TY=Math.floor(GY/T),PX=GX-(TX-1)*T,PY=GY-(TY-1)*T;
+const KM=40075.017*Math.cos(LAT*Math.PI/180)/(T*2**Z); /* km por pixel (~1,12) */
+const tiles=()=>{const o=[];for(let j=-1;j<=1;j++)for(let i=-1;i<=1;i++)o.push({x:TX+i,y:TY+j,ox:(i+1)*T,oy:(j+1)*T});return o;};
+/* converte um tile RGBA (Uint8ClampedArray 256*256*4) para dBZ na grade 768x768 */
+function poeTile(G,rgba,ox,oy){const cache=new Map();for(let y=0;y<T;y++)for(let x=0;x<T;x++){const o=(y*T+x)*4,a=rgba[o+3];if(!a)continue;
+  const k=((rgba[o]<<24)|(rgba[o+1]<<16)|(rgba[o+2]<<8)|a)>>>0;let z=MAPA.get(k);if(z===undefined){z=cache.get(k);if(z===undefined){z=perto(rgba[o],rgba[o+1],rgba[o+2],a);cache.set(k,z);}}
+  G[(oy+y)*N+ox+x]=z;}}
+const novaGrade=()=>new Int8Array(N*N).fill(-128);
+/* cobertura: no tile de cobertura, pixel opaco = área SEM radar */
+function poeCobertura(C,rgba,ox,oy){for(let y=0;y<T;y++)for(let x=0;x<T;x++)if(rgba[(y*T+x)*4+3]>0)C[(oy+y)*N+ox+x]=1;}
+const semRadar=(C,x,y,r)=>{if(!C)return 0;let n=0,s=0;for(let j=Math.floor(y-r);j<=Math.ceil(y+r);j+=2)for(let i=Math.floor(x-r);i<=Math.ceil(x+r);i+=2){if((i-x)**2+(j-y)**2>r*r)continue;n++;if(i<0||j<0||i>=N||j>=N||C[j*N+i])s++;}return n?s/n:1;};
+/* deslocamento entre dois quadros (B depois de A) por correlação, em pixels; janela quadrada de meia-largura R em volta de (cx,cy) */
+function movimento(A,B,cx,cy,R,S){const D=2,W=Math.floor(2*R/D),x0=Math.round(cx-R),y0=Math.round(cy-R);
+  const a=new Float32Array(W*W),b=new Float32Array(W*W);let nA=0,nB=0;
+  for(let j=0;j<W;j++)for(let i=0;i<W;i++){let sa=0,sb=0;for(let v=0;v<D;v++)for(let u=0;u<D;u++){const X=x0+i*D+u,Y=y0+j*D+v;if(X<0||Y<0||X>=N||Y>=N)continue;const q=Y*N+X;sa+=Math.min(40,Math.max(0,A[q]-15));sb+=Math.min(40,Math.max(0,B[q]-15));}
+    a[j*W+i]=sa;b[j*W+i]=sb;if(sa>0)nA++;if(sb>0)nB++;}
+  if(nA<40||nB<40)return null;
+  const s=Math.ceil(S/D);let best=-2,bx=0,by=0;const C={};
+  for(let dy=-s;dy<=s;dy++)for(let dx=-s;dx<=s;dx++){let sa=0,sb=0,saa=0,sbb=0,sab=0,n=0;
+    for(let j=Math.max(0,-dy);j<Math.min(W,W-dy);j++){const ra=j*W,rb=(j+dy)*W;for(let i=Math.max(0,-dx);i<Math.min(W,W-dx);i++){const p=a[ra+i],q=b[rb+i+dx];if(p===0&&q===0)continue;sa+=p;sb+=q;saa+=p*p;sbb+=q*q;sab+=p*q;n++;}}
+    const tot=(W-Math.abs(dx))*(W-Math.abs(dy));if(n<20){C[dx+','+dy]=-1;continue;}
+    const ma=sa/tot,mb=sb/tot,cov=sab/tot-ma*mb,va=saa/tot-ma*ma,vb=sbb/tot-mb*mb,c=va>0&&vb>0?cov/Math.sqrt(va*vb):-1;C[dx+','+dy]=c;
+    if(c>best){best=c;bx=dx;by=dy;}}
+  const pf=(m,z,p)=>{const d=m-2*z+p;return d<0?0.5*(m-p)/d:0;};
+  const g=(x,y)=>C[x+','+y]??best;
+  const fx=bx+(Math.abs(bx)<s?pf(g(bx-1,by),best,g(bx+1,by)):0),fy=by+(Math.abs(by)<s?pf(g(bx,by-1),best,g(bx,by+1)):0);
+  return {dx:fx*D,dy:fy*D,c:best,borda:Math.abs(bx)>=s||Math.abs(by)>=s};}
+/* amostra um disco no quadro G: fração com chuva (>=20 dBZ) e intensidade típica */
+function disco(G,x,y,rp){const r=Math.max(1.5,rp),r2=r*r;let n=0,c=0,c15=0;const zs=[];
+  for(let j=Math.floor(y-r);j<=Math.ceil(y+r);j++)for(let i=Math.floor(x-r);i<=Math.ceil(x+r);i++){if((i-x)**2+(j-y)**2>r2)continue;if(i<0||j<0||i>=N||j>=N)continue;n++;const z=G[j*N+i];if(z>=20){c++;zs.push(z);}else if(z>=15)c15++;}
+  if(!n)return {p:0,z:null,p15:0};zs.sort((a,b)=>a-b);return {p:c/n,z:zs.length?zs[Math.floor(zs.length*0.75)]:null,p15:(c+c15)/n};}
+const cat=z=>z==null?null:z>=55?{k:5,t:'temporal (possível granizo)',c:'#d946ef'}:z>=48?{k:4,t:'muito forte',c:'#dc2626'}:z>=40?{k:3,t:'forte',c:'#f59e0b'}:z>=30?{k:2,t:'moderada',c:'#2563eb'}:{k:1,t:'fraca',c:'#38bdf8'};
+const mmh=z=>z==null?0:Math.pow(Math.pow(10,z/10)/200,1/1.6);
+/* previsão: quadros [{t (s), G}], velocidade v={vx,vy} px/min, tAgora (s); devolve minuto a minuto (0..90) */
+function prever(Q,v,tAgora,alvo,Cv){const [ax,ay]=alvo||[PX,PY];const f0=Q[Q.length-1],f1=Q.length>1?Q[Q.length-2]:null,out=[];
+  for(let m=0;m<=90;m++){const L=(tAgora-f0.t)/60+m,rk=(2.5+0.09*L)/KM;
+    const a=disco(f0.G,ax-v.vx*L,ay-v.vy*L,rk);let p=a.p,z=a.z,p15=a.p15;
+    if(f1){const L1=(tAgora-f1.t)/60+m,b=disco(f1.G,ax-v.vx*L1,ay-v.vy*L1,(2.5+0.09*L1)/KM);p=(2*a.p+b.p)/3;p15=(2*a.p15+b.p15)/3;if(z==null)z=b.z;else if(b.z!=null)z=Math.round((2*z+b.z)/3);}
+    out.push({m,p,z,p15,u:semRadar(Cv,ax-v.vx*L,ay-v.vy*L,rk)});}
+  return out;}
+/* estima o movimento com os últimos quadros; usa o vento em 700 hPa (vento={vx,vy} px/min) se o radar não tiver ecos suficientes */
+function velocidade(Q,vento,alvo,R1=130){const [ax,ay]=alvo||[PX,PY];const vs=[];
+  for(let k=Math.max(1,Q.length-3);k<Q.length;k++){const dt=(Q[k].t-Q[k-1].t)/60;if(dt<=0||dt>20)continue;
+    let r=movimento(Q[k-1].G,Q[k].G,ax,ay,R1,24);if(!r||r.c<0.3)r=movimento(Q[k-1].G,Q[k].G,ax,ay,250,24);
+    if(r&&r.c>=0.3&&!r.borda)vs.push({vx:r.dx/dt,vy:r.dy/dt,c:r.c});}
+  let v,fonte,disp=null;
+  if(vs.length){const w=vs.reduce((s,x)=>s+x.c,0);v={vx:vs.reduce((s,x)=>s+x.vx*x.c,0)/w,vy:vs.reduce((s,x)=>s+x.vy*x.c,0)/w};fonte='radar';
+    disp=Math.sqrt(vs.reduce((s,x)=>s+(x.vx-v.vx)**2+(x.vy-v.vy)**2,0)/vs.length)*KM*60;}
+  else if(vento){v=vento;fonte='vento';}else{v={vx:0,vy:0};fonte='parado';}
+  return {v,fonte,disp,n:vs.length,kmh:Math.hypot(v.vx,v.vy)*KM*60,vs};}
+/* eco de chuva mais próximo (>=20 dBZ) no último quadro */
+function maisProximo(G,v,alvo){const [ax,ay]=alvo||[PX,PY];let best=null;const R=170/KM;
+  for(let j=Math.max(0,Math.floor(ay-R));j<Math.min(N,ay+R);j++)for(let i=Math.max(0,Math.floor(ax-R));i<Math.min(N,ax+R);i++){const z=G[j*N+i];if(z<20)continue;const d=Math.hypot(i-ax,j-ay);if(!best||d<best.d)best={d,i,j,z};}
+  if(!best)return null;const ex=best.i-ax,ey=best.j-ay,az=(Math.atan2(ex,-ey)*180/Math.PI+360)%360,sp=Math.hypot(v.vx,v.vy);
+  let vem=null;if(sp>0.05){const cl=-(ex*v.vx+ey*v.vy)/sp,lat=Math.abs(ex*v.vy-ey*v.vx)/sp;vem=cl>0?(lat*KM<12?'vindo em direção a Maringá':'passando ao lado'):'se afastando';}
+  let zm=-128;for(let j=best.j-6;j<=best.j+6;j++)for(let i=best.i-6;i<=best.i+6;i++)if(i>=0&&j>=0&&i<N&&j<N)zm=Math.max(zm,G[j*N+i]);
+  return {km:Math.round(best.d*KM),dir:['norte','nordeste','leste','sudeste','sul','sudoeste','oeste','noroeste'][Math.round(az/45)%8],z:zm,vem};}
+/* área com chuva e chuva forte num raio, para classificar o tipo de evento */
+function tipo(G,R){const r=R/KM,r2=r*r;let n=0,c=0,f=0;for(let j=Math.floor(PY-r);j<=PY+r;j++)for(let i=Math.floor(PX-r);i<=PX+r;i++){if((i-PX)**2+(j-PY)**2>r2||i<0||j<0||i>=N||j>=N)continue;n++;const z=G[j*N+i];if(z>=20)c++;if(z>=40)f++;}
+  return {cob:c/n,forte:c?f/c:0};}
+return {Z,T,N,PX,PY,KM,tiles,poeTile,poeCobertura,semRadar,novaGrade,movimento,velocidade,prever,disco,cat,mmh,maisProximo,tipo};})();
+if(typeof module!=='undefined')module.exports=NC;
+/* ===== Próximos 60 minutos: interface do nowcast (radar projetado) ===== */
+(function(){
+const $=id=>document.getElementById(id),pad=n=>String(n).padStart(2,'0');
+const el=$('nc');if(!el)return;
+let ctx={};               /* temperatura, ícone, horas dos modelos e avisos (chegam depois que a previsão carrega) */
+let Q=[],CV=null,host='',vento=null,ultimo=0,estado=null,ocupado=false;
+const hm=d=>pad(d.getHours())+'h'+pad(d.getMinutes());
+const carrega=src=>new Promise(ok=>{const im=new Image();im.crossOrigin='anonymous';im.onload=()=>{try{const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(im,0,0);ok(g.getImageData(0,0,256,256).data);}catch(e){ok(null);}};im.onerror=()=>ok(null);im.src=src;});
+const espera=()=>new Promise(r=>setTimeout(r,0));
+async function quadro(f){const G=NC.novaGrade();let ok=0;
+  await Promise.all(NC.tiles().map(async t=>{const d=await carrega(`${host}${f.path}/256/${NC.Z}/${t.x}/${t.y}/2/0_0.png`);if(d){NC.poeTile(G,d,t.ox,t.oy);ok++;}}));
+  return ok>=7?{t:f.time,G}:null;}
+async function cobertura(){const C=new Uint8Array(NC.N*NC.N);let ok=0;
+  await Promise.all(NC.tiles().map(async t=>{const d=await carrega(`${host}/v2/coverage/0/256/${NC.Z}/${t.x}/${t.y}/0/0_0.png`);if(d){NC.poeCobertura(C,d,t.ox,t.oy);ok++;}}));
+  return ok>=7?C:null;}
+async function ventoMedio(){try{const j=await fetch('https://api.open-meteo.com/v1/forecast?latitude=-23.42&longitude=-51.94&hourly=wind_speed_700hPa,wind_direction_700hPa&models=best_match&forecast_days=1&timezone=America%2FSao_Paulo').then(r=>r.json());
+  const h=new Date().getHours(),s=j.hourly.wind_speed_700hPa[h],d=j.hourly.wind_direction_700hPa[h];if(s==null||d==null)return null;
+  const pxmin=s*0.8/60/NC.KM,r=(d+180)*Math.PI/180;return {vx:pxmin*Math.sin(r),vy:-pxmin*Math.cos(r)};}catch(e){return null;}}
+async function atualiza(forcar){if(ocupado)return;ocupado=true;
+  try{const j=await fetch('https://api.rainviewer.com/public/weather-maps.json',{cache:'no-store'}).then(r=>r.json());host=j.host;
+    const past=j.radar.past.slice(-4),tl=past[past.length-1].time;
+    if(forcar||tl!==ultimo){
+      if(!CV)CV=await cobertura();if(!vento)vento=await ventoMedio();
+      const novo=[];for(const f of past){const ja=Q.find(q=>q.t===f.time);novo.push(ja||await quadro(f));await espera();}
+      Q=novo.filter(Boolean);ultimo=tl;}
+    if(Q.length<2)throw new Error('poucos quadros');
+    calcula();}
+  catch(e){if(!estado)el.innerHTML=`<h2>Próximos 60 minutos</h2><p class="hint">Radar indisponível agora. Tente de novo em alguns minutos.</p>`;window.__ncErr=String(e);}
+  finally{ocupado=false;}}
+function calcula(){const V=NC.velocidade(Q,vento),agora=Date.now()/1000,P=NC.prever(Q,V.v,agora,null,CV),G0=Q[Q.length-1].G;
+  estado={V,P,prox:NC.maisProximo(G0,V.v),tipo:NC.tipo(G0,60),t0:Q[Q.length-1].t,agora};desenha();}
+const quando=m=>{if(m<8)return'em poucos minutos';const r=Math.max(10,Math.round(m/5)*5),d=new Date(Date.now()+m*60e3);return `em ~${r} min (≈${hm(d)})`;};
+const catTxt=(P,a,b)=>{let z=null;for(let m=a;m<=Math.min(b,90);m++)if(P[m].p>=0.3&&P[m].z!=null)z=Math.max(z??-99,P[m].z);return NC.cat(z??22);};
+const fimEm=(P,a,lim)=>{for(let m=a;m<=lim-9;m++){let ok=true;for(let k=m;k<m+10;k++)if(P[k].p>=0.3){ok=false;break;}if(ok)return m;}return null;};
+function frase(){const {P,prox}=estado;const r=m=>P[m].p>=0.5,ps=m=>P[m].p>=0.3;
+  if(P[0].u>=0.5)return{h:'Sem cobertura de radar sobre Maringá agora',k:'na'};
+  if(r(0)){const c=catTxt(P,0,10),f=fimEm(P,1,90);let pior='';for(let m=5;m<=40;m++)if(r(m)&&P[m].z!=null&&NC.cat(P[m].z).k>c.k+0){pior=` · pode ficar ${NC.cat(P[m].z).t} ${quando(m)}`;break;}
+    return{h:`Chuva ${c.t} agora`+(f!=null&&f<=60?` · deve parar ${quando(f)}`:' · continua por pelo menos 60 min')+pior,k:'agora',c};}
+  for(let m=1;m<=60;m++)if(r(m)){const c=catTxt(P,m,m+10),f=fimEm(P,m+1,90);return{h:`Chuva ${c.t} começando ${quando(m)}`+(f!=null?` · dura ~${Math.max(10,Math.round((f-m)/5)*5)} min`:''),k:'vem',m,c};}
+  for(let m=1;m<=60;m++)if(ps(m)){const c=catTxt(P,m,m+10);return{h:`Possível chuva ${c.t} ${quando(m)}`,k:'talvez',m,c};}
+  for(let m=61;m<=90;m++)if(r(m))return{h:`Sem chuva nos próximos 60 min · pode chegar ${quando(m)}`,k:'depois',m};
+  if(!prox)return{h:'Sem chuva por no mínimo 60 min · nenhuma chuva num raio de 170 km',k:'limpo'};
+  return{h:'Sem chuva por no mínimo 60 min',k:'nada'};}
+function confianca(F){const {V,tipo,prox,t0,agora}=estado,mot=[];let n=3;
+  const atraso=(agora-t0)/60;
+  if(F.k==='limpo')return{t:'alta',m:'não há chuva no radar num raio de 170 km'};
+  if(V.fonte!=='radar'){n=1;mot.push('poucos ecos para medir o movimento; usei o vento em altitude');}
+  else if(V.disp!=null&&V.disp>15){n--;mot.push('o movimento da chuva está irregular');}
+  const conv=(tipo.forte>0.2)||(prox&&prox.z>=45);
+  if(conv){n--;mot.push('são células de tempestade, que nascem e morrem rápido');}
+  if(F.m!=null&&F.m>40){n--;mot.push('o evento está a mais de 40 min');}
+  if(atraso>20){n--;mot.push(`o radar está atrasado ${Math.round(atraso)} min`);}
+  if(F.k==='nada'&&prox&&prox.km<40&&conv){n=Math.min(n,1);}
+  if(!mot.length)mot.push(F.k==='nada'?'a chuva mais próxima não vem para cá':'chuva organizada e movimento estável');
+  return{t:n>=3?'alta':n===2?'média':'baixa',m:mot.join('; ')};}
+function anel(P){const R=118,r0=96,cx=130,cy=130;let s='';
+  for(let m=0;m<60;m++){const a=(m*6-90)*Math.PI/180,x1=cx+r0*Math.cos(a),y1=cy+r0*Math.sin(a),x2=cx+R*Math.cos(a),y2=cy+R*Math.sin(a),o=P[m];
+    let col='var(--line)',op=1,w=4;if(o.u>=0.5){col='var(--muted)';op=.35;}else if(o.p>=0.3){const c=NC.cat(o.z??22);col=c.c;op=o.p>=0.5?1:.45;w=o.p>=0.5?6:4;}
+    s+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${col}" stroke-opacity="${op}" stroke-width="${w}" stroke-linecap="round"/>`;}
+  for(const [m,t] of [[15,'15'],[30,'30'],[45,'45']]){const a=(m*6-90)*Math.PI/180;s+=`<text x="${(cx+(R+11)*Math.cos(a)).toFixed(1)}" y="${(cy+(R+11)*Math.sin(a)+4).toFixed(1)}" text-anchor="middle" class="nc-tk">${t}</text>`;}
+  return `<svg viewBox="-6 -6 272 272" class="nc-ring" aria-hidden="true">${s}</svg>`;}
+function desenha(){if(!estado)return;const F=frase(),C=confianca(F),{P,prox,V,t0}=estado;
+  const atraso=Math.max(0,Math.round((Date.now()/1000-t0)/60));
+  const dir=v=>['norte','nordeste','leste','sudeste','sul','sudoeste','oeste','noroeste'][Math.round(((Math.atan2(v.vx,-v.vy)*180/Math.PI+360)%360)/45)%8];
+  const de=v=>['sul','sudoeste','oeste','noroeste','norte','nordeste','leste','sudeste'][Math.round(((Math.atan2(v.vx,-v.vy)*180/Math.PI+360)%360)/45)%8];
+  const proxTxt=prox?`Chuva mais próxima: ${NC.cat(prox.z).t} a ${prox.km} km ao ${prox.dir}${prox.vem?`, ${prox.vem}`:''}.`:'Nenhuma chuva no radar num raio de 170 km.';
+  const movTxt=V.kmh>=3?`A chuva na região anda do ${de(V.v)} para o ${dir(V.v)} a ~${Math.round(V.kmh)} km/h${V.fonte==='vento'?' (estimado pelo vento em altitude)':''}.`:'A chuva na região está quase parada.';
+  const hz=(()=>{const dh=ctx.DH&&ctx.DH[0];if(!dh||F.k==='agora'||F.k==='vem')return'';const h=new Date().getHours(),s=dh.filter(o=>o.h>=h&&o.h<=h+3);if(!s.length)return'';
+    const p=Math.max(...s.map(o=>o.p||0)),pt=Math.max(...s.map(o=>o.pt||0));
+    return (p>=30||pt>=15||ctx.aviso)?`<p class="nc-av">⚠️ O radar ainda não mostra chuva vindo, mas ${ctx.aviso?`há aviso ${ctx.aviso} do INMET e `:''}os modelos dão ${p}% de chance de chuva${pt>=15?` e ${pt}% de trovoada`:''} nas próximas horas. Pancadas podem se formar perto da cidade sem aparecer antes no radar.</p>`:'';})();
+  el.innerHTML=`<div class="nc-top"><h2>Próximos 60 minutos</h2><span class="nc-conf c-${C.t}">Confiança ${C.t}</span></div>
+   <p class="nc-h">${F.h}</p>
+   <div class="nc-dial">${anel(P)}<div class="nc-mid"><span class="nc-now">AGORA</span>${ctx.ic||''}<b>${ctx.temp!=null?ctx.temp+'°':''}</b><span class="nc-sm">radar ${hm(new Date(t0*1000))}</span></div></div>
+   <ul class="nc-leg"><li><i style="background:#38bdf8"></i>fraca</li><li><i style="background:#2563eb"></i>moderada</li><li><i style="background:#f59e0b"></i>forte</li><li><i style="background:#dc2626"></i>muito forte</li><li><i style="background:#d946ef"></i>temporal</li><li><i class="ls"></i>possível</li></ul>
+   ${hz}
+   <p class="nc-d">${proxTxt} ${movTxt}</p>
+   <p class="nc-d"><b>Por que confiança ${C.t}:</b> ${C.m}.</p>
+   <details class="nc-how"><summary>Como funciona e quanto acerta</summary><p>Pego as 4 últimas imagens do radar (uma a cada 10 min), meço para onde e a que velocidade a chuva está andando e projeto esse movimento até 90 min à frente, minuto a minuto, sobre Maringá. A cor indica a intensidade (fraca = até ~2 mm/h; moderada = 3–10; forte = 10–40; muito forte = 50+; temporal = possível granizo). As imagens chegam com ~10 min de atraso (agora: ${atraso} min), e isso já entra na conta.</p><p>Teste com o radar real de 5/11 (2 h de chuva no Paraná, 13 mil comparações): com 10 min de antecedência, avisou 84% das chuvas e 19% dos avisos não se confirmaram; com 30 min, 73% e 40%; com 60 min, 69% e 52%. Projetar o movimento acertou bem mais que supor que "a chuva fica onde está". O que não dá para prever: tempestades que nascem do nada perto da cidade.</p></details>`;
+  el.classList.toggle('chove',F.k==='agora'||F.k==='vem');}
+window.__NCUI={set(c){ctx=Object.assign(ctx,c);desenha();},estado:()=>estado,atualiza};
+atualiza(true);
+setInterval(()=>{if(!document.hidden)atualiza(false);},180e3);
+setInterval(()=>{if(!document.hidden&&estado&&!ocupado)calcula();},60e3);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)atualiza(false);});
+})();
+/* Configuração: o que usar do arquivo de pesos da auditoria (lab/pesos.json) */
 /* Decidido pela auditoria de 189 dias (set/2024–ago/2026): mediana dos modelos venceu; correção de volume piorou;
    chance de chuva forte calibrada melhorou muito; vento calibrado pela estação do INMET. */
 const CFG={mediana:true, chanceForteCalibrada:true, ventoCalibrado:true};
@@ -588,6 +768,7 @@ const parHora=(()=>{if(!par)return'';let hh=(L.DH||[])[L.D.indexOf(par)]||[];if(
   const pc=hh.filter(o=>(o.p||0)>=30).reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,{mm:0});return (pc.mm||0)>=0.5?` Chuva mais forte perto das ${pad(pc.h)}h.`:'';})();
 const parTxt=par?`<p class="sub par211">⚠️ ${par[0]===key(now)?'Hoje':'Amanhã'}: cenário parecido com o temporal de 2/11 (risco ${par[15].pct}%).${parHora} Evite carro sob árvores e acompanhe o radar.</p>`:'';
 $('hero').innerHTML=`${agora()}<div><div class="lab">${lab}</div><p class="head">${head}</p><p class="sub">${sub}</p>${ventoTxt}${parTxt}</div><div class="pair">${box('Hoje',L.D[dIdx(key(now))])}${box('Amanhã',L.D[dIdx(key(tmw))])}</div>`;
+try{window.__NCUI&&window.__NCUI.set({temp:H.t[0],ic:ic(condH(0),'nc-ic'),DH:L.DH,aviso:L.D[0]&&L.D[0][15]&&L.D[0][15].aviso});}catch(e){}
 
 const arrow=d=>d==null?'':`<svg class="arr" viewBox="0 0 16 16" aria-hidden="true" style="transform:rotate(${(d+180)%360}deg)"><path d="M8 1.5 12.5 13 8 10.3 3.5 13z" fill="currentColor"/></svg>`;
 const DIRS=['N','NE','L','SE','S','SO','O','NO'], dirTxt=d=>d==null?'':DIRS[Math.round(d/45)%8];
