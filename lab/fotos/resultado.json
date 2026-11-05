@@ -2,12 +2,147 @@
  "erros": [
   "Failed to load resource: the server responded with a status of 429 (Too Many Requests)"
  ],
+ "nc": {
+  "txt": "PRÓXIMOS 60 MINUTOS\nConfiança alta\n\nSem chuva por no mínimo 60 min\n\n15\n30\n45\nAGORA\n🌧️\n25°\nradar 17h30\nfraca\nmoderada\nforte\nmuito forte\ntemporal\npossível\n\n⚠️ O radar ainda não mostra chuva vindo, mas há aviso laranja do INMET e os modelos dão 55% de chance de chuva e 28% de trovoada nas próximas horas. Pancadas podem se formar perto da cidade sem aparecer antes no radar.\n\nChuva mais próxima: fraca a 127 km ao norte, passando ao lado. A chuva na região anda do oeste para o leste a ~26 km/h.\n\nPor que confiança alta: a chuva mais próxima não vem para cá.\n\nComo funciona e quanto acerta",
+  "err": null,
+  "est": {
+   "fonte": "radar",
+   "kmh": 26,
+   "disp": 6.763127994529424,
+   "prox": {
+    "km": 127,
+    "dir": "norte",
+    "z": 23,
+    "vem": "passando ao lado"
+   },
+   "tipo": {
+    "cob": 0,
+    "forte": 0
+   },
+   "p": [
+    [
+     0,
+     0,
+     null,
+     0
+    ],
+    [
+     5,
+     0,
+     null,
+     0
+    ],
+    [
+     10,
+     0,
+     null,
+     0
+    ],
+    [
+     15,
+     0,
+     null,
+     0
+    ],
+    [
+     20,
+     0,
+     null,
+     0
+    ],
+    [
+     25,
+     0,
+     null,
+     0
+    ],
+    [
+     30,
+     0,
+     null,
+     0
+    ],
+    [
+     35,
+     0,
+     null,
+     0
+    ],
+    [
+     40,
+     0,
+     null,
+     0
+    ],
+    [
+     45,
+     0,
+     null,
+     0
+    ],
+    [
+     50,
+     0,
+     null,
+     0
+    ],
+    [
+     55,
+     0,
+     null,
+     0
+    ],
+    [
+     60,
+     0,
+     null,
+     0
+    ],
+    [
+     65,
+     0,
+     null,
+     0
+    ],
+    [
+     70,
+     0,
+     null,
+     0
+    ],
+    [
+     75,
+     0,
+     null,
+     0
+    ],
+    [
+     80,
+     0,
+     null,
+     0
+    ],
+    [
+     85,
+     0,
+     null,
+     0
+    ],
+    [
+     90,
+     0,
+     null,
+     0
+    ]
+   ]
+  }
+ },
  "chips": [
-  "Temporal: alto · 35% · 14h–16h",
-  "Temporal: alto · 35% · 13h–19h"
+  "Temporal: alto · 35% · ~18h",
+  "Temporal: moderado · 10% · 13h–19h"
  ],
- "sheet_head": "⛈️Amanhã, quinta 5/11Tempestades · temporal alto (35%), mais provável entre 13h e 19h, pico ~16h",
- "pinfo": "Amanhã às 18h — sobre Maringá: 0,5 mm/h (fraca). Pelos 194 cenários: 46% de chance de chuva, 25% de trovoada, rajada ~26 km/h. Chuva mais forte do mapa: 1,1 mm/h a ~98 km ao sudeste.",
+ "sheet_head": "🌧️Amanhã, sexta 6/11Chuva · temporal moderado (10%), mais provável entre 13h e 19h, pico ~16h",
+ "pinfo": "Amanhã às 18h — sobre Maringá: sem chuva no consenso. Pelos 194 cenários: 49% de chance de chuva, 41% de trovoada, rajada ~13 km/h. Chuva mais forte do mapa: 2,1 mm/h a ~132 km ao nordeste.",
  "overlay": 1,
- "volta": "Radar 12:20"
+ "volta": "Radar 16:10"
 }
