@@ -266,24 +266,43 @@ body.noscroll{overflow:hidden}
 .nc-how{font-size:13px;color:var(--muted);margin-top:6px}
 .nc-how summary{cursor:pointer;font-weight:600;color:var(--ink)}
 .nc-how p{line-height:1.5;margin:6px 0}
+
+/* busca de cidade */
+.cidade-uf{margin:0;font-size:13px;color:var(--muted)}
+.cidade-uf:empty{display:none}
+.semcal{color:var(--laranja);font-weight:600}
+.busca{position:relative;margin:4px 0 8px}
+.busca input{width:100%;box-sizing:border-box;font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px 10px 36px;min-height:44px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a94a6' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center}
+.qres{position:absolute;z-index:40;left:0;right:0;top:calc(100% + 4px);list-style:none;margin:0;padding:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);max-height:60vh;overflow:auto}
+.qres li{display:flex;flex-direction:column;gap:1px;padding:9px 10px;border-radius:9px;cursor:pointer}
+.qres li span{font-size:12.5px;color:var(--muted)}
+.qres li[aria-selected="true"],.qres li[data-i]:hover{background:var(--bg)}
+.qres li.vazio{cursor:default;color:var(--muted);font-size:14px}
+.recentes{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:6px;scrollbar-width:none}
+.recentes::-webkit-scrollbar{display:none}
+.cchip{flex:none;font:inherit;font-size:13.5px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.cchip small{color:var(--muted);font-size:11px;margin-left:2px}
 </style>
 </head>
 <body>
 <main id="app" class="wrap">
   <header class="top">
     <div>
-      <h1>Maringá</h1>
+      <h1 id="cidade">Maringá</h1><p class="cidade-uf" id="cidade-uf"></p>
       <p class="stamp" id="stamp">Buscando a previsão…</p>
     </div>
     <button type="button" id="reload" class="icon-btn" aria-label="Atualizar">↻</button>
   </header>
+  <div class="busca" role="search"><input id="q" type="search" placeholder="Buscar outra cidade…" autocomplete="off" autocapitalize="words" enterkeyhint="search" aria-label="Buscar cidade" aria-controls="qres" aria-expanded="false" aria-autocomplete="list"><ul id="qres" class="qres" role="listbox" hidden></ul></div>
+  <div id="recentes" class="recentes" hidden></div>
   <div id="alerts" class="alerts"></div>
   <section id="hero" class="hero" aria-live="polite"><div class="skeleton"></div></section>
   <section class="card nc" id="nc" aria-live="polite"><div class="nc-top"><h2>Próximos 60 minutos</h2></div><p class="hint">Lendo o radar…</p></section>
   <section class="card" id="radar">
     <div class="rhead"><h2>Radar</h2><button type="button" id="rbtn" class="pill-btn" aria-pressed="false">Satélite</button></div>
     <div class="rtabs" role="tablist"><button type="button" role="tab" id="tab-agora" aria-selected="true">Ao vivo</button><button type="button" role="tab" id="tab-prev" aria-selected="false">Previsão por horário</button></div>
-    <div id="rmap" class="rmap" role="img" aria-label="Mapa de radar de chuva da região de Maringá"></div>
+    <div id="rmap" class="rmap" role="img" aria-label="Mapa de radar de chuva da região"></div>
     <p class="rtime" id="rtime"></p>
     <p class="hint" id="rmsg">Carregando radar…</p>
     <div id="pctl" class="pctl" hidden>
@@ -312,6 +331,7 @@ body.noscroll{overflow:hidden}
   </details>
   <details class="card fold">
     <summary><h2>Como a previsão é feita</h2><span class="chev" aria-hidden="true"></span></summary>
+    <p class="hint" id="calibNota" hidden><b>Esta cidade não tem calibração local.</b> Em Maringá, a previsão é ajustada pela auditoria com a estação do INMET e o aeroporto (pesos dos modelos, correção do vento e das rajadas, chance de chuva forte e risco de temporal). Aqui são usados os modelos sem esses ajustes: a chuva continua boa (mediana de 11 modelos), mas o vento e as rajadas podem ter erro maior.</p>
     <ul class="method">
       <li>Combina 11 modelos meteorológicos (ECMWF 9 km e 25 km, ECMWF IA, GFS, ICON, CMA e outros) pela mediana, o método que mais acertou na auditoria de 189 dias com o pluviômetro do INMET.</li>
       <li>A chance de chuva forte (≥10 mm) é calibrada pelo histórico. Na auditoria, o erro dessa chance caiu cerca de 45%.</li>
@@ -319,7 +339,7 @@ body.noscroll{overflow:hidden}
       <li><b>Risco de temporal:</b> fração dos cenários (ECMWF, GFS, Reino Unido, Canadá e os 11 modelos) com rajada de 70 km/h ou mais, chuva de 50 mm ou mais, ou atmosfera muito instável com chuva. Aviso laranja do INMET garante no mínimo 35%, e vermelho, 65%. Começa como estimativa e é calibrado todo mês pela auditoria. Não indica bairro nem horário exato.</li>
       <li>Vento: média dos modelos, com correção pelo que a estação do INMET mediu. Rajadas são picos de poucos segundos.</li>
       <li>Radar: RainViewer (últimas 2 horas). Satélite: NASA GIBS / GOES.</li>
-      <li>Avisos oficiais do INMET para Maringá.</li>
+      <li>Avisos oficiais do INMET para a cidade (só no Brasil).</li>
       <li>A auditoria roda sozinha todo dia 2 no GitHub e atualiza os pesos do vento e da chuva forte quando o INMET publica dados novos.</li>
       <li><b>Horário:</b> na auditoria, o início da chuva previsto na véspera errou em média 4 a 5 horas. Use como período do dia (madrugada, manhã, tarde ou noite), não como hora marcada. Pancadas também variam de bairro para bairro.</li>
       <li><b>Temporais:</b> em 13 temporais medidos desde set/2024, os modelos da véspera quase nunca previram a rajada nem o volume. O sinal mais confiável foi a instabilidade da atmosfera (CAPE) e o aviso do INMET, que o site usa no risco.</li>
@@ -329,9 +349,53 @@ body.noscroll{overflow:hidden}
 </main>
 <div id="sheet" class="sheet" hidden><div class="sheet-bg" data-close></div><div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="sh-t"><button type="button" class="sheet-x" data-close aria-label="Fechar">×</button><div id="sheet-body"></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script>/* ===== Nowcast (próximos 60–90 min) a partir do radar RainViewer: núcleo sem DOM, usado no site e no teste em Node ===== */
+<script>/* ===== Cidade: Maringá por padrão; outra cidade pelo final do link (#londrina-pr) ou pela busca ===== */
+const UFS={'Acre':'AC','Alagoas':'AL','Amapá':'AP','Amazonas':'AM','Bahia':'BA','Ceará':'CE','Distrito Federal':'DF','Espírito Santo':'ES','Goiás':'GO','Maranhão':'MA','Mato Grosso':'MT','Mato Grosso do Sul':'MS','Minas Gerais':'MG','Pará':'PA','Paraíba':'PB','Paraná':'PR','Pernambuco':'PE','Piauí':'PI','Rio de Janeiro':'RJ','Rio Grande do Norte':'RN','Rio Grande do Sul':'RS','Rondônia':'RO','Roraima':'RR','Santa Catarina':'SC','São Paulo':'SP','Sergipe':'SE','Tocantins':'TO'};
+const LOC_PADRAO={slug:'maringa-pr',nome:'Maringá',uf:'PR',cc:'BR',admin1:'Paraná',pais:'Brasil',lat:-23.42,lon:-51.94,tz:'America/Sao_Paulo',padrao:true};
+const semAcento=s=>String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const slugDe=(nome,uf)=>semAcento(nome).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+semAcento(uf).replace(/[^a-z0-9]+/g,'');
+const lerRec=()=>{try{const r=JSON.parse(localStorage.getItem('cidades')||'[]');return Array.isArray(r)?r:[];}catch(e){return [];}};
+const salvaRec=c=>{try{const r=lerRec().filter(x=>x.slug!==c.slug);r.unshift({slug:c.slug,nome:c.nome,uf:c.uf,cc:c.cc,admin1:c.admin1,pais:c.pais,lat:c.lat,lon:c.lon,tz:c.tz});localStorage.setItem('cidades',JSON.stringify(r.slice(0,6)));}catch(e){}};
+const deGeo=g=>{const br=g.country_code==='BR',uf=br?(UFS[g.admin1]||''):(g.country_code||'');const c={nome:g.name,uf,cc:g.country_code||'',admin1:g.admin1||'',pais:g.country||'',lat:+(+g.latitude).toFixed(3),lon:+(+g.longitude).toFixed(3),tz:g.timezone||'America/Sao_Paulo',pop:g.population||0};
+  c.slug=slugDe(c.nome,uf||c.cc||'x');return c.slug===LOC_PADRAO.slug?{...LOC_PADRAO}:c;};
+const buscaCidades=async q=>{const j=await fetch('https://geocoding-api.open-meteo.com/v1/search?count=8&language=pt&format=json&name='+encodeURIComponent(q)).then(r=>r.json());
+  return (j.results||[]).filter(g=>g.latitude!=null&&g.longitude!=null).map(deGeo);};
+const irPara=c=>{if(!c.padrao)salvaRec(c);const h=c.padrao?'':'#'+c.slug;history.replaceState(null,'',location.pathname+location.search+h);location.reload();};
+const LOCP=(async()=>{const h=semAcento(decodeURIComponent(location.hash.slice(1)));
+  if(!h||h===LOC_PADRAO.slug)return {...LOC_PADRAO};
+  const r=lerRec().find(x=>x.slug===h);if(r)return r;
+  try{const p=h.split('-'),uf=p.length>1?p.pop():'',res=await buscaCidades(p.join(' '));const c=res.find(x=>semAcento(x.uf)===uf||semAcento(x.cc)===uf)||res[0];if(c){if(!c.padrao)salvaRec(c);return c;}}catch(e){}
+  return {...LOC_PADRAO,naoAchou:h};})();
+window.addEventListener('hashchange',()=>location.reload());
+LOCP.then(LOC=>{
+/* ===== Busca de cidade e cidades recentes ===== */
+(function(){const $=id=>document.getElementById(id);
+  $('cidade').textContent=LOC.nome;document.title='Chuva em '+LOC.nome;
+  const sub=$('cidade-uf');if(sub)sub.textContent=LOC.padrao?'':[LOC.admin1||LOC.uf,LOC.cc!=='BR'?LOC.pais:''].filter(Boolean).join(', ');
+  if(LOC.naoAchou){const a=$('alerts');if(a)a.insertAdjacentHTML('beforebegin',`<p class="hint">Não encontrei a cidade do link (“${LOC.naoAchou.replace(/[<>&"]/g,'')}”). Mostrando Maringá.</p>`);}
+  const rec=$('recentes');
+  const chips=()=>{const lst=[LOC_PADRAO,...lerRec()].filter((c,i,a)=>c.slug!==LOC.slug&&a.findIndex(x=>x.slug===c.slug)===i).slice(0,5);
+    rec.innerHTML=lst.map((c,i)=>`<button type="button" class="cchip" data-i="${i}">${c.nome}${c.uf&&!c.padrao?' <small>'+c.uf+'</small>':''}</button>`).join('');
+    rec.querySelectorAll('.cchip').forEach(b=>b.addEventListener('click',()=>irPara(lst[+b.dataset.i])));rec.hidden=!lst.length;};
+  chips();
+  const q=$('q'),box=$('qres');let tm=null,res=[],sel=-1,seq=0;
+  const fecha=()=>{box.hidden=true;q.setAttribute('aria-expanded','false');sel=-1;};
+  const mostra=()=>{box.innerHTML=res.length?res.map((c,i)=>`<li role="option" id="qo${i}" data-i="${i}" aria-selected="${i===sel}"><b>${c.nome}</b><span>${[c.admin1,c.cc==='BR'?'':c.pais].filter(Boolean).join(', ')||c.pais}</span></li>`).join(''):'<li class="vazio">Nenhuma cidade encontrada</li>';
+    box.hidden=false;q.setAttribute('aria-expanded','true');if(sel>=0)q.setAttribute('aria-activedescendant','qo'+sel);else q.removeAttribute('aria-activedescendant');};
+  q.addEventListener('input',()=>{clearTimeout(tm);const v=q.value.trim();if(v.length<2){fecha();return;}
+    tm=setTimeout(async()=>{const k=++seq;box.innerHTML='<li class="vazio">Buscando…</li>';box.hidden=false;
+      try{const r=await buscaCidades(v);if(k!==seq)return;r.sort((a,b)=>(b.cc==='BR')-(a.cc==='BR')||(b.pop||0)-(a.pop||0));res=r;sel=-1;mostra();}catch(e){if(k===seq){box.innerHTML='<li class="vazio">Sem conexão com a busca agora</li>';}}},300);});
+  q.addEventListener('keydown',e=>{if(box.hidden&&e.key!=='Enter')return;
+    if(e.key==='ArrowDown'){e.preventDefault();sel=Math.min(res.length-1,sel+1);mostra();}
+    else if(e.key==='ArrowUp'){e.preventDefault();sel=Math.max(0,sel-1);mostra();}
+    else if(e.key==='Enter'){e.preventDefault();const c=res[sel>=0?sel:0];if(c)irPara(c);}
+    else if(e.key==='Escape')fecha();});
+  box.addEventListener('click',e=>{const li=e.target.closest('li[data-i]');if(li)irPara(res[+li.dataset.i]);});
+  document.addEventListener('click',e=>{if(!e.target.closest('.busca'))fecha();});
+})();
+/* ===== Nowcast (próximos 60–90 min) a partir do radar RainViewer: núcleo sem DOM, usado no site e no teste em Node ===== */
 const NC=(()=>{
-const Z=7,T=256,N=3*T,LAT=-23.42,LON=-51.94;
+const Z=7,T=256,N=3*T,LAT=typeof LOC!=='undefined'?LOC.lat:-23.42,LON=typeof LOC!=='undefined'?LOC.lon:-51.94,NOME=typeof LOC!=='undefined'?LOC.nome:'Maringá';
 const TAB=[[-10,"63615914"],[-9,"66635a19"],[-8,"69665c1e"],[-7,"6c685d24"],[-6,"6f6b5f29"],[-5,"726e612e"],[-4,"75706234"],[-3,"78736439"],[-2,"7c75653e"],[-1,"7f786744"],[0,"827b6949"],[1,"857d6a4e"],[2,"88806c54"],[3,"8b826d59"],[4,"8e856f5e"],[5,"92887164"],[6,"9e93756e"],[7,"aa9e7978"],[8,"b6a97e82"],[9,"c2b4828c"],[10,"cec08796"],[11,"d2c48ba0"],[12,"d6c88faa"],[13,"dacc93b4"],[14,"ded097be"],[15,"88ddeeff"],[16,"6cd1ebff"],[17,"51c5e8ff"],[18,"36bae5ff"],[19,"1baee2ff"],[20,"00a3e0ff"],[21,"009ad5ff"],[22,"0091caff"],[23,"0088bfff"],[24,"007fb4ff"],[25,"0077aaff"],[26,"0070a3ff"],[27,"00699cff"],[28,"006295ff"],[29,"005b8eff"],[30,"005588ff"],[31,"005180ff"],[32,"004e78ff"],[33,"004a70ff"],[34,"004768ff"],[35,"ffee00ff"],[36,"ffe000ff"],[37,"ffd200ff"],[38,"ffc500ff"],[39,"ffb700ff"],[40,"ffaa00ff"],[41,"ff9f00ff"],[42,"ff9500ff"],[43,"ff8b00ff"],[44,"ff8100ff"],[45,"ff4400ff"],[46,"f23600ff"],[47,"e62800ff"],[48,"d91b00ff"],[49,"cd0d00ff"],[50,"c10000ff"],[51,"a80000ff"],[52,"8f0000ff"],[53,"760000ff"],[54,"5d0000ff"],[55,"ffaaffff"],[56,"ff9fffff"],[57,"ff95ffff"],[58,"ff8bffff"],[59,"ff81ffff"],[60,"ff77ffff"],[61,"ff6cffff"],[62,"ff62ffff"],[63,"ff58ffff"],[64,"ff4effff"],[65,"ffffffff"],[66,"ffffffff"],[67,"ffffffff"],[68,"ffffffff"],[69,"ffffffff"],[70,"ffffffff"],[71,"ffffffff"],[72,"ffffffff"],[73,"ffffffff"],[74,"ffffffff"],[75,"00ff00ff"],[76,"00ff00ff"],[77,"00ff00ff"],[78,"00ff00ff"],[79,"00ff00ff"],[80,"00ff00ff"],[81,"00ff00ff"],[82,"00ff00ff"],[83,"00ff00ff"],[84,"00ff00ff"],[85,"00ff00ff"],[86,"00ff00ff"],[87,"00ff00ff"],[88,"00ff00ff"],[89,"00ff00ff"],[90,"00ff00ff"],[91,"00ff00ff"],[92,"00ff00ff"],[93,"00ff00ff"],[94,"00ff00ff"],[95,"00ff00ff"],[-9,"ceffff0c"],[-8,"cdffff19"],[-7,"ccffff26"],[-6,"cbffff33"],[-5,"cbffff3f"],[-4,"caffff4c"],[-3,"c9ffff59"],[-2,"c8ffff66"],[-1,"c7ffff72"],[0,"c7ffff7f"],[1,"c6ffff8c"],[2,"c5ffff99"],[3,"c4ffffa5"],[4,"c3ffffb2"],[5,"c3ffffbf"],[6,"c2ffffcc"],[7,"c1ffffd8"],[8,"c0ffffe5"],[9,"bffffff2"],[10,"bfffffff"],[11,"b8f8ffff"],[12,"b2f2ffff"],[13,"abebffff"],[14,"a5e5ffff"],[15,"9fdfffff"],[16,"98d8ffff"],[17,"92d2ffff"],[18,"8bcbffff"],[19,"85c5ffff"],[20,"7fbfffff"],[21,"78b8ffff"],[22,"72b2ffff"],[23,"6babffff"],[24,"65a5ffff"],[25,"5f9fffff"],[26,"5b9bffff"],[27,"5898ffff"],[28,"5595ffff"],[29,"5292ffff"],[30,"4f8fffff"],[31,"4b8bffff"],[32,"4888ffff"],[33,"4585ffff"],[34,"4282ffff"],[35,"3f7fffff"],[36,"3b7bffff"],[37,"3878ffff"],[38,"3575ffff"],[39,"3272ffff"],[40,"2f6fffff"],[41,"2b6bffff"],[42,"2868ffff"],[43,"2565ffff"],[44,"2262ffff"],[45,"1f5fffff"],[46,"1b5bffff"],[47,"1858ffff"],[48,"1555ffff"],[49,"1252ffff"],[50,"0f4fffff"],[51,"0c4bffff"],[52,"0948ffff"],[53,"0645ffff"],[54,"0242ffff"],[55,"003fffff"],[56,"003bffff"],[57,"0038ffff"],[58,"0035ffff"],[59,"0032ffff"],[60,"002fffff"],[61,"002bffff"],[62,"0028ffff"],[63,"0025ffff"],[64,"0022ffff"],[65,"001fffff"],[66,"001bffff"],[67,"0018ffff"],[68,"0015ffff"],[69,"0012ffff"],[70,"000fffff"],[71,"000cffff"],[72,"0009ffff"],[73,"0006ffff"],[74,"0002ffff"],[75,"0000ffff"],[76,"0000ffff"],[77,"0000ffff"],[78,"0000ffff"],[79,"0000ffff"],[80,"0000ffff"],[81,"0000ffff"],[82,"0000ffff"],[83,"0000ffff"],[84,"0000ffff"],[85,"0000ffff"],[86,"0000ffff"],[87,"0000ffff"],[88,"0000ffff"],[89,"0000ffff"],[90,"0000ffff"],[91,"0000ffff"],[92,"0000ffff"],[93,"0000ffff"],[94,"0000ffff"],[95,"0000ffff"]];
 const MAPA=new Map();const PAL=[];
 for(const [z,h] of TAB){const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16),a=parseInt(h.slice(6,8),16);const k=((r<<24)|(g<<16)|(b<<8)|a)>>>0;if(!MAPA.has(k))MAPA.set(k,z);PAL.push([r,g,b,a,z]);}
@@ -391,7 +455,7 @@ function velocidade(Q,vento,alvo,R1=130){const [ax,ay]=alvo||[PX,PY];const vs=[]
 function maisProximo(G,v,alvo){const [ax,ay]=alvo||[PX,PY];let best=null;const R=170/KM;
   for(let j=Math.max(0,Math.floor(ay-R));j<Math.min(N,ay+R);j++)for(let i=Math.max(0,Math.floor(ax-R));i<Math.min(N,ax+R);i++){const z=G[j*N+i];if(z<20)continue;const d=Math.hypot(i-ax,j-ay);if(!best||d<best.d)best={d,i,j,z};}
   if(!best)return null;const ex=best.i-ax,ey=best.j-ay,az=(Math.atan2(ex,-ey)*180/Math.PI+360)%360,sp=Math.hypot(v.vx,v.vy);
-  let vem=null;if(sp>0.05){const cl=-(ex*v.vx+ey*v.vy)/sp,lat=Math.abs(ex*v.vy-ey*v.vx)/sp;vem=cl>0?(lat*KM<12?'vindo em direção a Maringá':'passando ao lado'):'se afastando';}
+  let vem=null;if(sp>0.05){const cl=-(ex*v.vx+ey*v.vy)/sp,lat=Math.abs(ex*v.vy-ey*v.vx)/sp;vem=cl>0?(lat*KM<12?'vindo em direção a '+NOME:'passando ao lado'):'se afastando';}
   let zm=-128;for(let j=best.j-6;j<=best.j+6;j++)for(let i=best.i-6;i<=best.i+6;i++)if(i>=0&&j>=0&&i<N&&j<N)zm=Math.max(zm,G[j*N+i]);
   return {km:Math.round(best.d*KM),dir:['norte','nordeste','leste','sudeste','sul','sudoeste','oeste','noroeste'][Math.round(az/45)%8],z:zm,vem};}
 /* área com chuva e chuva forte num raio, para classificar o tipo de evento */
@@ -414,7 +478,7 @@ async function quadro(f){const G=NC.novaGrade();let ok=0;
 async function cobertura(){const C=new Uint8Array(NC.N*NC.N);let ok=0;
   await Promise.all(NC.tiles().map(async t=>{const d=await carrega(`${host}/v2/coverage/0/256/${NC.Z}/${t.x}/${t.y}/0/0_0.png`);if(d){NC.poeCobertura(C,d,t.ox,t.oy);ok++;}}));
   return ok>=7?C:null;}
-async function ventoMedio(){try{const j=await fetch('https://api.open-meteo.com/v1/forecast?latitude=-23.42&longitude=-51.94&hourly=wind_speed_700hPa,wind_direction_700hPa&models=best_match&forecast_days=1&timezone=America%2FSao_Paulo').then(r=>r.json());
+async function ventoMedio(){try{const j=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+LOC.lat+'&longitude='+LOC.lon+'&hourly=wind_speed_700hPa,wind_direction_700hPa&models=best_match&forecast_days=1&timezone=America%2FSao_Paulo').then(r=>r.json());
   const h=new Date().getHours(),s=j.hourly.wind_speed_700hPa[h],d=j.hourly.wind_direction_700hPa[h];if(s==null||d==null)return null;
   const pxmin=s*0.8/60/NC.KM,r=(d+180)*Math.PI/180;return {vx:pxmin*Math.sin(r),vy:-pxmin*Math.cos(r)};}catch(e){return null;}}
 async function atualiza(forcar){if(ocupado)return;ocupado=true;
@@ -434,7 +498,7 @@ const quando=m=>{if(m<8)return'em poucos minutos';const r=Math.max(10,Math.round
 const catTxt=(P,a,b)=>{let z=null;for(let m=a;m<=Math.min(b,90);m++)if(P[m].p>=0.3&&P[m].z!=null)z=Math.max(z??-99,P[m].z);return NC.cat(z??22);};
 const fimEm=(P,a,lim)=>{for(let m=a;m<=lim-9;m++){let ok=true;for(let k=m;k<m+10;k++)if(P[k].p>=0.3){ok=false;break;}if(ok)return m;}return null;};
 function frase(){const {P,prox}=estado;const r=m=>P[m].p>=0.5,ps=m=>P[m].p>=0.3;
-  if(P[0].u>=0.5)return{h:'Sem cobertura de radar sobre Maringá agora',k:'na'};
+  if(P[0].u>=0.5)return{h:'Sem cobertura de radar sobre '+LOC.nome+' agora',k:'na'};
   if(r(0)){const c=catTxt(P,0,10),f=fimEm(P,1,90);let pior='';for(let m=5;m<=40;m++)if(r(m)&&P[m].z!=null&&NC.cat(P[m].z).k>c.k+0){pior=` · pode ficar ${NC.cat(P[m].z).t} ${quando(m)}`;break;}
     return{h:`Chuva ${c.t} agora`+(f!=null&&f<=60?` · deve parar ${quando(f)}`:' · continua por pelo menos 60 min')+pior,k:'agora',c};}
   for(let m=1;m<=60;m++)if(r(m)){const c=catTxt(P,m,m+10),f=fimEm(P,m+1,90);return{h:`Chuva ${c.t} começando ${quando(m)}`+(f!=null?` · dura ~${Math.max(10,Math.round((f-m)/5)*5)} min`:''),k:'vem',m,c};}
@@ -482,7 +546,7 @@ function desenha(){if(!estado)return;const F=frase(),C=confianca(F),{P,prox,V,t0
    ${hz}
    <p class="nc-d">${proxTxt} ${movTxt}</p>
    <p class="nc-d"><b>Por que confiança ${C.t}:</b> ${C.m}.</p>
-   <details class="nc-how"><summary>Como funciona e quanto acerta</summary><p>Pego as 4 últimas imagens do radar (uma a cada 10 min), meço para onde e a que velocidade a chuva está andando e projeto esse movimento até 90 min à frente, minuto a minuto, sobre Maringá. A cor indica a intensidade (fraca = até ~2 mm/h; moderada = 3–10; forte = 10–40; muito forte = 50+; temporal = possível granizo). As imagens chegam com ~10 min de atraso (agora: ${atraso} min), e isso já entra na conta.</p><p>Teste com o radar real de 5/11 (2 h de chuva no Paraná, 13 mil comparações): com 10 min de antecedência, avisou 84% das chuvas e 19% dos avisos não se confirmaram; com 30 min, 73% e 40%; com 60 min, 69% e 52%. Projetar o movimento acertou bem mais que supor que "a chuva fica onde está". O que não dá para prever: tempestades que nascem do nada perto da cidade.</p></details>`;
+   <details class="nc-how"><summary>Como funciona e quanto acerta</summary><p>Pego as 4 últimas imagens do radar (uma a cada 10 min), meço para onde e a que velocidade a chuva está andando e projeto esse movimento até 90 min à frente, minuto a minuto, sobre ${LOC.nome}. A cor indica a intensidade (fraca = até ~2 mm/h; moderada = 3–10; forte = 10–40; muito forte = 50+; temporal = possível granizo). As imagens chegam com ~10 min de atraso (agora: ${atraso} min), e isso já entra na conta.</p><p>Teste com o radar real de 5/11 (2 h de chuva no Paraná, 13 mil comparações): com 10 min de antecedência, avisou 84% das chuvas e 19% dos avisos não se confirmaram; com 30 min, 73% e 40%; com 60 min, 69% e 52%. Projetar o movimento acertou bem mais que supor que "a chuva fica onde está". O que não dá para prever: tempestades que nascem do nada perto da cidade.</p></details>`;
   el.classList.toggle('chove',F.k==='agora'||F.k==='vem');}
 window.__NCUI={set(c){ctx=Object.assign(ctx,c);desenha();},estado:()=>estado,atualiza};
 atualiza(true);
@@ -496,13 +560,13 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)atualiza(f
 const CFG={mediana:true, chanceForteCalibrada:true, ventoCalibrado:true};
 const W0={ecmwf_ifs:.10,ecmwf_ifs025:.11,ecmwf_aifs025_single:.13,gfs_seamless:.07,icon_seamless:.09,meteofrance_seamless:.075,ukmo_seamless:.06,jma_seamless:.07,gem_seamless:.08,cma_grapes_global:.15,best_match:.09};
 async function coletar(){
-const B="latitude=-23.42&longitude=-51.94&timezone=America/Sao_Paulo";
+const B=`latitude=${LOC.lat}&longitude=${LOC.lon}&timezone=${encodeURIComponent(LOC.tz)}`;
 const get=async(u,opt)=>{for(let k=0;k<3;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),30000);const r=await fetch(u,{signal:ac.signal,...(opt||{})});if(r.ok)return r.json();}catch(e){} await new Promise(r=>setTimeout(r,1500));} throw new Error("falhou: "+u.slice(8,40));};
-const avisosP=(async()=>{let A=[];try{let j=null;for(let k=0;k<2&&!j;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),15000);const r=await fetch("https://apiprevmet3.inmet.gov.br/avisos/ativos",{signal:ac.signal});if(r.ok)j=await r.json();}catch(e){}}if(!j)throw new Error("avisos");
+const avisosP=(async()=>{let A=[];if(LOC.cc!=="BR")return A;try{let j=null;for(let k=0;k<2&&!j;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),15000);const r=await fetch("https://apiprevmet3.inmet.gov.br/avisos/ativos",{signal:ac.signal});if(r.ok)j=await r.json();}catch(e){}}if(!j)throw new Error("avisos");
  const lv={"Perigo Potencial":"amarelo","Perigo":"laranja","Grande Perigo":"vermelho"};
- const L=[...(j.hoje||[]),...(j.futuro||[])].filter(a=>/(^|,\s*)Maring[aá]\s*-\s*PR/i.test(a.municipios||"")).map(a=>({lvl:lv[a.severidade]||"amarelo",tit:String(a.descricao).toLowerCase(),ini:a.data_inicio.slice(0,10),fim:a.data_fim.slice(0,10),txt:String(Array.isArray(a.riscos)?a.riscos[0]:a.riscos).split(/\.\s+(Baixo r|R)isco/)[0].replace(/\.$/,"")+"."})).sort((a,b)=>a.ini<b.ini?-1:1);
+ const L=[...(j.hoje||[]),...(j.futuro||[])].filter(a=>{const alvo=semAcento(LOC.nome+"-"+LOC.uf).replace(/\s+/g,"");return String(a.municipios||"").split(",").some(m=>semAcento(m).replace(/\s+/g,"")===alvo);}).map(a=>({lvl:lv[a.severidade]||"amarelo",tit:String(a.descricao).toLowerCase(),ini:a.data_inicio.slice(0,10),fim:a.data_fim.slice(0,10),txt:String(Array.isArray(a.riscos)?a.riscos[0]:a.riscos).split(/\.\s+(Baixo r|R)isco/)[0].replace(/\.$/,"")+"."})).sort((a,b)=>a.ini<b.ini?-1:1);
  for(const a of L){const p=A.find(x=>x.lvl===a.lvl&&x.tit===a.tit&&x.txt===a.txt&&(new Date(a.ini)-new Date(x.fim))<=864e5);if(p){if(a.fim>p.fim)p.fim=a.fim;}else A.push({...a});}}catch(e){A=null}return A;})();
-let PJ=null;try{PJ=await fetch('lab/pesos.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null);}catch(e){}
+let PJ=null;if(LOC.padrao)try{PJ=await fetch('lab/pesos.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null);}catch(e){}
 const M=Object.keys(W0);
 const wLead=l=>{const p=PJ&&PJ.chuva&&PJ.chuva['d'+l];return p&&Object.keys(p).length>=4?p:W0;};
 const fat=(l,m)=>PJ&&PJ.fator_volume&&PJ.fator_volume['d'+l]&&PJ.fator_volume['d'+l][m]||1;
@@ -610,12 +674,12 @@ async function radar(){
   const box=$('radar'),msg=$('rmsg'),lab=$('rtime');
   if(!LF){msg.textContent='Mapa indisponível agora.';return;}
   const dark=matchMedia('(prefers-color-scheme: dark)').matches;
-  const map=LF.map('rmap',{zoomControl:false,maxZoom:8,minZoom:4,attributionControl:true}).setView([-23.42,-51.94],7);
+  const map=LF.map('rmap',{zoomControl:false,maxZoom:8,minZoom:4,attributionControl:true}).setView([LOC.lat,LOC.lon],7);
   const ES='https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_'+(dark?'Dark':'Light')+'_Gray_';
   LF.tileLayer(ES+'Base/MapServer/tile/{z}/{y}/{x}',{maxZoom:8,attribution:'Mapa © Esri'}).addTo(map);
   map.createPane('rotulos');map.getPane('rotulos').style.zIndex=650;map.getPane('rotulos').style.pointerEvents='none';
   LF.tileLayer(ES+'Reference/MapServer/tile/{z}/{y}/{x}',{maxZoom:8,pane:'rotulos'}).addTo(map);
-  LF.marker([-23.42,-51.94],{icon:LF.divIcon({className:'mga-dot',iconSize:[12,12]}),title:'Maringá'}).addTo(map);
+  LF.marker([LOC.lat,LOC.lon],{icon:LF.divIcon({className:'mga-dot',iconSize:[12,12]}),title:LOC.nome}).addTo(map);
   let frames=[],layers=[],k=0,timer=null,sat=null;
   window.__RD={map,parar:()=>{clearInterval(timer);layers.forEach(l=>l.setOpacity(0));if(sat)map.removeLayer(sat);$('rbtn').setAttribute('aria-pressed','false');$('rbtn').textContent='Satélite';},voltar:()=>{if(frames.length){show(k);play();}else lab.textContent='';}};
   const show=n=>{layers.forEach((l,j)=>l.setOpacity(j===n?.8:0));const t=new Date(frames[n].time*1000);lab.textContent=`Radar ${pad(t.getHours())}:${pad(t.getMinutes())}`+(n===frames.length-1?' · mais recente':'');};
@@ -625,7 +689,7 @@ async function radar(){
     LF.tileLayer(`${j.host}/v2/coverage/0/256/{z}/{x}/{y}/0/0_0.png`,{opacity:.22,maxZoom:8,maxNativeZoom:7}).addTo(map);
     layers=frames.map(fr=>LF.tileLayer(`${j.host}${fr.path}/256/{z}/{x}/{y}/2/1_1.png`,{opacity:0,maxZoom:8,maxNativeZoom:7,attribution:'Radar: RainViewer'}).addTo(map));}
   catch(e){}
-  if(frames.length){k=frames.length-1;show(k);play();msg.textContent='Animação das últimas 2 horas. Ponto vermelho = Maringá. Áreas escurecidas estão fora da cobertura do radar.';}
+  if(frames.length){k=frames.length-1;show(k);play();msg.textContent='Animação das últimas 2 horas. Ponto vermelho = '+LOC.nome+'. Áreas escurecidas estão fora da cobertura do radar.';}
   else msg.textContent='Radar indisponível agora. Toque em Satélite para ver as nuvens.';
   $('rbtn').addEventListener('click',()=>{const on=$('rbtn').getAttribute('aria-pressed')==='true';
     if(!on){clearInterval(timer);layers.forEach(l=>l.setOpacity(0));
@@ -635,7 +699,7 @@ async function radar(){
 }
 
 /* previsão do radar: chuva simulada pelos modelos numa grade em volta de Maringá */
-const PG={n:13,step:0.25,lat0:-23.42,lon0:-51.94},PMOD=[['ecmwf_ifs','ECMWF'],['icon_seamless','ICON (Alemanha)'],['gfs_seamless','GFS (EUA)'],['ukmo_seamless','UKMO (Reino Unido)'],['gem_seamless','GEM (Canadá)'],['meteofrance_seamless','Météo-France']];
+const PG={n:13,step:0.25,lat0:LOC.lat,lon0:LOC.lon},PMOD=[['ecmwf_ifs','ECMWF'],['icon_seamless','ICON (Alemanha)'],['gfs_seamless','GFS (EUA)'],['ukmo_seamless','UKMO (Reino Unido)'],['gem_seamless','GEM (Canadá)'],['meteofrance_seamless','Météo-France']];
 let PV=null,PVp=null,povl=null,ptimer=null;
 const pLat=i=>PG.lat0+(Math.floor(PG.n/2)-i)*PG.step, pLon=j=>PG.lon0+(j-Math.floor(PG.n/2))*PG.step; /* i=0 é o norte */
 async function prevCarrega(){if(PV)return PV;if(PVp)return PVp;
@@ -673,7 +737,7 @@ function pAtualiza(){if(!PV)return;const sl=$('pslider'),t=+sl.value,mod=$('pmod
     az=(Math.atan2(dx,dy)*180/Math.PI+360)%360,dn=['norte','nordeste','leste','sudeste','sul','sudoeste','oeste','noroeste'][Math.round(az/45)%8];
   const k=L.D.findIndex(x=>x[0]===dd),o=((L.DH||[])[k]||[]).find(x=>x.h===hh);
   const quando=`${dayName(dt)} às ${pad(hh)}h`;
-  let s=`<b>${quando}</b> — sobre Maringá: `;
+  let s=`<b>${quando}</b> — sobre ${LOC.nome}: `;
   if(cam==='p')s+=`${Math.round(aqui)}% dos modelos com chuva`;
   else s+=aqui<0.2?'sem chuva no '+(mod==='cons'?'consenso':'modelo'):`${fmt(aqui)} mm/h (${aqui<2?'fraca':aqui<10?'moderada':'forte'})`;
   if(o)s+=`. Pelos ${L.ens?L.ens.reduce((a,e)=>a+(e[1]||0),0)||'':''} cenários: <b>${o.p??'—'}%</b> de chance de chuva${(o.pt??0)>=10?`, <b>${o.pt}%</b> de trovoada`:''}${o.wg?`, rajada ~${o.wg} km/h`:''}`;
@@ -685,8 +749,8 @@ function pPlay(){const b=$('pplay');if(ptimer){clearInterval(ptimer);ptimer=null
 function pVaiPara(){if(!PV)return;const d=$('pdia').value,h=($('phora').value||'00:00').slice(0,2),t=PV.T.indexOf(d+'T'+h+':00');if(t>=0){$('pslider').value=t;pAtualiza();}}
 async function pModo(on){const RD=window.__RD;$('tab-agora').setAttribute('aria-selected',String(!on));$('tab-prev').setAttribute('aria-selected',String(on));
   $('pctl').hidden=!on;$('rbtn').hidden=on;$('rtime').hidden=on;$('rmsg').hidden=on;
-  if(!on){if(ptimer)pPlay();if(povl&&RD){RD.map.removeLayer(povl);povl=null;}if(RD){RD.map.setView([-23.42,-51.94],7);RD.voltar();}return;}
-  if(RD){RD.parar();RD.map.setView([-23.42,-51.94],8);}
+  if(!on){if(ptimer)pPlay();if(povl&&RD){RD.map.removeLayer(povl);povl=null;}if(RD){RD.map.setView([LOC.lat,LOC.lon],7);RD.voltar();}return;}
+  if(RD){RD.parar();RD.map.setView([LOC.lat,LOC.lon],8);}
   if(!PV){$('pinfo').textContent='Carregando a previsão de 6 modelos para a região…';
     try{await prevCarrega();}catch(e){$('pinfo').textContent='Não consegui carregar a previsão do mapa agora. Tente de novo em alguns minutos.';return;}
     const ds=[...new Set(PV.T.map(t=>t.slice(0,10)))];$('pdia').innerHTML=ds.map(d=>`<option value="${d}">${dayName(new Date(d+'T12:00:00'))} ${+d.slice(8)}/${+d.slice(5,7)}</option>`).join('');
@@ -703,11 +767,11 @@ $('reload').addEventListener('click',recarrega);
 let saiu=Date.now();document.addEventListener('visibilitychange',()=>{if(document.hidden)saiu=Date.now();else if(Date.now()-saiu>20*60e3)recarrega();});
 
 let L,O;
-try{[L,O]=await Promise.all([coletar(),fetch('oct.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json())]);}
+try{[L,O]=await Promise.all([coletar(),LOC.padrao?fetch('oct.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).catch(()=>null):Promise.resolve(null)]);}
 catch(e){$('stamp').textContent='Sem conexão com os serviços de tempo';$('hero').outerHTML='<div class="err">Não foi possível buscar a previsão agora. Verifique a internet e toque em ↻.</div>';return;}
 
 /* carimbo */
-const g=new Date(L.gen);if(L.ens&&L.ens.length){const f=document.querySelector('.foot');const n=L.ens.reduce((s,x)=>s+x[1],0);if(f)f.textContent+=` Chance de chuva com ${n} cenários de ${L.ens.length} sistemas (${L.ens.map(x=>x[0]).join(', ')}).`;}if(L.pesos){const f=document.querySelector('.foot');if(f)f.textContent+=' Pesos da auditoria de '+L.pesos.slice(8,10)+'/'+L.pesos.slice(5,7)+'/'+L.pesos.slice(0,4)+'.';}$('stamp').textContent='Atualizado às '+pad(g.getHours())+'h'+pad(g.getMinutes())+' · '+WD[g.getDay()]+', '+g.getDate()+'/'+(g.getMonth()+1);
+const g=new Date(L.gen);if(L.ens&&L.ens.length){const f=document.querySelector('.foot');const n=L.ens.reduce((s,x)=>s+x[1],0);if(f)f.textContent+=` Chance de chuva com ${n} cenários de ${L.ens.length} sistemas (${L.ens.map(x=>x[0]).join(', ')}).`;}if(L.pesos){const f=document.querySelector('.foot');if(f)f.textContent+=' Pesos da auditoria de '+L.pesos.slice(8,10)+'/'+L.pesos.slice(5,7)+'/'+L.pesos.slice(0,4)+'.';}$('stamp').textContent='Atualizado às '+pad(g.getHours())+'h'+pad(g.getMinutes())+' · '+WD[g.getDay()]+', '+g.getDate()+'/'+(g.getMonth()+1);if(!LOC.padrao){$('stamp').insertAdjacentHTML('beforeend',' · <span class="semcal">sem calibração local</span>');const n=$('calibNota');if(n)n.hidden=false;}
 
 /* avisos */
 const todayKey=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
@@ -766,7 +830,7 @@ else{const pm=Math.max(...H.p);lab='Próximas 48 horas';head='Sem chuva prováve
 let gi=-1,gv=0;(H.wg||[]).forEach((v,k)=>{if(v!=null&&v>gv){gv=v;gi=k;}});
 const ventoTxt=gv>=50?`<p class="sub wind-alert">Vento forte: rajadas de até ${gv} km/h ${dayName(hrs[gi]).toLowerCase()} por volta das ${pad(hrs[gi].getHours())}h</p>`:'';
 $('hero').className='hero sky-'+condH(0).k;
-const par=L.D.slice(0,2).find(d=>d[15]&&d[15].par);
+const par=LOC.padrao?L.D.slice(0,2).find(d=>d[15]&&d[15].par):null;
 const parHora=(()=>{if(!par)return'';let hh=(L.DH||[])[L.D.indexOf(par)]||[];if(par[0]===key(now))hh=hh.filter(o=>o.h>=now.getHours());if(!hh.length)return'';
   const pk=hh.reduce((a,o)=>(o.pt||0)>(a.pt||0)?o:a,hh[0]),lim=Math.max(25,Math.round((pk.pt||0)*0.75));
   if((pk.pt||0)>=25){const s=hh.filter(o=>(o.pt||0)>=lim),a=s[0].h,b=s[s.length-1].h+1;
@@ -853,6 +917,7 @@ document.addEventListener('click',e=>{if(e.target.closest('[data-close]')){fecha
 document.addEventListener('keydown',e=>{if(e.key==='Escape')fecha();if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[data-k]')){e.preventDefault();openDay(+e.target.dataset.k);}});
 
 /* outubro */
+if(!O){const a=$('audit');if(a)a.hidden=true;return;}
 const oc=O.oct, W=O.fc.weights, names=oc.names;
 const short={EC:'ECMWF',AI:'ECMWF IA',GF:'GFS (EUA)',IC:'ICON (Alemanha)',MF:'Météo-France',UK:'UK Met Office',JM:'JMA (Japão)',GE:'GEM (Canadá)',CM:'CMA (China)',BM:'Best Match'};
 const real=oc.res.EC.d1.all.sumo;
@@ -893,6 +958,7 @@ sel.addEventListener('change',()=>{model=sel.value;draw();});
 document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{base=b.dataset.b;document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));draw();}));
 draw();
 })();
+});
 </script>
 </body>
 </html>

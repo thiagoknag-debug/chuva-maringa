@@ -17,6 +17,7 @@ jobs:
           python3 -m http.server 8000 >/dev/null 2>&1 &
           sleep 2
           node scripts/fotos.js
+          node scripts/fotos_cidades.js
       - name: Salvar
         run: |
           git config user.name "auditoria-bot"
