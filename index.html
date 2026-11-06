@@ -478,7 +478,7 @@ async function quadro(f){const G=NC.novaGrade();let ok=0;
 async function cobertura(){const C=new Uint8Array(NC.N*NC.N);let ok=0;
   await Promise.all(NC.tiles().map(async t=>{const d=await carrega(`${host}/v2/coverage/0/256/${NC.Z}/${t.x}/${t.y}/0/0_0.png`);if(d){NC.poeCobertura(C,d,t.ox,t.oy);ok++;}}));
   return ok>=7?C:null;}
-async function ventoMedio(){try{const j=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+LOC.lat+'&longitude='+LOC.lon+'&hourly=wind_speed_700hPa,wind_direction_700hPa&models=best_match&forecast_days=1&timezone=America%2FSao_Paulo').then(r=>r.json());
+async function ventoMedio(){try{const j=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+LOC.lat+'&longitude='+LOC.lon+'&hourly=wind_speed_700hPa,wind_direction_700hPa&models=best_match&forecast_days=1&timezone='+encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone||'America/Sao_Paulo')+'').then(r=>r.json());
   const h=new Date().getHours(),s=j.hourly.wind_speed_700hPa[h],d=j.hourly.wind_direction_700hPa[h];if(s==null||d==null)return null;
   const pxmin=s*0.8/60/NC.KM,r=(d+180)*Math.PI/180;return {vx:pxmin*Math.sin(r),vy:-pxmin*Math.cos(r)};}catch(e){return null;}}
 async function atualiza(forcar){if(ocupado)return;ocupado=true;
@@ -560,7 +560,8 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)atualiza(f
 const CFG={mediana:true, chanceForteCalibrada:true, ventoCalibrado:true};
 const W0={ecmwf_ifs:.10,ecmwf_ifs025:.11,ecmwf_aifs025_single:.13,gfs_seamless:.07,icon_seamless:.09,meteofrance_seamless:.075,ukmo_seamless:.06,jma_seamless:.07,gem_seamless:.08,cma_grapes_global:.15,best_match:.09};
 async function coletar(){
-const B=`latitude=${LOC.lat}&longitude=${LOC.lon}&timezone=${encodeURIComponent(LOC.tz)}`;
+const TZ=(()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||"America/Sao_Paulo";}catch(e){return "America/Sao_Paulo";}})(); /* horários no fuso do aparelho, para bater com o relógio */
+const B=`latitude=${LOC.lat}&longitude=${LOC.lon}&timezone=${encodeURIComponent(TZ)}`;
 const get=async(u,opt)=>{for(let k=0;k<3;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),30000);const r=await fetch(u,{signal:ac.signal,...(opt||{})});if(r.ok)return r.json();}catch(e){} await new Promise(r=>setTimeout(r,1500));} throw new Error("falhou: "+u.slice(8,40));};
 const avisosP=(async()=>{let A=[];if(LOC.cc!=="BR")return A;try{let j=null;for(let k=0;k<2&&!j;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),15000);const r=await fetch("https://apiprevmet3.inmet.gov.br/avisos/ativos",{signal:ac.signal});if(r.ok)j=await r.json();}catch(e){}}if(!j)throw new Error("avisos");
  const lv={"Perigo Potencial":"amarelo","Perigo":"laranja","Grande Perigo":"vermelho"};
@@ -704,7 +705,7 @@ let PV=null,PVp=null,povl=null,ptimer=null;
 const pLat=i=>PG.lat0+(Math.floor(PG.n/2)-i)*PG.step, pLon=j=>PG.lon0+(j-Math.floor(PG.n/2))*PG.step; /* i=0 é o norte */
 async function prevCarrega(){if(PV)return PV;if(PVp)return PVp;
   PVp=(async()=>{const la=[],lo=[];for(let i=0;i<PG.n;i++)for(let j=0;j<PG.n;j++){la.push(pLat(i).toFixed(3));lo.push(pLon(j).toFixed(3));}
-    const u='https://api.open-meteo.com/v1/forecast?latitude='+la.join(',')+'&longitude='+lo.join(',')+'&hourly=precipitation&models='+PMOD.map(m=>m[0]).join(',')+'&forecast_days=3&timezone=America%2FSao_Paulo';
+    const u='https://api.open-meteo.com/v1/forecast?latitude='+la.join(',')+'&longitude='+lo.join(',')+'&hourly=precipitation&models='+PMOD.map(m=>m[0]).join(',')+'&forecast_days=3&timezone='+encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone||'America/Sao_Paulo')+'';
     let j=null;for(let t=0;t<2&&!j;t++){try{const x=await fetch(u);if(x.ok)j=await x.json();}catch(e){}}
     if(!j)throw new Error('sem dados');const arr=Array.isArray(j)?j:[j],T=arr[0].hourly.time,nc=arr.length;
     const V={};for(const [m] of PMOD){const a=T.map((_,t)=>{const c=new Float32Array(nc);let ok=0;for(let q=0;q<nc;q++){const v=arr[q].hourly['precipitation_'+m];const x=v?v[t]:null;c[q]=x==null?NaN:x;if(x!=null)ok++;}return ok>nc/2?c:null;});V[m]=a;}
