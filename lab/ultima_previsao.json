@@ -1,46 +1,21 @@
 {
- "gerado": "2026-11-05T20:18:00.957805+00:00",
+ "gerado": "2026-11-06T10:38:48.670183+00:00",
  "dias": [
   {
-   "dia": "2026-11-05",
-   "chuva_mm": 17.5,
-   "chance": 100,
-   "tmin": 22,
-   "tmax": 26,
-   "rajada": 43,
-   "aviso": "laranja",
-   "pico_chuva": null,
-   "pico_rajada": 17,
-   "trovoada": {
-    "de": 17,
-    "ate": 19,
-    "pico": 17,
-    "pct": 29
-   },
-   "risco": {
-    "pct": 35,
-    "nivel": "Alto",
-    "parecido_2_11": true,
-    "bruto": 16,
-    "piso_inmet": 35
-   },
-   "cenarios": 212
-  },
-  {
    "dia": "2026-11-06",
-   "chuva_mm": 10.8,
-   "chance": 80,
-   "tmin": 22,
-   "tmax": 30,
-   "rajada": 30,
+   "chuva_mm": 8.7,
+   "chance": 75,
+   "tmin": 21,
+   "tmax": 31,
+   "rajada": 31,
    "aviso": "amarelo",
-   "pico_chuva": 16,
-   "pico_rajada": 13,
+   "pico_chuva": 17,
+   "pico_rajada": 14,
    "trovoada": {
-    "de": 13,
+    "de": 16,
     "ate": 19,
-    "pico": 17,
-    "pct": 40
+    "pico": 18,
+    "pct": 26
    },
    "risco": {
     "pct": 10,
@@ -50,38 +25,45 @@
     "piso_inmet": 10
    },
    "cenarios": 212
+  },
+  {
+   "dia": "2026-11-07",
+   "chuva_mm": 9.3,
+   "chance": 96,
+   "tmin": 22,
+   "tmax": 30,
+   "rajada": 55,
+   "aviso": "amarelo",
+   "pico_chuva": 14,
+   "pico_rajada": 15,
+   "trovoada": {
+    "de": 13,
+    "ate": 19,
+    "pico": 14,
+    "pct": 49
+   },
+   "risco": {
+    "pct": 11,
+    "nivel": "Moderado",
+    "parecido_2_11": false,
+    "bruto": 11,
+    "piso_inmet": 10
+   },
+   "cenarios": 212
   }
  ],
  "avisos": [
   {
    "lvl": "amarelo",
    "tit": "tempestade",
-   "ini": "2026-11-05",
-   "fim": "2026-11-05"
-  },
-  {
-   "lvl": "laranja",
-   "tit": "tempestade",
-   "ini": "2026-11-05",
-   "fim": "2026-11-05"
-  },
-  {
-   "lvl": "laranja",
-   "tit": "acumulado de chuva",
-   "ini": "2026-11-05",
-   "fim": "2026-11-05"
+   "ini": "2026-11-06",
+   "fim": "2026-11-06"
   },
   {
    "lvl": "amarelo",
    "tit": "declínio de temperatura",
    "ini": "2026-11-08",
    "fim": "2026-11-08"
-  },
-  {
-   "lvl": "amarelo",
-   "tit": "tempestade",
-   "ini": "2026-11-06",
-   "fim": "2026-11-06"
   },
   {
    "lvl": "amarelo",
