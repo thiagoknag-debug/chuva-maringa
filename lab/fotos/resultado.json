@@ -1,9 +1,7 @@
 {
- "erros": [
-  "Failed to load resource: the server responded with a status of 429 (Too Many Requests)"
- ],
+ "erros": [],
  "nc": {
-  "txt": "PRÓXIMOS 60 MINUTOS\nConfiança baixa\n\nSem chuva por no mínimo 60 min\n\n15\n30\n45\nAGORA\n⛅\n28°\nradar 11h40\nfraca\nmoderada\nforte\nmuito forte\ntemporal\npossível\n\n⚠️ O radar ainda não mostra chuva vindo, mas os modelos dão 46% de chance de chuva e 25% de trovoada nas próximas horas. Pancadas podem se formar perto da cidade sem aparecer antes no radar.\n\nChuva mais próxima: fraca a 131 km ao norte. A chuva na região está quase parada.\n\nPor que confiança baixa: a atmosfera está instável e pancadas podem se formar sem aparecer antes no radar.\n\nComo funciona e quanto acerta",
+  "txt": "PRÓXIMOS 60 MINUTOS\nConfiança baixa\n\nSem chuva por no mínimo 60 min\n\n15\n30\n45\nAGORA\n⛅\n28°\nradar 11h40\nfraca\nmoderada\nforte\nmuito forte\ntemporal\npossível\n\n⚠️ O radar ainda não mostra chuva vindo, mas os modelos dão 45% de chance de chuva e 26% de trovoada nas próximas horas. Pancadas podem se formar perto da cidade sem aparecer antes no radar.\n\nChuva mais próxima: fraca a 131 km ao norte. A chuva na região está quase parada.\n\nPor que confiança baixa: a atmosfera está instável e pancadas podem se formar sem aparecer antes no radar.\n\nComo funciona e quanto acerta",
   "err": null,
   "est": {
    "fonte": "radar",
@@ -139,10 +137,10 @@
  },
  "chips": [
   "Temporal: baixo · 9%",
-  "Temporal: moderado · 13% · 13h–18h"
+  "Temporal: moderado · 13% · 13h–19h"
  ],
- "sheet_head": "⛈️Amanhã, sábado 7/11Tempestades · temporal moderado (13%), mais provável entre 13h e 18h, pico ~13h",
- "pinfo": "Amanhã às 18h — sobre Maringá: 1,1 mm/h (fraca). Pelos 194 cenários: 70% de chance de chuva, 32% de trovoada, rajada ~28 km/h. Chuva mais forte do mapa: 4,8 mm/h a ~135 km ao noroeste.",
+ "sheet_head": "⛈️Amanhã, sábado 7/11Tempestades · temporal moderado (13%), mais provável entre 13h e 19h, pico ~14h",
+ "pinfo": "Amanhã às 18h — sobre Maringá: 1,1 mm/h (fraca). Pelos 212 cenários: 70% de chance de chuva, 36% de trovoada, rajada ~28 km/h. Chuva mais forte do mapa: 4,8 mm/h a ~135 km ao noroeste.",
  "overlay": 1,
  "volta": "Radar 10:20"
 }
