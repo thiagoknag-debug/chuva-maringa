@@ -1,0 +1,687 @@
+{
+ "gerado": "2026-11-07T17:13:05.780Z",
+ "busca": {
+  "Floresta": {
+   "om": [
+    [
+     "Floresta",
+     "Pernambuco",
+     -8.60111,
+     -38.56861
+    ],
+    [
+     "Floresta",
+     "Paraná",
+     -23.61097,
+     -52.08174
+    ]
+   ],
+   "osm": [
+    [
+     "Floresta, Paraná, Região Sul, 87120-000, Brasil",
+     -23.6144046,
+     -52.0819003
+    ],
+    [
+     "Floresta, Pernambuco, Região Nordeste, Brasil",
+     -8.5969798,
+     -38.5742878
+    ],
+    [
+     "Floresta, Porto Alegre, Rio Grande do Sul, Região Sul, Brasil",
+     -30.0150916,
+     -51.2096662
+    ],
+    [
+     "Floresta, Central de Minas, Minas Gerais, Região Sudeste, 35263-000, Brasil",
+     -18.775536,
+     -41.2517437
+    ],
+    [
+     "Floresta, Ijuí, Rio Grande do Sul, Região Sul, 98721-000, Brasil",
+     -28.3174438,
+     -53.8416638
+    ]
+   ]
+  },
+  "Porto Maringá": {
+   "om": [],
+   "osm": [
+    [
+     "Porto Maringá, Marilena, Paraná, Região Sul, Brasil",
+     -22.6688261,
+     -53.0783029
+    ]
+   ]
+  },
+  "Porto Maringa Paraná": {
+   "om": [],
+   "osm": [
+    [
+     "Porto Maringá, Marilena, Paraná, Região Sul, Brasil",
+     -22.6688261,
+     -53.0783029
+    ],
+    [
+     "Porto Maringa, Rua Mandi, Porto Maringá, Marilena, Paraná, Região Sul, Brasil",
+     -22.6665204,
+     -53.0924837
+    ]
+   ]
+  }
+ },
+ "pontos": [
+  [
+   "Maringá (centro)",
+   -23.425,
+   -51.938
+  ],
+  [
+   "Floresta",
+   -23.61097,
+   -52.08174
+  ],
+  [
+   "Meio do caminho",
+   -23.13989805,
+   -52.580021450000004
+  ],
+  [
+   "Porto Maringá",
+   -22.6688261,
+   -53.0783029
+  ]
+ ],
+ "radar_hora": "2026-11-07T17:10:00.000Z",
+ "radar": [
+  {
+   "nome": "Maringá (centro)",
+   "agora_5km": {
+    "p": 0.31,
+    "z": 26
+   },
+   "agora_15km": {
+    "p": 0.09,
+    "z": 26
+   },
+   "dbz_max_25km": 36,
+   "mov_kmh": 60,
+   "dir_para": 89,
+   "prox": {
+    "km": 1,
+    "dir": "leste",
+    "z": 35,
+    "vem": "se afastando"
+   },
+   "prox_min": [
+    [
+     0,
+     0.07,
+     22,
+     0
+    ],
+    [
+     10,
+     0,
+     null,
+     0
+    ],
+    [
+     20,
+     0,
+     null,
+     0
+    ],
+    [
+     30,
+     0,
+     null,
+     0
+    ],
+    [
+     40,
+     0.24,
+     38,
+     0
+    ],
+    [
+     50,
+     0.18,
+     36,
+     0
+    ],
+    [
+     60,
+     0.07,
+     25,
+     0
+    ],
+    [
+     70,
+     0.21,
+     29,
+     0
+    ],
+    [
+     80,
+     0.58,
+     36,
+     0
+    ],
+    [
+     90,
+     0.77,
+     36,
+     0
+    ]
+   ]
+  },
+  {
+   "nome": "Floresta",
+   "agora_5km": {
+    "p": 0,
+    "z": null
+   },
+   "agora_15km": {
+    "p": 0.02,
+    "z": 24
+   },
+   "dbz_max_25km": 42,
+   "mov_kmh": 62,
+   "dir_para": 89,
+   "prox": {
+    "km": 13,
+    "dir": "sudoeste",
+    "z": 36,
+    "vem": "vindo em direção a Maringá"
+   },
+   "prox_min": [
+    [
+     0,
+     0,
+     null,
+     0
+    ],
+    [
+     10,
+     0,
+     null,
+     0
+    ],
+    [
+     20,
+     0.14,
+     26,
+     0
+    ],
+    [
+     30,
+     0.72,
+     35,
+     0
+    ],
+    [
+     40,
+     0.81,
+     31,
+     0
+    ],
+    [
+     50,
+     0.91,
+     35,
+     0
+    ],
+    [
+     60,
+     0.99,
+     43,
+     0
+    ],
+    [
+     70,
+     1,
+     40,
+     0
+    ],
+    [
+     80,
+     0.84,
+     38,
+     0
+    ],
+    [
+     90,
+     0.38,
+     38,
+     0
+    ]
+   ]
+  },
+  {
+   "nome": "Meio do caminho",
+   "agora_5km": {
+    "p": 0.06,
+    "z": 31
+   },
+   "agora_15km": {
+    "p": 0.25,
+    "z": 32
+   },
+   "dbz_max_25km": 43,
+   "mov_kmh": 58,
+   "dir_para": 90,
+   "prox": {
+    "km": 4,
+    "dir": "sudoeste",
+    "z": 43,
+    "vem": "vindo em direção a Maringá"
+   },
+   "prox_min": [
+    [
+     0,
+     0,
+     null,
+     0
+    ],
+    [
+     10,
+     0.34,
+     25,
+     0
+    ],
+    [
+     20,
+     0.84,
+     32,
+     0
+    ],
+    [
+     30,
+     0.66,
+     31,
+     0
+    ],
+    [
+     40,
+     0.85,
+     40,
+     0
+    ],
+    [
+     50,
+     0.89,
+     36,
+     0
+    ],
+    [
+     60,
+     0.95,
+     35,
+     0
+    ],
+    [
+     70,
+     0.84,
+     35,
+     0
+    ],
+    [
+     80,
+     0.91,
+     35,
+     0
+    ],
+    [
+     90,
+     0.7,
+     34,
+     0
+    ]
+   ]
+  },
+  {
+   "nome": "Porto Maringá",
+   "agora_5km": {
+    "p": 0.16,
+    "z": 24
+   },
+   "agora_15km": {
+    "p": 0.14,
+    "z": 24
+   },
+   "dbz_max_25km": 49,
+   "mov_kmh": 52,
+   "dir_para": 90,
+   "prox": {
+    "km": 2,
+    "dir": "sudeste",
+    "z": 31,
+    "vem": "se afastando"
+   },
+   "prox_min": [
+    [
+     0,
+     0.13,
+     31,
+     0
+    ],
+    [
+     10,
+     0,
+     null,
+     0
+    ],
+    [
+     20,
+     0.11,
+     22,
+     0
+    ],
+    [
+     30,
+     0.44,
+     25,
+     0
+    ],
+    [
+     40,
+     0.82,
+     26,
+     0
+    ],
+    [
+     50,
+     0.89,
+     28,
+     0
+    ],
+    [
+     60,
+     0.49,
+     31,
+     0
+    ],
+    [
+     70,
+     0.1,
+     30,
+     0
+    ],
+    [
+     80,
+     0,
+     null,
+     0
+    ],
+    [
+     90,
+     0.01,
+     21,
+     0
+    ]
+   ]
+  }
+ ],
+ "modelos": [
+  {
+   "nome": "Maringá (centro)",
+   "horas": [
+    [
+     "14h",
+     "chovem 5/7",
+     "mm máx 4.7",
+     "raj máx 51",
+     "cape máx 5190"
+    ],
+    [
+     "15h",
+     "chovem 4/7",
+     "mm máx 10.5",
+     "raj máx 53",
+     "cape máx 4850"
+    ],
+    [
+     "16h",
+     "chovem 3/7",
+     "mm máx 2.9",
+     "raj máx 40",
+     "cape máx 4990"
+    ],
+    [
+     "17h",
+     "chovem 7/7",
+     "mm máx 4.8",
+     "raj máx 45",
+     "cape máx 4400"
+    ],
+    [
+     "18h",
+     "chovem 6/7",
+     "mm máx 6.4",
+     "raj máx 32",
+     "cape máx 2770"
+    ],
+    [
+     "19h",
+     "chovem 5/7",
+     "mm máx 5.2",
+     "raj máx 26",
+     "cape máx 2210"
+    ],
+    [
+     "20h",
+     "chovem 2/7",
+     "mm máx 3.2",
+     "raj máx 24",
+     "cape máx 2180"
+    ]
+   ]
+  },
+  {
+   "nome": "Floresta",
+   "horas": [
+    [
+     "14h",
+     "chovem 5/7",
+     "mm máx 5.9",
+     "raj máx 55",
+     "cape máx 7530"
+    ],
+    [
+     "15h",
+     "chovem 4/7",
+     "mm máx 9.7",
+     "raj máx 44",
+     "cape máx 7650"
+    ],
+    [
+     "16h",
+     "chovem 4/7",
+     "mm máx 3.8",
+     "raj máx 33",
+     "cape máx 6220"
+    ],
+    [
+     "17h",
+     "chovem 7/7",
+     "mm máx 14.7",
+     "raj máx 45",
+     "cape máx 3960"
+    ],
+    [
+     "18h",
+     "chovem 7/7",
+     "mm máx 6.5",
+     "raj máx 32",
+     "cape máx 2830"
+    ],
+    [
+     "19h",
+     "chovem 3/7",
+     "mm máx 5.1",
+     "raj máx 32",
+     "cape máx 2650"
+    ],
+    [
+     "20h",
+     "chovem 2/7",
+     "mm máx 3.2",
+     "raj máx 23",
+     "cape máx 2480"
+    ]
+   ]
+  },
+  {
+   "nome": "Meio do caminho",
+   "horas": [
+    [
+     "14h",
+     "chovem 4/7",
+     "mm máx 3.8",
+     "raj máx 50",
+     "cape máx 5100"
+    ],
+    [
+     "15h",
+     "chovem 3/7",
+     "mm máx 7.1",
+     "raj máx 43",
+     "cape máx 4880"
+    ],
+    [
+     "16h",
+     "chovem 3/7",
+     "mm máx 4.9",
+     "raj máx 41",
+     "cape máx 4460"
+    ],
+    [
+     "17h",
+     "chovem 7/7",
+     "mm máx 8.7",
+     "raj máx 48",
+     "cape máx 4740"
+    ],
+    [
+     "18h",
+     "chovem 7/7",
+     "mm máx 6.4",
+     "raj máx 34",
+     "cape máx 2720"
+    ],
+    [
+     "19h",
+     "chovem 4/7",
+     "mm máx 3.8",
+     "raj máx 36",
+     "cape máx 2010"
+    ],
+    [
+     "20h",
+     "chovem 2/7",
+     "mm máx 3.7",
+     "raj máx 34",
+     "cape máx 1600"
+    ]
+   ]
+  },
+  {
+   "nome": "Porto Maringá",
+   "horas": [
+    [
+     "14h",
+     "chovem 2/7",
+     "mm máx 1.1",
+     "raj máx 46",
+     "cape máx 4360"
+    ],
+    [
+     "15h",
+     "chovem 2/7",
+     "mm máx 6.6",
+     "raj máx 40",
+     "cape máx 4580"
+    ],
+    [
+     "16h",
+     "chovem 4/7",
+     "mm máx 5.5",
+     "raj máx 46",
+     "cape máx 6500"
+    ],
+    [
+     "17h",
+     "chovem 4/7",
+     "mm máx 3.8",
+     "raj máx 43",
+     "cape máx 5850"
+    ],
+    [
+     "18h",
+     "chovem 7/7",
+     "mm máx 6.4",
+     "raj máx 56",
+     "cape máx 3220"
+    ],
+    [
+     "19h",
+     "chovem 5/7",
+     "mm máx 3.8",
+     "raj máx 36",
+     "cape máx 2580"
+    ],
+    [
+     "20h",
+     "chovem 2/7",
+     "mm máx 4.3",
+     "raj máx 47",
+     "cape máx 1910"
+    ]
+   ]
+  }
+ ],
+ "avisos": [
+  [
+   "Perigo Potencial",
+   "Tempestade",
+   "2026-11-07T00:00:00.000Z",
+   "08:50",
+   "2026-11-07T00:00:00.000Z",
+   "23:59"
+  ],
+  [
+   "Perigo",
+   "Tempestade",
+   "2026-11-07T00:00:00.000Z",
+   "09:00",
+   "2026-11-07T00:00:00.000Z",
+   "23:59"
+  ],
+  [
+   "Grande Perigo",
+   "Tempestade",
+   "2026-11-07T00:00:00.000Z",
+   "11:45",
+   "2026-11-07T00:00:00.000Z",
+   "23:59"
+  ],
+  [
+   "Perigo Potencial",
+   "Declínio de Temperatura",
+   "2026-11-08T00:00:00.000Z",
+   "00:00",
+   "2026-11-08T00:00:00.000Z",
+   "23:59"
+  ]
+ ],
+ "metar": [
+  "<html>\r",
+  "<head><title>504 Gateway Time-out</title></head>\r",
+  "<body>\r",
+  "<center><h1>504 Gateway Time-out</h1></center>\r",
+  "<hr><center>Microsoft-Azure-Application-Gateway/v2</center>\r",
+  "</body>\r",
+  "</html>"
+ ]
+}
