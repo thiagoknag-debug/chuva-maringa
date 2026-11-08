@@ -1,38 +1,33 @@
 {
- "gerado": "2026-11-07T20:08:13.962095+00:00",
+ "gerado": "2026-11-08T10:21:02.726047+00:00",
  "dias": [
   {
-   "dia": "2026-11-07",
-   "chuva_mm": 5.9,
-   "chance": 100,
-   "tmin": 22,
-   "tmax": 31,
-   "rajada": 54,
-   "aviso": "laranja",
-   "pico_chuva": 19,
-   "pico_rajada": 17,
-   "trovoada": {
-    "de": 17,
-    "ate": 19,
-    "pico": 17,
-    "pct": 60
-   },
+   "dia": "2026-11-08",
+   "chuva_mm": 0.3,
+   "chance": 22,
+   "tmin": 18,
+   "tmax": 26,
+   "rajada": 38,
+   "aviso": null,
+   "pico_chuva": null,
+   "pico_rajada": 9,
+   "trovoada": null,
    "risco": {
-    "pct": 35,
-    "nivel": "Alto",
-    "parecido_2_11": true,
-    "bruto": 22,
-    "piso_inmet": 35
+    "pct": 0,
+    "nivel": "Baixo",
+    "parecido_2_11": false,
+    "bruto": 0,
+    "piso_inmet": 0
    },
    "cenarios": 212
   },
   {
-   "dia": "2026-11-08",
-   "chuva_mm": 0.5,
-   "chance": 25,
-   "tmin": 18,
-   "tmax": 26,
-   "rajada": 38,
+   "dia": "2026-11-09",
+   "chuva_mm": 0.0,
+   "chance": 3,
+   "tmin": 16,
+   "tmax": 25,
+   "rajada": 46,
    "aviso": null,
    "pico_chuva": null,
    "pico_rajada": 23,
@@ -48,18 +43,6 @@
   }
  ],
  "avisos": [
-  {
-   "lvl": "amarelo",
-   "tit": "tempestade",
-   "ini": "2026-11-07",
-   "fim": "2026-11-07"
-  },
-  {
-   "lvl": "laranja",
-   "tit": "tempestade",
-   "ini": "2026-11-07",
-   "fim": "2026-11-07"
-  },
   {
    "lvl": "amarelo",
    "tit": "declínio de temperatura",
