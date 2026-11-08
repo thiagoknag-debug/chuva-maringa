@@ -1,16 +1,16 @@
 {
- "gerado": "2026-11-08T10:21:02.726047+00:00",
+ "gerado": "2026-11-08T20:11:58.905760+00:00",
  "dias": [
   {
    "dia": "2026-11-08",
-   "chuva_mm": 0.3,
-   "chance": 22,
+   "chuva_mm": 0.9,
+   "chance": 42,
    "tmin": 18,
    "tmax": 26,
-   "rajada": 38,
+   "rajada": 37,
    "aviso": null,
    "pico_chuva": null,
-   "pico_rajada": 9,
+   "pico_rajada": 23,
    "trovoada": null,
    "risco": {
     "pct": 0,
@@ -24,10 +24,10 @@
   {
    "dia": "2026-11-09",
    "chuva_mm": 0.0,
-   "chance": 3,
+   "chance": 0,
    "tmin": 16,
    "tmax": 25,
-   "rajada": 46,
+   "rajada": 41,
    "aviso": null,
    "pico_chuva": null,
    "pico_rajada": 23,
