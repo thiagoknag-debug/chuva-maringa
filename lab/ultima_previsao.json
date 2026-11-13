@@ -1,22 +1,17 @@
 {
- "gerado": "2026-11-12T20:22:46.645494+00:00",
+ "gerado": "2026-11-13T20:27:56.709235+00:00",
  "dias": [
   {
-   "dia": "2026-11-12",
-   "chuva_mm": 3.9,
-   "chance": 77,
-   "tmin": 20,
-   "tmax": 30,
-   "rajada": 28,
+   "dia": "2026-11-13",
+   "chuva_mm": 1.0,
+   "chance": 37,
+   "tmin": 22,
+   "tmax": 32,
+   "rajada": 24,
    "aviso": "amarelo",
    "pico_chuva": null,
    "pico_rajada": 17,
-   "trovoada": {
-    "de": 17,
-    "ate": 18,
-    "pico": 17,
-    "pct": 25
-   },
+   "trovoada": null,
    "risco": {
     "pct": 10,
     "nivel": "Moderado",
@@ -27,15 +22,15 @@
    "cenarios": 212
   },
   {
-   "dia": "2026-11-13",
-   "chuva_mm": 1.2,
-   "chance": 18,
-   "tmin": 20,
+   "dia": "2026-11-14",
+   "chuva_mm": 0.2,
+   "chance": 41,
+   "tmin": 21,
    "tmax": 31,
-   "rajada": 28,
+   "rajada": 35,
    "aviso": null,
    "pico_chuva": null,
-   "pico_rajada": 18,
+   "pico_rajada": 7,
    "trovoada": null,
    "risco": {
     "pct": 9,
@@ -51,8 +46,14 @@
   {
    "lvl": "amarelo",
    "tit": "tempestade",
-   "ini": "2026-11-12",
-   "fim": "2026-11-12"
+   "ini": "2026-11-13",
+   "fim": "2026-11-13"
+  },
+  {
+   "lvl": "amarelo",
+   "tit": "tempestade",
+   "ini": "2026-11-15",
+   "fim": "2026-11-15"
   }
  ]
 }
