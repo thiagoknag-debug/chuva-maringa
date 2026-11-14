@@ -1,0 +1,32 @@
+{
+ "awc_json": {
+  "status": 200,
+  "acao": null,
+  "ctype": "application/json; charset=utf-8",
+  "amostra": "[{\"icaoId\":\"SBMG\",\"receiptTime\":\"2026-11-14T21:10:34.995Z\",\"obsTime\":1794690000,\"reportTime\":\"2026-11-14T21:00:00.000Z\",\"temp\":29,\"dewp\":20,\"wdir\":350,\"wspd\":7,\"visib\":\"6+\",\"altim\":1011,\"qcField\":0,\"wxString\":\"TS VCSH\",\"metarType\":\"METAR\",\"rawOb\":\"METAR SBMG 142100Z 35007KT 9999 TS VCSH SCT045 FEW050CB 29/20 Q1011\",\"lat\":-23.476,\"lon\":-52.017,\"elev\":543,\"name\":\"Maringa Rgnl, PR, BR\",\"cover\":\"FEW\",\"clouds\":[{\"cover\":\"SCT\",\"base\":4500},{\"cover\":\"FEW\",\"base\":5000}],\"fltCat\":\"VFR\"},{\"icaoId\":\"SBMG\",\"receiptTime\":\"2026-11-14T20:10:28.384Z\",\"obsTime\":1794686400,\"reportTime\":\"2026-11-14T20:00:00.000Z\",\"temp\":31,\"dewp\":20,\"wdir\":330,\"wspd\":8,\"visib\":\"6+\",\"altim\":1010,\"qcField\":0,\"metarType\":\"METAR\","
+ },
+ "iem_currents": {
+  "status": 200,
+  "acao": "*",
+  "ctype": "application/json",
+  "amostra": "{\"schema\":{\"fields\":[{\"name\":\"station\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"name\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"county\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"network\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"local_date\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"snow\",\"type\":\"string\"},{\"name\":\"snowd\",\"type\":\"string\"},{\"name\":\"snoww\",\"type\":\"string\"},{\"name\":\"utc_valid\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"local_valid\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"tmpf\",\"type\":\"number\"},{\"name\":\"max_tmpf\",\"type\":\"number\"},{\"name\":\"min_tmpf\",\"type\":\"number\"},{\"name\":\"dwpf\",\"type\":\"number\"},{\"name\":\"relh\",\"type\":\"number\"},{\"name\":\"vsby\",\"type\":\"numbe"
+ },
+ "iem_currents_net": {
+  "status": 200,
+  "acao": "*",
+  "ctype": "application/json",
+  "amostra": "{\"schema\":{\"fields\":[{\"name\":\"station\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"name\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"county\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"network\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"local_date\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"snow\",\"type\":\"string\"},{\"name\":\"snowd\",\"type\":\"string\"},{\"name\":\"snoww\",\"type\":\"string\"},{\"name\":\"utc_valid\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"local_valid\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"tmpf\",\"type\":\"number\"},{\"name\":\"max_tmpf\",\"type\":\"number\"},{\"name\":\"min_tmpf\",\"type\":\"number\"},{\"name\":\"dwpf\",\"type\":\"number\"},{\"name\":\"relh\",\"type\":\"number\"},{\"name\":\"vs"
+ },
+ "iem_asos": {
+  "status": 200,
+  "acao": "*",
+  "ctype": "text/plain; charset=UTF-8",
+  "amostra": "station,valid,sknt,drct,gust,tmpf,dwpf,metar\nSBMG,2026-11-14 21:00,7.00,350.00,M,84.20,68.00,SBMG 142100Z 35007KT 9999 TS VCSH SCT045 FEW050CB 29/20 Q1011\nSBMG,2026-11-14 20:00,8.00,330.00,M,87.80,68.00,SBMG 142000Z 33008KT 9999 SCT045 FEW050TCU 31/20 Q1010\nSBMG,2026-11-14 19:00,7.00,20.00,M,89.60,69.80,SBMG 141900Z 02007KT 9999 BKN045 FEW050TCU 32/21 Q1011\n"
+ },
+ "iem_obhistory": {
+  "status": 200,
+  "acao": "*",
+  "ctype": "application/json",
+  "amostra": "{\"schema\":{\"fields\":[{\"name\":\"index\",\"type\":\"integer\"},{\"name\":\"utc_valid\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"local_valid\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"tmpf\",\"type\":\"number\"},{\"name\":\"dwpf\",\"type\":\"number\"},{\"name\":\"sknt\",\"type\":\"number\"},{\"name\":\"drct\",\"type\":\"number\"},{\"name\":\"vsby\",\"type\":\"number\"},{\"name\":\"skyc1\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"skyl1\",\"type\":\"number\"},{\"name\":\"skyc2\",\"type\":\"string\",\"extDtype\":\"str\"},{\"name\":\"skyl2\",\"type\":\"number\"},{\"name\":\"skyc3\",\"type\":\"string\"},{\"name\":\"skyl3\",\"type\":\"string\"},{\"name\":\"skyc4\",\"type\":\"string\"},{\"name\":\"skyl4\",\"type\":\"string\"},{\"name\":\"relh\",\"type\":\"number\"},{\"name\":\"feel\",\"type\":\"number\"},{\"name\":\"alti"
+ }
+}
