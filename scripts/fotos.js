@@ -14,6 +14,9 @@ const fs = require('fs');
   await p.screenshot({ path: 'lab/fotos/1_topo.png' });
   await p.waitForSelector('#nc .nc-h', { timeout: 60000 }).catch(e => erros.push('nc ' + e));
   await p.locator('#nc').screenshot({ path: 'lab/fotos/0_nowcast.png' }).catch(() => {});
+  await p.waitForTimeout(4000); await p.locator('#vt').screenshot({ path: 'lab/fotos/0_vento.png' }).catch(() => {});
+  out.vento = await p.evaluate(() => ({ txt: document.getElementById('vt').innerText.slice(0, 800), obs: window.__OBS ? { ...window.__OBS, t: String(window.__OBS.t) } : null }));
+  out.share = await p.evaluate(() => !document.getElementById('share').hidden);
   out.nc = await p.evaluate(() => ({ txt: (document.getElementById('nc').innerText || '').slice(0, 1500), err: window.__ncErr || null,
     est: window.__NCUI && window.__NCUI.estado() ? (e => ({ fonte: e.V.fonte, kmh: Math.round(e.V.kmh), disp: e.V.disp, prox: e.prox, tipo: e.tipo, p: e.P.filter(x => x.m % 5 === 0).map(x => [x.m, +x.p.toFixed(2), x.z, +x.u.toFixed(2)]) }))(window.__NCUI.estado()) : null }));
   out.chips = await p.$$eval('.rk-chip', x => x.map(e => e.textContent));
