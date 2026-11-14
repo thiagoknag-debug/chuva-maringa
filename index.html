@@ -7,6 +7,7 @@
 <meta name="apple-mobile-web-app-title" content="Chuva">
 <meta name="theme-color" content="#0f4c81">
 <link rel="apple-touch-icon" href="icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.png">
 <title>Chuva em Maringá</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -283,6 +284,33 @@ body.noscroll{overflow:hidden}
 .recentes::-webkit-scrollbar{display:none}
 .cchip{flex:none;font:inherit;font-size:13.5px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
 .cchip small{color:var(--muted);font-size:11px;margin-left:2px}
+
+/* vento (cartão compacto) */
+.vt{padding-block:14px}
+.vt-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.vt-top h2{margin:0}
+.vt-src{font-size:12px;color:var(--muted)}
+.vt-main{display:flex;align-items:center;gap:12px;margin:10px 0 6px}
+.vt-main>div{min-width:0}
+.vt-main b{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.vt-main span{font-size:14px;color:var(--muted)}
+.vt-sub{font-size:13px;color:var(--muted);margin-top:2px;line-height:1.4}
+.vt-sub b{font-size:13px;color:var(--ink)}
+.vt-seta{width:16px;height:16px;color:var(--ink);flex:none}
+.vt-seta.big{width:38px;height:38px;color:#0ea5e9}
+.vt-main.vm .vt-seta.big{color:#0ea5e9}.vt-main.vfo .vt-seta.big{color:var(--laranja)}.vt-main.vf .vt-seta.big{color:var(--vermelho)}
+.vt-av{font-size:13.5px;line-height:1.45;background:rgba(245,158,11,.14);border-radius:10px;padding:8px 10px;margin:6px 0 8px}
+.vt-hrs{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:6px}
+.vt-h{display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--bg);border-radius:10px;padding:6px 2px;font-size:12px}
+.vt-h span{color:var(--muted)}
+.vt-h b{font-size:14px;font-variant-numeric:tabular-nums}
+.vt-h i{font-style:normal;color:var(--muted);font-variant-numeric:tabular-nums;min-height:1em}
+.vt-h.hi i{color:var(--laranja);font-weight:700}
+.vt-leg{font-size:11.5px;color:var(--muted);margin:6px 0 0}
+/* cabeçalho: compartilhar */
+.hbtns{display:flex;gap:8px;align-items:center}
+.icon-btn.ok{color:#16a34a;border-color:#16a34a}
+footer.foot p{margin:4px 0}
 </style>
 </head>
 <body>
@@ -292,13 +320,14 @@ body.noscroll{overflow:hidden}
       <h1 id="cidade">Maringá</h1><p class="cidade-uf" id="cidade-uf"></p>
       <p class="stamp" id="stamp">Buscando a previsão…</p>
     </div>
-    <button type="button" id="reload" class="icon-btn" aria-label="Atualizar">↻</button>
+    <div class="hbtns"><button type="button" id="share" class="icon-btn" aria-label="Compartilhar previsão" hidden><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" id="reload" class="icon-btn" aria-label="Atualizar">↻</button></div>
   </header>
   <div class="busca" role="search"><input id="q" type="search" placeholder="Buscar outra cidade…" autocomplete="off" autocapitalize="words" enterkeyhint="search" aria-label="Buscar cidade" aria-controls="qres" aria-expanded="false" aria-autocomplete="list"><ul id="qres" class="qres" role="listbox" hidden></ul></div>
   <div id="recentes" class="recentes" hidden></div>
   <div id="alerts" class="alerts"></div>
   <section id="hero" class="hero" aria-live="polite"><div class="skeleton"></div></section>
   <section class="card nc" id="nc" aria-live="polite"><div class="nc-top"><h2>Próximos 60 minutos</h2></div><p class="hint">Lendo o radar…</p></section>
+  <section class="card vt" id="vt" aria-live="polite"><div class="vt-top"><h2>Vento</h2></div><p class="hint">Carregando…</p></section>
   <section class="card" id="radar">
     <div class="rhead"><h2>Radar</h2><button type="button" id="rbtn" class="pill-btn" aria-pressed="false">Satélite</button></div>
     <div class="rtabs" role="tablist"><button type="button" role="tab" id="tab-agora" aria-selected="true">Ao vivo</button><button type="button" role="tab" id="tab-prev" aria-selected="false">Previsão por horário</button></div>
@@ -345,7 +374,11 @@ body.noscroll{overflow:hidden}
       <li><b>Temporais:</b> em 13 temporais medidos desde set/2024, os modelos da véspera quase nunca previram a rajada nem o volume. O sinal mais confiável foi a instabilidade da atmosfera (CAPE) e o aviso do INMET, que o site usa no risco.</li>
     </ul>
   </details>
-  <p class="foot">Dados: Open-Meteo e INMET. Calculado no seu aparelho a cada abertura.</p>
+  <footer class="foot">
+    <p>Calculado no seu aparelho a cada abertura, juntando 11 modelos, 6 conjuntos de cenários, radar e estações.</p>
+    <p>Fontes: Open-Meteo (modelos), INMET (avisos), RainViewer (radar), aeroportos via IEM (vento medido), NASA GIBS (satélite), Esri (mapa).</p>
+    <p><b>Previsão é estimativa.</b> Em situação de risco, siga a Defesa Civil (199) e os Bombeiros (193). Receba alertas oficiais por SMS: envie seu CEP para 40199.</p>
+  </footer>
 </main>
 <div id="sheet" class="sheet" hidden><div class="sheet-bg" data-close></div><div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="sh-t"><button type="button" class="sheet-x" data-close aria-label="Fechar">×</button><div id="sheet-body"></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -367,6 +400,8 @@ const LOCP=(async()=>{const h=semAcento(decodeURIComponent(location.hash.slice(1
   try{const p=h.split('-'),uf=p.length>1?p.pop():'',res=await buscaCidades(p.join(' '));const c=res.find(x=>semAcento(x.uf)===uf||semAcento(x.cc)===uf)||res[0];if(c){if(!c.padrao)salvaRec(c);return c;}}catch(e){}
   return {...LOC_PADRAO,naoAchou:h};})();
 window.addEventListener('hashchange',()=>location.reload());
+
+if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 LOCP.then(LOC=>{
 /* ===== Busca de cidade e cidades recentes ===== */
 (function(){const $=id=>document.getElementById(id);
@@ -531,6 +566,10 @@ function anel(P){const R=118,r0=96,cx=130,cy=130;let s='';
   for(const [m,t] of [[15,'15'],[30,'30'],[45,'45']]){const a=(m*6-90)*Math.PI/180;s+=`<text x="${(cx+(R+11)*Math.cos(a)).toFixed(1)}" y="${(cy+(R+11)*Math.sin(a)+4).toFixed(1)}" text-anchor="middle" class="nc-tk">${t}</text>`;}
   return `<svg viewBox="-6 -6 272 272" class="nc-ring" aria-hidden="true">${s}</svg>`;}
 function desenha(){if(!estado)return;const F=frase(),C=confianca(F),{P,prox,V,t0}=estado;
+  /* chuva no radar com ar seco perto do chão: pode evaporar antes de chegar (virga) */
+  const ob=window.__OBS,seco=ob&&ob.fresco&&ob.T!=null&&ob.Td!=null&&(ob.T-ob.Td)>=10;
+  let virga='';if(F.k==='agora'&&seco&&F.c&&F.c.k<=2){F.h=`O radar mostra chuva ${F.c.t} sobre a cidade · pode não estar chegando ao chão`;
+    virga=`<p class="nc-av">💧 O ar perto do chão está seco (${ob.T}° com ponto de orvalho de ${ob.Td}°, no aeroporto às ${ob.hora}). Parte da chuva que o radar vê lá no alto evapora antes de cair: pode estar chovendo em alguns bairros e em outros não.</p>`;}
   const atraso=Math.max(0,Math.round((Date.now()/1000-t0)/60));
   const dir=v=>['norte','nordeste','leste','sudeste','sul','sudoeste','oeste','noroeste'][Math.round(((Math.atan2(v.vx,-v.vy)*180/Math.PI+360)%360)/45)%8];
   const de=v=>['sul','sudoeste','oeste','noroeste','norte','nordeste','leste','sudeste'][Math.round(((Math.atan2(v.vx,-v.vy)*180/Math.PI+360)%360)/45)%8];
@@ -541,18 +580,60 @@ function desenha(){if(!estado)return;const F=frase(),C=confianca(F),{P,prox,V,t0
     return (p>=30||pt>=15||ctx.aviso)?`<p class="nc-av">⚠️ O radar ainda não mostra chuva vindo, mas ${ctx.aviso?`há aviso ${ctx.aviso} do INMET e `:''}os modelos dão ${p}% de chance de chuva${pt>=15?` e ${pt}% de trovoada`:''} nas próximas horas. Pancadas podem se formar perto da cidade sem aparecer antes no radar.</p>`:'';})();
   el.innerHTML=`<div class="nc-top"><h2>Próximos 60 minutos</h2><span class="nc-conf c-${C.t}">Confiança ${C.t}</span></div>
    <p class="nc-h">${F.h}</p>
-   <div class="nc-dial">${anel(P)}<div class="nc-mid"><span class="nc-now">AGORA</span>${(i=>`<span class="ic nc-ic" role="img" aria-label="${i[1]}">${i[0]}</span>`)(icone(F))}<b>${ctx.temp!=null?ctx.temp+'°':''}</b><span class="nc-sm">radar ${hm(new Date(t0*1000))}</span></div></div>
+   <div class="nc-dial">${anel(P)}<div class="nc-mid"><span class="nc-now">AGORA</span>${(i=>`<span class="ic nc-ic" role="img" aria-label="${i[1]}">${i[0]}</span>`)(icone(F))}<b>${(ob&&ob.fresco&&ob.T!=null)?ob.T+'°':ctx.temp!=null?ctx.temp+'°':''}</b><span class="nc-sm">radar ${hm(new Date(t0*1000))}</span></div></div>
    <ul class="nc-leg"><li><i style="background:#38bdf8"></i>fraca</li><li><i style="background:#2563eb"></i>moderada</li><li><i style="background:#f59e0b"></i>forte</li><li><i style="background:#dc2626"></i>muito forte</li><li><i style="background:#d946ef"></i>temporal</li><li><i class="ls"></i>possível</li></ul>
-   ${hz}
+   ${virga}${hz}
    <p class="nc-d">${proxTxt} ${movTxt}</p>
    <p class="nc-d"><b>Por que confiança ${C.t}:</b> ${C.m}.</p>
    <details class="nc-how"><summary>Como funciona e quanto acerta</summary><p>Pego as 4 últimas imagens do radar (uma a cada 10 min), meço para onde e a que velocidade a chuva está andando e projeto esse movimento até 90 min à frente, minuto a minuto, sobre ${LOC.nome}. A cor indica a intensidade (fraca = até ~2 mm/h; moderada = 3–10; forte = 10–40; muito forte = 50+; temporal = possível granizo). As imagens chegam com ~10 min de atraso (agora: ${atraso} min), e isso já entra na conta.</p><p>Teste com o radar real de 5/11 (2 h de chuva no Paraná, 13 mil comparações): com 10 min de antecedência, avisou 84% das chuvas e 19% dos avisos não se confirmaram; com 30 min, 73% e 40%; com 60 min, 69% e 52%. Projetar o movimento acertou bem mais que supor que "a chuva fica onde está". O que não dá para prever: tempestades que nascem do nada perto da cidade.</p></details>`;
-  el.classList.toggle('chove',F.k==='agora'||F.k==='vem');}
-window.__NCUI={set(c){ctx=Object.assign(ctx,c);desenha();},estado:()=>estado,atualiza};
+  el.classList.toggle('chove',F.k==='agora'||F.k==='vem');try{window.__VTUI&&window.__VTUI.redesenha();}catch(e){}}
+window.__NCUI={set(c){ctx=Object.assign(ctx,c);desenha();},estado:()=>estado,frase:()=>estado?frase():null,atualiza};
 atualiza(true);
 setInterval(()=>{if(!document.hidden)atualiza(false);},180e3);
 setInterval(()=>{if(!document.hidden&&estado&&!ocupado)calcula();},60e3);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)atualiza(false);});
+})();
+/* ===== Vento: medido agora (aeroporto mais próximo) + próximas horas + aviso de rajada com tempestade ===== */
+(function(){
+const $=id=>document.getElementById(id),pad=n=>String(n).padStart(2,'0');
+const el=$('vt');if(!el)return;
+let H=null,ctx={};
+const DIRS=['norte','nordeste','leste','sudeste','sul','sudoeste','oeste','noroeste'],SIG=['N','NE','L','SE','S','SO','O','NO'];
+const d8=g=>g==null?'':DIRS[Math.round(((g%360)+360)%360/45)%8],s8=g=>g==null?'':SIG[Math.round(((g%360)+360)%360/45)%8];
+const seta=(g,cls='')=>g==null?'':`<svg class="vt-seta ${cls}" viewBox="0 0 24 24" aria-hidden="true" style="transform:rotate(${(g+180)%360}deg)"><path d="M12 3l5 12h-4v6h-2v-6H7z" fill="currentColor"/></svg>`;
+const nivel=g=>g>=70?{t:'Muito forte',m:'risco de queda de árvores e destelhamento',c:'vf'}:g>=50?{t:'Forte',m:'pode derrubar galhos e objetos soltos',c:'vfo'}:g>=30?{t:'Moderado',m:'rajadas perceptíveis, sem risco relevante',c:'vm'}:g>=10?{t:'Fraco',m:'vento tranquilo',c:'vl'}:{t:'Calmo',m:'quase sem vento',c:'vl'};
+const dist=(a,b,c,d)=>{const r=Math.PI/180,x=(d-b)*r*Math.cos((a+c)/2*r),y=(c-a)*r;return 6371*Math.hypot(x,y);};
+/* estação de aeroporto mais próxima (rede do Brasil no IEM); Maringá = SBMG */
+async function estacao(){if(LOC.padrao)return{id:'SBMG',nome:'aeroporto de Maringá',km:6};
+  const k='est:'+LOC.slug;try{const c=JSON.parse(localStorage.getItem(k)||'null');if(c)return c.id?c:null;}catch(e){}
+  try{const j=await fetch('https://mesonet.agron.iastate.edu/geojson/network/BR__ASOS.geojson').then(r=>r.json());let b=null;
+    for(const f of j.features||[]){const [lo,la]=f.geometry.coordinates,km=dist(LOC.lat,LOC.lon,la,lo);if(!b||km<b.km)b={id:f.properties.sid||f.id,nome:'aeroporto de '+(f.properties.sname||f.properties.sid||''),km:Math.round(km)};}
+    const r=b&&b.km<=60?b:{};try{localStorage.setItem(k,JSON.stringify(r));}catch(e){}return r.id?r:null;}catch(e){return null;}}
+async function medido(){const e=await estacao();if(!e)return null;
+  try{const t=await fetch(`https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?station=${e.id}&data=sknt,drct,gust,tmpf,dwpf,metar&tz=UTC&format=onlycomma&hours=4`,{cache:'no-store'}).then(r=>r.text());
+    const L=t.trim().split('\n').slice(1).map(l=>l.split(',')).filter(x=>x.length>=8).sort((a,b)=>a[1]<b[1]?1:-1);if(!L.length)return null;
+    const x=L[0],n=v=>v==='M'||v===''?null:+v,dt=new Date(x[1].replace(' ','T')+':00Z'),age=(Date.now()-dt)/60e3,f2c=f=>f==null?null:Math.round((f-32)*5/9);
+    const kt=n(x[2]),g=n(x[4]),met=x.slice(7).join(',');
+    return {est:e,t:dt,hora:pad(dt.getHours())+'h'+(dt.getMinutes()?pad(dt.getMinutes()):''),idade:age,fresco:age<=100,ws:kt==null?null:Math.round(kt*1.852),wd:n(x[3]),wg:g==null?null:Math.round(g*1.852),T:f2c(n(x[5])),Td:f2c(n(x[6])),
+      ts:/\b(\+|-|VC)?TS|\bCB\b|FEW\d{3}CB|SCT\d{3}CB|BKN\d{3}CB/.test(met),metar:met};}catch(e){return null;}}
+function desenha(){if(!H||!H.ws)return;const ob=window.__OBS,h0=+String(H.start||'').slice(11,13);
+  const ag=ob&&ob.fresco&&ob.ws!=null?{ws:ob.ws,wd:ob.wd,wg:ob.wg,fonte:`medido no ${ob.est.nome} às ${ob.hora}`}:{ws:H.ws[0],wd:H.wd[0],wg:H.wg[0],fonte:'previsão para agora'};
+  const gm=ag.wg??(ob&&ob.fresco?null:H.wg[0]);const N=nivel(Math.max(ag.ws||0,gm||0,0));
+  const prox=[];for(let i=1;i<=6&&i<H.ws.length;i++)prox.push({h:(h0+i)%24,ws:H.ws[i],wg:H.wg[i],wd:H.wd[i]});
+  const gx=Math.max(...prox.map(o=>o.wg||0)),pico=prox.find(o=>(o.wg||0)===gx);
+  /* aviso: tempestade chegando/presente pode trazer rajada súbita, mesmo com vento fraco agora */
+  let av='';const F=window.__NCUI&&window.__NCUI.frase&&window.__NCUI.frase(),E=window.__NCUI&&window.__NCUI.estado&&window.__NCUI.estado();
+  const forte=F&&(F.k==='agora'||F.k==='vem')&&F.c&&F.c.k>=3,perto=E&&E.prox&&E.prox.km<=40&&E.prox.z>=45&&/direção/.test(E.prox.vem||'');
+  if(forte||perto||(ob&&ob.fresco&&ob.ts))av=`<p class="vt-av">⚠️ ${ob&&ob.fresco&&ob.ts?'Há nuvem de tempestade perto do aeroporto. ':''}${forte?'Chuva forte chegando. ':perto?`Tempestade a ${E.prox.km} km vindo para cá. `:''}A frente de vento que sai da tempestade pode trazer rajadas fortes de repente, mesmo com vento fraco agora.</p>`;
+  else if(gx>=50)av=`<p class="vt-av">⚠️ Rajadas de até ${gx} km/h previstas perto das ${pad(pico.h)}h.</p>`;
+  el.innerHTML=`<div class="vt-top"><h2>Vento</h2><span class="vt-src">${ag.fonte}</span></div>
+   <div class="vt-main ${N.c}">${seta(ag.wd,'big')}<div><b>${ag.ws??'—'} km/h</b>${ag.wd!=null?` <span>vindo do ${d8(ag.wd)}</span>`:''}<div class="vt-sub">${gm!=null?`rajadas de ${gm} km/h · `:ob&&ob.fresco?'sem rajadas registradas · ':''}<b>${N.t}</b>: ${N.m}</div></div></div>
+   ${av}
+   <div class="vt-hrs" role="list" aria-label="Vento nas próximas 6 horas">${prox.map(o=>`<div class="vt-h${(o.wg||0)>=50?' hi':''}" role="listitem" aria-label="${pad(o.h)}h: ${o.ws} km/h do ${d8(o.wd)}, rajada ${o.wg}"><span>${pad(o.h)}h</span>${seta(o.wd)}<b>${o.ws}</b><i>${o.wg??''}</i></div>`).join('')}</div>
+   <p class="vt-leg">Próximas 6 h: número de cima = vento médio, de baixo = rajada (km/h)${LOC.padrao?'; rajadas corrigidas pela auditoria com o aeroporto':''}.</p>`;}
+async function atualiza(){const o=await medido();window.__OBS=o;desenha();try{window.__NCUI&&window.__NCUI.set({});}catch(e){}}
+window.__VTUI={set(c){if(c.H)H=c.H;ctx=Object.assign(ctx,c);desenha();},redesenha:desenha};
+atualiza();setInterval(()=>{if(!document.hidden)atualiza();},10*60e3);setInterval(()=>{if(!document.hidden)desenha();},60e3);
 })();
 /* Configuração: o que usar do arquivo de pesos da auditoria (lab/pesos.json) */
 /* Decidido pela auditoria de 189 dias (set/2024–ago/2026): mediana dos modelos venceu; correção de volume piorou;
@@ -768,11 +849,15 @@ $('reload').addEventListener('click',recarrega);
 let saiu=Date.now();document.addEventListener('visibilitychange',()=>{if(document.hidden)saiu=Date.now();else if(Date.now()-saiu>20*60e3)recarrega();});
 
 let L,O;
-try{[L,O]=await Promise.all([coletar(),LOC.padrao?fetch('oct.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).catch(()=>null):Promise.resolve(null)]);}
-catch(e){$('stamp').textContent='Sem conexão com os serviços de tempo';$('hero').outerHTML='<div class="err">Não foi possível buscar a previsão agora. Verifique a internet e toque em ↻.</div>';return;}
+let offline=null;const CK='prev:'+LOC.slug;
+try{[L,O]=await Promise.all([coletar(),LOC.padrao?fetch('oct.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).catch(()=>null):Promise.resolve(null)]);
+  try{localStorage.setItem(CK,JSON.stringify({t:Date.now(),L}));}catch(e){}}
+catch(e){let c=null;try{c=JSON.parse(localStorage.getItem(CK)||'null');}catch(_){}
+  if(c&&c.L&&Date.now()-c.t<36*3600e3){L=c.L;O=null;offline=new Date(c.t);}
+  else{$('stamp').textContent='Sem conexão com os serviços de tempo';$('hero').outerHTML='<div class="err">Não foi possível buscar a previsão agora. Verifique a internet e toque em ↻.</div>';return;}}
 
 /* carimbo */
-const g=new Date(L.gen);if(L.ens&&L.ens.length){const f=document.querySelector('.foot');const n=L.ens.reduce((s,x)=>s+x[1],0);if(f)f.textContent+=` Chance de chuva com ${n} cenários de ${L.ens.length} sistemas (${L.ens.map(x=>x[0]).join(', ')}).`;}if(L.pesos){const f=document.querySelector('.foot');if(f)f.textContent+=' Pesos da auditoria de '+L.pesos.slice(8,10)+'/'+L.pesos.slice(5,7)+'/'+L.pesos.slice(0,4)+'.';}$('stamp').textContent='Atualizado às '+pad(g.getHours())+'h'+pad(g.getMinutes())+' · '+WD[g.getDay()]+', '+g.getDate()+'/'+(g.getMonth()+1);if(!LOC.padrao){$('stamp').insertAdjacentHTML('beforeend',' · <span class="semcal">sem calibração local</span>');const n=$('calibNota');if(n)n.hidden=false;}
+const g=new Date(L.gen);if(L.ens&&L.ens.length){const f=document.querySelector('.foot');const n=L.ens.reduce((s,x)=>s+x[1],0);if(f)f.textContent+=` Chance de chuva com ${n} cenários de ${L.ens.length} sistemas (${L.ens.map(x=>x[0]).join(', ')}).`;}if(L.pesos){const f=document.querySelector('.foot');if(f)f.textContent+=' Pesos da auditoria de '+L.pesos.slice(8,10)+'/'+L.pesos.slice(5,7)+'/'+L.pesos.slice(0,4)+'.';}$('stamp').textContent='Atualizado às '+pad(g.getHours())+'h'+pad(g.getMinutes())+' · '+WD[g.getDay()]+', '+g.getDate()+'/'+(g.getMonth()+1);if(offline){$('stamp').innerHTML='<span class="semcal">Sem conexão</span> · mostrando a previsão de '+WD[offline.getDay()].toLowerCase()+' às '+pad(offline.getHours())+'h'+pad(offline.getMinutes());}if(!LOC.padrao){$('stamp').insertAdjacentHTML('beforeend',' · <span class="semcal">sem calibração local</span>');const n=$('calibNota');if(n)n.hidden=false;}
 
 /* avisos */
 const todayKey=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
@@ -839,6 +924,7 @@ const parHora=(()=>{if(!par)return'';let hh=(L.DH||[])[L.D.indexOf(par)]||[];if(
   const pc=hh.filter(o=>(o.p||0)>=30).reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,{mm:0});return (pc.mm||0)>=0.5?` Chuva mais forte perto das ${pad(pc.h)}h.`:'';})();
 const parTxt=par?`<p class="sub par211">⚠️ ${par[0]===key(now)?'Hoje':'Amanhã'}: cenário parecido com o temporal de 2/11 (risco ${par[15].pct}%).${parHora} Evite carro sob árvores e acompanhe o radar.</p>`:'';
 $('hero').innerHTML=`${agora()}<div><div class="lab">${lab}</div><p class="head">${head}</p><p class="sub">${sub}</p>${ventoTxt}${parTxt}</div><div class="pair">${box('Hoje',L.D[dIdx(key(now))])}${box('Amanhã',L.D[dIdx(key(tmw))])}</div>`;
+try{window.__VTUI&&window.__VTUI.set({H});}catch(e){}
 try{window.__NCUI&&window.__NCUI.set({temp:H.t[0],cc:H.cc?H.cc[0]:null,dia:H.dia?H.dia[0]:1,DH:L.DH,aviso:L.D[0]&&L.D[0][15]&&L.D[0][15].aviso});}catch(e){}
 
 const arrow=d=>d==null?'':`<svg class="arr" viewBox="0 0 16 16" aria-hidden="true" style="transform:rotate(${(d+180)%360}deg)"><path d="M8 1.5 12.5 13 8 10.3 3.5 13z" fill="currentColor"/></svg>`;
@@ -917,6 +1003,13 @@ const fecha=()=>{$('sheet').hidden=true;document.body.classList.remove('noscroll
 document.addEventListener('click',e=>{if(e.target.closest('[data-close]')){fecha();return;}const t=e.target.closest('[data-k]');if(t&&!e.target.closest('.sheet-card'))openDay(+t.dataset.k);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')fecha();if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[data-k]')){e.preventDefault();openDay(+e.target.dataset.k);}});
 
+/* compartilhar */
+(()=>{const b=$('share');if(!b)return;b.hidden=false;
+  const linha=(d,n)=>{if(!d)return'';const t=d[15]&&d[15].pct>=25?` · temporal ${d[15].nivel.toLowerCase()}`:'';return `${n}: ${mmTxt(d[1])} mm (${d[4]??'—'}% de chance) · ${d[10]}° a ${d[9]}° · rajadas até ${d[11]??'—'} km/h${t}`;};
+  b.addEventListener('click',async()=>{const url=location.origin+location.pathname+(LOC.padrao?'':'#'+LOC.slug);
+    const txt=`🌧️ Previsão para ${LOC.nome}\n${linha(L.D[0],'Hoje')}\n${linha(L.D[1],'Amanhã')}`;
+    try{if(navigator.share){await navigator.share({title:'Chuva em '+LOC.nome,text:txt,url});return;}}catch(e){if(e&&e.name==='AbortError')return;}
+    try{await navigator.clipboard.writeText(txt+'\n'+url);b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1500);}catch(e){}});})();
 /* outubro */
 if(!O){const a=$('audit');if(a)a.hidden=true;return;}
 const oc=O.oct, W=O.fc.weights, names=oc.names;
