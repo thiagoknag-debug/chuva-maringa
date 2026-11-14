@@ -1,0 +1,124 @@
+{
+ "gerado": "2026-11-14T20:51:33.318664+00:00",
+ "metar_awc": "METAR SBMG 142000Z 33008KT 9999 SCT045 FEW050TCU 31/20 Q1010\nMETAR SBMG 141900Z 02007KT 9999 BKN045 FEW050TCU 32/21 Q1011\nMETAR SBMG 141800Z 01011KT 9999 SCT045 31/20 Q1011",
+ "metar_awc_json": [
+  {
+   "icaoId": "SBMG",
+   "receiptTime": "2026-11-14T20:10:28.384Z",
+   "obsTime": 1794686400,
+   "reportTime": "2026-11-14T20:00:00.000Z",
+   "temp": 31,
+   "dewp": 20,
+   "wdir": 330,
+   "wspd": 8,
+   "visib": "6+",
+   "altim": 1010,
+   "qcField": 0,
+   "metarType": "METAR",
+   "rawOb": "METAR SBMG 142000Z 33008KT 9999 SCT045 FEW050TCU 31/20 Q1010",
+   "lat": -23.476,
+   "lon": -52.017,
+   "elev": 543,
+   "name": "Maringa Rgnl, PR, BR",
+   "cover": "FEW",
+   "clouds": [
+    {
+     "cover": "SCT",
+     "base": 4500
+    },
+    {
+     "cover": "FEW",
+     "base": 5000
+    }
+   ],
+   "fltCat": "VFR"
+  },
+  {
+   "icaoId": "SBMG",
+   "receiptTime": "2026-11-14T19:10:28.502Z",
+   "obsTime": 1794682800,
+   "reportTime": "2026-11-14T19:00:00.000Z",
+   "temp": 32,
+   "dewp": 21,
+   "wdir": 20,
+   "wspd": 7,
+   "visib": "6+",
+   "altim": 1011,
+   "qcField": 0,
+   "metarType": "METAR",
+   "rawOb": "METAR SBMG 141900Z 02007KT 9999 BKN045 FEW050TCU 32/21 Q1011",
+   "lat": -23.476,
+   "lon": -52.017,
+   "elev": 543,
+   "name": "Maringa Rgnl, PR, BR",
+   "cover": "FEW",
+   "clouds": [
+    {
+     "cover": "BKN",
+     "base": 4500
+    },
+    {
+     "cover": "FEW",
+     "base": 5000
+    }
+   ],
+   "fltCat": "VFR"
+  },
+  {
+   "icaoId": "SBMG",
+   "receiptTime": "2026-11-14T18:10:40.670Z",
+   "obsTime": 1794679200,
+   "reportTime": "2026-11-14T18:00:00.000Z",
+   "temp": 31,
+   "dewp": 20,
+   "wdir": 10,
+   "wspd": 11,
+   "visib": "6+",
+   "altim": 1011,
+   "qcField": 0,
+   "metarType": "METAR",
+   "rawOb": "METAR SBMG 141800Z 01011KT 9999 SCT045 31/20 Q1011",
+   "lat": -23.476,
+   "lon": -52.017,
+   "elev": 543,
+   "name": "Maringa Rgnl, PR, BR",
+   "cover": "SCT",
+   "clouds": [
+    {
+     "cover": "SCT",
+     "base": 4500
+    }
+   ],
+   "fltCat": "VFR"
+  }
+ ],
+ "metar_iem": [
+  "SBMG,2026-11-14 15:00,SBMG 141500Z 04008KT 360V120 9999 FEW035 29/20 Q1014",
+  "SBMG,2026-11-14 16:00,SBMG 141600Z 33008KT 9999 SCT045 30/20 Q1013",
+  "SBMG,2026-11-14 17:00,SBMG 141700Z 34008KT 9999 SCT045 32/21 Q1012",
+  "SBMG,2026-11-14 18:00,SBMG 141800Z 01011KT 9999 SCT045 31/20 Q1011",
+  "SBMG,2026-11-14 19:00,SBMG 141900Z 02007KT 9999 BKN045 FEW050TCU 32/21 Q1011",
+  "SBMG,2026-11-14 20:00,SBMG 142000Z 33008KT 9999 SCT045 FEW050TCU 31/20 Q1010"
+ ],
+ "inmet_status": 204,
+ "inmet_txt": "",
+ "modelos_current": {
+  "time": "2026-11-14T17:45",
+  "interval": 900,
+  "wind_speed_10m": 3.6,
+  "wind_direction_10m": 307,
+  "wind_gusts_10m": 18.4,
+  "temperature_2m": 29.2,
+  "precipitation": 0.0
+ },
+ "avisos": [
+  [
+   "Perigo Potencial",
+   "Tempestade",
+   "2026-11-15T00:00:00.000Z",
+   "00:00",
+   "2026-11-15T00:00:00.000Z",
+   "23:59"
+  ]
+ ]
+}
