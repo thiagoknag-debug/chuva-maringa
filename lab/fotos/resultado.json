@@ -12,7 +12,7 @@
    },
    "t": "Sat Nov 14 2026 18:00:00 GMT-0300 (Horário Padrão de Brasília)",
    "hora": "18h",
-   "idade": 45.2858,
+   "idade": 47.838633333333334,
    "fresco": true,
    "ws": 13,
    "wd": 350,
@@ -25,7 +25,7 @@
  },
  "share": true,
  "nc": {
-  "txt": "PRÓXIMOS 60 MINUTOS\nConfiança média\n\nChuva moderada agora · continua por pelo menos 60 min · pode ficar forte em ~15 min (≈18h59)\n\n15\n30\n45\nAGORA\n🌧️\n29°\nradar 18h40\nfraca\nmoderada\nforte\nmuito forte\ntemporal\npossível\n\nChuva mais próxima: forte a 0 km ao sudoeste, vindo em direção a Maringá. A chuva na região anda do oeste para o leste a ~35 km/h.\n\nPor que confiança média: são células de tempestade, que nascem e morrem rápido.\n\nComo funciona e quanto acerta",
+  "txt": "PRÓXIMOS 60 MINUTOS\nConfiança média\n\nChuva moderada agora · continua por pelo menos 60 min · pode ficar forte em ~10 min (≈18h58)\n\n15\n30\n45\nAGORA\n🌧️\n29°\nradar 18h40\nfraca\nmoderada\nforte\nmuito forte\ntemporal\npossível\n\nChuva mais próxima: forte a 0 km ao sudoeste, vindo em direção a Maringá. A chuva na região anda do oeste para o leste a ~35 km/h.\n\nPor que confiança média: são células de tempestade, que nascem e morrem rápido.\n\nComo funciona e quanto acerta",
   "err": null,
   "est": {
    "fonte": "radar",
@@ -44,7 +44,7 @@
    "p": [
     [
      0,
-     0.88,
+     0.94,
      32,
      0
     ],
@@ -56,19 +56,19 @@
     ],
     [
      10,
-     0.98,
-     33,
+     0.97,
+     38,
      0
     ],
     [
      15,
      0.98,
-     41,
+     45,
      0
     ],
     [
      20,
-     0.98,
+     0.99,
      45,
      0
     ],
@@ -105,37 +105,37 @@
     [
      50,
      1,
-     43,
+     42,
      0
     ],
     [
      55,
-     1,
-     40,
+     0.99,
+     39,
      0
     ],
     [
      60,
-     0.95,
+     0.89,
      38,
      0
     ],
     [
      65,
-     0.84,
-     36,
+     0.81,
+     33,
      0
     ],
     [
      70,
-     0.78,
-     32,
+     0.76,
+     29,
      0
     ],
     [
      75,
-     0.75,
-     28,
+     0.74,
+     26,
      0
     ],
     [
@@ -146,13 +146,13 @@
     ],
     [
      85,
-     0.72,
+     0.69,
      26,
      0
     ],
     [
      90,
-     0.67,
+     0.63,
      25,
      0
     ]
