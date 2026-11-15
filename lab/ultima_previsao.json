@@ -1,22 +1,17 @@
 {
- "gerado": "2026-11-15T10:22:59.997650+00:00",
+ "gerado": "2026-11-15T20:10:22.572241+00:00",
  "dias": [
   {
    "dia": "2026-11-15",
-   "chuva_mm": 3.8,
+   "chuva_mm": 6.8,
    "chance": 76,
-   "tmin": 21,
-   "tmax": 29,
-   "rajada": 38,
+   "tmin": 20,
+   "tmax": 28,
+   "rajada": 37,
    "aviso": "amarelo",
    "pico_chuva": null,
-   "pico_rajada": 14,
-   "trovoada": {
-    "de": 13,
-    "ate": 17,
-    "pico": 13,
-    "pct": 40
-   },
+   "pico_rajada": 17,
+   "trovoada": null,
    "risco": {
     "pct": 10,
     "nivel": "Moderado",
@@ -28,11 +23,11 @@
   },
   {
    "dia": "2026-11-16",
-   "chuva_mm": 1.8,
-   "chance": 75,
+   "chuva_mm": 0.9,
+   "chance": 70,
    "tmin": 20,
-   "tmax": 30,
-   "rajada": 26,
+   "tmax": 29,
+   "rajada": 27,
    "aviso": null,
    "pico_chuva": null,
    "pico_rajada": 23,
