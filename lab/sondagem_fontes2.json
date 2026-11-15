@@ -1,0 +1,79 @@
+{
+ "getjson2": {
+  "status": 200,
+  "acao": null,
+  "ctype": "text/html; charset=UTF-8",
+  "len": 63348,
+  "amostra": "[{\"idestacao\":8899,\"uf\":\"PR\",\"codibge\":4101408,\"cidade\":\"APUCARANA\",\"nomeestacao\":\"Jardim Ponta Grossa\",\"ultimovalor\":0.4,\"datahoraUltimovalor\":\"15\\/11\\/26 00:30\",\"acc1hr\":0.8,\"acc3hr\":32,\"acc6hr\":32,\"acc12hr\":32,\"acc24hr\":32,\"acc48hr\":34.4,\"acc72hr\":37.2,\"acc96hr\":37.2,\"tipoestacao\":1,\"status\":0},{\"idestacao\":19086,\"uf\":\"PR\",\"codibge\":4121703,\"cidade\":\"RESERVA\",\"nomeestacao\":\"G2-412170301A\",\"ultimovalor\":0,\"datahoraUltimovalor\":\"15\\/11\\/26 01:10\",\"acc1hr\":\"-\",\"acc3hr\":\"-\",\"acc6hr\":\"-\",\"acc12hr\":\"-\",\"acc24hr\":\"-\",\"acc48hr\":3,\"acc72hr\":3,\"acc96hr\":3,\"tipoestacao\":1,\"status\":0},{\"idestacao\":7298"
+ },
+ "getjson2_campos": [
+  "idestacao",
+  "uf",
+  "codibge",
+  "cidade",
+  "nomeestacao",
+  "ultimovalor",
+  "datahoraUltimovalor",
+  "acc1hr",
+  "acc3hr",
+  "acc6hr",
+  "acc12hr",
+  "acc24hr",
+  "acc48hr",
+  "acc72hr",
+  "acc96hr",
+  "tipoestacao",
+  "status"
+ ],
+ "getjson2_maringa": [],
+ "getjson2_total": 213,
+ "sgb_maringa": {
+  "status": 200,
+  "acao": "https://thiagoknag-debug.github.io",
+  "ctype": "application/json; charset=UTF-8",
+  "len": 980,
+  "amostra": "{\"displayFieldName\":\"codestacao\",\"fieldAliases\":{\"OBJECTID\":\"OBJECTID\",\"codestacao\":\"codestacao\",\"latitude\":\"latitude\",\"longitude\":\"longitude\",\"cidade\":\"cidade\",\"nome\":\"nome\",\"tipo\":\"tipo\",\"uf\":\"uf\",\"chuva\":\"chuva\",\"dataHora\":\"dataHora\"},\"fields\":[{\"name\":\"OBJECTID\",\"type\":\"esriFieldTypeOID\",\"alias\":\"OBJECTID\"},{\"name\":\"codestacao\",\"type\":\"esriFieldTypeString\",\"alias\":\"codestacao\",\"length\":30},{\"name\":\"latitude\",\"type\":\"esriFieldTypeDouble\",\"alias\":\"latitude\"},{\"name\":\"longitude\",\"type\":\"esriFieldTypeDouble\",\"alias\":\"longitude\"},{\"name\":\"cidade\",\"type\":\"esriFieldTypeString\",\"alias\":\"cidade\",\"length\":30},{\"name\":\"nome\",\"type\":\"esriFieldTypeString\",\"alias\":\"nome\",\"length\":30},{\"name\":\"tipo\",\"type\":\"esriFieldTypeString\",\"alias\":\"tipo\",\"length\":30},{\"name\":\"uf\",\"type\":\"esriFieldTypeString\",\"alias\":\"uf\",\"length\":30},{\"name\":\"chuva\",\"type\":\"esriFieldTypeDouble\",\"alias\":\"chuva\"},{\"name\":\"dataHora\",\"type\":\"esriFieldTypeString\",\"alias\":\"dataHora\",\"length\":30}],\"features\":[]}"
+ },
+ "ws_estacoes_pr": {
+  "status": 404,
+  "acao": null,
+  "ctype": null,
+  "len": 0,
+  "amostra": ""
+ },
+ "ws_municipio": {
+  "status": 200,
+  "acao": "*",
+  "ctype": "application/json;charset=utf-8",
+  "len": 473,
+  "amostra": "{\"horarios\":[\"1h\",\"2h\",\"3h\",\"4h\",\"5h\",\"6h\",\"7h\",\"8h\",\"9h\",\"10h\",\"11h\",\"12h\",\"13h\",\"14h\",\"15h\",\"16h\",\"17h\",\"18h\",\"19h\",\"20h\",\"21h\",\"22h\",\"23h\",\"0h\",\"1h\"],\"estacao\":null,\"datas\":[\"14/11/2026\",\"15/11/2026\"],\"acumulados\":[[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]]}"
+ },
+ "ws_acumulado": {
+  "status": 404,
+  "acao": null,
+  "ctype": null,
+  "len": 0,
+  "amostra": ""
+ },
+ "ws_root": {
+  "status": 404,
+  "acao": null,
+  "ctype": "application/vnd.sun.wadl+xml",
+  "len": 0,
+  "amostra": ""
+ },
+ "realearth_glm": {
+  "status": 200,
+  "acao": "*",
+  "ctype": "application/json",
+  "len": 872324,
+  "amostra": "[{\"id\":\"G18-ABI-CONUS-BAND02\",\"dataid\":\"G18-ABI-CONUS-BAND02\",\"duplicate\":false,\"reingest\":false,\"name\":\"GOES West ABI ConUS B02 Hi-Res \\\"Red\\\" Visible\",\"description\":\"he \\u2018Red\\u2019 Visible band \\u2013 0.64 \\u00b5m \\u2013 has the\\nfinest spatial resolution (0.5 km at the subsatellite point) of all ABI bands. Thus it is ideal to identify small-scale features such as river fogs and fog\\/clear air boundaries, or overshooting tops or cumulus clouds. It has also been used to document daytime snow and ice cover, diagnose low-level cloud-drift winds, assist with detection of volcanic ash and analysis of hurricanes and winter storms. The \\u2018Red\\u2019 Visible band is also essential for creation of \\u201ctrue color\\u201d imagery.\",\"owner\":\"\",\"collaborator\":null,\"url\":\"http:\\/\\/cimss.ssec.wisc.edu\\/goes\\/OCLOFactSheetPDFs\\/ABIQuickGuide_Band02.pdf\",\"categories\":[\"GOES West ConUS\"],\"order\":0,\"orderclause\":\"\",\"opacity\":100,\"type\":\"raster\",\"displaytype\":\"tile\",\"projection\":\"epsg:4326\",\"marker\":\"\",\"probe\":\"value\",\"units\":\"\",\"maxzoom\":7,\"tilecache\":true,\"seedpolicy\":-1,\"seedlatbound\":85,\"static\":false,\"staticshapecache\":false,\"released\":true,\"status\":0,\"optimizeflag\":0,\"fetch\":false,\"centerproperty\":\"\",\"declutter\":true,\"cluster\":true,\"declutterexempt\":\"\",\"outputtype\":\"png24\",\"resample\":\"nearest\",\"processing\":\"\",\"scalemin\":\"0\",\"scalemax\":\"0\",\"minutes\":\"30\",\"timewindow\":\"0\",\"applystyle\":true,\"showlegend\":false,\"merge\":\"none\",\"mergeproducts\":\"\",\"times\":[\"20261108.010119\",\"20261108.010619\",\"20261108.011119\",\"20261108.011619\",\"20261108.012119\",\"20261108.012619\",\"20261108.013119\",\"20261108.013619\",\"20261108.014119\",\"20261108.014619\",\"20261108.015119\",\"20261108.015619\",\"20261108.020119\",\"20261108.020619\",\"20261108.021119\",\"20261108.021619\",\"20261108.022119\",\"20261108.022619\",\"20261108.023119\",\"20261108.023619\",\"20261108.024119\",\"20261108.024619\",\"20261108.025119\",\"20261108.025619\",\"20261108.030119\",\"20261108.030619\",\"20261108.031119\",\"20261108.031619\",\"20261108.032119\",\"20261108.032619\",\"20261108.033119\",\"20261108.033619\",\"20261108.034119\",\"20261108.034619\",\"20261108.035119\",\"20261108.035619\",\"20261108.040119\",\"20261108.040619\",\"20261108.041119\",\"20261108.041619\",\"20261108.042119\",\"20261108.042619\",\"20261108.043119\",\"20261108.043619\",\"20261108.044119\",\"20261108.044619\",\"20261108.045119\",\"20261108.045619\",\"20261108.050119\",\"20261108.050619\",\"20261108.051119\",\"20261108.051619\",\"20261108.052119\",\"20261108.052619\",\"20261108.053119\",\"20261108.053619\",\"20261108.054119\",\"20261108.054619\",\"20261108.055119\",\"20261108.055619\",\"20261108.060119\",\"20261108.060619\",\"20261108.061119\",\"20261108.061619\",\"20261108.062119\",\"20261108.062619\",\"20261108.063119\",\"20261108.063619\",\"20261108.064119\",\"20261108.064619\",\"20261108.065119\",\"20261108.065619\",\"20261108.070119\",\"20261108.070619\",\"20261108.071119\",\"20261108.071619\",\"20261108.072119\",\"20261108.072619\",\"20261108.073119\",\"20261108.073619\",\"20261108.074119\",\"20261108.074619\",\"20261108.075119\",\"20261108.075619\",\"20261108.080119\",\"20"
+ },
+ "realearth_lightning": {
+  "status": 200,
+  "acao": "*",
+  "ctype": "application/json",
+  "len": 2646729,
+  "amostra": "[{\"id\":\"G18-ABI-CONUS-BAND02\",\"dataid\":\"G18-ABI-CONUS-BAND02\",\"duplicate\":false,\"reingest\":false,\"name\":\"GOES West ABI ConUS B02 Hi-Res \\\"Red\\\" Visible\",\"description\":\"he \\u2018Red\\u2019 Visible band \\u2013 0.64 \\u00b5m \\u2013 has the\\nfinest spatial resolution (0.5 km at the subsatellite point) of all ABI bands. Thus it is ideal to identify small-scale features such as river fogs and fog\\/clear air boundaries, or overshooting tops or cumulus clouds. It has also been used to document daytime snow and ice cover, diagnose low-level cloud-drift winds, assist with detection of volcanic ash and analysis of hurricanes and winter storms. The \\u2018Red\\u2019 Visible band is also essential for creation of \\u201ctrue color\\u201d imagery.\",\"owner\":\"\",\"collaborator\":null,\"url\":\"http:\\/\\/cimss.ssec.wisc.edu\\/goes\\/OCLOFactSheetPDFs\\/ABIQuickGuide_Band02.pdf\",\"categories\":[\"GOES West ConUS\"],\"order\":0,\"orderclause\":\"\",\"opacity\":100,\"type\":\"raster\",\"displaytype\":\"tile\",\"projection\":\"epsg:4326\",\"marker\":\"\",\"probe\":\"value\",\"units\":\"\",\"maxzoom\":7,\"tilecache\":true,\"seedpolicy\":-1,\"seedlatbound\":85,\"static\":false,\"staticshapecache\":false,\"released\":true,\"status\":0,\"optimizeflag\":0,\"fetch\":false,\"centerproperty\":\"\",\"declutter\":true,\"cluster\":true,\"declutterexempt\":\"\",\"outputtype\":\"png24\",\"resample\":\"nearest\",\"processing\":\"\",\"scalemin\":\"0\",\"scalemax\":\"0\",\"minutes\":\"30\",\"timewindow\":\"0\",\"applystyle\":true,\"showlegend\":false,\"merge\":\"none\",\"mergeproducts\":\"\",\"times\":[\"20261108.010119\",\"20261108.010619\",\"20261108.011119\",\"20261108.011619\",\"20261108.012119\",\"20261108.012619\",\"20261108.013119\",\"20261108.013619\",\"20261108.014119\",\"20261108.014619\",\"20261108.015119\",\"20261108.015619\",\"20261108.020119\",\"20261108.020619\",\"20261108.021119\",\"20261108.021619\",\"20261108.022119\",\"20261108.022619\",\"20261108.023119\",\"20261108.023619\",\"20261108.024119\",\"20261108.024619\",\"20261108.025119\",\"20261108.025619\",\"20261108.030119\",\"20261108.030619\",\"20261108.031119\",\"20261108.031619\",\"20261108.032119\",\"20261108.032619\",\"20261108.033119\",\"20261108.033619\",\"20261108.034119\",\"20261108.034619\",\"20261108.035119\",\"20261108.035619\",\"20261108.040119\",\"20261108.040619\",\"20261108.041119\",\"20261108.041619\",\"20261108.042119\",\"20261108.042619\",\"20261108.043119\",\"20261108.043619\",\"20261108.044119\",\"20261108.044619\",\"20261108.045119\",\"20261108.045619\",\"20261108.050119\",\"20261108.050619\",\"20261108.051119\",\"20261108.051619\",\"20261108.052119\",\"20261108.052619\",\"20261108.053119\",\"20261108.053619\",\"20261108.054119\",\"20261108.054619\",\"20261108.055119\",\"20261108.055619\",\"20261108.060119\",\"20261108.060619\",\"20261108.061119\",\"20261108.061619\",\"20261108.062119\",\"20261108.062619\",\"20261108.063119\",\"20261108.063619\",\"20261108.064119\",\"20261108.064619\",\"20261108.065119\",\"20261108.065619\",\"20261108.070119\",\"20261108.070619\",\"20261108.071119\",\"20261108.071619\",\"20261108.072119\",\"20261108.072619\",\"20261108.073119\",\"20261108.073619\",\"20261108.074119\",\"20261108.074619\",\"20261108.075119\",\"20261108.075619\",\"20261108.080119\",\"20"
+ }
+}
