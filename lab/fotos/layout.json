@@ -21,10 +21,10 @@
   ]
  },
  "gps": {
-  "url": "http://localhost:8000/?t=1794703559923#gps",
+  "url": "http://localhost:8000/?t=1794703799560#gps",
   "h1": "Minha localização",
-  "sub": "Maringá - PR · GPS de 21h46 (±25 m)",
-  "stamp": "Atualizado às 21h46 · Sábado, 14/11",
+  "sub": "Maringá - PR · GPS de 21h50 (±25 m)",
+  "stamp": "Atualizado às 21h50 · Sábado, 14/11",
   "audit": true,
   "vento": "VENTO\nmedido no aeroporto de Maringá às 21h\n33 km/h vindo do leste\nsem rajadas r",
   "nc": "PRÓXIMOS 60 MINUTOS\nConfiança média\n\nSem chuva por no mínimo 60 min\n\n15\n30\n45\nAGORA\n☁️\n21°\nradar 21h20\nfraca\nmoderada\nfo"

@@ -1,7 +1,9 @@
 {
- "erros": [],
+ "erros": [
+  "Failed to load resource: the server responded with a status of 429 (Too Many Requests)"
+ ],
  "vento": {
-  "txt": "VENTO\nmedido no aeroporto de Maringá às 21h\n33 km/h vindo do leste\nsem rajadas registradas · Moderado: rajadas perceptíveis, sem risco relevante\n\n⚠️ Há nuvem de tempestade perto do aeroporto. A frente de vento que sai da tempestade pode trazer rajadas fortes de repente, mesmo com vento fraco agora.\n\n22h\n6\n12\n23h\n5\n12\n00h\n8\n14\n01h\n7\n21\n02h\n4\n15\n03h\n5\n10\n\nPróximas 6 h: número de cima = vento médio, de baixo = rajada (km/h); rajadas corrigidas pela auditoria com o aeroporto.",
+  "txt": "VENTO\nmedido no aeroporto de Maringá às 21h\n33 km/h vindo do leste\nsem rajadas registradas · Moderado: rajadas perceptíveis, sem risco relevante\n\n⚠️ Há nuvem de tempestade perto do aeroporto. A frente de vento que sai da tempestade pode trazer rajadas fortes de repente.\n\n22h\n6\n12\n23h\n5\n12\n00h\n8\n14\n01h\n7\n21\n02h\n4\n15\n03h\n5\n10\n\nPróximas 6 h: número de cima = vento médio, de baixo = rajada (km/h); rajadas corrigidas pela auditoria com o aeroporto.",
   "obs": {
    "est": {
     "id": "SBMG",
@@ -10,7 +12,7 @@
    },
    "t": "Sat Nov 14 2026 21:00:00 GMT-0300 (Horário Padrão de Brasília)",
    "hora": "21h",
-   "idade": 45.46165,
+   "idade": 49.4136,
    "fresco": true,
    "ws": 33,
    "wd": 80,
@@ -161,8 +163,8 @@
   "Temporal: baixo · 9%",
   "Temporal: baixo · 9%"
  ],
- "sheet_head": "⛈️Amanhã, domingo 15/11Tempestades · temporal baixo (9%), mais provável entre 13h e 16h, pico ~14h",
- "pinfo": "Amanhã às 18h — sobre Maringá: 0,4 mm/h (fraca). Pelos 212 cenários: 49% de chance de chuva, 19% de trovoada, rajada ~23 km/h. Chuva mais forte do mapa: 4,3 mm/h a ~195 km ao sudeste.",
+ "sheet_head": "⛈️Amanhã, domingo 15/11Tempestades · temporal baixo (9%), mais provável entre 13h e 16h, pico ~13h",
+ "pinfo": "Amanhã às 18h — sobre Maringá: 0,4 mm/h (fraca). Pelos 194 cenários: 51% de chance de chuva, 19% de trovoada, rajada ~23 km/h. Chuva mais forte do mapa: 4,3 mm/h a ~195 km ao sudeste.",
  "overlay": 1,
  "volta": "Radar 20:50"
 }
