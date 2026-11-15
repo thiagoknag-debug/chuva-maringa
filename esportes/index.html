@@ -327,7 +327,8 @@ function blocoLigas(lista, limite) {
   const g = new Map();
   lista.forEach((e) => { const k = e.liga; if (!g.has(k)) g.set(k, []); g.get(k).push(e); });
   const grupos = [...g.entries()].map(([liga, evs]) => {
-    evs.sort((a, b) => a.t.localeCompare(b.t) || b.w - a.w);
+    const ord = (e) => vivo(e) ? 0 : enc(e) ? 2 : 1;
+    evs.sort((a, b) => ord(a) - ord(b) || a.t.localeCompare(b.t) || b.w - a.w);
     const w = Math.max(...evs.map((e) => e.w - (enc(e) ? 90 : 0))) + (evs.some(vivo) ? 30 : 0);
     return { liga, evs, w, cat: evs[0].cat, fase: evs.find((e) => e.fase === "final") ? "final" : evs.find((e) => e.fase === "semi") ? "semi" : "" };
   }).sort((a, b) => b.w - a.w);
