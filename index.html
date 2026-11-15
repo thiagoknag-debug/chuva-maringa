@@ -329,6 +329,27 @@ footer.foot p{margin:4px 0}
 }
 .now .src{display:block;font-size:11.5px;opacity:.8;font-weight:500;margin-top:2px}
 .leaflet-control-attribution{font-size:10px!important;line-height:1.3}
+
+/* raios */
+.ra{padding-block:14px}
+.ra-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.ra-top h2{margin:0}
+.ra-src{font-size:12px;color:var(--muted)}
+.ra-main{display:flex;gap:10px;align-items:center;margin-top:8px}
+.ra-txt{flex:1;min-width:0}
+.ra-h{font-size:16px;font-weight:700;margin:0 0 4px;line-height:1.35}
+.ra-h.ra-alto{color:var(--vermelho)}.ra-h.ra-med{color:var(--laranja)}
+.ra-av{font-size:13px;line-height:1.4;margin:2px 0 6px;background:rgba(220,38,38,.12);border-radius:8px;padding:6px 8px}
+.ra-n{font-size:12.5px;color:var(--muted);margin:4px 0;line-height:1.45}
+.ra-n b{color:var(--ink)}
+.ra-leg{font-size:11.5px;color:var(--muted);margin:2px 0 0}
+.ra-leg i{display:inline-block;width:8px;height:8px;border-radius:1px;margin:0 4px 0 6px;vertical-align:0}
+.ra-leg i.y{background:#facc15;margin-left:0}.ra-leg i.g{background:#a3a3a3}
+.ra-polar{width:118px;height:118px;flex:none}
+.ra-ring{fill:none;stroke:var(--line);stroke-width:1}
+.ra-tx{font-size:8px;fill:var(--muted)}
+.ra.alerta{border-color:var(--vermelho)}
+@media (max-width:360px){.ra-polar{width:96px;height:96px}}
 </style>
 </head>
 <body>
@@ -346,6 +367,7 @@ footer.foot p{margin:4px 0}
   <div id="alerts" class="alerts"></div>
   <section id="hero" class="hero" aria-live="polite"><div class="skeleton"></div></section>
   <section class="card nc" id="nc" aria-live="polite"><div class="nc-top"><h2>Próximos 60 minutos</h2></div><p class="hint">Lendo o radar…</p></section>
+  <section class="card ra" id="ra" aria-live="polite"><div class="ra-top"><h2>Raios agora</h2></div><p class="hint">Lendo o satélite…</p></section>
   <section class="card vt" id="vt" aria-live="polite"><div class="vt-top"><h2>Vento</h2></div><p class="hint">Carregando…</p></section>
   <section class="card" id="radar">
     <div class="rhead"><h2>Radar</h2><button type="button" id="rbtn" class="pill-btn" aria-pressed="false">Satélite</button></div>
@@ -395,7 +417,7 @@ footer.foot p{margin:4px 0}
   </details>
   <footer class="foot">
     <p>Calculado no seu aparelho a cada abertura, juntando 11 modelos, 6 conjuntos de cenários, radar e estações.</p>
-    <p>Fontes: Open-Meteo (modelos), INMET (avisos), RainViewer (radar), aeroportos via IEM (vento medido), NASA GIBS (satélite), Esri (mapa).</p>
+    <p>Fontes: Open-Meteo (modelos), INMET (avisos), RainViewer (radar), satélite GOES-19 GLM via SSEC RealEarth (raios), aeroportos via IEM (vento medido), NASA GIBS (satélite), Esri (mapa).</p>
     <p><b>Previsão é estimativa.</b> Em situação de risco, siga a Defesa Civil (199) e os Bombeiros (193). Receba alertas oficiais por SMS: envie seu CEP para 40199.</p>
   </footer>
 </main>
@@ -586,7 +608,7 @@ function confianca(F){const {V,tipo,prox,t0,agora}=estado,mot=[];let n=3;
   if(F.k==='limpo'&&!potencial())return{t:'alta',m:'não há chuva no radar num raio de 170 km'};
   if(V.fonte!=='radar'){n=1;mot.push('poucos ecos para medir o movimento; usei o vento em altitude');}
   else if(V.disp!=null&&V.disp>15){n--;mot.push('o movimento da chuva está irregular');}
-  const conv=(tipo.forte>0.2)||(prox&&prox.z>=45);
+  const RA=window.__RAIOS,conv=(tipo.forte>0.2)||(prox&&prox.z>=45)||(RA&&RA.perto!=null&&RA.perto<=40&&RA.atraso<=15);
   if(conv){n--;mot.push('são células de tempestade, que nascem e morrem rápido');}
   if(F.m!=null&&F.m>40){n--;mot.push('o evento está a mais de 40 min');}
   if(atraso>20){n--;mot.push(`o radar está atrasado ${Math.round(atraso)} min`);}
@@ -604,6 +626,9 @@ function anel(P){const R=118,r0=96,cx=130,cy=130;let s='';
 function desenha(){if(!estado)return;const F=frase(),C=confianca(F),{P,prox,V,t0}=estado;
   /* chuva no radar com ar seco perto do chão: pode evaporar antes de chegar (virga) */
   const ob=window.__OBS,seco=ob&&ob.fresco&&ob.T!=null&&ob.Td!=null&&(ob.T-ob.Td)>=10;
+  const RA=window.__RAIOS,raioOk=RA&&RA.perto!=null&&RA.atraso<=15;
+  if(raioOk&&RA.perto<=12)F.h='⚡ '+F.h+` · raios a ${Math.round(RA.perto)} km`;
+  else if(raioOk&&RA.perto<=35&&RA.tend==='aproximando'&&F.k!=='agora'&&F.k!=='vem')F.h+=` · ⚡ raios a ${Math.round(RA.perto)} km se aproximando`;
   let virga='';if(F.k==='agora'&&seco&&F.c&&F.c.k<=2){F.h=`O radar mostra chuva ${F.c.t} sobre a cidade · pode não estar chegando ao chão`;
     virga=`<p class="nc-av">💧 O ar perto do chão está seco (${ob.T}° com ponto de orvalho de ${ob.Td}°, no aeroporto às ${ob.hora}). Parte da chuva que o radar vê lá no alto evapora antes de cair: pode estar chovendo em alguns bairros e em outros não.</p>`;}
   const atraso=Math.max(0,Math.round((Date.now()/1000-t0)/60));
@@ -624,15 +649,76 @@ function desenha(){if(!estado)return;const F=frase(),C=confianca(F),{P,prox,V,t0
    <details class="nc-how"><summary>Como funciona e quanto acerta</summary><p>Pego as 4 últimas imagens do radar (uma a cada 10 min), meço para onde e a que velocidade a chuva está andando e projeto esse movimento até 90 min à frente, minuto a minuto, sobre ${LOC.nome}. A cor indica a intensidade (fraca = até ~2 mm/h; moderada = 3–10; forte = 10–40; muito forte = 50+; temporal = possível granizo). As imagens chegam com ~10 min de atraso (agora: ${atraso} min), e isso já entra na conta.</p><p>Teste com o radar real de 5/11 (2 h de chuva no Paraná, 13 mil comparações): com 10 min de antecedência, avisou 84% das chuvas e 19% dos avisos não se confirmaram; com 30 min, 73% e 40%; com 60 min, 69% e 52%. Projetar o movimento acertou bem mais que supor que "a chuva fica onde está". O que não dá para prever: tempestades que nascem do nada perto da cidade.</p></details>`;
   el.classList.toggle('chove',F.k==='agora'||F.k==='vem');try{window.__VTUI&&window.__VTUI.redesenha();}catch(e){}
   /* o resumo de cima usa o modelo; quando o radar discorda sobre "chovendo agora", o radar manda */
-  try{const now=document.querySelector('#hero .now'),h0=window.__HERO0;if(now&&h0&&P[0].u<0.5){const ch=/chuva|tempest|pancada|garoa/i.test(h0.c0.t),rad=P[0].p>=0.5,nada=P[0].p<0.2;
+  try{const now=document.querySelector('#hero .now'),h0=window.__HERO0;if(now&&h0&&P[0].u<0.5){const ch=/chuva|tempest|pancada|garoa/i.test(h0.c0.t),rad=P[0].p>=0.5,nada=P[0].p<0.2;const trov=RA&&RA.perto!=null&&RA.perto<=10&&RA.atraso<=15;
     const i=now.querySelector('.ic'),t=now.querySelector('.ncond');
-    if((ch&&nada)||(!ch&&rad)){const k=icone(F);if(i){i.textContent=k[0];i.setAttribute('aria-label',k[1]);}if(t)t.innerHTML=(rad?(F.c?'Chuva '+F.c.t:'Chuva'):k[1])+'<span class="src">pelo radar agora</span>';}
+    if(trov){if(i){i.textContent='⛈️';i.setAttribute('aria-label','Trovoada');}if(t)t.innerHTML='Trovoada<span class="src">raios a '+Math.round(RA.perto)+' km agora</span>';}
+    else if((ch&&nada)||(!ch&&rad)){const k=icone(F);if(i){i.textContent=k[0];i.setAttribute('aria-label',k[1]);}if(t)t.innerHTML=(rad?(F.c?'Chuva '+F.c.t:'Chuva'):k[1])+'<span class="src">pelo radar agora</span>';}
     else if(i&&t){i.textContent=h0.c0.e;t.textContent=h0.c0.t;}}}catch(e){}}
 window.__NCUI={set(c){ctx=Object.assign(ctx,c);desenha();},estado:()=>estado,frase:()=>estado?frase():null,atualiza};
 atualiza(true);
 setInterval(()=>{if(!document.hidden)atualiza(false);},180e3);
 setInterval(()=>{if(!document.hidden&&estado&&!ocupado)calcula();},60e3);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)atualiza(false);});
+})();
+/* ===== Raios em tempo real: GLM do satélite GOES-East (densidade por minuto, via SSEC RealEarth) ===== */
+(function(){
+const $=id=>document.getElementById(id),pad=n=>String(n).padStart(2,'0');
+const el=$('ra');if(!el)return;
+const P='glmgroupdensity',MIN=20,DLAT=1.35,DLON=1.5,W=300,HH=270; /* janela ~150 km para cada lado, ~1 km por pixel */
+const box=[LOC.lat-DLAT,LOC.lon-DLON,LOC.lat+DLAT,LOC.lon+DLON];
+const DIRS=['norte','nordeste','leste','sudeste','sul','sudoeste','oeste','noroeste'];
+let est=null,ocupado=false,cache=new Map();
+const tStr=t=>t.slice(9,11)+'h'+t.slice(11,13);
+const tData=t=>new Date(Date.UTC(+t.slice(0,4),+t.slice(4,6)-1,+t.slice(6,8),+t.slice(9,11),+t.slice(11,13),+t.slice(13,15)));
+const carrega=src=>new Promise(ok=>{const im=new Image();im.crossOrigin='anonymous';im.onload=()=>{try{const c=document.createElement('canvas');c.width=W;c.height=HH;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(im,0,0,W,HH);ok(g.getImageData(0,0,W,HH).data);}catch(e){ok(null);}};im.onerror=()=>ok(null);im.src=src;});
+const kmXY=(x,y)=>{const lon=box[1]+(x+.5)/W*(box[3]-box[1]),lat=box[2]-(y+.5)/HH*(box[2]-box[0]);const dx=(lon-LOC.lon)*111.32*Math.cos(LOC.lat*Math.PI/180),dy=(lat-LOC.lat)*110.57;return [dx,dy];};
+async function atualiza(){if(ocupado)return;ocupado=true;
+  try{const j=await fetch(`https://realearth.ssec.wisc.edu/api/times?products=${P}`,{cache:'no-store'}).then(r=>r.json());
+    const ts=(j[P]||[]).slice(-MIN);if(!ts.length)throw new Error('sem horários');
+    const agora=Date.now();
+    for(const t of ts)if(!cache.has(t)){const d=await carrega(`https://realearth.ssec.wisc.edu/api/image?products=${P}_${t.replace('.','_')}&bounds=${box.join(',')}&width=${W}&height=${HH}`);if(d)cache.set(t,d);}
+    for(const k of [...cache.keys()])if(!ts.includes(k))cache.delete(k);
+    /* cada pixel com raio: distância, direção e idade (min) */
+    const pts=[];let ult=null;
+    for(const t of ts){const d=cache.get(t);if(!d)continue;const idade=(agora-tData(t))/60e3;ult=t;
+      for(let y=0;y<HH;y++)for(let x=0;x<W;x++){const o=(y*W+x)*4;if(d[o+3]<40)continue;const [dx,dy]=kmXY(x,y),km=Math.hypot(dx,dy);if(km>150)continue;
+        pts.push({km,az:(Math.atan2(dx,dy)*180/Math.PI+360)%360,idade,dx,dy});}}
+    if(!ult)throw new Error('sem imagens');
+    const rec=pts.filter(p=>p.idade<=10),ant=pts.filter(p=>p.idade>10);
+    const cnt=(arr,r)=>arr.filter(p=>p.km<=r).length;
+    const prox=rec.length?rec.reduce((a,p)=>p.km<a.km?p:a):null,proxAnt=ant.length?ant.reduce((a,p)=>p.km<a.km?p:a):null;
+    let tend=null;if(prox&&proxAnt&&prox.km<100){const dd=proxAnt.km-prox.km;tend=dd>6?'aproximando':dd<-6?'se afastando':'parado';}
+    est={pts,prox,tend,c10:cnt(rec,10),c20:cnt(rec,20),c40:cnt(rec,40),c80:cnt(rec,80),c150:rec.length,ult,atraso:Math.round((agora-tData(ult))/60e3),t:agora};
+    window.__RAIOS={perto:prox?prox.km:null,dir:prox?DIRS[Math.round(prox.az/45)%8]:null,tend,c10:est.c10,c20:est.c20,c40:est.c40,atraso:est.atraso};
+    desenha();sobreposicao();try{window.__NCUI&&window.__NCUI.set({});}catch(e){}}
+  catch(e){window.__raErr=String(e);if(!est)el.innerHTML='<div class="ra-top"><h2>Raios</h2></div><p class="hint">Dados de raios indisponíveis agora.</p>';}
+  finally{ocupado=false;}}
+function polar(){const R=58,cx=70,cy=70,sc=R/80;let s=`<circle cx="${cx}" cy="${cy}" r="${R}" class="ra-ring"/><circle cx="${cx}" cy="${cy}" r="${R/2}" class="ra-ring"/><circle cx="${cx}" cy="${cy}" r="${R/8}" class="ra-ring"/>`;
+  s+=`<text x="${cx}" y="${cy-R-4}" text-anchor="middle" class="ra-tx">N</text><text x="${cx+R/2+2}" y="${cy-3}" class="ra-tx">40</text><text x="${cx+R+2}" y="${cy-3}" class="ra-tx">80 km</text>`;
+  for(const p of est.pts){if(p.km>80)continue;const op=p.idade<=5?1:p.idade<=10?.75:.35,col=p.idade<=10?'#facc15':'#a3a3a3';s+=`<rect x="${(cx+p.dx*sc-1.2).toFixed(1)}" y="${(cy-p.dy*sc-1.2).toFixed(1)}" width="2.4" height="2.4" fill="${col}" fill-opacity="${op}"/>`;}
+  s+=`<circle cx="${cx}" cy="${cy}" r="3" fill="#ef4444" stroke="#fff" stroke-width="1"/>`;
+  return `<svg viewBox="0 0 140 140" class="ra-polar" role="img" aria-label="Mapa dos raios num raio de 80 km">${s}</svg>`;}
+function desenha(){if(!est)return;const p=est.prox;
+  let h,cls='ra-ok',av='';
+  if(p&&p.km<=10){h=`⚡ Raios em cima da cidade (a ${Math.round(p.km)} km)`;cls='ra-alto';av='Fique em local fechado e longe de janelas. Só saia 30 min depois do último trovão.';}
+  else if(p&&p.km<=25){h=`⚡ Raios a ${Math.round(p.km)} km ao ${DIRS[Math.round(p.az/45)%8]}${est.tend?' · '+est.tend:''}`;cls=est.tend==='aproximando'?'ra-alto':'ra-med';av=est.tend==='aproximando'?'A tempestade está chegando: recolha o que estiver fora e evite áreas abertas.':'Ouvindo trovão, você já está ao alcance de raios.';}
+  else if(p&&p.km<=80){h=`Raios a ${Math.round(p.km)} km ao ${DIRS[Math.round(p.az/45)%8]}${est.tend?' · '+est.tend:''}`;cls=est.tend==='aproximando'?'ra-med':'ra-ok';}
+  else if(p)h=`Sem raios perto · o mais próximo a ${Math.round(p.km)} km`;
+  else h='Nenhum raio num raio de 150 km';
+  el.innerHTML=`<div class="ra-top"><h2>Raios agora</h2><span class="ra-src">satélite · últimos ${MIN} min · atraso ${est.atraso} min</span></div>
+   <div class="ra-main"><div class="ra-txt"><p class="ra-h ${cls}">${h}</p>${av?`<p class="ra-av">${av}</p>`:''}
+     <p class="ra-n">Últimos 10 min: <b>${est.c10}</b> até 10 km · <b>${est.c20}</b> até 20 km · <b>${est.c40}</b> até 40 km · <b>${est.c80}</b> até 80 km</p>
+     <p class="ra-leg"><i class="y"></i>últimos 10 min <i class="g"></i>10–20 min atrás</p></div>${polar()}</div>`;
+  el.classList.toggle('alerta',cls==='ra-alto');}
+/* raios dos últimos 20 min por cima do mapa do radar */
+let ovl=null;
+function sobreposicao(){try{const RD=window.__RD,LF=window.L;if(!RD||!LF||!est)return;const c=document.createElement('canvas');c.width=W;c.height=HH;const g=c.getContext('2d');
+  const sx=W/(box[3]-box[1]),sy=HH/(box[2]-box[0]);
+  for(const p of est.pts){const lon=LOC.lon+p.dx/(111.32*Math.cos(LOC.lat*Math.PI/180)),lat=LOC.lat+p.dy/110.57;g.fillStyle=p.idade<=10?'rgba(250,204,21,.95)':'rgba(200,200,200,.6)';g.fillRect((lon-box[1])*sx-1,(box[2]-lat)*sy-1,2.5,2.5);}
+  const u=c.toDataURL(),b=[[box[0],box[1]],[box[2],box[3]]];if(ovl)ovl.setUrl(u);else ovl=LF.imageOverlay(u,b,{opacity:1,zIndex:600,attribution:'Raios: GOES GLM via SSEC RealEarth'}).addTo(RD.map);}catch(e){}}
+window.__RAUI={estado:()=>est,atualiza};
+atualiza();setInterval(()=>{if(!document.hidden)atualiza();},120e3);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)atualiza();});
 })();
 /* ===== Vento: medido agora (aeroporto mais próximo) + próximas horas + aviso de rajada com tempestade ===== */
 (function(){
@@ -665,7 +751,9 @@ function desenha(){if(!H||!H.ws)return;const ob=window.__OBS,h0=+String(H.start|
   /* aviso: tempestade chegando/presente pode trazer rajada súbita, mesmo com vento fraco agora */
   let av='';const F=window.__NCUI&&window.__NCUI.frase&&window.__NCUI.frase(),E=window.__NCUI&&window.__NCUI.estado&&window.__NCUI.estado();
   const forte=F&&(F.k==='agora'||F.k==='vem')&&F.c&&F.c.k>=3,perto=E&&E.prox&&E.prox.km<=40&&E.prox.z>=45&&/direção/.test(E.prox.vem||'');
-  if(forte||perto||(ob&&ob.fresco&&ob.ts))av=`<p class="vt-av">⚠️ ${ob&&ob.fresco&&ob.ts?'Há nuvem de tempestade perto do aeroporto. ':''}${forte?'Chuva forte chegando. ':perto?`Tempestade a ${E.prox.km} km vindo para cá. `:''}A frente de vento que sai da tempestade pode trazer rajadas fortes de repente${(ag.ws||0)<20?', mesmo com vento fraco agora':''}.</p>`;
+  const RA=window.__RAIOS,raio=RA&&RA.perto!=null&&RA.perto<=25&&RA.atraso<=15&&RA.tend!=='se afastando';
+  if(raio&&!forte&&!perto)av=`<p class="vt-av">⚡ Raios a ${Math.round(RA.perto)} km${RA.tend==='aproximando'?', se aproximando':''}. A frente de vento da tempestade pode trazer rajadas fortes de repente${(ag.ws||0)<20?', mesmo com vento fraco agora':''}.</p>`;
+  else if(forte||perto||(ob&&ob.fresco&&ob.ts))av=`<p class="vt-av">⚠️ ${ob&&ob.fresco&&ob.ts?'Há nuvem de tempestade perto do aeroporto. ':''}${forte?'Chuva forte chegando. ':perto?`Tempestade a ${E.prox.km} km vindo para cá. `:''}A frente de vento que sai da tempestade pode trazer rajadas fortes de repente${(ag.ws||0)<20?', mesmo com vento fraco agora':''}.</p>`;
   else if(gx>=50)av=`<p class="vt-av">⚠️ Rajadas de até ${gx} km/h previstas perto das ${pad(pico.h)}h.</p>`;
   /* resumo de cima: temperatura e vento medidos, quando houver medição recente */
   try{const now=document.querySelector('#hero .now');if(now&&ob&&ob.fresco){const nt=now.querySelector('.nt'),nw=now.querySelector('.nw');
