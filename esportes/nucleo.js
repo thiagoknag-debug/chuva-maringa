@@ -277,7 +277,9 @@
 
   // ---------- o que é "evento principal" ----------
   const GRANDES = /^(Arsenal|Chelsea|Liverpool|Manchester City|Man City|Manchester United|Man United|Tottenham|Tottenham Hotspur|Real Madrid|Barcelona|Atlético de Madrid|Atlético Madrid|Atletico Madrid|Inter|Inter de Milão|Internazionale|Milan|AC Milan|Juventus|Napoli|Bayern|Bayern de Munique|Bayern Munich|Paris Saint-Germain|PSG)$/i;
-  const SELECOES = /^(Brasil|Argentina|França|Alemanha|Espanha|Inglaterra|Portugal|Holanda|Itália|Uruguai|Bélgica)$/;
+  const SELECOES = /^(Brasil|Argentina|França|Alemanha|Espanha|Inglaterra|Portugal)$/;
+  const GRANDES_BR = /^(Flamengo|Palmeiras|Corinthians|São Paulo|Santos|Vasco|Vasco da Gama|Fluminense|Botafogo|Grêmio|Internacional|Atlético-MG|Atlético Mineiro|Cruzeiro)$/i;
+  const grandeBR = (t) => t && (GRANDES_BR.test(t.n) || GRANDES_BR.test(t.nl || ""));
   const grande = (t) => t && (GRANDES.test(t.n) || GRANDES.test(t.nl || ""));
   const TV_NAC = /^(ESPN|ABC|NBC|Peacock|Prime Video|TNT|Netflix|ESPN2)$/i;
   function destaque(e) {
@@ -286,17 +288,19 @@
     const brasil = e.casa && e.fora && (e.casa.n === "Brasil" || e.fora.n === "Brasil");
     if (e.cat === "futebol") {
       if (brasil || e.fase === "final") return true;
-      if (/bra\.1$|libertadores|copa_do_brasil|fifa\.cwc|intercontinental/.test(k)) return true;
-      if (/sudamericana/.test(k)) return !!e.fase;
-      if (/uefa\.champions/.test(k)) return !!e.fase || grande(e.casa) || grande(e.fora);
+      if (/bra\.1$/.test(k)) return grandeBR(e.casa) && grandeBR(e.fora);
+      if (/libertadores|copa_do_brasil/.test(k)) return e.fase === "semi" || (!!e.fase && (grandeBR(e.casa) || grandeBR(e.fora)));
+      if (/fifa\.cwc|intercontinental/.test(k)) return !!e.fase;
+      if (/sudamericana/.test(k)) return e.fase === "semi";
+      if (/uefa\.champions/.test(k)) return (grande(e.casa) && grande(e.fora)) || (e.fase === "semi");
       if (/eng\.1|esp\.1|ita\.1|ger\.1|fra\.1/.test(k)) return grande(e.casa) && grande(e.fora);
       if (/uefa\.nations|fifa\.friendly/.test(k)) return e.fase === "semi" || (e.casa && e.fora && SELECOES.test(e.casa.n) && SELECOES.test(e.fora.n));
       return e.fase === "semi";
     }
-    if (k === "racing/f1") return /Classificação$|Corrida Sprint|^Corrida$/.test(e.sessao || "");
+    if (k === "racing/f1") return /^Classificação$|^Corrida$/.test(e.sessao || "");
     if (k === "tsdb:Motorsport") return /MotoGP/i.test(e.liga) && /race|grand prix|gp/i.test(e.tit || "") && !/practice|qualif|warm/i.test(e.tit || "");
     if (k.indexOf("racing/") === 0) return e.fase === "final";
-    if (k === "basketball/nba" || k === "football/nfl") return !!e.fase || (e.tv || []).some((t) => TV_NAC.test(t));
+    if (k === "basketball/nba" || k === "football/nfl") return e.fase === "final" || e.fase === "semi";
     if (e.cat === "tenis") {
       const br = /Brasil/.test(((e.p1 || {}).pais || "") + ((e.p2 || {}).pais || ""));
       const L = e.liga || "";
@@ -306,8 +310,8 @@
       if (/Masters|1000|Rolex|Mutua|BNP|Internazionali|Rogers|National Bank|Western|Cincinnati|Shanghai|Paris|Miami|Indian Wells|Monte|Madrid|China Open|Wuhan|Dubai|Qatar/i.test(L)) return e.fase === "final" || e.fase === "semi";
       return false;
     }
-    if (e.cat === "mma") return true;
-    if (e.cat === "volei") return /Brasil|Brazil|Superliga|Brasileir|World|Mundial|Nations|Olímp|Olympic Games/i.test(e.liga + " " + e.tit) || e.fase === "final";
+    if (e.cat === "mma") return /^UFC \d+/.test(e.tit || "");
+    if (e.cat === "volei") return (/Brasil|Brazil/i.test(e.tit) && /World|Mundial|Nations|Olímp|Olympic/i.test(e.liga)) || e.fase === "final";
     if (k === "golf/pga") return /Masters Tournament|PGA Championship|U\.S\. Open|The Open|Ryder/i.test(e.tit || "");
     return e.fase === "final";
   }
