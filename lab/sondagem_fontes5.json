@@ -1,0 +1,419 @@
+{
+ "glmgroupdensity": {
+  "meta": {
+   "name": "GOES East GLM Full Disk Group Density",
+   "description": "The Geostationary Lightning Mapper, or GLM, on board Geostationary Operational Environmental Satellite– R Series spacecraft, is the first operational lightning mapper flown on a geostationary satellite. GLM detects the light emitted by lightning at the tops of clouds day and night and collects information such as the frequency, location and extent of lightning discharges. The instrument measures total lightning, both in-cloud and cloud-to-ground, to aid in forecasting developing severe storms and a wide range of high-impact environmental phenomena including hailstorms, microburst winds, tornadoes, hurricanes, ash clouds, and snowstorms.",
+   "type": "raster",
+   "displaytype": "tile",
+   "units": "Count",
+   "probe": "value",
+   "maxzoom": 7,
+   "legend": null,
+   "colormap": null,
+   "seedlatbound": 85
+  },
+  "n_times": 1293,
+  "ultimos": [
+   "20261115.010300",
+   "20261115.010500",
+   "20261115.010600",
+   "20261115.010700",
+   "20261115.010800",
+   "20261115.010900"
+  ],
+  "image": [
+   200,
+   "image/png",
+   "*",
+   927,
+   [
+    [
+     [
+      255,
+      254,
+      0,
+      255
+     ],
+     355
+    ],
+    [
+     [
+      255,
+      252,
+      0,
+      255
+     ],
+     225
+    ],
+    [
+     [
+      255,
+      251,
+      0,
+      255
+     ],
+     215
+    ],
+    [
+     [
+      255,
+      248,
+      0,
+      255
+     ],
+     155
+    ],
+    [
+     [
+      255,
+      253,
+      0,
+      255
+     ],
+     125
+    ],
+    [
+     [
+      255,
+      233,
+      0,
+      255
+     ],
+     115
+    ],
+    [
+     [
+      255,
+      247,
+      0,
+      255
+     ],
+     111
+    ],
+    [
+     [
+      255,
+      250,
+      0,
+      255
+     ],
+     80
+    ],
+    [
+     [
+      255,
+      244,
+      0,
+      255
+     ],
+     75
+    ],
+    [
+     [
+      255,
+      242,
+      0,
+      255
+     ],
+     55
+    ]
+   ]
+  ],
+  "image_t": [
+   200,
+   "image/png",
+   "*",
+   927,
+   [
+    [
+     [
+      255,
+      254,
+      0,
+      255
+     ],
+     355
+    ],
+    [
+     [
+      255,
+      252,
+      0,
+      255
+     ],
+     225
+    ],
+    [
+     [
+      255,
+      251,
+      0,
+      255
+     ],
+     215
+    ],
+    [
+     [
+      255,
+      248,
+      0,
+      255
+     ],
+     155
+    ],
+    [
+     [
+      255,
+      253,
+      0,
+      255
+     ],
+     125
+    ],
+    [
+     [
+      255,
+      233,
+      0,
+      255
+     ],
+     115
+    ],
+    [
+     [
+      255,
+      247,
+      0,
+      255
+     ],
+     111
+    ],
+    [
+     [
+      255,
+      250,
+      0,
+      255
+     ],
+     80
+    ],
+    [
+     [
+      255,
+      244,
+      0,
+      255
+     ],
+     75
+    ],
+    [
+     [
+      255,
+      242,
+      0,
+      255
+     ],
+     55
+    ]
+   ]
+  ],
+  "tile": [
+   200,
+   "image/png",
+   "*",
+   681,
+   [
+    [
+     [
+      255,
+      254,
+      0,
+      255
+     ],
+     523
+    ],
+    [
+     [
+      255,
+      252,
+      0,
+      255
+     ],
+     234
+    ],
+    [
+     [
+      255,
+      247,
+      0,
+      255
+     ],
+     221
+    ],
+    [
+     [
+      255,
+      253,
+      0,
+      255
+     ],
+     220
+    ],
+    [
+     [
+      255,
+      244,
+      0,
+      255
+     ],
+     190
+    ],
+    [
+     [
+      255,
+      251,
+      0,
+      255
+     ],
+     180
+    ],
+    [
+     [
+      255,
+      250,
+      0,
+      255
+     ],
+     180
+    ],
+    [
+     [
+      255,
+      240,
+      0,
+      255
+     ],
+     90
+    ],
+    [
+     [
+      255,
+      233,
+      0,
+      255
+     ],
+     90
+    ],
+    [
+     [
+      255,
+      242,
+      0,
+      255
+     ],
+     90
+    ]
+   ]
+  ],
+  "tile2": "ConnectTimeout(MaxRetryError(\"HTTPSConnectionPool(host='re1.ssec.wisc.edu', port=443): Max retries exceeded with url: /tiles/glmgroupdensity/20261115/010900/7/45/72.png (Caused by ConnectTimeoutError(<HTTPSConnection(host='re1.ssec.wisc.edu', port=443) at 0x7a14403a5730>, 'Connection to re1.ssec.wisc.edu timed out. (connect timeout=40)'))\"))",
+  "shapes": [
+   200,
+   "application/json",
+   "*",
+   42,
+   "{\"type\":\"FeatureCollection\",\"features\":[]}"
+  ]
+ },
+ "glmgrouppoints": {
+  "meta": {
+   "name": "GOES East GLM Full Disk Group Points",
+   "description": "The Geostationary Lightning Mapper, or GLM, on board Geostationary Operational Environmental Satellite– R Series spacecraft, is the first operational lightning mapper flown on a geostationary satellite. GLM detects the light emitted by lightning at the tops of clouds day and night and collects information such as the frequency, location and extent of lightning discharges. The instrument measures total lightning, both in-cloud and cloud-to-ground, to aid in forecasting developing severe storms and a wide range of high-impact environmental phenomena including hailstorms, microburst winds, tornadoes, hurricanes, ash clouds, and snowstorms.",
+   "type": "shape",
+   "displaytype": "shape",
+   "units": "",
+   "probe": "allproperties",
+   "maxzoom": 7,
+   "legend": null,
+   "colormap": null,
+   "seedlatbound": 85
+  },
+  "n_times": 2429,
+  "ultimos": [
+   "20261115.011000",
+   "20261115.011100",
+   "20261115.011200",
+   "20261115.011300",
+   "20261115.011400",
+   "20261115.011500"
+  ],
+  "image": [
+   200,
+   "image/png",
+   "*",
+   301,
+   []
+  ],
+  "image_t": [
+   200,
+   "image/png",
+   "*",
+   301,
+   []
+  ],
+  "tile": [
+   200,
+   "image/png",
+   "*",
+   102,
+   []
+  ],
+  "tile2": "ConnectTimeout(MaxRetryError(\"HTTPSConnectionPool(host='re1.ssec.wisc.edu', port=443): Max retries exceeded with url: /tiles/glmgrouppoints/20261115/011500/7/45/72.png (Caused by ConnectTimeoutError(<HTTPSConnection(host='re1.ssec.wisc.edu', port=443) at 0x7a14403a57c0>, 'Connection to re1.ssec.wisc.edu timed out. (connect timeout=40)'))\"))",
+  "shapes": [
+   200,
+   "application/json",
+   "*",
+   58,
+   "{\"type\":\"FeatureCollection\",\"name\":\"SELECT\",\"features\":[]}"
+  ]
+ },
+ "PLTGGOESEastRadF": {
+  "meta": {
+   "name": "LightningCast v1 GOES-East FD (OCONUS)",
+   "description": "An AI model that predicts the probability of lightning in the next 60 minutes using GOES-R ABI data.",
+   "type": "shape",
+   "displaytype": "mvt",
+   "units": null,
+   "probe": "",
+   "maxzoom": 7,
+   "legend": null,
+   "colormap": null,
+   "seedlatbound": 85
+  },
+  "n_times": 1153,
+  "ultimos": [
+   "20261115.001020",
+   "20261115.002020",
+   "20261115.003020",
+   "20261115.004020",
+   "20261115.005020",
+   "20261115.010020"
+  ],
+  "image": "UnidentifiedImageError('cannot identify image file <_io.BytesIO object at 0x7a1438d6d440>')",
+  "image_t": "UnidentifiedImageError('cannot identify image file <_io.BytesIO object at 0x7a1438d6ddf0>')",
+  "tile": [
+   200,
+   "image/png",
+   "*",
+   352,
+   []
+  ],
+  "tile2": "ConnectTimeout(MaxRetryError(\"HTTPSConnectionPool(host='re1.ssec.wisc.edu', port=443): Max retries exceeded with url: /tiles/PLTGGOESEastRadF/20261115/010020/7/45/72.png (Caused by ConnectTimeoutError(<HTTPSConnection(host='re1.ssec.wisc.edu', port=443) at 0x7a144028aa80>, 'Connection to re1.ssec.wisc.edu timed out. (connect timeout=40)'))\"))",
+  "shapes": [
+   200,
+   "application/json",
+   "*",
+   92,
+   "{\"type\":\"FeatureCollection\",\"name\":\"SELECT\",\"xy_coordinate_resolution\":1.0e-6,\"features\":[]}"
+  ]
+ }
+}
