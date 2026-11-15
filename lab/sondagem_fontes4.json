@@ -1,0 +1,237 @@
+{
+ "todos": [
+  [
+   "AKCAN-boundary",
+   "Alaska-western Canada LightningCast sector"
+  ],
+  [
+   "LCMETEOGRAMS",
+   "Aviation - lightning dashboards"
+  ],
+  [
+   "CURRENTNIFC",
+   "Current Fire Incidents: lightning dashboards"
+  ],
+  [
+   "STADIUMS",
+   "DSS and Stadiums - lightning dashboards"
+  ],
+  [
+   "G16-GLM-FOV",
+   "G16-GLM-FOV"
+  ],
+  [
+   "G17-GLM-FOV",
+   "G17-GLM-FOV"
+  ],
+  [
+   "G18-LC-plax-corr-RadF",
+   "GOES-18 LightningCast parallax-corrected Full Disk"
+  ],
+  [
+   "GOESEastGLMFEDRadC",
+   "GOES-East GLM FED CONUS"
+  ],
+  [
+   "GOESEastGLMFEDRadC-ARCHIVE",
+   "GOES-East GLM FED CONUS (Archive)"
+  ],
+  [
+   "GOESEastGLMMFARadC",
+   "GOES-East GLM MFA CONUS"
+  ],
+  [
+   "GOESEastGLMTOERadC",
+   "GOES-East GLM TOE CONUS"
+  ],
+  [
+   "GOESWestGLMFEDRadC",
+   "GOES-West GLM FED CONUS"
+  ],
+  [
+   "GOESWestGLMFEDRadC-ARCHIVE",
+   "GOES-West GLM FED PACUS (Archive)"
+  ],
+  [
+   "GOESWestGLMFED-USSAMOA",
+   "GOES-West GLM FED U.S. Samoa"
+  ],
+  [
+   "GUAM-boundary",
+   "Guam LightningCast sector"
+  ],
+  [
+   "PLTG-10fl-60min-GOESEastRadC",
+   "LightningCast 10fl-60min GOES-East CONUS"
+  ],
+  [
+   "LC-G16-RadC",
+   "LightningCast G16 CONUS (Archived)"
+  ],
+  [
+   "LC-G17-RadC",
+   "LightningCast G17 CONUS (Archived)"
+  ],
+  [
+   "PLTGGOESEastRadM2Gridded",
+   "LightningCast GOES-East RadM2 Gridded"
+  ],
+  [
+   "PLTGGOESTestRadC",
+   "LightningCast GOES-Test CONUS"
+  ],
+  [
+   "PLTGGOESWestRadFAKCAN",
+   "LightningCast GOES-West Alaska/Western Canada"
+  ],
+  [
+   "PLTGGOESWestRadFUSSAMOA",
+   "LightningCast GOES-West American Samoa"
+  ],
+  [
+   "PLTGGOESWestRadC",
+   "LightningCast GOES-West CONUS"
+  ],
+  [
+   "PLTGGOESWestRadM1",
+   "LightningCast GOES-West MESO1"
+  ],
+  [
+   "PLTGGOESWestRadM2",
+   "LightningCast GOES-West MESO2"
+  ],
+  [
+   "PLTGAHIJAPANFLDKGUAM",
+   "LightningCast Himawari Guam"
+  ],
+  [
+   "PLTGGOESEastRadC",
+   "LightningCast v1 GOES-East CONUS"
+  ],
+  [
+   "PLTGGOESEastRadF",
+   "LightningCast v1 GOES-East FD (OCONUS)"
+  ],
+  [
+   "PLTGGOESEastRadM1",
+   "LightningCast v1 GOES-East MESO1"
+  ],
+  [
+   "PLTGGOESEastRadM2",
+   "LightningCast v1 GOES-East MESO2"
+  ],
+  [
+   "PLTG-abi-mrms-GOESEastRadC",
+   "LightningCast v2 GOES-East CONUS"
+  ],
+  [
+   "PLTG-abi-mrms-GOESWestRadC",
+   "LightningCast v2 GOES-West CONUS"
+  ],
+  [
+   "USSAMOA-boundary",
+   "U.S. Samoa LightningCast sector"
+  ],
+  [
+   "WPC-WSSI-FlashFreeze",
+   "WSSI Flash Freeze"
+  ],
+  [
+   "glmgroupdensity",
+   "GOES East GLM Full Disk Group Density"
+  ],
+  [
+   "glmgrouppoints",
+   "GOES East GLM Full Disk Group Points"
+  ]
+ ],
+ "detalhe": {
+  "G18-LC-plax-corr-RadF": {
+   "times": "{\"G18-LC-plax-corr-RadF\":[]}",
+   "acao_times": "*",
+   "meta": {
+    "name": "GOES-18 LightningCast parallax-corrected Full Disk",
+    "description": "GOES-18 LightningCast parallax-corrected Full Disk",
+    "units": null,
+    "probe": "allproperties",
+    "maxzoom": 7,
+    "seedlatbound": 85,
+    "categories": [
+     "Other"
+    ]
+   }
+  },
+  "PLTGGOESWestRadFAKCAN": {
+   "times": "{\"PLTGGOESWestRadFAKCAN\":[\"20261016.011020\",\"20261016.012020\",\"20261016.013020\",\"20261016.014020\",\"20261016.015020\",\"20261016.020020\",\"20261016.021020\",\"20261016.022020\",\"20261016.023020\",\"20261016.024020\",\"20261016.025020\",\"20261016.030020\",\"20261016.031020\",\"20261016.032020\",\"20261016.033020\",\"202",
+   "acao_times": "*",
+   "ultimo": "20261115.010021",
+   "value": [
+    500,
+    "text/html; charset=iso-8859-1",
+    null,
+    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>500 Internal Server Error</title>\n</head><body>\n<h1>Internal Server Error</h1>\n<p>The server encountered an internal error or\nmisconfiguration and was unable to complete\nyour request.</p>\n<p>Please contact the server administrato"
+   ],
+   "value2": [
+    500,
+    "text/html; charset=iso-8859-1",
+    null,
+    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>500 Internal Server Error</title>\n</head><body>\n<h1>Internal Server Error</h1>\n<p>The server encountered an internal error or\nmisconfiguration and was unable to complete\nyour request.</p>\n<p>Please contact the server administrato"
+   ],
+   "image": [
+    200,
+    "image/png",
+    "*",
+    0
+   ],
+   "erro": "UnidentifiedImageError('cannot identify image file <_io.BytesIO object at 0x7a749eeb0ef0>')"
+  },
+  "PLTGGOESWestRadFUSSAMOA": {
+   "times": "{\"PLTGGOESWestRadFUSSAMOA\":[\"20261022.011021\",\"20261022.012021\",\"20261022.013021\",\"20261022.014021\",\"20261022.015021\",\"20261022.020021\",\"20261022.021021\",\"20261022.022021\",\"20261022.023021\",\"20261022.024021\",\"20261022.025021\",\"20261022.030021\",\"20261022.031021\",\"20261022.032021\",\"20261022.033021\",\"2",
+   "acao_times": "*",
+   "ultimo": "20261115.010021",
+   "value": [
+    500,
+    "text/html; charset=iso-8859-1",
+    null,
+    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>500 Internal Server Error</title>\n</head><body>\n<h1>Internal Server Error</h1>\n<p>The server encountered an internal error or\nmisconfiguration and was unable to complete\nyour request.</p>\n<p>Please contact the server administrato"
+   ],
+   "value2": [
+    500,
+    "text/html; charset=iso-8859-1",
+    null,
+    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>500 Internal Server Error</title>\n</head><body>\n<h1>Internal Server Error</h1>\n<p>The server encountered an internal error or\nmisconfiguration and was unable to complete\nyour request.</p>\n<p>Please contact the server administrato"
+   ],
+   "image": [
+    200,
+    "image/png",
+    "*",
+    0
+   ],
+   "erro": "UnidentifiedImageError('cannot identify image file <_io.BytesIO object at 0x7a749eeb0d10>')"
+  },
+  "PLTGGOESEastRadF": {
+   "times": "{\"PLTGGOESEastRadF\":[\"20261107.010021\",\"20261107.011021\",\"20261107.012021\",\"20261107.013021\",\"20261107.014021\",\"20261107.015021\",\"20261107.020021\",\"20261107.021021\",\"20261107.022021\",\"20261107.023021\",\"20261107.024021\",\"20261107.025021\",\"20261107.030021\",\"20261107.031021\",\"20261107.032021\",\"20261107",
+   "acao_times": "*",
+   "ultimo": "20261115.010020",
+   "value": [
+    500,
+    "text/html; charset=iso-8859-1",
+    null,
+    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>500 Internal Server Error</title>\n</head><body>\n<h1>Internal Server Error</h1>\n<p>The server encountered an internal error or\nmisconfiguration and was unable to complete\nyour request.</p>\n<p>Please contact the server administrato"
+   ],
+   "value2": [
+    500,
+    "text/html; charset=iso-8859-1",
+    null,
+    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>500 Internal Server Error</title>\n</head><body>\n<h1>Internal Server Error</h1>\n<p>The server encountered an internal error or\nmisconfiguration and was unable to complete\nyour request.</p>\n<p>Please contact the server administrato"
+   ],
+   "image": [
+    200,
+    "image/png",
+    "*",
+    0
+   ],
+   "erro": "UnidentifiedImageError('cannot identify image file <_io.BytesIO object at 0x7a749eeb09a0>')"
+  }
+ }
+}
