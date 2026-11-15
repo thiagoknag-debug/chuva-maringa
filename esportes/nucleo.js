@@ -69,8 +69,8 @@
     return ESPN + k + "/scoreboard?limit=400&lang=pt&region=br" + (dia ? "&dates=" + dia : "");
   }
   function urlTsdb(s, diaIso) { return TSDB + "?d=" + diaIso + "&s=" + s; }
-  const PT = { Brazil: "Brasil", Argentina: "Argentina", Germany: "Alemanha", France: "França", Spain: "Espanha", England: "Inglaterra", Italy: "Itália", Netherlands: "Holanda", Portugal: "Portugal", Uruguay: "Uruguai", Colombia: "Colômbia", Chile: "Chile", Paraguay: "Paraguai", Peru: "Peru", Ecuador: "Equador", Bolivia: "Bolívia", Venezuela: "Venezuela", Mexico: "México", "United States": "Estados Unidos", Japan: "Japão", Belgium: "Bélgica", Croatia: "Croácia", Switzerland: "Suíça", Morocco: "Marrocos", Senegal: "Senegal", Scotland: "Escócia", Wales: "País de Gales", Poland: "Polônia", Denmark: "Dinamarca", Sweden: "Suécia", Norway: "Noruega", Austria: "Áustria", Ireland: "Irlanda", Turkey: "Turquia", Türkiye: "Turquia", Greece: "Grécia", Czechia: "Tchéquia", Serbia: "Sérvia", Ukraine: "Ucrânia", Hungary: "Hungria", Romania: "Romênia", "South Korea": "Coreia do Sul", Australia: "Austrália", Canada: "Canadá", Egypt: "Egito", Nigeria: "Nigéria", Cameroon: "Camarões", Ghana: "Gana", "Saudi Arabia": "Arábia Saudita", Qatar: "Catar", Iran: "Irã", Tunisia: "Tunísia", Algeria: "Argélia", "Ivory Coast": "Costa do Marfim", "Costa Rica": "Costa Rica", Panama: "Panamá", Jamaica: "Jamaica", "New Zealand": "Nova Zelândia", Finland: "Finlândia", Iceland: "Islândia", Slovakia: "Eslováquia", Slovenia: "Eslovênia", Albania: "Albânia", Bulgaria: "Bulgária", Russia: "Rússia", "North Macedonia": "Macedônia do Norte", Montenegro: "Montenegro", Cyprus: "Chipre", Latvia: "Letônia", Lithuania: "Lituânia", Estonia: "Estônia", Belarus: "Bielorrússia", Armenia: "Armênia", Georgia: "Geórgia", Israel: "Israel", Luxembourg: "Luxemburgo", "Northern Ireland": "Irlanda do Norte", "Bosnia and Herzegovina": "Bósnia", Kosovo: "Kosovo", Moldova: "Moldávia", Azerbaijan: "Azerbaijão", Kazakhstan: "Cazaquistão", "South Africa": "África do Sul" };
-  const tr = (s) => (s && PT[s]) || s || "";
+  const PT = { USA: "EUA", BRA: "Brasil", Brazil: "Brasil", "Great Britain": "Grã-Bretanha", Argentina: "Argentina", Germany: "Alemanha", France: "França", Spain: "Espanha", England: "Inglaterra", Italy: "Itália", Netherlands: "Holanda", Portugal: "Portugal", Uruguay: "Uruguai", Colombia: "Colômbia", Chile: "Chile", Paraguay: "Paraguai", Peru: "Peru", Ecuador: "Equador", Bolivia: "Bolívia", Venezuela: "Venezuela", Mexico: "México", "United States": "Estados Unidos", Japan: "Japão", Belgium: "Bélgica", Croatia: "Croácia", Switzerland: "Suíça", Morocco: "Marrocos", Senegal: "Senegal", Scotland: "Escócia", Wales: "País de Gales", Poland: "Polônia", Denmark: "Dinamarca", Sweden: "Suécia", Norway: "Noruega", Austria: "Áustria", Ireland: "Irlanda", Turkey: "Turquia", Türkiye: "Turquia", Greece: "Grécia", Czechia: "Tchéquia", Serbia: "Sérvia", Ukraine: "Ucrânia", Hungary: "Hungria", Romania: "Romênia", "South Korea": "Coreia do Sul", Australia: "Austrália", Canada: "Canadá", Egypt: "Egito", Nigeria: "Nigéria", Cameroon: "Camarões", Ghana: "Gana", "Saudi Arabia": "Arábia Saudita", Qatar: "Catar", Iran: "Irã", Tunisia: "Tunísia", Algeria: "Argélia", "Ivory Coast": "Costa do Marfim", "Costa Rica": "Costa Rica", Panama: "Panamá", Jamaica: "Jamaica", "New Zealand": "Nova Zelândia", Finland: "Finlândia", Iceland: "Islândia", Slovakia: "Eslováquia", Slovenia: "Eslovênia", Albania: "Albânia", Bulgaria: "Bulgária", Russia: "Rússia", "North Macedonia": "Macedônia do Norte", Montenegro: "Montenegro", Cyprus: "Chipre", Latvia: "Letônia", Lithuania: "Lituânia", Estonia: "Estônia", Belarus: "Bielorrússia", Armenia: "Armênia", Georgia: "Geórgia", Israel: "Israel", Luxembourg: "Luxemburgo", "Northern Ireland": "Irlanda do Norte", "Bosnia and Herzegovina": "Bósnia", Kosovo: "Kosovo", Moldova: "Moldávia", Azerbaijan: "Azerbaijão", Kazakhstan: "Cazaquistão", "South Africa": "África do Sul" };
+  const tr = (s) => { s = (s || "").trim(); if (/^(TBD|TBA|A definir)$/i.test(s)) return "A definir"; return PT[s] || s; };
 
   const TXT_FINAL = /(^|[^a-zà-ú])(final|finais|finals|grande final|decis[aã]o|super bowl|mls cup|world series|stanley cup final|nba finals|copa do brasil - final)([^a-zà-ú]|$)/i;
   const TXT_SEMI = /semi|semifinal|semi-final/i;
@@ -133,7 +133,7 @@
       const venue = c.venue || {};
       out.push({
         id: L.k + ":" + e.id, ev: e.id, k: L.k, cat: L.cat, liga: ligaNome, tipo: "time",
-        t: e.date, st: status(c.status || e.status), casa: h, fora: a,
+        t: e.date, hv: c.timeValid !== false, st: status(c.status || e.status), casa: h, fora: a,
         tit: (a.n && h.n) ? h.n + " x " + a.n : (e.name || ""),
         local: venue.fullName || "", cid: [venue.address && venue.address.city, venue.address && venue.address.country].filter(Boolean).join(", "),
         tv: tvs(c), obs: ns.slice(0, 2), fase: f, sem: (e.week && e.week.number) ? "Semana " + e.week.number : "",
@@ -157,7 +157,7 @@
         const ns = notas(c, e);
         out.push({
           id: L.k + ":" + c.id, ev: e.id, k: L.k, cat: L.cat, liga: L.nome, tipo: "corrida",
-          t: c.date || c.startDate || e.date, st: status(c.status), tit: (e.shortName || e.name) + " — " + nomeS,
+          t: c.date || c.startDate || e.date, hv: c.timeValid !== false, st: status(c.status), tit: (e.shortName || e.name) + " — " + nomeS,
           gp: e.name, sessao: nomeS, local: circ.fullName || "", cid: [circ.address && circ.address.city, circ.address && circ.address.country].filter(Boolean).join(", "),
           tv: tvs(c), obs: ns, fase: "", top, link: linkEv(e), w: peso(L.p, "", corrida ? 40 : -25),
         });
@@ -169,7 +169,7 @@
   function nomeAtleta(x) {
     const a = x.athlete || {};
     const pais = a.flag && a.flag.alt ? a.flag.alt : "";
-    return { n: a.displayName || a.fullName || (x.roster && x.roster.shortDisplayName) || "", pais: tr(pais), v: !!x.winner,
+    return { n: tr(a.displayName || a.fullName || (x.roster && x.roster.shortDisplayName) || ""), pais: tr(pais), v: !!x.winner,
       sets: (x.linescores || []).map((s) => (s.value != null ? String(Math.round(s.value)) : "") + (s.tiebreak != null ? "(" + s.tiebreak + ")" : "")).filter(Boolean) };
   }
   function lerTenis(L, j) {
@@ -186,10 +186,10 @@
           const cs = (c.competitors || []).slice().sort((x, y) => (x.order || 0) - (y.order || 0));
           const p1 = nomeAtleta(cs[0] || {}), p2 = nomeAtleta(cs[1] || {});
           if (!p1.n && !p2.n) return;
-          const extra = (/finals/i.test(e.name) ? 25 : 0) + (e.major ? 25 : 0) + (/Brazil|Brasil/i.test(p1.pais + p2.pais) ? 30 : 0);
+          const extra = (dupla ? -70 : 0) + (/finals/i.test(e.name) ? 25 : 0) + (e.major ? 25 : 0) + (/Brazil|Brasil/i.test(p1.pais + p2.pais) ? 30 : 0);
           out.push({
             id: L.k + ":" + c.id, ev: e.id, k: L.k, cat: L.cat, liga: L.nome + " · " + (e.shortName || e.name), tipo: "tenis",
-            t: c.date || c.startDate, st: status(c.status), p1, p2, tit: (p1.n || "A definir") + " x " + (p2.n || "A definir"),
+            t: c.date || c.startDate, hv: c.timeValid !== false && !/T05:00Z$/.test(c.date || ""), st: status(c.status), p1, p2, tit: (p1.n || "A definir") + " x " + (p2.n || "A definir"), _x: 0,
             rodada: rodada + (dupla ? " (duplas)" : ""), local: (c.venue && c.venue.fullName) || "", quadra: (c.venue && c.venue.court) || "",
             tv: tvs(c), obs: notas(c, {}), fase: f, link: linkEv(e), w: peso(L.p, f, extra),
           });
