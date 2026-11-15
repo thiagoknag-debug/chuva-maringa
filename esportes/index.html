@@ -120,6 +120,13 @@ h1 b{color:var(--acc)}
 .forma .V{background:#1f6f3a}.forma .E{background:#55606d}.forma .D{background:#8a2a2a}
 .lnk{display:block;text-align:center;margin:16px 0 0;padding:12px;border-radius:12px;background:var(--card);color:var(--acc);font-weight:600;text-decoration:none}
 .carreg{color:var(--tx3);font-size:13px;margin-top:12px}
+.dia{margin:18px 0 0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.dia .dia-h{margin:0;padding:12px 12px 10px;background:var(--card2);font-size:20px}
+.ev.final{box-shadow:inset 3px 0 0 var(--final);background:linear-gradient(90deg,rgba(255,176,32,.08),transparent 60%)}
+.ev.semi{box-shadow:inset 3px 0 0 var(--semi)}
+.ev.fimEv{opacity:.6}
+.lg{font-size:11.5px;color:var(--tx3);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.todosBtn{display:block;margin:18px auto 0;padding:10px 16px;border-radius:999px;border:1px solid var(--line);color:var(--tx2);font-size:13px}
 footer{margin:30px 0 0;color:var(--tx3);font-size:11.5px;text-align:center;line-height:1.6}
 footer a{color:var(--tx2)}
 </style>
@@ -131,21 +138,16 @@ footer a{color:var(--tx2)}
     <div class="upd" id="upd"><span class="dot" id="dot"></span><span id="updTxt">carregando…</span></div>
   </header>
 
-  <div id="finaisBox">
-    <div class="secTit"><i>★</i> Finais e decisões da semana</div>
-    <div class="strip" id="finais"></div>
-  </div>
-
   <div class="sticky">
     <div class="chips" id="cats"></div>
-    <div class="chips dias" id="dias"></div>
   </div>
 
   <div class="aviso" id="aviso"></div>
   <main id="lista"></main>
+  <button class="todosBtn" id="todosBtn"></button>
 
   <footer>
-    Atualiza sozinho: agenda da semana a cada hora e placares ao vivo a cada minuto.<br>
+    Só os eventos principais da semana. Atualiza sozinho: agenda a cada hora, placares ao vivo a cada minuto.<br>
     Dados: <a href="https://www.espn.com.br" rel="noopener">ESPN</a> e <a href="https://www.thesportsdb.com" rel="noopener">TheSportsDB</a>. Horários de Brasília.
   </footer>
 </div>
@@ -165,7 +167,7 @@ const N = window.Nucleo;
 const DADOS = "https://raw.githubusercontent.com/thiagoknag-debug/chuva-maringa/esportes-dados/semana.json";
 const TZ = "America/Sao_Paulo";
 const CHAVE = "agendaEsportiva.v1";
-const st = { ev: new Map(), gerado: null, cat: "todos", dia: null, abertos: new Set(), aberto: null, vivoEm: null };
+const st = { todos: false, ev: new Map(), gerado: null, cat: "todos", dia: null, abertos: new Set(), aberto: null, vivoEm: null };
 
 // ---------- datas ----------
 const fmt = (o) => new Intl.DateTimeFormat("pt-BR", Object.assign({ timeZone: TZ }, o));
@@ -195,6 +197,10 @@ function diasDoEvento(e) {
 
 // ---------- utilidades ----------
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const TRAD = { "In Progress": "Em andamento", "Final": "Encerrado", "Scheduled": "Agendado", "Halftime": "Intervalo", "End of Period": "Fim do período", "Postponed": "Adiado", "Canceled": "Cancelado", "Delayed": "Atrasado",
+  Heavyweight: "Peso-pesado", "Light Heavyweight": "Meio-pesado", Middleweight: "Médio", Welterweight: "Meio-médio", Lightweight: "Leve", Featherweight: "Pena", Bantamweight: "Galo", Flyweight: "Mosca", Strawweight: "Palha",
+  "W Bantamweight": "Galo (fem.)", "W Flyweight": "Mosca (fem.)", "W Strawweight": "Palha (fem.)", "W Featherweight": "Pena (fem.)", Catchweight: "Peso combinado" };
+const trd = (t) => TRAD[t] || t || "";
 const catDe = (id) => N.CATS.find((c) => c.id === id) || { nome: id, ico: "•" };
 const tagFase = (f) => f === "final" ? '<span class="tag final">Final</span>' : f === "semi" ? '<span class="tag semi">Semi</span>' : f === "mata" ? '<span class="tag mata">Mata-mata</span>' : "";
 const vivo = (e) => e.st && e.st.e === "in" && new Date(e.t).getTime() > Date.now() - 8 * 3600e3;
@@ -269,37 +275,27 @@ function eventosFiltrados() {
 function principal(e) { return e.fase === "final" || e.fase === "semi" || e.w >= 80 || vivo(e); }
 
 // ---------- render ----------
+function visiveis() {
+  return eventosFiltrados().filter((e) => st.todos || N.destaque(e));
+}
+function diasSemana() { const h = hoje(); const out = []; for (let i = 0; i < 7; i++) out.push(somaDia(h, i)); return out; }
 function renderCats() {
-  const cont = {}; let tot = 0; const dia = st.dia === "semana" ? null : st.dia;
-  for (const e of st.ev.values()) { if (dia && !diasDoEvento(e).includes(dia)) continue; cont[e.cat] = (cont[e.cat] || 0) + 1; tot++; }
-  const itens = [{ id: "todos", nome: "Todos", ico: "" }, ...N.CATS];
+  const ds = new Set(diasSemana()); const cont = {}; let tot = 0;
+  for (const e of st.ev.values()) {
+    if (!(st.todos || N.destaque(e))) continue;
+    if (!diasDoEvento(e).some((d) => ds.has(d))) continue;
+    cont[e.cat] = (cont[e.cat] || 0) + 1; tot++;
+  }
+  const itens = [{ id: "todos", nome: "Todos", ico: "" }, ...N.CATS.filter((c) => cont[c.id] || st.cat === c.id)];
   document.getElementById("cats").innerHTML = itens.map((c) =>
     '<button class="chip' + (st.cat === c.id ? " on" : "") + '" data-cat="' + c.id + '">' + (c.ico ? c.ico + " " : "") + esc(c.nome) +
     '<span class="n">' + (c.id === "todos" ? tot : (cont[c.id] || 0)) + "</span></button>").join("");
-}
-function renderDias() {
-  const h = hoje(); const ds = ["semana"]; for (let i = 0; i < 7; i++) ds.push(somaDia(h, i));
-  const lista = [ds[1], ds[2], "semana", ...ds.slice(3), somaDia(h, -1)];
-  document.getElementById("dias").innerHTML = lista.map((d) =>
-    '<button class="chip' + (st.dia === d ? " on" : "") + '" data-dia="' + d + '">' + (d === "semana" ? "Semana" : rotuloDia(d)) + "</button>").join("");
-}
-function renderFinais() {
-  const ag = Date.now() - 3 * 3600e3; const fim = Date.now() + 8 * 864e5;
-  const fs = eventosFiltrados().filter((e) => (e.fase === "final" || (e.fase === "semi" && e.w >= 130)) && !/duplas/.test(e.rodada || "") && !(enc(e) && new Date(e.t).getTime() < Date.now() - 12 * 3600e3) && new Date(e.t).getTime() > ag && new Date(e.t).getTime() < fim)
-    .sort((a, b) => (a.fase === b.fase ? a.t.localeCompare(b.t) : a.fase === "final" ? -1 : 1));
-  // agrupa duplicadas "A definir" do mesmo torneio/fase
-  const vistos = new Set(); const uni = fs.filter((e) => { const k = e.tit.includes("A definir") ? e.liga + e.fase + N.diaBR(e.t) : e.id; if (vistos.has(k)) return false; vistos.add(k); return true; }).slice(0, 14);
-  document.getElementById("finaisBox").style.display = uni.length ? "" : "none";
-  document.getElementById("finais").innerHTML = uni.map((e) => {
-    const h = horaTxt(e);
-    const quando = vivo(e) ? '<span class="tag vivo">Ao vivo</span>' : rotuloDia(N.diaBR(e.t)) + (e.hv === false ? "" : " · " + fHora.format(new Date(e.t)));
-    return '<button class="fcard ' + e.fase + '" data-id="' + esc(e.id) + '"><div class="fl">' + catDe(e.cat).ico + " " + esc(e.liga) + "</div>" +
-      '<div class="ft">' + esc(e.tit) + "</div>" + '<div class="fq">' + tagFase(e.fase) + " &nbsp;" + quando + (enc(e) ? " · encerrado" : "") + "</div></button>";
-  }).join("");
+  document.getElementById("todosBtn").textContent = st.todos ? "Mostrar só os principais" : "Mostrar também jogos menores";
 }
 function linhaEv(e) {
   const h = horaTxt(e);
   let meio = "", dir = "";
+  const tit = e.tipo === "corrida" && e.sessao ? (e.gp || e.tit) + " · " + e.sessao : e.tit;
   if (e.tipo === "time" && e.casa && e.fora) {
     const fimJ = enc(e);
     const cl = (x, y) => fimJ && x.pl !== "" && y.pl !== "" ? (Number(x.pl) > Number(y.pl) || x.v ? " ven" : Number(x.pl) < Number(y.pl) ? " per" : "") : "";
@@ -308,58 +304,35 @@ function linhaEv(e) {
     if (e.st.e !== "pre" && (e.casa.pl !== "" || e.fora.pl !== "")) dir = '<div class="pls"><div>' + esc(e.casa.pl) + "</div><div>" + esc(e.fora.pl) + "</div></div>";
   } else if (e.tipo === "tenis") {
     const cl = (p) => enc(e) ? (p.v ? " ven" : " per") : "";
-    meio = '<div class="eq' + cl(e.p1) + '"><span>' + esc(e.p1.n || "A definir") + (e.p1.pais ? ' <small style="color:var(--tx3)">' + esc(e.p1.pais) + "</small>" : "") + "</span></div>" +
-      '<div class="eq' + cl(e.p2) + '"><span>' + esc(e.p2.n || "A definir") + (e.p2.pais ? ' <small style="color:var(--tx3)">' + esc(e.p2.pais) + "</small>" : "") + "</span></div>";
+    meio = '<div class="eq' + cl(e.p1) + '"><span>' + esc(e.p1.n || "A definir") + "</span></div>" + '<div class="eq' + cl(e.p2) + '"><span>' + esc(e.p2.n || "A definir") + "</span></div>";
     if (e.st.e !== "pre" && (e.p1.sets.length || e.p2.sets.length)) dir = '<div class="pls"><div>' + esc(e.p1.sets.join(" ")) + "</div><div>" + esc(e.p2.sets.join(" ")) + "</div></div>";
   } else {
-    let sub = e.local || e.cid || "";
+    let sub = "";
     if (e.tipo === "mma" && e.principal) sub = "Luta principal: " + e.principal.a.n + " x " + e.principal.b.n;
-    if (e.tipo === "golfe" && e.top && e.top[0] && e.st.e !== "pre") sub = "Líder: " + e.top[0].n + (e.top[0].pl ? " (" + e.top[0].pl + ")" : "");
+    if (e.tipo === "golfe" && e.top && e.top[0] && e.st.e !== "pre") sub = "Líder: " + e.top[0].n;
     if (e.tipo === "corrida" && enc(e) && e.top && e.top[0]) sub = "1º " + e.top[0].n;
-    meio = '<div class="uni">' + esc(e.tipo === "corrida" && e.sessao ? e.sessao + (e.gp ? " · " + e.gp : "") : e.tit) + "</div>" + (sub ? '<div class="sub">' + esc(sub) + "</div>" : "");
+    meio = '<div class="uni">' + esc(tit.replace(/ vs\.? /g, " x ")) + "</div>" + (sub ? '<div class="sub">' + esc(sub) + "</div>" : "");
   }
-  const tags = tagFase(e.fase);
-  const subT = e.tipo === "tenis" ? [e.rodada, e.quadra].filter(Boolean).join(" · ") : (e.tipo === "time" ? (e.obs && e.obs[0]) || "" : "");
-  return '<button class="ev" data-id="' + esc(e.id) + '"><div class="hora ' + h.c + '">' + h.h + (h.s ? "<small>" + h.s + "</small>" : "") + "</div>" +
-    '<div class="eqs">' + meio + (subT || tags ? '<div class="sub">' + tags + (subT ? " " + esc(subT) : "") + "</div>" : "") + "</div>" + dir + "</button>";
-}
-function blocoLigas(lista, limite) {
-  const g = new Map();
-  lista.forEach((e) => { const k = e.liga; if (!g.has(k)) g.set(k, []); g.get(k).push(e); });
-  const grupos = [...g.entries()].map(([liga, evs]) => {
-    const ord = (e) => vivo(e) ? 0 : enc(e) ? 2 : 1;
-    evs.sort((a, b) => ord(a) - ord(b) || a.t.localeCompare(b.t) || b.w - a.w);
-    const w = Math.max(...evs.map((e) => e.w - (enc(e) ? 90 : 0))) + (evs.some(vivo) ? 30 : 0);
-    return { liga, evs, w, cat: evs[0].cat, fase: evs.find((e) => e.fase === "final") ? "final" : evs.find((e) => e.fase === "semi") ? "semi" : "" };
-  }).sort((a, b) => b.w - a.w);
-  return grupos.map((G) => {
-    const chave = (st.dia || "") + "|" + G.liga;
-    const lim = st.abertos.has(chave) ? 999 : limite;
-    const vis = G.evs.length > lim ? G.evs.slice(0, lim) : G.evs;
-    return '<section class="liga"><div class="liga-h"><span class="ico">' + catDe(G.cat).ico + "</span>" + esc(G.liga) + (G.fase ? '<span class="tag ' + G.fase + '">' + (G.fase === "final" ? "Final" : "Semi") + "</span>" : "") + "</div>" +
-      vis.map(linhaEv).join("") + (G.evs.length > vis.length ? '<button class="mais" data-abrir="' + esc(chave) + '">Ver mais ' + (G.evs.length - vis.length) + "</button>" : "") + "</section>";
-  }).join("");
+  const lg = catDe(e.cat).ico + " " + esc(e.tipo === "tenis" ? e.liga.replace(/^(ATP|WTA) · /, "") + (e.rodada ? " · " + e.rodada : "") : e.liga);
+  return '<button class="ev' + (e.fase === "final" || e.fase === "semi" ? " " + e.fase : "") + (enc(e) ? " fimEv" : "") + '" data-id="' + esc(e.id) + '"><div class="hora ' + h.c + '">' + h.h + (h.s ? "<small>" + h.s + "</small>" : "") + "</div>" +
+    '<div class="eqs"><div class="lg">' + tagFase(e.fase) + (e.fase ? " " : "") + lg + "</div>" + meio + "</div>" + dir + "</button>";
 }
 function renderLista() {
   const el = document.getElementById("lista");
-  const evs = eventosFiltrados();
+  const evs = visiveis();
   if (!evs.length && !st.gerado) { el.innerHTML = '<div class="vazio">Carregando agenda…</div>'; return; }
-  if (st.dia === "semana") {
-    const h = hoje(); let html = "";
-    for (let i = 0; i < 7; i++) {
-      const d = somaDia(h, i);
-      const doDia = evs.filter((e) => diasDoEvento(e).includes(d) && principal(e) && !(i === 0 && enc(e)) && !/duplas/.test(e.rodada || ""));
-      if (!doDia.length) continue;
-      const top = doDia.sort((a, b) => b.w - a.w).slice(0, 10);
-      html += '<div class="dia-h">' + rotuloDia(d) + "<small>" + esc(fDiaLongo.format(meioDia(d))) + "</small></div>" + blocoLigas(top, 6) +
-        '<button class="mais" style="border:0" data-dia="' + d + '">Ver todos os eventos de ' + rotuloDia(d).toLowerCase() + " →</button>";
-    }
-    el.innerHTML = html || '<div class="vazio">Nenhum evento principal nesta semana para esta categoria.</div>';
-    return;
-  }
-  const doDia = evs.filter((e) => diasDoEvento(e).includes(st.dia));
-  el.innerHTML = '<div class="dia-h">' + rotuloDia(st.dia) + "<small>" + esc(fDiaLongo.format(meioDia(st.dia))) + "</small></div>" +
-    (doDia.length ? blocoLigas(doDia, st.cat === "todos" ? 5 : 12) : '<div class="vazio">Nenhum evento nesta data para esta categoria.</div>');
+  const ord = (e) => vivo(e) ? 0 : 1;
+  let html = "";
+  diasSemana().forEach((d, i) => {
+    let doDia = evs.filter((e) => diasDoEvento(e).includes(d));
+    if (!doDia.length) return;
+    doDia.sort((a, b) => ord(a) - ord(b) || a.t.localeCompare(b.t) || b.w - a.w);
+    // tênis "A definir" repetido: mostra um só
+    const vistos = new Set();
+    doDia = doDia.filter((e) => { if (e.tipo !== "tenis" || !/A definir/.test(e.tit)) return true; const k = e.liga + e.fase; if (vistos.has(k)) return false; vistos.add(k); return true; });
+    html += '<section class="dia"><div class="dia-h">' + rotuloDia(d) + "<small>" + esc(fDiaLongo.format(meioDia(d))) + "</small></div>" + doDia.map(linhaEv).join("") + "</section>";
+  });
+  el.innerHTML = html || '<div class="vazio">Nenhum evento principal nesta semana para esta categoria.</div>';
 }
 function renderUpd() {
   const t = document.getElementById("updTxt"); const dot = document.getElementById("dot");
@@ -368,7 +341,7 @@ function renderUpd() {
   const base = st.vivoEm || (st.gerado ? new Date(st.gerado) : null);
   t.textContent = (qtVivo ? qtVivo + " ao vivo · " : "") + (base ? "atualizado " + fHora.format(base) : "sem conexão");
 }
-function render() { renderCats(); renderDias(); renderFinais(); renderLista(); renderUpd(); if (st.aberto) abrir(st.aberto, true); }
+function render() { renderCats(); renderLista(); renderUpd(); if (st.aberto) abrir(st.aberto, true); }
 
 // ---------- detalhes ----------
 const linhaInfo = (k, v) => v ? "<div><b>" + k + "</b><span>" + v + "</span></div>" : "";
@@ -377,7 +350,7 @@ function abrir(id, soAtualizar) {
   st.aberto = id;
   const quando = new Date(e.t);
   const dataTxt = fDiaLongo.format(quando) + (e.hv === false ? " · horário a definir" : " · " + fHora.format(quando));
-  const stTxt = vivo(e) ? '<span class="tag vivo">Ao vivo</span> ' + esc(e.st.txt || "") : enc(e) ? "Encerrado" : "A começar";
+  const stTxt = vivo(e) ? '<span class="tag vivo">Ao vivo</span> ' + esc(trd(e.st.txt)) : enc(e) ? "Encerrado" : "A começar";
   let corpo = "";
   if (e.tipo === "time" && e.casa && e.fora) {
     const mid = e.st.e === "pre" ? "x" : esc(e.casa.pl) + " – " + esc(e.fora.pl);
@@ -398,7 +371,7 @@ function abrir(id, soAtualizar) {
   if (e.tipo === "mma" && e.lutas && e.lutas.length) {
     corpo += '<div class="lst"><h4>Card de lutas</h4>' + e.lutas.slice(0, 14).map((l, i) => {
       const n = (x) => (x.v ? "🏆 " : "") + esc(x.n) + (x.pais ? " (" + esc(x.pais) + ")" : "");
-      return '<div class="ln"><span>' + (i === 0 ? "<b>Principal:</b> " : "") + n(l.a) + " x " + n(l.b) + "</span><span>" + esc(l.cat) + "</span></div>";
+      return '<div class="ln"><span>' + (i === 0 ? "<b>Principal:</b> " : "") + n(l.a) + " x " + n(l.b) + "</span><span>" + esc(trd(l.cat)) + "</span></div>";
     }).join("") + "</div>";
   }
   if ((e.tipo === "corrida" || e.tipo === "golfe") && e.top && e.top.length && e.st.e !== "pre") {
@@ -411,7 +384,7 @@ function abrir(id, soAtualizar) {
   corpo += '<div id="extra"></div>';
   if (e.link) corpo += '<a class="lnk" href="' + esc(e.link) + '" target="_blank" rel="noopener">Ver detalhes completos na ESPN ↗</a>';
   document.getElementById("pc").innerHTML = '<div class="p-liga">' + catDe(e.cat).ico + " " + esc(e.liga) + "</div>" +
-    '<div class="p-tit">' + esc(e.tipo === "corrida" ? (e.gp || e.tit) + (e.sessao ? " — " + e.sessao : "") : e.tit) + "</div>" + corpo;
+    '<div class="p-tit">' + esc(e.tipo === "mma" ? e.tit.replace(/ vs\.? /g, " x ") : e.tipo === "corrida" ? (e.gp || e.tit) + (e.sessao ? " — " + e.sessao : "") : e.tit) + "</div>" + corpo;
   if (!soAtualizar) {
     document.getElementById("veu").classList.add("on"); document.getElementById("painel").classList.add("on");
     document.getElementById("painel").scrollTop = 0;
@@ -474,12 +447,11 @@ function fechar() { st.aberto = null; document.getElementById("veu").classList.r
 
 // ---------- eventos de interface ----------
 document.addEventListener("click", (ev) => {
-  const b = ev.target.closest("[data-cat],[data-dia],[data-id],[data-abrir]"); if (!b) return;
+  const b = ev.target.closest("[data-cat],[data-id]"); if (!b) return;
   if (b.dataset.cat) { st.cat = b.dataset.cat; try { history.replaceState(null, "", st.cat === "todos" ? location.pathname : "#" + st.cat); } catch (e) {} render(); }
-  else if (b.dataset.dia) { st.dia = b.dataset.dia; render(); window.scrollTo({ top: 0, behavior: "smooth" }); }
-  else if (b.dataset.abrir) { st.abertos.add(b.dataset.abrir); renderLista(); }
   else if (b.dataset.id) abrir(b.dataset.id);
 });
+document.getElementById("todosBtn").onclick = () => { st.todos = !st.todos; render(); };
 document.getElementById("veu").onclick = fechar;
 document.getElementById("fechar").onclick = fechar;
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") fechar(); });
@@ -506,7 +478,6 @@ async function cicloVivo() {
 async function iniciar() {
   const h = location.hash.replace("#", "");
   if (N.CATS.some((c) => c.id === h)) st.cat = h;
-  st.dia = hoje();
   if (carregarCache()) render(); else renderLista();
   const ok = await baixarSemana();
   if (!ok) {
@@ -522,7 +493,7 @@ async function iniciar() {
   render(); guardar();
   timerVivo = setTimeout(cicloVivo, 60e3);
   setInterval(async () => { if (await baixarSemana()) { render(); guardar(); } }, 30 * 60e3);
-  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { if (st.dia !== "semana" && st.dia < somaDia(hoje(), -1)) st.dia = hoje(); cicloVivo(); } });
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { render(); cicloVivo(); } });
 }
 iniciar();
 })();

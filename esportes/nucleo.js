@@ -214,7 +214,7 @@
       const br = lutas.some((l) => /Brazil|Brasil/.test(l.a.pais + l.b.pais)) ? 15 : 0;
       out.push({
         id: L.k + ":" + e.id, ev: e.id, k: L.k, cat: L.cat, liga: L.nome, tipo: "mma",
-        t: e.date, st: status(e.status), tit: e.name, principal, lutas: lutas.slice().reverse(),
+        t: e.date, st: status(e.status), tit: (e.name || "").replace(/ vs\.? /g, " x "), principal, lutas: lutas.slice().reverse(),
         local: venue.fullName || "", cid: [venue.address && venue.address.city, venue.address && venue.address.country].filter(Boolean).join(", "),
         tv: tvs(c0), obs: [], fase: /^UFC \d+/.test(e.name || "") ? "" : "", link: linkEv(e), w: peso(L.p, "", (/^UFC \d+/.test(e.name || "") ? 20 : 0) + br),
       });
@@ -274,6 +274,44 @@
     return out;
   }
 
-  const api = { ESPN, CATS, LIGAS, LIGA_POR_K, TSDB_ESPORTES, diaET, diaBR, urlEspn, urlTsdb, lerEspn, lerTsdb, fase, tr };
+
+  // ---------- o que é "evento principal" ----------
+  const GRANDES = /^(Arsenal|Chelsea|Liverpool|Manchester City|Man City|Manchester United|Man United|Tottenham|Tottenham Hotspur|Real Madrid|Barcelona|Atlético de Madrid|Atlético Madrid|Atletico Madrid|Inter|Inter de Milão|Internazionale|Milan|AC Milan|Juventus|Napoli|Bayern|Bayern de Munique|Bayern Munich|Paris Saint-Germain|PSG)$/i;
+  const SELECOES = /^(Brasil|Argentina|França|Alemanha|Espanha|Inglaterra|Portugal|Holanda|Itália|Uruguai|Bélgica)$/;
+  const grande = (t) => t && (GRANDES.test(t.n) || GRANDES.test(t.nl || ""));
+  const TV_NAC = /^(ESPN|ABC|NBC|Peacock|Prime Video|TNT|Netflix|ESPN2)$/i;
+  function destaque(e) {
+    const k = e.k || "", r = e.rodada || "";
+    if (/duplas/.test(r)) return false;
+    const brasil = e.casa && e.fora && (e.casa.n === "Brasil" || e.fora.n === "Brasil");
+    if (e.cat === "futebol") {
+      if (brasil || e.fase === "final") return true;
+      if (/bra\.1$|libertadores|copa_do_brasil|fifa\.cwc|intercontinental/.test(k)) return true;
+      if (/sudamericana/.test(k)) return !!e.fase;
+      if (/uefa\.champions/.test(k)) return !!e.fase || grande(e.casa) || grande(e.fora);
+      if (/eng\.1|esp\.1|ita\.1|ger\.1|fra\.1/.test(k)) return grande(e.casa) && grande(e.fora);
+      if (/uefa\.nations|fifa\.friendly/.test(k)) return e.fase === "semi" || (e.casa && e.fora && SELECOES.test(e.casa.n) && SELECOES.test(e.fora.n));
+      return e.fase === "semi";
+    }
+    if (k === "racing/f1") return /Classificação$|Corrida Sprint|^Corrida$/.test(e.sessao || "");
+    if (k === "tsdb:Motorsport") return /MotoGP/i.test(e.liga) && /race|grand prix|gp/i.test(e.tit || "") && !/practice|qualif|warm/i.test(e.tit || "");
+    if (k.indexOf("racing/") === 0) return e.fase === "final";
+    if (k === "basketball/nba" || k === "football/nfl") return !!e.fase || (e.tv || []).some((t) => TV_NAC.test(t));
+    if (e.cat === "tenis") {
+      const br = /Brasil/.test(((e.p1 || {}).pais || "") + ((e.p2 || {}).pais || ""));
+      const L = e.liga || "";
+      if (br) return true;
+      if (/ATP Finals|WTA Finals|Davis Cup|Billie Jean/i.test(L)) return e.fase === "final" || e.fase === "semi";
+      if (/Australian Open|Roland|French Open|Wimbledon|US Open/i.test(L)) return !!e.fase || /quarter|quartas/i.test(r);
+      if (/Masters|1000|Rolex|Mutua|BNP|Internazionali|Rogers|National Bank|Western|Cincinnati|Shanghai|Paris|Miami|Indian Wells|Monte|Madrid|China Open|Wuhan|Dubai|Qatar/i.test(L)) return e.fase === "final" || e.fase === "semi";
+      return false;
+    }
+    if (e.cat === "mma") return true;
+    if (e.cat === "volei") return /Brasil|Brazil|Superliga|Brasileir|World|Mundial|Nations|Olímp|Olympic Games/i.test(e.liga + " " + e.tit) || e.fase === "final";
+    if (k === "golf/pga") return /Masters Tournament|PGA Championship|U\.S\. Open|The Open|Ryder/i.test(e.tit || "");
+    return e.fase === "final";
+  }
+
+  const api = { destaque, ESPN, CATS, LIGAS, LIGA_POR_K, TSDB_ESPORTES, diaET, diaBR, urlEspn, urlTsdb, lerEspn, lerTsdb, fase, tr };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.Nucleo = api;
 })(typeof self !== "undefined" ? self : this);
