@@ -17,6 +17,7 @@ jobs:
       - run: pip install requests
       - run: python esportes/sondagem.py
       - name: Salvar
+        if: always()
         run: |
           git config user.name "esportes-bot"
           git config user.email "actions@users.noreply.github.com"

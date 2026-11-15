@@ -10,6 +10,7 @@ L = ["soccer/bra.1","soccer/bra.2","soccer/bra.copa_do_brasil","soccer/conmebol.
      "racing/f1","racing/irl","racing/nascar-premier","basketball/nba","football/nfl","football/college-football",
      "tennis/atp","tennis/wta","mma/ufc","hockey/nhl","golf/pga","baseball/mlb","volleyball/womens-college-volleyball","rugby/scoreboard"]
 out = {"range": R}
+import traceback, atexit
 def trim(o, d=0):
     if d > 5: return "…"
     if isinstance(o, dict): return {k: trim(v, d+1) for k, v in list(o.items())[:25]}
@@ -37,5 +38,7 @@ for s in ["Volleyball","Motorsport","Fighting","Basketball"]:
         ev = j.get("events") or []
         out["tsdb_"+s] = {"status": r.status_code, "acao": r.headers.get("Access-Control-Allow-Origin"), "n": len(ev), "nomes": [(e.get("strTimestamp"), e.get("strEvent"), e.get("strLeague")) for e in ev[:8]]}
     except Exception as e: out["tsdb_"+s] = repr(e)
-json.dump(out, open("esportes/lab/sondagem.json", "w"), indent=1, ensure_ascii=False)
-print(json.dumps({k:(v if not isinstance(v,dict) else {kk:vv for kk,vv in v.items() if kk!="amostra"}) for k,v in out.items()}, indent=1, ensure_ascii=False)[:6000])
+import os; os.makedirs("esportes/lab", exist_ok=True)
+json.dump(out, open("esportes/lab/sondagem.json", "w"), indent=1, ensure_ascii=False, default=str)
+try: print(json.dumps({k:(v if not isinstance(v,dict) else {kk:vv for kk,vv in v.items() if kk!="amostra"}) for k,v in out.items()}, indent=1, ensure_ascii=False)[:6000])
+except Exception: traceback.print_exc()
