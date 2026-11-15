@@ -272,7 +272,8 @@ body.noscroll{overflow:hidden}
 .cidade-uf{margin:0;font-size:13px;color:var(--muted)}
 .cidade-uf:empty{display:none}
 .semcal{color:var(--laranja);font-weight:600}
-.busca{position:relative;margin:4px 0 8px}
+.busca{position:relative;margin:4px 0 8px;display:flex;gap:8px;align-items:stretch}
+.busca input{flex:1;min-width:0}
 .busca input{width:100%;box-sizing:border-box;font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px 10px 36px;min-height:44px;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a94a6' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center}
 .qres{position:absolute;z-index:40;left:0;right:0;top:calc(100% + 4px);list-style:none;margin:0;padding:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);max-height:60vh;overflow:auto}
@@ -311,6 +312,12 @@ body.noscroll{overflow:hidden}
 .hbtns{display:flex;gap:8px;align-items:center}
 .icon-btn.ok{color:#16a34a;border-color:#16a34a}
 footer.foot p{margin:4px 0}
+
+.gpsbtn{flex:none;width:44px;min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.gpsbtn.on{color:#0ea5e9;border-color:#0ea5e9}
+.gpsbtn.busy svg{animation:gpsp 1s ease-in-out infinite}
+@keyframes gpsp{50%{opacity:.3}}
+@media (prefers-reduced-motion:reduce){.gpsbtn.busy svg{animation:none}}
 </style>
 </head>
 <body>
@@ -322,7 +329,8 @@ footer.foot p{margin:4px 0}
     </div>
     <div class="hbtns"><button type="button" id="share" class="icon-btn" aria-label="Compartilhar previsão" hidden><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" id="reload" class="icon-btn" aria-label="Atualizar">↻</button></div>
   </header>
-  <div class="busca" role="search"><input id="q" type="search" placeholder="Buscar outra cidade…" autocomplete="off" autocapitalize="words" enterkeyhint="search" aria-label="Buscar cidade" aria-controls="qres" aria-expanded="false" aria-autocomplete="list"><ul id="qres" class="qres" role="listbox" hidden></ul></div>
+  <div class="busca" role="search"><button type="button" id="gpsbtn" class="gpsbtn" aria-label="Usar minha localização" title="Usar minha localização"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="3.2" fill="currentColor"/><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><input id="q" type="search" placeholder="Buscar outra cidade…" autocomplete="off" autocapitalize="words" enterkeyhint="search" aria-label="Buscar cidade" aria-controls="qres" aria-expanded="false" aria-autocomplete="list"><ul id="qres" class="qres" role="listbox" hidden></ul></div>
+  <p id="gpsmsg" class="hint" hidden></p>
   <div id="recentes" class="recentes" hidden></div>
   <div id="alerts" class="alerts"></div>
   <section id="hero" class="hero" aria-live="polite"><div class="skeleton"></div></section>
@@ -393,9 +401,21 @@ const deGeo=g=>{const br=g.country_code==='BR',uf=br?(UFS[g.admin1]||''):(g.coun
   c.slug=slugDe(c.nome,uf||c.cc||'x');return c.slug===LOC_PADRAO.slug?{...LOC_PADRAO}:c;};
 const buscaCidades=async q=>{const j=await fetch('https://geocoding-api.open-meteo.com/v1/search?count=8&language=pt&format=json&name='+encodeURIComponent(q)).then(r=>r.json());
   return (j.results||[]).filter(g=>g.latitude!=null&&g.longitude!=null).map(deGeo);};
-const irPara=c=>{if(!c.padrao)salvaRec(c);const h=c.padrao?'':'#'+c.slug;history.replaceState(null,'',location.pathname+location.search+h);location.reload();};
+const irPara=c=>{if(!c.padrao&&!c.gps)salvaRec(c);const h=c.gps?'#gps':c.padrao?'':'#'+c.slug;history.replaceState(null,'',location.pathname+location.search+h);location.reload();};
+const kmEntre=(a,b,c,d)=>{const r=Math.PI/180,x=(d-b)*r*Math.cos((a+c)/2*r),y=(c-a)*r;return 6371*Math.hypot(x,y);};
+/* localização do aparelho: guardada só neste celular; o link fica só "#gps" (sem coordenadas) */
+const lerGps=()=>{try{return JSON.parse(localStorage.getItem('gps')||'null');}catch(e){return null;}};
+const locGps=g=>{const perto=kmEntre(g.lat,g.lon,LOC_PADRAO.lat,LOC_PADRAO.lon)<=20;
+  return {...(perto?LOC_PADRAO:{}),slug:'gps',gps:true,padrao:perto,nome:perto?LOC_PADRAO.nome:(g.nome||'Minha localização'),uf:perto?'PR':(g.uf||''),cc:g.cc||'BR',admin1:g.admin1||'',pais:g.pais||'',
+    lat:+g.lat.toFixed(4),lon:+g.lon.toFixed(4),tz:'America/Sao_Paulo',rotulo:'Minha localização',quando:g.t,precisao:g.acc};};
+async function pegaGps(){const p=await new Promise((ok,no)=>navigator.geolocation?navigator.geolocation.getCurrentPosition(ok,no,{enableHighAccuracy:true,timeout:15000,maximumAge:120000}):no(new Error('sem GPS')));
+  const g={lat:p.coords.latitude,lon:p.coords.longitude,acc:Math.round(p.coords.accuracy||0),t:Date.now()};
+  try{const j=await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${g.lat}&longitude=${g.lon}&localityLanguage=pt`).then(r=>r.json());
+    g.nome=j.city||j.locality||'';g.uf=(j.principalSubdivisionCode||'').split('-')[1]||'';g.cc=j.countryCode||'BR';g.admin1=j.principalSubdivision||'';g.pais=j.countryName||'';g.bairro=j.locality&&j.locality!==j.city?j.locality:'';}catch(e){}
+  try{localStorage.setItem('gps',JSON.stringify(g));}catch(e){}return g;}
 const LOCP=(async()=>{const h=semAcento(decodeURIComponent(location.hash.slice(1)));
-  if(!h||h===LOC_PADRAO.slug)return {...LOC_PADRAO};
+  if(h==='gps'){const g=lerGps();if(g)return locGps(g);}
+  if(!h||h===LOC_PADRAO.slug||h==='gps')return {...LOC_PADRAO};
   const r=lerRec().find(x=>x.slug===h);if(r)return r;
   try{const p=h.split('-'),uf=p.length>1?p.pop():'',res=await buscaCidades(p.join(' '));const c=res.find(x=>semAcento(x.uf)===uf||semAcento(x.cc)===uf)||res[0];if(c){if(!c.padrao)salvaRec(c);return c;}}catch(e){}
   return {...LOC_PADRAO,naoAchou:h};})();
@@ -405,8 +425,13 @@ if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceW
 LOCP.then(LOC=>{
 /* ===== Busca de cidade e cidades recentes ===== */
 (function(){const $=id=>document.getElementById(id);
-  $('cidade').textContent=LOC.nome;document.title='Chuva em '+LOC.nome;
-  const sub=$('cidade-uf');if(sub)sub.textContent=LOC.padrao?'':[LOC.admin1||LOC.uf,LOC.cc!=='BR'?LOC.pais:''].filter(Boolean).join(', ');
+  $('cidade').textContent=LOC.rotulo||LOC.nome;document.title='Chuva em '+LOC.nome;
+  const sub=$('cidade-uf');if(sub){if(LOC.gps){const g=lerGps()||{},d=new Date(LOC.quando||Date.now());sub.textContent=`${g.bairro?g.bairro+', ':''}${LOC.nome}${LOC.uf?' - '+LOC.uf:''} · GPS de ${String(d.getHours()).padStart(2,'0')}h${String(d.getMinutes()).padStart(2,'0')}${LOC.precisao?` (±${LOC.precisao>=1000?Math.round(LOC.precisao/1000)+' km':LOC.precisao+' m'})`:''}`;}
+    else sub.textContent=LOC.padrao?'':[LOC.admin1||LOC.uf,LOC.cc!=='BR'?LOC.pais:''].filter(Boolean).join(', ');}
+  const gb=$('gpsbtn');if(gb){if(!navigator.geolocation)gb.hidden=true;if(LOC.gps)gb.classList.add('on');
+    gb.addEventListener('click',async()=>{gb.disabled=true;gb.classList.add('busy');const m=$('gpsmsg');if(m){m.hidden=true;}
+      try{await pegaGps();irPara({gps:true});}
+      catch(e){gb.disabled=false;gb.classList.remove('busy');if(m){m.hidden=false;m.textContent=e&&e.code===1?'Localização negada. No iPhone: Ajustes → Privacidade → Serviços de Localização → Safari → "Ao Usar o App".':'Não consegui pegar a localização agora. Tente de novo.';}}});}
   if(LOC.naoAchou){const a=$('alerts');if(a)a.insertAdjacentHTML('beforebegin',`<p class="hint">Não encontrei a cidade do link (“${LOC.naoAchou.replace(/[<>&"]/g,'')}”). Mostrando Maringá.</p>`);}
   const rec=$('recentes');
   const chips=()=>{const lst=[LOC_PADRAO,...lerRec()].filter((c,i,a)=>c.slug!==LOC.slug&&a.findIndex(x=>x.slug===c.slug)===i).slice(0,5);
@@ -605,7 +630,7 @@ const nivel=g=>g>=70?{t:'Muito forte',m:'risco de queda de árvores e destelhame
 const dist=(a,b,c,d)=>{const r=Math.PI/180,x=(d-b)*r*Math.cos((a+c)/2*r),y=(c-a)*r;return 6371*Math.hypot(x,y);};
 /* estação de aeroporto mais próxima (rede do Brasil no IEM); Maringá = SBMG */
 async function estacao(){if(LOC.padrao)return{id:'SBMG',nome:'aeroporto de Maringá',km:6};
-  const k='est:'+LOC.slug;try{const c=JSON.parse(localStorage.getItem(k)||'null');if(c)return c.id?c:null;}catch(e){}
+  const k='est:'+LOC.slug+(LOC.gps?':'+LOC.lat.toFixed(1)+','+LOC.lon.toFixed(1):'');try{const c=JSON.parse(localStorage.getItem(k)||'null');if(c)return c.id?c:null;}catch(e){}
   try{const j=await fetch('https://mesonet.agron.iastate.edu/geojson/network/BR__ASOS.geojson').then(r=>r.json());let b=null;
     for(const f of j.features||[]){const [lo,la]=f.geometry.coordinates,km=dist(LOC.lat,LOC.lon,la,lo);if(!b||km<b.km)b={id:f.properties.sid||f.id,nome:'aeroporto de '+(f.properties.sname||f.properties.sid||''),km:Math.round(km)};}
     const r=b&&b.km<=60?b:{};try{localStorage.setItem(k,JSON.stringify(r));}catch(e){}return r.id?r:null;}catch(e){return null;}}
@@ -1006,7 +1031,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')fecha();if((e.key===
 /* compartilhar */
 (()=>{const b=$('share');if(!b)return;b.hidden=false;
   const linha=(d,n)=>{if(!d)return'';const t=d[15]&&d[15].pct>=25?` · temporal ${d[15].nivel.toLowerCase()}`:'';return `${n}: ${mmTxt(d[1])} mm (${d[4]??'—'}% de chance) · ${d[10]}° a ${d[9]}° · rajadas até ${d[11]??'—'} km/h${t}`;};
-  b.addEventListener('click',async()=>{const url=location.origin+location.pathname+(LOC.padrao?'':'#'+LOC.slug);
+  b.addEventListener('click',async()=>{const url=location.origin+location.pathname+(LOC.padrao||LOC.gps?'':'#'+LOC.slug);
     const txt=`🌧️ Previsão para ${LOC.nome}\n${linha(L.D[0],'Hoje')}\n${linha(L.D[1],'Amanhã')}`;
     try{if(navigator.share){await navigator.share({title:'Chuva em '+LOC.nome,text:txt,url});return;}}catch(e){if(e&&e.name==='AbortError')return;}
     try{await navigator.clipboard.writeText(txt+'\n'+url);b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1500);}catch(e){}});})();
