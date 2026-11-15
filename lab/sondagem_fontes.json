@@ -1,0 +1,72 @@
+{
+ "cemaden_getjson2_pr": "ConnectionError(MaxRetryError('HTTPConnectionPool(host=\\'sjc.salvar.cemaden.gov.br\\', port=80): Max retries exceeded with url: /resources/graficos/interativo/getJson2.php?uf=PR (Caused by NameResolutionError(\"HTTPConnection(host=\\'sjc.salvar.cemaden.gov.br\\', port=80): Failed to resolve \\'sjc.salvar.cemaden.gov.br\\' ([Errno -2] Name or service not known)\"))'))",
+ "cemaden_getjson2_pr_https": "ConnectionError(MaxRetryError('HTTPSConnectionPool(host=\\'sjc.salvar.cemaden.gov.br\\', port=443): Max retries exceeded with url: /resources/graficos/interativo/getJson2.php?uf=PR (Caused by NameResolutionError(\"HTTPSConnection(host=\\'sjc.salvar.cemaden.gov.br\\', port=443): Failed to resolve \\'sjc.salvar.cemaden.gov.br\\' ([Errno -2] Name or service not known)\"))'))",
+ "cemaden_resources": {
+  "status": 200,
+  "acao": null,
+  "ctype": "text/html; charset=UTF-8",
+  "len": 63348,
+  "amostra": "[{\"idestacao\":8899,\"uf\":\"PR\",\"codibge\":4101408,\"cidade\":\"APUCARANA\",\"nomeestacao\":\"Jardim Ponta Grossa\",\"ultimovalor\":0.4,\"datahoraUltimovalor\":\"15\\/11\\/26 00:30\",\"acc1hr\":0.8,\"acc3hr\":32,\"acc6hr\":32,\"acc12hr\":32,\"acc24hr\":32,\"acc48hr\":34.4,\"acc72hr\":37.2,\"acc96hr\":37.2,\"tipoestacao\":1,\"status\":0},{\"idestacao\":19086,\"uf\":\"PR\",\"codibge\":4121703,\"cidade\":\"RESERVA\",\"nomeestacao\":\"G2-412170301A\",\"ultimovalor\":0,\"datahoraUltimovalor\":\"15\\/11\\/26 01:10\",\"acc1hr\":\"-\",\"acc3hr\":\"-\",\"acc6hr\":\"-\",\"acc12hr\":\"-\",\"acc24hr\":\"-\",\"acc48hr\":3,\"acc72hr\":3,\"acc96hr\":3,\"tipoestacao\":1,\"status\":0},{\"idestacao\":7298,\"uf\":\"PR\",\"codibge\":4107207,\"cidade\":\"DOIS VIZINHOS\",\"nomeestacao\":\"Prefeitura Municipal\",\"ultimovalor\":0,\"datahoraUltimovalor\":\"23\\/06\\/26 20:10\",\"acc1hr\":\"-\",\"acc3hr\":\"-\",\"acc6hr\":\"-\",\"acc12hr\":\"-\",\"acc24hr\":\"-\",\"acc48hr\":\"-\",\"acc72hr\":\"-\",\"acc96hr\":\"-\",\"tipoestacao\":1,\"status\":0},{\"idestacao\":6401,\"uf\":\"PR\",\"codibge\":4125704,\"cidade\":\"S\\u00c3O MIGUEL DO IGUA\\u00c7U\",\"nomeestacao\":\"Centro\",\"ultimovalor\":0,\"datahoraUltimovalor\":\"15\\/11\\/26 01:10\",\"acc1hr\":\"-\",\"acc3hr\":3.93,\"acc6hr\":3.93,\"acc12hr\":3.93,\"acc24hr\":3.93,\"acc48hr\":3.93,\"acc72hr\":3.93,\"acc96hr\":3.93,\"tipoestacao\":1,\"status\":0},{\"idestacao\":7307,\"uf\":\"PR\",\"codibge\":4110706,\"cidade\":\"IRATI\",\"nomeestacao\":\"Centro\",\"ultimovalor\":0,\"datahoraUltimovalor\":\"15\\/11\\/26 01:10\",\"acc1hr\":\"-\",\"acc3hr\":\"-\",\"acc6hr\":0.2,\"acc12hr\":0.2,\"acc24hr\":0.2,\"acc48hr\":0.4,\"acc72hr\":1,\"acc96hr\":1,\"tipoestacao\":1,\"status\":0},{\"idestacao\":8903,\"uf\":\"PR\""
+ },
+ "cemaden_mapainterativo": {
+  "status": 404,
+  "acao": null,
+  "ctype": "text/html; charset=UTF-8",
+  "len": 42853,
+  "amostra": "<!DOCTYPE html>\r\n<html lang=\"pt-BR\" prefix=\"og: http://ogp.me/ns#\">\r\n<head>\r\n<meta charset=\"UTF-8\" />\r\n<link rel=\"profile\" href=\"http://gmpg.org/xfn/11\" />\r\n<link rel=\"pingback\" href=\"https://www2.cemaden.gov.br/xmlrpc.php\" />\r\n<title>Página não encontrada &#8211; Cemaden</title>\n<link rel='dns-prefetch' href='//www2.cemaden.gov.br' />\n<link rel='dns-prefetch' href='//fonts.googleapis.com' />\n<link rel='dns-prefetch' href='//s.w.org' />\n<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Feed para Cemaden &raquo;\" href=\"https://www2.cemaden.gov.br/feed/\" />\n<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Feed de comentários para Cemaden &raquo;\" href=\"https://www2.cemaden.gov.br/comments/feed/\" />\n\t\t<script type=\"text/javascript\">\n\t\t\twindow._wpemojiSettings = {\"baseUrl\":\"https:\\/\\/s.w.org\\/images\\/core\\/emoji\\/2.3\\/72x72\\/\",\"ext\":\".png\",\"svgUrl\":\"https:\\/\\/s.w.org\\/images\\/core\\/emoji\\/2.3\\/svg\\/\",\"svgExt\":\".svg\",\"source\":{\"concatemoji\":\"https:\\/\\/www2.cemaden.gov.br\\/wp-includes\\/js\\/wp-emoji-release.min.js\"}};\n\t\t\t!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline=\"top\",k.font=\"600 32px Arial\",a){case\"flag\":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b!==c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,564"
+ },
+ "cemaden_ws_estacoes": {
+  "status": 200,
+  "acao": "*",
+  "ctype": "application/json;charset=utf-8",
+  "len": 945,
+  "amostra": "{\"horarios\":[\"1h\",\"2h\",\"3h\",\"4h\",\"5h\",\"6h\",\"7h\",\"8h\",\"9h\",\"10h\",\"11h\",\"12h\",\"13h\",\"14h\",\"15h\",\"16h\",\"17h\",\"18h\",\"19h\",\"20h\",\"21h\",\"22h\",\"23h\",\"0h\",\"1h\"],\"estacao\":{\"idEstacao\":3,\"nome\":\"PONTE BRANCA\",\"latitude\":-16.76638,\"longitude\":-52.83722,\"status\":\"DISABLED\",\"codEstacao\":\"01652001\",\"idMunicipio\":{\"idMunicipio\":699,\"cidade\":\"PONTE BRANCA\",\"uf\":\"MT\",\"codibge\":5106703,\"id\":699},\"idRede\":{\"idRede\":1,\"nome\":\"Agência Nacional das Águas\",\"sigla\":\"ANA\",\"status\":\"ENABLED\",\"id\":1},\"idTipoestacao\":{\"idTipoestacao\":1,\"descricao\":\"Pluviométrica\",\"id\":1},\"offset\":null,\"cotaAtencao\":null,\"cotaAlerta\":null,\"cotaTransbordamento\":null,\"id\":3},\"datas\":[\"14/11/2026\",\"15/11/2026\"],\"acumulados\":[[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]]}"
+ },
+ "sgb_cemaden_layers": {
+  "status": 200,
+  "acao": "https://thiagoknag-debug.github.io",
+  "ctype": "application/json; charset=UTF-8",
+  "len": 4322,
+  "amostra": "{\"layers\":[{\"currentVersion\":11.3,\"cimVersion\":\"3.3.0\",\"id\":0,\"name\":\"EstacoesCemaden\",\"type\":\"Feature Layer\",\"description\":\"TesteFurnas.DBO.EstacoesCemaden\",\"geometryType\":\"esriGeometryPoint\",\"sourceSpatialReference\":{\"wkid\":4326,\"latestWkid\":4326,\"xyTolerance\":8.983152841195215E-9,\"zTolerance\":0.001,\"mTolerance\":0.001,\"falseX\":-400,\"falseY\":-400,\"xyUnits\":9.999999999999999E8,\"falseZ\":0,\"zUnits\":1,\"falseM\":0,\"mUnits\":1},\"copyrightText\":\"\",\"parentLayer\":null,\"subLayers\":[],\"minScale\":0,\"maxScale\":0,\"referenceScale\":0.0,\"drawingInfo\":{\"renderer\":{\"type\":\"simple\",\"symbol\":{\"type\":\"esriSMS\",\"style\":\"esriSMSCircle\",\"color\":[65,142,105,255],\"size\":4,\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"outline\":{\"color\":[0,0,0,255],\"width\":0.7}}},\"scaleSymbols\":true,\"transparency\":0,\"labelingInfo\":null},\"defaultVisibility\":true,\"extent\":{\"xmin\":-36.50482199999993,\"ymin\":-10.292397999999935,\"xmax\":-35.222999999999956,\"ymax\":-8.85218999999995,\"spatialReference\":{\"wkid\":4326,\"latestWkid\":4326,\"xyTolerance\":8.983152841195215E-9,\"zTolerance\":0.001,\"mTolerance\":0.001,\"falseX\":-4.503599627370495E11,\"falseY\":-4.503599627370495E11,\"xyUnits\":10000,\"falseZ\":-100000,\"zUnits\":10000,\"falseM\":-100000,\"mUnits\":10000}},\"hasAttachments\":false,\"htmlPopupType\":\"esriServerHTMLPopupTypeAsHTMLText\",\"displayField\":\"codestacao\",\"typeIdField\":null,\"subtypeFieldName\":null,\"subtypeField\":null,\"defaultSubtypeCode\":null,\"fields\":[{\"name\":\"OBJECTID\",\"type\":\"esriFieldTypeOID\",\"alias\":\"OBJECTID\",\"domain\":null},{\"name\":\"codestacao\",\"type\":\"esriFieldTypeString\",\"alias\":\"codestacao\",\"length\":30,\"domain\":null},{\"name\":\"latitude\",\"type\":\"esriFieldTypeDouble\",\"alias\":\"latitude\",\"domain\":null},{\"name\":\"longitude\",\"type\":\"esriFieldTypeDouble\",\"alias\":\"longitude\",\"domain\":null},{\"name\":\"cidade\",\"type\":\"esriFieldTypeString\",\"alias\":\"cidade\",\"length\":30,\"domain\":null},{\"name\":\"nome\",\"type\":\"esriFieldTypeString\",\"alias\":\"nome\",\"length\":30,\"domain\":null},{\"name\":\"tipo\",\"type\":\"esriFieldTypeString\",\"alias\":\"tipo\",\"length\":30,\"domain\":null},{\"name\":\"uf\",\"type\":\"esriFieldTypeString\",\"alias\":\"uf\",\"length\":30,\"domain\":null},{\"name\":\"chuva\",\"type\":\"esriFieldTypeDouble\",\"alias\":\"chuva\",\"domain\":null},{\"name\":\"dataHora\",\"type\":\"esriFieldTypeString\",\"alias\":\"dataHora\",\"length\":30,\"domain\":null},{\"name\":\"Shape\",\"type\":\"esriFieldTypeGeometry\",\"alias\":\"Shape\",\"domain\":null}],\"geometryField\":{\"name\":\"Shape\",\"type\":\"esriFieldTypeGeometry\",\"alias\":\"Shape\"},\"indexes\":[{\"name\":\"FDO_OBJECTID\",\"fields\":\"OBJECTID\",\"isAscending\":true,\"isUnique\":true,\"description\":\"\"},{\"name\":\"FDO_Shape\",\"fields\":\"Shape\",\"isAscending\":true,\"isUnique\":false,\"description\":\"\"}],\"subtypes\":[],\"relationships\":[],\"canModifyLayer\":true,\"canScaleSymbols\":false,\"hasLabels\":false,\"capabilities\":\"Map,Query,Data\",\"maxRecordCount\":2000,\"supportsStatistics\":true,\"supportsExceedsLimitStatistics\":true,\"supportsAdvancedQueries\":true,\"supportedQueryFormats\":\"JSON, geoJSON, PBF\",\"isDataVersioned\":false,\"ownershipBasedAccessControlForFeatures\":{\"allowOthersToQuery\":true},\"supportedSpatialRelationships\":[\"esriSpatialRelIntersects\",\"esriSpatialRelContains\",\"esriSpatialRelCrosses\",\"esriSpatialRelEnvelopeIntersects\",\"esriSpatialRelIndexIntersects\",\"esriSpatialRelOverlaps\",\"esriSpatialRelTouches\",\"esriSpatialRelWithin\",\"esriSpatialRelRelation\"],\"advancedQueryCapabilities\":{\"useStandardizedQueries\":false,\"supportsStatistics\":true,\"supportsPercentileStatistics\":true,\"supportsHavingClause\":true,\"supportsOrderBy\":true,\"supportsDistinct\":true,\"supportsCountDistinct\":true,\"supportsAdvancedQueryRelated\":true,\"supportsQueryRelatedPagination\":true,\"supportsPagination\":true,\"supportsLod\":false,\"supportsQueryWithLodSR\":false,\"supportsTrueCurve\":true,\"supportsQueryWithDatumTransformation\":true,\"supportsReturningQueryExtent\":true,\"supportsQueryWithDistance\":true,\"supportsSqlExpression\":true,\"supportsTimeRelation\":true,\"supportsSqlFormat\":true,\"supportsQueryAnalytic\":false,\"supportsCurrentUserQueries\":true},\"supportsDatumTransformation\":true,\"dateFieldsTimeReference\":null"
+ },
+ "sgb_cemaden_q": {
+  "status": 200,
+  "acao": "https://thiagoknag-debug.github.io",
+  "ctype": "application/json; charset=UTF-8",
+  "len": 1066,
+  "amostra": "{\"displayFieldName\":\"codestacao\",\"fieldAliases\":{\"OBJECTID\":\"OBJECTID\",\"codestacao\":\"codestacao\",\"latitude\":\"latitude\",\"longitude\":\"longitude\",\"cidade\":\"cidade\",\"nome\":\"nome\",\"tipo\":\"tipo\",\"uf\":\"uf\",\"chuva\":\"chuva\",\"dataHora\":\"dataHora\"},\"geometryType\":\"esriGeometryPoint\",\"spatialReference\":{\"wkid\":4326,\"latestWkid\":4326},\"fields\":[{\"name\":\"OBJECTID\",\"type\":\"esriFieldTypeOID\",\"alias\":\"OBJECTID\"},{\"name\":\"codestacao\",\"type\":\"esriFieldTypeString\",\"alias\":\"codestacao\",\"length\":30},{\"name\":\"latitude\",\"type\":\"esriFieldTypeDouble\",\"alias\":\"latitude\"},{\"name\":\"longitude\",\"type\":\"esriFieldTypeDouble\",\"alias\":\"longitude\"},{\"name\":\"cidade\",\"type\":\"esriFieldTypeString\",\"alias\":\"cidade\",\"length\":30},{\"name\":\"nome\",\"type\":\"esriFieldTypeString\",\"alias\":\"nome\",\"length\":30},{\"name\":\"tipo\",\"type\":\"esriFieldTypeString\",\"alias\":\"tipo\",\"length\":30},{\"name\":\"uf\",\"type\":\"esriFieldTypeString\",\"alias\":\"uf\",\"length\":30},{\"name\":\"chuva\",\"type\":\"esriFieldTypeDouble\",\"alias\":\"chuva\"},{\"name\":\"dataHora\",\"type\":\"esriFieldTypeString\",\"alias\":\"dataHora\",\"length\":30}],\"features\":[]}"
+ },
+ "gibs_caps": {
+  "status": 200,
+  "acao": "*",
+  "ctype": "text/xml; charset=UTF-8",
+  "len": 5842320,
+  "amostra": "<Capabilities xmlns:gml='http://www.opengis.net/gml' version='1.0.0' xsi:schemaLocation='http://www."
+ },
+ "gibs_glm": [
+  "LIS_High_Resolution_Full_Climatology_Combined_Flash_Rate_Climatology",
+  "LIS_High_Resolution_Full_Climatology_LIS_Flash_Rate_Climatology",
+  "LIS_High_Resolution_Full_Climatology_LIS_Raw_Flashes",
+  "LIS_High_Resolution_Full_Climatology_LIS_Scaled_Flashes",
+  "LIS_ISS_Flash_Count",
+  "LIS_ISS_Flash_Radiance",
+  "LIS_TRMM_Flash_Radiance",
+  "LIS_Very_High_Resolution_Lightning_Daily_Climatology_LIS_Mean_Flash_Rate",
+  "LIS_Very_High_Resolution_Lightning_Full_Climatology_LIS_Mean_Flash_Rate",
+  "LIS_Very_High_Resolution_Lightning_Monthly_Climatology_LIS_Mean_Flash_Rate",
+  "LIS_Very_High_Resolution_Lightning_Seasonal_Climatology_LIS_Mean_Flash_Rate",
+  "OLS_DMSP_F10_Digital_Derived_Lightning",
+  "OLS_DMSP_F12_Digital_Derived_Lightning",
+  "OTD_High_Resolution_Full_Climatology_OTD_Flash_Rate_Climatology",
+  "OTD_High_Resolution_Full_Climatology_OTD_Raw_Flashes",
+  "OTD_High_Resolution_Full_Climatology_OTD_Scaled_Flashes",
+  "OTD_OrbView1_Flash_Radiance"
+ ],
+ "aws_goes19_glm": {
+  "status": 200,
+  "acao": "*",
+  "ctype": "application/xml",
+  "len": 1592,
+  "amostra": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<ListBucketResult xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\"><Name>noaa-goes19</Name><Prefix>GLM-L2-LCFA/2026/318/</Prefix><NextContinuationToken>1IsBq+EPmy+8r/xKoYDLZzLCLCpff0JSkO5SaRh5E5Icmonnm4gbhk/yUWrJROEFV2lhlKM/nMg3RgL3oFhqRXB/+8hSDbqV3uvgSKrDZS96BhT7qMiqEG/8NaeOf9/b6nm/jG/YX2xBi6JJrpQpQ/UblVijWehh1</NextContinuationToken><KeyCount>3</KeyCount><MaxKeys>3</MaxKeys><IsTruncated>true</IsTruncated><Contents><Key>GLM-L2-LCFA/2026/318/00/OR_GLM-L2-LCFA_G19_s20263180000000_e20263180000200_c20263180000217.nc</Key><LastModified>2026-11-14T00:00:32.000Z</LastModified><ETag>&quot;9797187658db249f0ef8cf909d320ac4&quot;</ETag><ChecksumAlgorithm>CRC32</ChecksumAlgorithm><ChecksumType>FULL_OBJECT</ChecksumType><Size>510643</Size><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>GLM-L2-LCFA/2026/318/00/OR_GLM-L2-LCFA_G19_s20263180000200_e20263180000400_c20263180000420.nc</Key><LastModified>2026-11-14T00:00:50.000Z</LastModified><ETag>&quot;c0c1d025ac05423686eada1ebe757d60&quot;</ETag><ChecksumAlgorithm>CRC32</ChecksumAlgorithm><ChecksumType>FULL_OBJECT</ChecksumType><Size>490468</Size><StorageClass>STANDARD</StorageClass></Contents><C"
+ }
+}
