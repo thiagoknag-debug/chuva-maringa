@@ -78,7 +78,7 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
 .h .deg{font-size:11px;color:var(--muted)}
 
 /* dias */
-.day{display:grid;grid-template-columns:58px 30px 40px 1fr 52px;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.day{display:grid;grid-template-columns:58px 30px 40px 1fr minmax(52px,auto);align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
 .day:first-child{border-top:0;padding-top:2px}
 .day .n{font-weight:700;line-height:1.15}
 .day .n small{display:block;font-weight:500;color:var(--muted);font-size:12px}
@@ -89,7 +89,7 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
 .track .val{position:absolute;top:-3px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--rain);border:2px solid var(--card)}
 .day .v{text-align:right;font-weight:800;font-size:16px;font-variant-numeric:tabular-nums}
 .day .v small{font-size:11px;font-weight:500;color:var(--muted)}
-.day .tmp{font-size:11.5px;color:var(--muted);grid-column:4;margin-top:-6px}
+.day .tmp{font-size:11.5px;color:var(--muted);grid-column:4 / -1;margin-top:-6px}
 .legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);margin-top:10px}
 .legend i{display:inline-block;vertical-align:-1px;margin-right:5px}
 
@@ -318,6 +318,15 @@ footer.foot p{margin:4px 0}
 .gpsbtn.busy svg{animation:gpsp 1s ease-in-out infinite}
 @keyframes gpsp{50%{opacity:.3}}
 @media (prefers-reduced-motion:reduce){.gpsbtn.busy svg{animation:none}}
+
+/* revisão de layout */
+[hidden]{display:none!important}
+@media (max-width:400px){
+  .day{grid-template-columns:48px 26px 36px 1fr minmax(46px,auto);gap:8px}
+  .day .tmp{grid-column:2 / -1}
+  .rtabs button{font-size:13px;padding:7px 6px}
+}
+.now .src{display:block;font-size:11.5px;opacity:.8;font-weight:500;margin-top:2px}
 </style>
 </head>
 <body>
@@ -338,7 +347,7 @@ footer.foot p{margin:4px 0}
   <section class="card vt" id="vt" aria-live="polite"><div class="vt-top"><h2>Vento</h2></div><p class="hint">Carregando…</p></section>
   <section class="card" id="radar">
     <div class="rhead"><h2>Radar</h2><button type="button" id="rbtn" class="pill-btn" aria-pressed="false">Satélite</button></div>
-    <div class="rtabs" role="tablist"><button type="button" role="tab" id="tab-agora" aria-selected="true">Ao vivo</button><button type="button" role="tab" id="tab-prev" aria-selected="false">Previsão por horário</button></div>
+    <div class="rtabs" role="tablist"><button type="button" role="tab" id="tab-agora" aria-selected="true">Ao vivo</button><button type="button" role="tab" id="tab-prev" aria-selected="false">Previsão</button></div>
     <div id="rmap" class="rmap" role="img" aria-label="Mapa de radar de chuva da região"></div>
     <p class="rtime" id="rtime"></p>
     <p class="hint" id="rmsg">Carregando radar…</p>
@@ -611,7 +620,12 @@ function desenha(){if(!estado)return;const F=frase(),C=confianca(F),{P,prox,V,t0
    <p class="nc-d">${proxTxt} ${movTxt}</p>
    <p class="nc-d"><b>Por que confiança ${C.t}:</b> ${C.m}.</p>
    <details class="nc-how"><summary>Como funciona e quanto acerta</summary><p>Pego as 4 últimas imagens do radar (uma a cada 10 min), meço para onde e a que velocidade a chuva está andando e projeto esse movimento até 90 min à frente, minuto a minuto, sobre ${LOC.nome}. A cor indica a intensidade (fraca = até ~2 mm/h; moderada = 3–10; forte = 10–40; muito forte = 50+; temporal = possível granizo). As imagens chegam com ~10 min de atraso (agora: ${atraso} min), e isso já entra na conta.</p><p>Teste com o radar real de 5/11 (2 h de chuva no Paraná, 13 mil comparações): com 10 min de antecedência, avisou 84% das chuvas e 19% dos avisos não se confirmaram; com 30 min, 73% e 40%; com 60 min, 69% e 52%. Projetar o movimento acertou bem mais que supor que "a chuva fica onde está". O que não dá para prever: tempestades que nascem do nada perto da cidade.</p></details>`;
-  el.classList.toggle('chove',F.k==='agora'||F.k==='vem');try{window.__VTUI&&window.__VTUI.redesenha();}catch(e){}}
+  el.classList.toggle('chove',F.k==='agora'||F.k==='vem');try{window.__VTUI&&window.__VTUI.redesenha();}catch(e){}
+  /* o resumo de cima usa o modelo; quando o radar discorda sobre "chovendo agora", o radar manda */
+  try{const now=document.querySelector('#hero .now'),h0=window.__HERO0;if(now&&h0&&P[0].u<0.5){const ch=/chuva|tempest|pancada|garoa/i.test(h0.c0.t),rad=P[0].p>=0.5,nada=P[0].p<0.2;
+    const i=now.querySelector('.ic'),t=now.querySelector('.ncond');
+    if((ch&&nada)||(!ch&&rad)){const k=icone(F);if(i){i.textContent=k[0];i.setAttribute('aria-label',k[1]);}if(t)t.innerHTML=(rad?(F.c?'Chuva '+F.c.t:'Chuva'):k[1])+'<span class="src">pelo radar agora</span>';}
+    else if(i&&t){i.textContent=h0.c0.e;t.textContent=h0.c0.t;}}}catch(e){}}
 window.__NCUI={set(c){ctx=Object.assign(ctx,c);desenha();},estado:()=>estado,frase:()=>estado?frase():null,atualiza};
 atualiza(true);
 setInterval(()=>{if(!document.hidden)atualiza(false);},180e3);
@@ -649,8 +663,11 @@ function desenha(){if(!H||!H.ws)return;const ob=window.__OBS,h0=+String(H.start|
   /* aviso: tempestade chegando/presente pode trazer rajada súbita, mesmo com vento fraco agora */
   let av='';const F=window.__NCUI&&window.__NCUI.frase&&window.__NCUI.frase(),E=window.__NCUI&&window.__NCUI.estado&&window.__NCUI.estado();
   const forte=F&&(F.k==='agora'||F.k==='vem')&&F.c&&F.c.k>=3,perto=E&&E.prox&&E.prox.km<=40&&E.prox.z>=45&&/direção/.test(E.prox.vem||'');
-  if(forte||perto||(ob&&ob.fresco&&ob.ts))av=`<p class="vt-av">⚠️ ${ob&&ob.fresco&&ob.ts?'Há nuvem de tempestade perto do aeroporto. ':''}${forte?'Chuva forte chegando. ':perto?`Tempestade a ${E.prox.km} km vindo para cá. `:''}A frente de vento que sai da tempestade pode trazer rajadas fortes de repente, mesmo com vento fraco agora.</p>`;
+  if(forte||perto||(ob&&ob.fresco&&ob.ts))av=`<p class="vt-av">⚠️ ${ob&&ob.fresco&&ob.ts?'Há nuvem de tempestade perto do aeroporto. ':''}${forte?'Chuva forte chegando. ':perto?`Tempestade a ${E.prox.km} km vindo para cá. `:''}A frente de vento que sai da tempestade pode trazer rajadas fortes de repente${(ag.ws||0)<20?', mesmo com vento fraco agora':''}.</p>`;
   else if(gx>=50)av=`<p class="vt-av">⚠️ Rajadas de até ${gx} km/h previstas perto das ${pad(pico.h)}h.</p>`;
+  /* resumo de cima: temperatura e vento medidos, quando houver medição recente */
+  try{const now=document.querySelector('#hero .now');if(now&&ob&&ob.fresco){const nt=now.querySelector('.nt'),nw=now.querySelector('.nw');
+    if(nt&&ob.T!=null)nt.textContent=ob.T+'°';if(nw&&ob.ws!=null)nw.innerHTML=`Vento ${s8(ob.wd)} ${ob.ws} km/h${ob.wg?` · rajadas ${ob.wg} km/h`:''}<span class="src">medido às ${ob.hora} no ${ob.est.nome}</span>`;}}catch(e){}
   el.innerHTML=`<div class="vt-top"><h2>Vento</h2><span class="vt-src">${ag.fonte}</span></div>
    <div class="vt-main ${N.c}">${seta(ag.wd,'big')}<div><b>${ag.ws??'—'} km/h</b>${ag.wd!=null?` <span>vindo do ${d8(ag.wd)}</span>`:''}<div class="vt-sub">${gm!=null?`rajadas de ${gm} km/h · `:ob&&ob.fresco?'sem rajadas registradas · ':''}<b>${N.t}</b>: ${N.m}</div></div></div>
    ${av}
@@ -926,7 +943,7 @@ const condD=d=>{const P=d[4]??0,mm=d[1]||0,P10=d[5]??0,g=d[11]||0,cc=d[14];
   return{e:'☀️',t:'Ensolarado',k:'clear'};};
 const ic=(c,cls='')=>`<span class="ic ${cls}" role="img" aria-label="${c.t}">${c.e}</span>`;
 const agora=()=>{const t=H.t[0],ws=H.ws?H.ws[0]:null,wg=H.wg?H.wg[0]:null,wd=H.wd?H.wd[0]:null;
-  const c0=condH(0);return `<div class="now">${ic(c0,'big')}<span class="nt">${t??'—'}°</span><span class="ncond">${c0.t}</span><span class="nw">Vento ${dir8(wd)} ${ws??'—'} km/h${wg!=null?` · rajadas ${wg} km/h`:''}</span></div>`;};
+  const c0=condH(0);window.__HERO0={c0};return `<div class="now">${ic(c0,'big')}<span class="nt">${t??'—'}°</span><span class="ncond">${c0.t}</span><span class="nw">Vento ${dir8(wd)} ${ws??'—'} km/h${wg!=null?` · rajadas ${wg} km/h`:''}</span></div>`;};
 let head,sub,lab;
 const sig=wins.filter(w=>winMm(w).s>=1);
 if(wins.length){const w=sig[0]||wins[0],a=hrs[w.a],b=new Date(hrs[w.b].getTime()+3600e3),m=winMm(w);
