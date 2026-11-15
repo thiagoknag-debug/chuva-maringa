@@ -1,0 +1,33 @@
+name: Esportes - agenda da semana
+on:
+  schedule:
+    - cron: "11 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["esportes/nucleo.js", "esportes/atualizar.mjs", ".github/workflows/esportes.yml"]
+permissions:
+  contents: write
+concurrency:
+  group: esportes
+  cancel-in-progress: false
+jobs:
+  agenda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node esportes/atualizar.mjs
+      - name: Publicar no branch esportes-dados (sem histórico)
+        env:
+          TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/pub && cp esportes/saida/semana.json /tmp/pub/ && cd /tmp/pub
+          git init -q -b esportes-dados
+          git config user.name "esportes-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add semana.json && git commit -q -m "Agenda $(date -u +%FT%TZ)"
+          git push -f -q "https://x-access-token:${TOKEN}@github.com/${{ github.repository }}.git" esportes-dados
