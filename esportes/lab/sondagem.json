@@ -1,0 +1,985 @@
+{
+ "range": "20261115-20261122",
+ "soccer/bra.1": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": [],
+  "amostra": {}
+ },
+ "soccer/bra.2": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/bra.copa_do_brasil": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/conmebol.libertadores": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": [],
+  "amostra": {}
+ },
+ "soccer/conmebol.sudamericana": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/uefa.champions": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/uefa.europa": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/uefa.nations": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/fifa.friendly": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/fifa.worldq.conmebol": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/eng.1": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/esp.1": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/ita.1": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/ger.1": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/fra.1": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/usa.1": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/arg.1": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "soccer/por.1": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "racing/f1": {
+  "status": 200,
+  "acao": "*",
+  "n": 1,
+  "nomes": [
+   [
+    "2026-11-20T00:30Z",
+    "Heineken Las Vegas Grand Prix",
+    "STATUS_SCHEDULED"
+   ]
+  ],
+  "amostra": {
+   "id": "600057449",
+   "uid": "s:2000~l:2030~e:600057449",
+   "date": "2026-11-20T00:30Z",
+   "endDate": "2026-11-22T04:00Z",
+   "name": "Heineken Las Vegas Grand Prix",
+   "shortName": "Heineken Las Vegas GP",
+   "season": {
+    "year": 2026,
+    "type": 2,
+    "slug": "regular-season"
+   },
+   "competitions": [
+    {
+     "id": "401839133",
+     "uid": "s:2000~l:2030~e:600057449~c:401839133",
+     "date": "2026-11-20T00:30Z",
+     "type": {
+      "id": "1",
+      "abbreviation": "FP1"
+     },
+     "timeValid": true,
+     "recent": false,
+     "notes": [],
+     "status": {
+      "clock": 0.0,
+      "displayClock": "0:00",
+      "period": 0,
+      "type": {
+       "id": "1",
+       "name": "STATUS_SCHEDULED",
+       "state": "pre",
+       "completed": false,
+       "description": "Scheduled",
+       "detail": "Thu, November 19th at 7:30 PM EST",
+       "shortDetail": "11/19 - 7:30 PM EST"
+      }
+     },
+     "broadcasts": [
+      {
+       "market": "national",
+       "names": [
+        "…"
+       ]
+      }
+     ],
+     "startDate": "2026-11-20T00:30Z",
+     "broadcast": "Apple TV",
+     "geoBroadcasts": [
+      {
+       "type": {
+        "id": "…",
+        "shortName": "…"
+       },
+       "market": {
+        "id": "…",
+        "type": "…"
+       },
+       "media": {
+        "shortName": "…"
+       },
+       "lang": "en",
+       "region": "us"
+      }
+     ],
+     "highlights": []
+    },
+    {
+     "id": "401839134",
+     "uid": "s:2000~l:2030~e:600057449~c:401839134",
+     "date": "2026-11-20T04:00Z",
+     "type": {
+      "id": "1",
+      "abbreviation": "FP2"
+     },
+     "timeValid": true,
+     "recent": false,
+     "notes": [],
+     "status": {
+      "clock": 0.0,
+      "displayClock": "0:00",
+      "period": 0,
+      "type": {
+       "id": "1",
+       "name": "STATUS_SCHEDULED",
+       "state": "pre",
+       "completed": false,
+       "description": "Scheduled",
+       "detail": "Thu, November 19th at 11:00 PM EST",
+       "shortDetail": "11/19 - 11:00 PM EST"
+      }
+     },
+     "broadcasts": [
+      {
+       "market": "national",
+       "names": [
+        "…"
+       ]
+      }
+     ],
+     "startDate": "2026-11-20T04:00Z",
+     "broadcast": "Apple TV",
+     "geoBroadcasts": [
+      {
+       "type": {
+        "id": "…",
+        "shortName": "…"
+       },
+       "market": {
+        "id": "…",
+        "type": "…"
+       },
+       "media": {
+        "shortName": "…"
+       },
+       "lang": "en",
+       "region": "us"
+      }
+     ],
+     "highlights": []
+    }
+   ],
+   "links": [
+    {
+     "language": "en-US",
+     "rel": [
+      "summary",
+      "desktop"
+     ],
+     "href": "https://www.espn.com/f1/race/_/id/600057449",
+     "text": "Gamecast",
+     "shortText": "Gamecast",
+     "isExternal": false,
+     "isPremium": false
+    },
+    {
+     "language": "en-US",
+     "rel": [
+      "preview",
+      "desktop"
+     ],
+     "href": "https://www.espn.com/f1/preview/_/id/600057449",
+     "text": "Preview",
+     "shortText": "Preview",
+     "isExternal": false,
+     "isPremium": false
+    }
+   ],
+   "circuit": {
+    "id": "4250",
+    "fullName": "Las Vegas Street Circuit",
+    "address": {
+     "city": "Nevada",
+     "country": "USA"
+    }
+   },
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Thu, November 19th at 7:30 PM EST",
+     "shortDetail": "11/19 - 7:30 PM EST"
+    }
+   }
+  }
+ },
+ "racing/irl": {
+  "status": 200,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "racing/nascar-premier": {
+  "status": 200,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "basketball/nba": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": [],
+  "amostra": {}
+ },
+ "football/nfl": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "football/college-football": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "tennis/atp": {
+  "status": 200,
+  "acao": "*",
+  "n": 1,
+  "nomes": [
+   [
+    "2026-11-15T05:00Z",
+    "Nitto ATP Finals",
+    "STATUS_SCHEDULED"
+   ]
+  ],
+  "amostra": {
+   "id": "339-2026",
+   "uid": "s:850~l:851~e:339-2026",
+   "date": "2026-11-15T05:00Z",
+   "endDate": "2026-11-23T04:59Z",
+   "major": false,
+   "name": "Nitto ATP Finals",
+   "shortName": "Nitto ATP Finals",
+   "season": {
+    "year": 2026,
+    "type": 2
+   },
+   "groupings": [
+    {
+     "grouping": {
+      "id": "3",
+      "slug": "mens-doubles",
+      "displayName": "Men's Doubles"
+     },
+     "competitions": [
+      {
+       "id": "187517",
+       "uid": "s:850~l:851~e:339-2026~c:187517",
+       "date": "2026-11-15T10:30Z",
+       "startDate": "2026-11-15T10:30Z",
+       "timeValid": true,
+       "recent": false,
+       "status": {
+        "period": "…",
+        "type": "…"
+       },
+       "venue": {
+        "fullName": "…",
+        "court": "…"
+       },
+       "format": {
+        "regulation": "…"
+       },
+       "notes": [],
+       "geoBroadcasts": [],
+       "broadcasts": [],
+       "broadcast": "",
+       "competitors": [
+        "…",
+        "…"
+       ],
+       "tournamentId": 339,
+       "type": {
+        "id": "…",
+        "text": "…",
+        "slug": "…"
+       },
+       "round": {
+        "id": "…",
+        "displayName": "…"
+       },
+       "wasSuspended": false
+      },
+      {
+       "id": "187518",
+       "uid": "s:850~l:851~e:339-2026~c:187518",
+       "date": "2026-11-15T17:00Z",
+       "startDate": "2026-11-15T17:00Z",
+       "timeValid": true,
+       "recent": false,
+       "status": {
+        "period": "…",
+        "type": "…"
+       },
+       "venue": {
+        "fullName": "…",
+        "court": "…"
+       },
+       "format": {
+        "regulation": "…"
+       },
+       "notes": [],
+       "geoBroadcasts": [],
+       "broadcasts": [],
+       "broadcast": "",
+       "competitors": [
+        "…",
+        "…"
+       ],
+       "tournamentId": 339,
+       "type": {
+        "id": "…",
+        "text": "…",
+        "slug": "…"
+       },
+       "round": {
+        "id": "…",
+        "displayName": "…"
+       },
+       "wasSuspended": false
+      }
+     ]
+    },
+    {
+     "grouping": {
+      "id": "1",
+      "slug": "mens-singles",
+      "displayName": "Men's Singles"
+     },
+     "competitions": [
+      {
+       "id": "187505",
+       "uid": "s:850~l:851~e:339-2026~c:187505",
+       "date": "2026-11-15T13:00Z",
+       "startDate": "2026-11-15T13:00Z",
+       "timeValid": true,
+       "recent": false,
+       "status": {
+        "period": "…",
+        "type": "…"
+       },
+       "venue": {
+        "fullName": "…",
+        "court": "…"
+       },
+       "format": {
+        "regulation": "…"
+       },
+       "notes": [],
+       "geoBroadcasts": [],
+       "broadcasts": [],
+       "broadcast": "",
+       "competitors": [
+        "…",
+        "…"
+       ],
+       "tournamentId": 339,
+       "type": {
+        "id": "…",
+        "text": "…",
+        "slug": "…"
+       },
+       "round": {
+        "id": "…",
+        "displayName": "…"
+       },
+       "wasSuspended": false
+      },
+      {
+       "id": "187506",
+       "uid": "s:850~l:851~e:339-2026~c:187506",
+       "date": "2026-11-15T19:30Z",
+       "startDate": "2026-11-15T19:30Z",
+       "timeValid": true,
+       "recent": false,
+       "status": {
+        "period": "…",
+        "type": "…"
+       },
+       "venue": {
+        "fullName": "…",
+        "court": "…"
+       },
+       "format": {
+        "regulation": "…"
+       },
+       "notes": [],
+       "geoBroadcasts": [],
+       "broadcasts": [],
+       "broadcast": "",
+       "competitors": [
+        "…",
+        "…"
+       ],
+       "tournamentId": 339,
+       "type": {
+        "id": "…",
+        "text": "…",
+        "slug": "…"
+       },
+       "round": {
+        "id": "…",
+        "displayName": "…"
+       },
+       "wasSuspended": false
+      }
+     ]
+    }
+   ],
+   "status": {
+    "period": 1,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, November 15th at 5:30 AM EST",
+     "shortDetail": "11/15 - 5:30 AM EST"
+    }
+   },
+   "venue": {
+    "displayName": "Inalpi Arena, Turin, Italy"
+   },
+   "links": [
+    {
+     "language": "en-US",
+     "rel": [
+      "summary",
+      "desktop"
+     ],
+     "href": "https://www.espn.com/tennis/scoreboard/tournament/_/eventId/339-2026/competitionType/3",
+     "text": "Summary",
+     "shortText": "Summary",
+     "isExternal": false,
+     "isPremium": false,
+     "isHidden": false
+    },
+    {
+     "language": "en-US",
+     "rel": [
+      "bracket",
+      "desktop"
+     ],
+     "href": "https://www.espn.com/tennis/bracket/_/year/2026/tournamentId/339/type/3",
+     "text": "Bracket",
+     "shortText": "Bracket",
+     "isExternal": false,
+     "isPremium": false,
+     "isHidden": false
+    }
+   ],
+   "previousWinners": [
+    {
+     "displayName": "Jannik Sinner",
+     "shortDisplayName": "J. Sinner",
+     "type": {
+      "id": "1",
+      "text": "Men's Singles",
+      "slug": "mens-singles"
+     },
+     "headshot": "https://a.espncdn.com/i/headshots/tennis/players/full/3623.png",
+     "links": [
+      {
+       "language": "en-US",
+       "rel": [
+        "…",
+        "…"
+       ],
+       "href": "https://www.espn.com/tennis/player/_/id/3623/jannik-sinner",
+       "text": "Player Card",
+       "shortText": "Player Card",
+       "isExternal": false,
+       "isPremium": false,
+       "isHidden": false
+      }
+     ]
+    },
+    {
+     "displayName": "Harri Heliovaara / Henry Patten",
+     "shortDisplayName": "H. Heliovaara / H. Patten",
+     "type": {
+      "id": "3",
+      "text": "Men's Doubles",
+      "slug": "mens-doubles"
+     },
+     "athletes": [
+      {
+       "displayName": "Harri Heliovaara",
+       "shortDisplayName": "H. Heliovaara",
+       "links": [
+        "…"
+       ]
+      },
+      {
+       "displayName": "Henry Patten",
+       "shortDisplayName": "H. Patten",
+       "links": [
+        "…"
+       ]
+      }
+     ]
+    }
+   ],
+   "calendar": {
+    "type": "day",
+    "timeZone": "America/New_York",
+    "startDate": "2026-11-15T05:00Z",
+    "endDate": "2026-11-22T05:00Z",
+    "calendar": [
+     "2026-11-15T05:00Z",
+     "2026-11-16T05:00Z"
+    ]
+   }
+  }
+ },
+ "tennis/wta": {
+  "status": 200,
+  "acao": "*",
+  "n": 3,
+  "nomes": [
+   [
+    "2026-11-08T05:00Z",
+    "FAGE WTA Finals Indian Wells",
+    "STATUS_FINAL"
+   ],
+   [
+    "2026-11-08T05:00Z",
+    "Austin 125",
+    null
+   ],
+   [
+    "2026-11-15T05:00Z",
+    "LP Open by IND",
+    "STATUS_SCHEDULED"
+   ]
+  ]
+ },
+ "mma/ufc": {
+  "status": 200,
+  "acao": "*",
+  "n": 1,
+  "nomes": [
+   [
+    "2026-11-21T15:00Z",
+    "UFC Fight Night: Procházka vs. Stirling",
+    "STATUS_SCHEDULED"
+   ]
+  ],
+  "amostra": {
+   "id": "600061665",
+   "uid": "s:3301~l:3321~e:600061665",
+   "date": "2026-11-21T15:00Z",
+   "name": "UFC Fight Night: Procházka vs. Stirling",
+   "shortName": "UFC Fight Night",
+   "season": {
+    "year": 2026,
+    "type": 2,
+    "slug": "regular-season"
+   },
+   "competitions": [
+    {
+     "id": "401934356",
+     "uid": "s:3301~l:3321~e:600061665~c:401934356",
+     "date": "2026-11-21T15:00Z",
+     "endDate": "2026-11-21T15:00Z",
+     "type": {
+      "id": "990",
+      "abbreviation": "Light Heavyweight"
+     },
+     "timeValid": true,
+     "neutralSite": false,
+     "playByPlayAvailable": false,
+     "recent": false,
+     "venue": {
+      "id": "11560",
+      "fullName": "ABHA Arena",
+      "address": {
+       "city": "Doha",
+       "country": "Qatar"
+      },
+      "indoor": true
+     },
+     "competitors": [
+      {
+       "id": "5213352",
+       "uid": "s:3301~a:5213352",
+       "type": "athlete",
+       "order": 1,
+       "winner": false,
+       "athlete": {
+        "fullName": "…",
+        "displayName": "…",
+        "shortName": "…",
+        "flag": "…"
+       },
+       "records": [
+        "…"
+       ]
+      },
+      {
+       "id": "5220971",
+       "uid": "s:3301~a:5220971",
+       "type": "athlete",
+       "order": 2,
+       "winner": false,
+       "athlete": {
+        "fullName": "…",
+        "displayName": "…",
+        "shortName": "…",
+        "flag": "…"
+       },
+       "records": [
+        "…"
+       ]
+      }
+     ],
+     "status": {
+      "clock": 0.0,
+      "displayClock": "-",
+      "period": 0,
+      "type": {
+       "id": "1",
+       "name": "STATUS_SCHEDULED",
+       "state": "pre",
+       "completed": false,
+       "description": "Scheduled",
+       "detail": "Sat, November 21st at 10:00 AM EST",
+       "shortDetail": "11/21 - 10:00 AM EST"
+      }
+     },
+     "broadcasts": [
+      {
+       "market": "national",
+       "names": [
+        "…"
+       ]
+      }
+     ],
+     "format": {
+      "regulation": {
+       "periods": 3
+      }
+     },
+     "startDate": "2026-11-21T15:00Z",
+     "broadcast": "Paramount+",
+     "geoBroadcasts": [
+      {
+       "type": {
+        "id": "…",
+        "shortName": "…"
+       },
+       "market": {
+        "id": "…",
+        "type": "…"
+       },
+       "media": {
+        "shortName": "…"
+       },
+       "lang": "en",
+       "region": "us"
+      }
+     ],
+     "highlights": []
+    },
+    {
+     "id": "401934355",
+     "uid": "s:3301~l:3321~e:600061665~c:401934355",
+     "date": "2026-11-21T15:00Z",
+     "endDate": "2026-11-21T15:00Z",
+     "type": {
+      "id": "986",
+      "abbreviation": "Lightweight"
+     },
+     "timeValid": true,
+     "neutralSite": false,
+     "playByPlayAvailable": false,
+     "recent": false,
+     "venue": {
+      "id": "11560",
+      "fullName": "ABHA Arena",
+      "address": {
+       "city": "Doha",
+       "country": "Qatar"
+      },
+      "indoor": true
+     },
+     "competitors": [
+      {
+       "id": "3897242",
+       "uid": "s:3301~a:3897242",
+       "type": "athlete",
+       "order": 1,
+       "winner": false,
+       "athlete": {
+        "fullName": "…",
+        "displayName": "…",
+        "shortName": "…",
+        "flag": "…"
+       },
+       "records": [
+        "…"
+       ]
+      },
+      {
+       "id": "5157806",
+       "uid": "s:3301~a:5157806",
+       "type": "athlete",
+       "order": 2,
+       "winner": false,
+       "athlete": {
+        "fullName": "…",
+        "displayName": "…",
+        "shortName": "…",
+        "flag": "…"
+       },
+       "records": [
+        "…"
+       ]
+      }
+     ],
+     "status": {
+      "clock": 0.0,
+      "displayClock": "-",
+      "period": 0,
+      "type": {
+       "id": "1",
+       "name": "STATUS_SCHEDULED",
+       "state": "pre",
+       "completed": false,
+       "description": "Scheduled",
+       "detail": "Sat, November 21st at 10:00 AM EST",
+       "shortDetail": "11/21 - 10:00 AM EST"
+      }
+     },
+     "broadcasts": [
+      {
+       "market": "national",
+       "names": [
+        "…"
+       ]
+      }
+     ],
+     "format": {
+      "regulation": {
+       "periods": 3
+      }
+     },
+     "startDate": "2026-11-21T15:00Z",
+     "broadcast": "Paramount+",
+     "geoBroadcasts": [
+      {
+       "type": {
+        "id": "…",
+        "shortName": "…"
+       },
+       "market": {
+        "id": "…",
+        "type": "…"
+       },
+       "media": {
+        "shortName": "…"
+       },
+       "lang": "en",
+       "region": "us"
+      }
+     ],
+     "highlights": []
+    }
+   ],
+   "links": [
+    {
+     "language": "en-US",
+     "rel": [
+      "summary",
+      "desktop"
+     ],
+     "href": "https://www.espn.com/mma/fightcenter/_/id/600061665/league/ufc",
+     "text": "Gamecast",
+     "shortText": "Gamecast",
+     "isExternal": false,
+     "isPremium": false
+    }
+   ],
+   "venues": [
+    {
+     "id": "11560",
+     "fullName": "ABHA Arena",
+     "address": {
+      "city": "Doha",
+      "country": "Qatar"
+     }
+    }
+   ],
+   "status": {
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Scheduled",
+     "shortDetail": "Scheduled"
+    }
+   }
+  }
+ },
+ "hockey/nhl": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "golf/pga": {
+  "status": 200,
+  "acao": "*",
+  "n": 2,
+  "nomes": [
+   [
+    "2026-11-12T05:00Z",
+    "Austin Championship pres. by Compliance Solutions",
+    "STATUS_IN_PROGRESS"
+   ],
+   [
+    "2026-11-19T05:00Z",
+    "The RSM Classic",
+    "STATUS_SCHEDULED"
+   ]
+  ]
+ },
+ "baseball/mlb": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "volleyball/womens-college-volleyball": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "rugby/scoreboard": {
+  "status": 400,
+  "acao": "*",
+  "n": 0,
+  "nomes": []
+ },
+ "tsdb_Volleyball": {
+  "status": 403,
+  "acao": null,
+  "n": 0,
+  "nomes": []
+ },
+ "tsdb_Motorsport": {
+  "status": 403,
+  "acao": null,
+  "n": 0,
+  "nomes": []
+ },
+ "tsdb_Fighting": {
+  "status": 403,
+  "acao": null,
+  "n": 0,
+  "nomes": []
+ },
+ "tsdb_Basketball": {
+  "status": 403,
+  "acao": null,
+  "n": 0,
+  "nomes": []
+ }
+}
