@@ -1,56 +1,57 @@
 {
  "erros": [],
  "vento": {
-  "txt": "VENTO\nmedido no aeroporto de Maringá às 12h\n9 km/h vindo do sudoeste\nsem rajadas registradas · Calmo: quase sem vento\n13h\n5\n18\n14h\n5\n16\n15h\n3\n15\n16h\n3\n12\n17h\n5\n13\n18h\n6\n14\n\nPróximas 6 h: número de cima = vento médio, de baixo = rajada (km/h); rajadas corrigidas pela auditoria com o aeroporto.",
+  "txt": "VENTO\nmedido no aeroporto de Maringá às 13h\n11 km/h vindo do sul\nsem rajadas registradas · Fraco: vento tranquilo\n\n⚡ Raios a 17 km. A frente de vento da tempestade pode trazer rajadas fortes de repente, mesmo com vento fraco agora.\n\n14h\n5\n16\n15h\n3\n15\n16h\n3\n12\n17h\n5\n13\n18h\n6\n14\n19h\n7\n13\n\nPróximas 6 h: número de cima = vento médio, de baixo = rajada (km/h); rajadas corrigidas pela auditoria com o aeroporto.",
   "obs": {
    "est": {
     "id": "SBMG",
     "nome": "aeroporto de Maringá",
     "km": 6
    },
-   "t": "Mon Nov 16 2026 12:00:00 GMT-0300 (Horário Padrão de Brasília)",
-   "hora": "12h",
-   "idade": 58.46926666666667,
+   "t": "Mon Nov 16 2026 13:00:00 GMT-0300 (Horário Padrão de Brasília)",
+   "hora": "13h",
+   "idade": 12.07365,
    "fresco": true,
-   "ws": 9,
-   "wd": 210,
+   "ws": 11,
+   "wd": 190,
    "wg": null,
-   "T": 28,
+   "T": 27,
    "Td": 22,
    "ts": false,
-   "metar": "SBMG 161500Z 21005KT 150V250 9999 FEW030 BKN035 FEW035TCU 28/22 Q1009"
+   "tcu": true,
+   "metar": "SBMG 161600Z 19006KT 9999 -SHRA BKN035 FEW040TCU 27/22 Q1009"
   }
  },
  "share": true,
  "raios": {
-  "txt": "RAIOS AGORA\nsatélite · últimos 20 min · atraso 5 min\n\nNenhum raio num raio de 150 km\n\nÚltimos 10 min: 0 até 10 km · 0 até 20 km · 0 até 40 km · 0 até 80 km\n\núltimos 10 min 10–20 min atrás\n\nN\n40\n80 km",
+  "txt": "RAIOS AGORA\nsatélite · últimos 20 min · atraso 7 min\n\n⚡ Raios a 17 km ao oeste · parado\n\nOuvindo trovão, você já está ao alcance de raios.\n\nÚltimos 10 min: 0 até 10 km · 15 até 20 km · 100 até 40 km · 100 até 80 km\n\núltimos 10 min 10–20 min atrás\n\nN\n40\n80 km",
   "R": {
-   "perto": null,
-   "dir": null,
-   "tend": null,
+   "perto": 17.29316581005944,
+   "dir": "oeste",
+   "tend": "parado",
    "c10": 0,
-   "c20": 0,
-   "c40": 0,
-   "atraso": 5
+   "c20": 15,
+   "c40": 100,
+   "atraso": 7
   },
   "err": null,
-  "hero": "⛅\n28°\nSol entre nuvens\nVento SO 9 km/h\nmedido às 12h no aeroporto de Maringá"
+  "hero": "⛅\n27°\nSol entre nuvens\npelo radar agora\nVento S 11 km/h\nmedido às 13h no aeroporto de Maringá"
  },
  "nc": {
-  "txt": "PRÓXIMOS 60 MINUTOS\nConfiança média\n\nSem chuva por no mínimo 60 min\n\n15\n30\n45\nAGORA\n⛅\n28°\nradar 12h50\nfraca\nmoderada\nforte\nmuito forte\ntemporal\npossível\n\n⚠️ O radar ainda não mostra chuva vindo, mas os modelos dão 34% de chance de chuva nas próximas horas. Pancadas podem se formar perto da cidade sem aparecer antes no radar.\n\nChuva mais próxima: moderada a 21 km ao oeste, vindo em direção a Maringá. A chuva na região anda do oeste para o leste a ~11 km/h.\n\nPor que confiança média: a atmosfera está instável e pancadas podem se formar sem aparecer antes no radar.\n\nComo funciona e quanto acerta",
+  "txt": "PRÓXIMOS 60 MINUTOS\nConfiança baixa\n\nSem chuva no radar agora · pancadas isoladas podem se formar a qualquer momento\n\n15\n30\n45\nAGORA\n⛅\n27°\nradar 13h10\nfraca\nmoderada\nforte\nmuito forte\ntemporal\npossível\n\n⚠️ O radar ainda não mostra chuva por aqui, mas o aeroporto viu nuvens de chuva crescendo às 13h, os modelos dão 34% de chance de chuva nas próximas horas. Pancadas pequenas podem cair sobre a cidade sem aparecer no radar: o radar mais próximo fica longe e não enxerga bem as nuvens baixas daqui.\n\nChuva mais próxima: fraca a 9 km ao oeste, vindo em direção a Maringá. A chuva na região anda do sudoeste para o nordeste a ~11 km/h.\n\nPor que confiança baixa: são células de tempestade, que nascem e morrem rápido; a atmosfera está instável e pancadas podem se formar sem aparecer antes no radar.\n\nComo funciona e quanto acerta",
   "err": null,
   "est": {
    "fonte": "radar",
    "kmh": 11,
-   "disp": 8.559536766316802,
+   "disp": 4.8193504922861585,
    "prox": {
-    "km": 21,
+    "km": 9,
     "dir": "oeste",
-    "z": 34,
+    "z": 28,
     "vem": "vindo em direção a Maringá"
    },
    "tipo": {
-    "cob": 0.009906500445235975,
+    "cob": 0.016251113089937666,
     "forte": 0
    },
    "p": [
@@ -92,80 +93,80 @@
     ],
     [
      30,
-     0,
-     null,
+     0.03,
+     24,
      0
     ],
     [
      35,
-     0,
-     null,
+     0.05,
+     24,
      0
     ],
     [
      40,
-     0,
-     null,
+     0.06,
+     24,
      0
     ],
     [
      45,
-     0,
-     null,
+     0.07,
+     24,
      0
     ],
     [
      50,
-     0,
-     null,
+     0.08,
+     24,
      0
     ],
     [
      55,
-     0,
-     null,
+     0.08,
+     24,
      0
     ],
     [
      60,
-     0,
-     null,
+     0.08,
+     26,
      0
     ],
     [
      65,
-     0,
-     23,
+     0.08,
+     26,
      0
     ],
     [
      70,
-     0.01,
-     24,
+     0.08,
+     26,
      0
     ],
     [
      75,
-     0.02,
-     24,
+     0.07,
+     26,
      0
     ],
     [
      80,
-     0.03,
-     27,
+     0.06,
+     26,
      0
     ],
     [
      85,
-     0.04,
+     0.06,
      26,
      0
     ],
     [
      90,
      0.05,
-     27,
+     26,
      0
     ]
    ]
@@ -178,5 +179,5 @@
  "sheet_head": "🌧️Amanhã, terça 17/11Chuva · temporal baixo (9%)",
  "pinfo": "Amanhã às 18h — sobre Maringá: sem chuva no consenso. Pelos 212 cenários: 39% de chance de chuva, 14% de trovoada, rajada ~19 km/h. Chuva mais forte do mapa: 7,0 mm/h a ~106 km ao oeste.",
  "overlay": 2,
- "volta": "Radar 12:00"
+ "volta": "Radar 12:20"
 }
