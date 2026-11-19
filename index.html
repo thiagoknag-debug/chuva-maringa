@@ -350,6 +350,9 @@ footer.foot p{margin:4px 0}
 .ra-tx{font-size:8px;fill:var(--muted)}
 .ra.alerta{border-color:var(--vermelho)}
 @media (max-width:360px){.ra-polar{width:96px;height:96px}}
+
+.box b.pc{font-size:26px}
+.day .v small.pc{font-size:13px;font-weight:700;color:var(--rain)}
 </style>
 </head>
 <body>
@@ -652,6 +655,15 @@ function desenha(){if(!estado)return;const F=frase(),C=confianca(F),{P,prox,V,t0
    <p class="nc-d"><b>Por que confiança ${C.t}:</b> ${C.m}.</p>
    <details class="nc-how"><summary>Como funciona e quanto acerta</summary><p>Pego as 4 últimas imagens do radar (uma a cada 10 min), meço para onde e a que velocidade a chuva está andando e projeto esse movimento até 90 min à frente, minuto a minuto, sobre ${LOC.nome}. A cor indica a intensidade (fraca = até ~2 mm/h; moderada = 3–10; forte = 10–40; muito forte = 50+; temporal = possível granizo). As imagens chegam com ~10 min de atraso (agora: ${atraso} min), e isso já entra na conta.</p><p>Teste com o radar real de 5/11 (2 h de chuva no Paraná, 13 mil comparações): com 10 min de antecedência, avisou 84% das chuvas e 19% dos avisos não se confirmaram; com 30 min, 73% e 40%; com 60 min, 69% e 52%. Projetar o movimento acertou bem mais que supor que "a chuva fica onde está". O que não dá para prever: tempestades que nascem do nada perto da cidade.</p></details>`;
   el.classList.toggle('chove',F.k==='agora'||F.k==='vem');try{window.__VTUI&&window.__VTUI.redesenha();}catch(e){}
+  /* "Próxima chuva" do resumo: quando o radar vê chuva agora ou chegando, ele manda */
+  try{const L1=document.getElementById('nxlab'),H1=document.getElementById('nxhead'),S1=document.getElementById('nxsub');
+    if(L1&&H1&&S1){if(!L1.dataset.o){L1.dataset.o=L1.innerHTML;H1.dataset.o=H1.innerHTML;S1.dataset.o=S1.innerHTML;}
+      const rad=P[0].u<0.5&&(F.k==='agora'||F.k==='vem');
+      if(rad){const c=F.c||NC.cat(22),fim=fimEm(P,F.k==='agora'?1:(F.m||0)+1,90);
+        L1.textContent=F.k==='agora'?'Chovendo agora · radar':'Chuva chegando · radar';
+        H1.textContent=F.k==='agora'?`Chuva ${c.t}${fim!=null&&fim<=60?' · deve parar '+quando(fim):''}`:`Chuva ${c.t} ${quando(F.m)}`;
+        S1.innerHTML=`Pelo radar das ${hm(new Date(t0*1000))}. Os modelos previam: ${H1.dataset.o.toLowerCase()} (${S1.dataset.o})`;}
+      else{L1.innerHTML=L1.dataset.o;H1.innerHTML=H1.dataset.o;S1.innerHTML=S1.dataset.o;}}}catch(e){}
   /* o resumo de cima usa o modelo; quando o radar discorda sobre "chovendo agora", o radar manda */
   try{const now=document.querySelector('#hero .now'),h0=window.__HERO0;if(now&&h0&&P[0].u<0.5){const ch=/chuva|tempest|pancada|garoa/i.test(h0.c0.t),rad=P[0].p>=0.5,nada=P[0].p<0.2;const trov=RA&&RA.perto!=null&&RA.perto<=10&&RA.atraso<=15;
     const i=now.querySelector('.ic'),t=now.querySelector('.ncond');
@@ -1019,7 +1031,7 @@ function horaTemp(d){const k=L.D.indexOf(d);let hh=(L.DH||[])[k]||[];if(d[0]===k
     return {txt:a===b-1?`~${pad(a)}h`:`${pad(a)}h–${b===24?'24':pad(b)}h`,pico:pk.h,pct:v,a,b};}
   return {txt:`~${pad(pk.h)}h`,pico:pk.h,pct:v,a:pk.h,b:pk.h+1};}
 const dir8=d=>d==null?'':['N','NE','L','SE','S','SO','O','NO'][Math.round(d/45)%8];
-const box=(lab,d)=>{if(!d)return'';return `<div class="box tap" role="button" tabindex="0" data-k="${L.D.indexOf(d)}" aria-label="Ver detalhes de ${lab}"><span class="bxh">${lab} ${ic(condD(d))}</span><b>${mmTxt(d[1])} mm</b><span>${d[4]??'—'}% de chance</span><span class="bx2">${d[10]}° a ${d[9]}°</span><span class="bx2${d[11]>=50?' bxw':''}">Rajadas até ${d[11]??'—'} km/h</span>${d[15]?`<span class="rk-chip rk-${riscoK(d[15].pct)}">${(()=>{const pi=d[15].aviso&&d[15].bruto!=null&&d[15].bruto<d[15].pct-5,h=d[15].pct>=10&&horaTemp(d);return pi&&!h?`Aviso ${d[15].aviso} do INMET · temporais isolados possíveis`:`Temporal: ${d[15].nivel.toLowerCase()} · ${d[15].pct}%${h?' · '+h.txt:''}`;})()}</span>`:''}<span class="more">Ver horários ›</span></div>`;};
+const box=(lab,d)=>{if(!d)return'';return `<div class="box tap" role="button" tabindex="0" data-k="${L.D.indexOf(d)}" aria-label="Ver detalhes de ${lab}"><span class="bxh">${lab} ${ic(condD(d))}</span><b class="${panc(d)?'pc':''}">${mmDia(d)}</b><span>${panc(d)?`isoladas · ${d[4]}% de chance${d[3]>=1?` · até ~${fmt(d[3],0)} mm onde cair`:''}`:`${d[4]??'—'}% de chance`}</span><span class="bx2">${d[10]}° a ${d[9]}°</span><span class="bx2${d[11]>=50?' bxw':''}">Rajadas até ${d[11]??'—'} km/h</span>${d[15]?`<span class="rk-chip rk-${riscoK(d[15].pct)}">${(()=>{const pi=d[15].aviso&&d[15].bruto!=null&&d[15].bruto<d[15].pct-5,h=d[15].pct>=10&&horaTemp(d);return pi&&!h?`Aviso ${d[15].aviso} do INMET · temporais isolados possíveis`:`Temporal: ${d[15].nivel.toLowerCase()} · ${d[15].pct}%${h?' · '+h.txt:''}`;})()}</span>`:''}<span class="more">Ver horários ›</span></div>`;};
 /* ícones de tempo */
 const condH=i=>{const p=H.p[i]??0,mm=H.mm[i]||0,g=H.wg?H.wg[i]||0:0,cc=H.cc?H.cc[i]:null,dia=H.dia?H.dia[i]:1;
   if(p>=50&&(mm>=4||g>=55))return{e:'⛈️',t:'Tempestade',k:'storm'};
@@ -1035,6 +1047,8 @@ const condD=d=>{const P=d[4]??0,mm=d[1]||0,P10=d[5]??0,g=d[11]||0,cc=d[14];
   if(cc!=null&&cc>=75)return{e:'☁️',t:'Nublado',k:'cloud'};
   if(cc!=null&&cc>=35)return{e:'⛅',t:'Sol entre nuvens',k:'clear'};
   return{e:'☀️',t:'Ensolarado',k:'clear'};};
+const panc=d=>d&&(d[1]??0)<0.5&&(d[4]??0)>=20;
+const mmDia=d=>panc(d)?'Pancadas':mmTxt(d[1])+' mm';
 const ic=(c,cls='')=>`<span class="ic ${cls}" role="img" aria-label="${c.t}">${c.e}</span>`;
 const agora=()=>{const t=H.t[0],ws=H.ws?H.ws[0]:null,wg=H.wg?H.wg[0]:null,wd=H.wd?H.wd[0]:null;
   const c0=condH(0);window.__HERO0={c0};return `<div class="now">${ic(c0,'big')}<span class="nt">${t??'—'}°</span><span class="ncond">${c0.t}</span><span class="nw">Vento ${dir8(wd)} ${ws??'—'} km/h${wg!=null?` · rajadas ${wg} km/h`:''}</span></div>`;};
@@ -1059,7 +1073,7 @@ const parHora=(()=>{if(!par)return'';let hh=(L.DH||[])[L.D.indexOf(par)]||[];if(
     return a===b-1?` Horário mais provável: perto das ${pad(pk.h)}h.`:` Horário mais provável: entre ${pad(a)}h e ${b===24?'24':pad(b)}h, pico perto das ${pad(pk.h)}h.`;}
   const pc=hh.filter(o=>(o.p||0)>=30).reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,{mm:0});return (pc.mm||0)>=0.5?` Chuva mais forte perto das ${pad(pc.h)}h.`:'';})();
 const parTxt=par?`<p class="sub par211">⚠️ ${par[0]===key(now)?'Hoje':'Amanhã'}: cenário parecido com o temporal de 2/11 (risco ${par[15].pct}%).${parHora} Evite carro sob árvores e acompanhe o radar.</p>`:'';
-$('hero').innerHTML=`${agora()}<div><div class="lab">${lab}</div><p class="head">${head}</p><p class="sub">${sub}</p>${ventoTxt}${parTxt}</div><div class="pair">${box('Hoje',L.D[dIdx(key(now))])}${box('Amanhã',L.D[dIdx(key(tmw))])}</div>`;
+$('hero').innerHTML=`${agora()}<div><div class="lab" id="nxlab">${lab}</div><p class="head" id="nxhead">${head}</p><p class="sub" id="nxsub">${sub}</p>${ventoTxt}${parTxt}</div><div class="pair">${box('Hoje',L.D[dIdx(key(now))])}${box('Amanhã',L.D[dIdx(key(tmw))])}</div>`;
 try{window.__VTUI&&window.__VTUI.set({H});}catch(e){}
 try{window.__NCUI&&window.__NCUI.set({temp:H.t[0],cc:H.cc?H.cc[0]:null,dia:H.dia?H.dia[0]:1,DH:L.DH,aviso:L.D[0]&&L.D[0][15]&&L.D[0][15].aviso});}catch(e){}
 
@@ -1078,7 +1092,7 @@ $('hours').innerHTML=hrs.map((d,i)=>{const p=H.p[i]??0,v=H.mm[i]||0,nd=d.getHour
 const S=Math.min(60,Math.max(20,...L.D.map(d=>d[3]||0)));
 const pos=v=>Math.min(100,100*(v||0)/S);
 $('days').innerHTML=L.D.map((d,k)=>{const dt=new Date(d[0]+'T12:00:00'),P=d[4];
-  return `<div class="day tap" role="button" tabindex="0" data-k="${k}" aria-label="Ver detalhes do dia"><div class="n">${dayName(dt)}<small>${dt.getDate()}/${dt.getMonth()+1}</small></div>${ic(condD(d),'dic')}<div class="c${P<40?' lo':''}">${P??'—'}%</div><div class="track" title="Entre ${fmt(d[2],0)} e ${fmt(d[3],0)} mm conforme o modelo"><span class="rng" style="left:${pos(d[2])}%;width:${Math.max(2,pos(d[3])-pos(d[2]))}%"></span><span class="val" style="left:${pos(d[1])}%"></span></div><div class="v">${mmTxt(d[1])}<small> mm</small></div><div class="tmp">${condD(d).t}${d[11]>=50?' 💨':''}${d[15]&&d[15].pct>=10?` · <span class="rk-t rk-${riscoK(d[15].pct)}">${(()=>{const pi=d[15].aviso&&d[15].bruto!=null&&d[15].bruto<d[15].pct-5,h=horaTemp(d);return pi&&!h?`aviso ${d[15].aviso} INMET: temporais isolados possíveis`:`temporal ${d[15].pct}%${h?' '+h.txt:''}`;})()}</span>`:''} · ${d[10]}° a ${d[9]}°${d[11]?` · <span class="${d[11]>=60?'wx':''}">rajadas até ${d[11]} km/h</span>`:''}${d[6]>=20?` · ${d[6]}% de chance de passar de 25 mm`:''}</div></div>`;}).join('')+
+  return `<div class="day tap" role="button" tabindex="0" data-k="${k}" aria-label="Ver detalhes do dia"><div class="n">${dayName(dt)}<small>${dt.getDate()}/${dt.getMonth()+1}</small></div>${ic(condD(d),'dic')}<div class="c${P<40?' lo':''}">${P??'—'}%</div><div class="track" title="Entre ${fmt(d[2],0)} e ${fmt(d[3],0)} mm conforme o modelo"><span class="rng" style="left:${pos(d[2])}%;width:${Math.max(2,pos(d[3])-pos(d[2]))}%"></span><span class="val" style="left:${pos(d[1])}%"></span></div><div class="v">${panc(d)?'<small class="pc">pancadas</small>':`${mmTxt(d[1])}<small> mm</small>`}</div><div class="tmp">${condD(d).t}${d[11]>=50?' 💨':''}${d[15]&&d[15].pct>=10?` · <span class="rk-t rk-${riscoK(d[15].pct)}">${(()=>{const pi=d[15].aviso&&d[15].bruto!=null&&d[15].bruto<d[15].pct-5,h=horaTemp(d);return pi&&!h?`aviso ${d[15].aviso} INMET: temporais isolados possíveis`:`temporal ${d[15].pct}%${h?' '+h.txt:''}`;})()}</span>`:''} · ${d[10]}° a ${d[9]}°${d[11]?` · <span class="${d[11]>=60?'wx':''}">rajadas até ${d[11]} km/h</span>`:''}${d[6]>=20?` · ${d[6]}% de chance de passar de 25 mm`:''}</div></div>`;}).join('')+
  `<div class="legend"><span><i class="sw" style="width:10px;height:10px;border-radius:50%;background:var(--rain)"></i>estimativa (mm)</span><span><i class="sw" style="width:16px;height:6px;border-radius:3px;background:var(--rain-2);opacity:.6"></i>variação entre os modelos</span><span>% = chance de chover</span></div>`;
 
 
