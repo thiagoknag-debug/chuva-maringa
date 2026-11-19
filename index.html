@@ -885,6 +885,8 @@ D.slice(0,3).forEach(dd=>{const day=dd[0],idx=T.map((t,i)=>t.startsWith(day)?i:-
     const F={f:[fr],fc:[fr,cm],fcp:[fr,cm,Math.log1p(pm)],fcpi:[fr,cm,Math.log1p(pm),cm*(pm>=1?1:0)]};
     const ap=o=>{if(!o||!F[o.feats])return null;const v=F[o.feats];let z=o.coef[0];v.forEach((x,i)=>z+=o.coef[i+1]*x);return Math.round(100/(1+Math.exp(-z)));};
     dd[16]={ts:ap(PC.ts),chuva:ap(PC.chuva),forte:ap(PC.forte),cape:Math.round(cm*1000)};}
+  /* chance de chuva do dia: usa a calibrada com o aeroporto (melhor no teste) e guarda a dos cenários em dd[17] */
+  if(dd[16]&&dd[16].chuva!=null){dd[17]=dd[4];dd[4]=dd[16].chuva;}
   dd[15]={pct:p,bruto:Math.round(raw),nivel:p>=50?'Muito alto':p>=25?'Alto':p>=10?'Moderado':'Baixo',par:p>=35&&(gmed>=55||p50>=15||((lvl==='laranja'||lvl==='vermelho')&&raw>=15)),aviso:lvl,cen:mem.length};});
 /* detalhe por dia: hora a hora para os 10 dias (chuva, chance, trovoada, temperatura, vento) */
 const MEMG=MEMX.filter(x=>x.g||x.c);
@@ -1151,7 +1153,7 @@ function openDay(k){const d=L.D[k],hAll=(L.DH||[])[k]||[];if(!d)return;const dt=
    <div class="sh-sum"><div><b>${mmTxt(d[1])} mm</b><span>chuva (${fmt(d[2],0)}–${fmt(d[3],0)} entre modelos)</span></div><div><b>${d[4]??'—'}%</b><span>chance de chover</span></div>
      <div><b>${d[10]}°–${d[9]}°</b><span>mín – máx</span></div><div><b>${d[11]??'—'} km/h</b><span>rajada máxima${d[12]!=null?' ~'+hTxt(d[12]):''}</span></div></div>
    ${(()=>{const pc=hh.filter(o=>(o.p||0)>=30).reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,{mm:0}),pt=hh.reduce((a,o)=>(o.pt||0)>(a.pt||0)?o:a,{pt:0});const x=[];if((pc.mm||0)>=0.5)x.push(`🌧️ Chuva mais forte perto das <b>${hTxt(pc.h)}</b>`);if((pt.pt||0)>=25)x.push(`⛈️ Trovoada mais provável perto das <b>${hTxt(pt.h)}</b>`);return x.length?`<p class="sh-pk">${x.join('<br>')}</p>`:'';})()}
-   ${d[16]?`<p class="sh-pc">⛈️ <b>Trovoada no dia: ${d[16].ts}%</b> · chuva: ${d[16].chuva}% · chuva forte: ${d[16].forte}%<br><span>Calculado com a energia da atmosfera e quantos modelos chovem, calibrado com 781 dias do aeroporto de Maringá. No teste com dias que o cálculo não tinha visto, separou bem dias com e sem trovoada (acerto 0,89 numa escala de 0,5 a 1).</span></p>`:''}
+   ${d[16]?`<p class="sh-pc">⛈️ <b>Trovoada no dia: ${d[16].ts}%</b> · chuva: ${d[16].chuva}%${d[17]!=null?` (cenários dos modelos: ${d[17]}%)`:''} · chuva forte: ${d[16].forte}%<br><span>Calculado com a energia da atmosfera e quantos modelos chovem, calibrado com 781 dias do aeroporto de Maringá. No teste com dias que o cálculo não tinha visto, separou bem dias com e sem trovoada (acerto 0,89 numa escala de 0,5 a 1).</span></p>`:''}
    <h4>🌧️ Quando deve chover${resto}</h4><ul class="sh-w">${chuvaTxt}</ul>
    <h4>⛈️ Tempestade (trovoada)${resto}</h4><ul class="sh-w">${tempTxt}</ul>
    ${vw}
