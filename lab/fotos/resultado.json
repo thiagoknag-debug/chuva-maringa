@@ -1,7 +1,5 @@
 {
- "erros": [
-  "ra TimeoutError: page.waitForSelector: Timeout 60000ms exceeded.\nCall log:\n  - waiting for locator('#ra .ra-h') to be visible\n"
- ],
+ "erros": [],
  "vento": {
   "txt": "VENTO\nmedido no aeroporto de Maringá às 14h\n11 km/h vindo do leste\nsem rajadas registradas · Fraco: vento tranquilo\n15h\n11\n25\n16h\n10\n23\n17h\n8\n21\n18h\n6\n18\n19h\n4\n13\n20h\n4\n7\n\nPróximas 6 h: número de cima = vento médio, de baixo = rajada (km/h); rajadas corrigidas pela auditoria com o aeroporto.",
   "obs": {
@@ -12,7 +10,7 @@
    },
    "t": "Thu Nov 19 2026 14:00:00 GMT-0300 (Horário Padrão de Brasília)",
    "hora": "14h",
-   "idade": 34.041866666666664,
+   "idade": 37.06515,
    "fresco": true,
    "ws": 11,
    "wd": 110,
@@ -26,9 +24,17 @@
  },
  "share": true,
  "raios": {
-  "txt": "RAIOS\n\nDados de raios indisponíveis agora.",
-  "R": null,
-  "err": "Error: sem horários",
+  "txt": "RAIOS AGORA\nsatélite · últimos 20 min · atraso 6 min\n\nRaios a 78 km ao leste\n\nÚltimos 10 min: 0 até 10 km · 0 até 20 km · 0 até 40 km · 17 até 80 km\n\núltimos 10 min 10–20 min atrás\n\nN\n40\n80 km",
+  "R": {
+   "perto": 77.55112840000442,
+   "dir": "leste",
+   "tend": null,
+   "c10": 0,
+   "c20": 0,
+   "c40": 0,
+   "atraso": 6
+  },
+  "err": null,
   "hero": "☁️\n29°\nNublado\nVento L 11 km/h\nmedido às 14h no aeroporto de Maringá"
  },
  "nc": {
@@ -173,5 +179,5 @@
  "sheet_head": "⛈️Amanhã, sexta 20/11Tempestades · temporal baixo (9%), mais provável entre 10h e 13h, pico ~12h",
  "pinfo": "Amanhã às 18h — sobre Maringá: sem chuva no consenso. Pelos 212 cenários: 35% de chance de chuva, 25% de trovoada, rajada ~14 km/h. Chuva mais forte do mapa: 3,5 mm/h a ~153 km ao oeste.",
  "overlay": 1,
- "volta": "Radar 13:20"
+ "volta": "Radar 13:40"
 }

@@ -1,30 +1,19 @@
 {
  "se_escuro": {
-  "erros": [],
+  "erros": [
+   "hero TimeoutError: page.waitForSelector: Timeout 90000ms exceeded.\nCall log:\n  - waiting for locator('.hero .box') to be visible\n"
+  ],
   "larguraPagina": [
    320,
    320
   ],
-  "transbordando": [
-   "svg.[object SVGAnimatedString] 549",
-   "rect.[object SVGAnimatedString] 544",
-   "text.[object SVGAnimatedString] 491",
-   "line.[object SVGAnimatedString] 544",
-   "line.[object SVGAnimatedString] 544",
-   "line.[object SVGAnimatedString] 544",
-   "line.[object SVGAnimatedString] 544",
-   "rect.[object SVGAnimatedString] 321",
-   "rect.[object SVGAnimatedString] 330",
-   "rect.[object SVGAnimatedString] 337",
-   "rect.[object SVGAnimatedString] 346",
-   "rect.[object SVGAnimatedString] 353"
-  ]
+  "transbordando": []
  },
  "gps": {
-  "url": "http://localhost:8000/?t=1795109734060#gps",
+  "url": "http://localhost:8000/?t=1795109863670#gps",
   "h1": "Minha localização",
-  "sub": "Maringá - PR · GPS de 14h35 (±25 m)",
-  "stamp": "Atualizado às 14h35 · Quinta, 19/11",
+  "sub": "Maringá - PR · GPS de 14h39 (±25 m)",
+  "stamp": "Atualizado às 14h39 · Quinta, 19/11",
   "audit": true,
   "vento": "VENTO\nmedido no aeroporto de Maringá às 14h\n11 km/h vindo do leste\nsem rajadas r",
   "nc": "PRÓXIMOS 60 MINUTOS\nConfiança média\n\nSem chuva no radar agora · pancadas isoladas podem se formar a qualquer momento\n\n15"
