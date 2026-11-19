@@ -1,22 +1,33 @@
 {
  "se_escuro": {
-  "erros": [
-   "hero TimeoutError: page.waitForSelector: Timeout 90000ms exceeded.\nCall log:\n  - waiting for locator('.hero .box') to be visible\n"
-  ],
+  "erros": [],
   "larguraPagina": [
    320,
    320
   ],
-  "transbordando": []
+  "transbordando": [
+   "svg.[object SVGAnimatedString] 549",
+   "rect.[object SVGAnimatedString] 544",
+   "text.[object SVGAnimatedString] 491",
+   "line.[object SVGAnimatedString] 544",
+   "line.[object SVGAnimatedString] 544",
+   "line.[object SVGAnimatedString] 544",
+   "line.[object SVGAnimatedString] 544",
+   "rect.[object SVGAnimatedString] 321",
+   "rect.[object SVGAnimatedString] 330",
+   "rect.[object SVGAnimatedString] 337",
+   "rect.[object SVGAnimatedString] 346",
+   "rect.[object SVGAnimatedString] 353"
+  ]
  },
  "gps": {
-  "url": "http://localhost:8000/?t=1795105386830#gps",
+  "url": "http://localhost:8000/?t=1795105717352#gps",
   "h1": "Minha localização",
-  "sub": "Maringá - PR · GPS de 13h24 (±25 m)",
-  "stamp": "Sem conexão com os serviços de tempo",
+  "sub": "Maringá - PR · GPS de 13h28 (±25 m)",
+  "stamp": "Atualizado às 13h28 · Quinta, 19/11",
   "audit": true,
-  "vento": "VENTO\n\nCarregando…",
-  "nc": "PRÓXIMOS 60 MINUTOS\nConfiança média\n\n⚡ Chuva forte agora · continua por pelo menos 60 min · raios a 3 km\n\n15\n30\n45\nAGORA"
+  "vento": "VENTO\nmedido no aeroporto de Maringá às 13h\n19 km/h vindo do oeste\nsem rajadas r",
+  "nc": "PRÓXIMOS 60 MINUTOS\nConfiança média\n\n⚡ Chuva forte agora · continua por pelo menos 60 min · raios a 1 km\n\n15\n30\n45\nAGORA"
  },
  "max_claro": {
   "erros": [],

@@ -1,7 +1,5 @@
 {
- "erros": [
-  "Failed to load resource: the server responded with a status of 429 (Too Many Requests)"
- ],
+ "erros": [],
  "vento": {
   "txt": "VENTO\nmedido no aeroporto de Maringá às 13h\n19 km/h vindo do oeste\nsem rajadas registradas · Fraco: vento tranquilo\n\n⚠️ Há nuvem de tempestade perto do aeroporto. Chuva forte chegando. A frente de vento que sai da tempestade pode trazer rajadas fortes de repente, mesmo com vento fraco agora.\n\n14h\n12\n27\n15h\n11\n25\n16h\n10\n23\n17h\n8\n21\n18h\n6\n18\n19h\n4\n13\n\nPróximas 6 h: número de cima = vento médio, de baixo = rajada (km/h); rajadas corrigidas pela auditoria com o aeroporto.",
   "obs": {
@@ -12,7 +10,7 @@
    },
    "t": "Thu Nov 19 2026 13:00:00 GMT-0300 (Horário Padrão de Brasília)",
    "hora": "13h",
-   "idade": 22.553483333333332,
+   "idade": 28.040316666666666,
    "fresco": true,
    "ws": 19,
    "wd": 260,
@@ -26,15 +24,15 @@
  },
  "share": true,
  "raios": {
-  "txt": "RAIOS AGORA\nsatélite · últimos 20 min · atraso 6 min\n\n⚡ Raios em cima da cidade (a 1 km)\n\nFique em local fechado e longe de janelas. Só saia 30 min depois do último trovão.\n\nÚltimos 10 min: 250 até 10 km · 1352 até 20 km · 2000 até 40 km · 2000 até 80 km\n\núltimos 10 min 10–20 min atrás\n\nN\n40\n80 km",
+  "txt": "RAIOS AGORA\nsatélite · últimos 20 min · atraso 7 min\n\n⚡ Raios em cima da cidade (a 1 km)\n\nFique em local fechado e longe de janelas. Só saia 30 min depois do último trovão.\n\nÚltimos 10 min: 219 até 10 km · 738 até 20 km · 1100 até 40 km · 1100 até 80 km\n\núltimos 10 min 10–20 min atrás\n\nN\n40\n80 km",
   "R": {
    "perto": 0.7526643407635896,
    "dir": "noroeste",
    "tend": "parado",
-   "c10": 250,
-   "c20": 1352,
-   "c40": 2000,
-   "atraso": 6
+   "c10": 219,
+   "c20": 738,
+   "c40": 1100,
+   "atraso": 7
   },
   "err": null,
   "hero": "⛈️\n28°\nTrovoada\nraios a 1 km agora\nVento O 19 km/h\nmedido às 13h no aeroporto de Maringá"
@@ -60,7 +58,7 @@
     [
      0,
      1,
-     43,
+     42,
      0
     ],
     [
@@ -72,102 +70,102 @@
     [
      10,
      1,
-     42,
-     0
-    ],
-    [
-     15,
-     1,
      41,
      0
     ],
     [
-     20,
-     1,
+     15,
+     0.99,
      40,
      0
     ],
     [
+     20,
+     0.99,
+     37,
+     0
+    ],
+    [
      25,
-     0.98,
+     0.97,
      37,
      0
     ],
     [
      30,
-     0.98,
+     0.94,
      37,
      0
     ],
     [
      35,
-     0.95,
-     37,
+     0.89,
+     36,
      0
     ],
     [
      40,
-     0.9,
+     0.83,
      36,
      0
     ],
     [
      45,
-     0.84,
-     36,
-     0
-    ],
-    [
-     50,
      0.77,
      36,
      0
     ],
     [
-     55,
-     0.73,
+     50,
+     0.71,
      33,
      0
     ],
     [
-     60,
+     55,
      0.67,
      33,
      0
     ],
     [
-     65,
-     0.63,
+     60,
+     0.62,
      33,
      0
     ],
     [
-     70,
+     65,
      0.56,
      33,
      0
     ],
     [
+     70,
+     0.5,
+     33,
+     0
+    ],
+    [
      75,
-     0.51,
+     0.44,
      33,
      0
     ],
     [
      80,
-     0.45,
+     0.39,
      33,
      0
     ],
     [
      85,
-     0.4,
+     0.34,
      33,
      0
     ],
     [
      90,
-     0.35,
+     0.29,
      33,
      0
     ]
@@ -178,8 +176,8 @@
   "Temporal: baixo · 9%",
   "Temporal: baixo · 9%"
  ],
- "sheet_head": "⛈️Amanhã, sexta 20/11Tempestades · temporal baixo (9%), mais provável entre 10h e 13h, pico ~10h",
- "pinfo": "Amanhã às 18h — sobre Maringá: sem chuva no consenso. Pelos 194 cenários: 39% de chance de chuva, 29% de trovoada, rajada ~14 km/h. Chuva mais forte do mapa: 5,3 mm/h a ~94 km ao sudoeste.",
+ "sheet_head": "⛈️Amanhã, sexta 20/11Tempestades · temporal baixo (9%), mais provável entre 10h e 13h, pico ~12h",
+ "pinfo": "Amanhã às 18h — sobre Maringá: sem chuva no consenso. Pelos 212 cenários: 35% de chance de chuva, 25% de trovoada, rajada ~14 km/h. Chuva mais forte do mapa: 5,3 mm/h a ~94 km ao sudoeste.",
  "overlay": 2,
  "volta": "Radar 12:30"
 }
