@@ -77,9 +77,11 @@ gi = iv.groupby(iv.index.normalize()); imm = gi.sum().where(gi.count() >= 24); i
 obs["mm"] = imm.reindex(obs.index); obs["mmh_max"] = imax.reindex(obs.index)
 # ---- tabela ----
 X = pd.DataFrame({"cape_med": C.median(axis=1), "cape_max": C.max(axis=1), "frac1": (R >= 1).sum(axis=1) / R.notna().sum(axis=1),
-                  "p_med": R.median(axis=1), "p_max": R.max(axis=1)})
+                  "p_med": R.median(axis=1), "p_max": R.max(axis=1)}).astype(float)
 D = X.join(obs, how="inner").dropna(subset=["cape_med", "frac1", "p_med", "p_max"])
 D["mes"] = D.index.month
+for c_ in ["ts", "chuva", "forte"]: D[c_] = D[c_].astype(bool)
+D.to_csv("lab/pancadas_dados.csv")
 print("dias:", len(D), "trovoada:", int(D.ts.sum()), "chuva:", int(D.chuva.sum()))
 def feats(df, k):
     base = {"f": [df.frac1], "fc": [df.frac1, df.cape_med / 1000], "fcp": [df.frac1, df.cape_med / 1000, np.log1p(df.p_max)],
