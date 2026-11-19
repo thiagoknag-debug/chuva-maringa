@@ -1,9 +1,28 @@
 {
  "se_escuro": {
-  "erros": [],
+  "erros": [
+   "hero TimeoutError: page.waitForSelector: Timeout 90000ms exceeded.\nCall log:\n  - waiting for locator('.hero .box') to be visible\n"
+  ],
   "larguraPagina": [
    320,
    320
+  ],
+  "transbordando": []
+ },
+ "gps": {
+  "url": "http://localhost:8000/?t=1795105386830#gps",
+  "h1": "Minha localização",
+  "sub": "Maringá - PR · GPS de 13h24 (±25 m)",
+  "stamp": "Sem conexão com os serviços de tempo",
+  "audit": true,
+  "vento": "VENTO\n\nCarregando…",
+  "nc": "PRÓXIMOS 60 MINUTOS\nConfiança média\n\n⚡ Chuva forte agora · continua por pelo menos 60 min · raios a 3 km\n\n15\n30\n45\nAGORA"
+ },
+ "max_claro": {
+  "erros": [],
+  "larguraPagina": [
+   430,
+   430
   ],
   "transbordando": [
    "svg.[object SVGAnimatedString] 549",
@@ -13,30 +32,11 @@
    "line.[object SVGAnimatedString] 544",
    "line.[object SVGAnimatedString] 544",
    "line.[object SVGAnimatedString] 544",
-   "rect.[object SVGAnimatedString] 321",
-   "rect.[object SVGAnimatedString] 330",
-   "rect.[object SVGAnimatedString] 337",
-   "rect.[object SVGAnimatedString] 346",
-   "rect.[object SVGAnimatedString] 353"
+   "rect.[object SVGAnimatedString] 432",
+   "rect.[object SVGAnimatedString] 441",
+   "rect.[object SVGAnimatedString] 448",
+   "rect.[object SVGAnimatedString] 457",
+   "rect.[object SVGAnimatedString] 463"
   ]
- },
- "gps": {
-  "url": "http://localhost:8000/?t=1794845555496#gps",
-  "h1": "Minha localização",
-  "sub": "Maringá - PR · GPS de 13h12 (±25 m)",
-  "stamp": "Atualizado às 13h12 · Segunda, 16/11",
-  "audit": true,
-  "vento": "VENTO\nmedido no aeroporto de Maringá às 13h\n11 km/h vindo do sul\nsem rajadas reg",
-  "nc": "PRÓXIMOS 60 MINUTOS\nConfiança média\n\nSem chuva no radar agora · pancadas isoladas podem se formar a qualquer momento\n\n15"
- },
- "max_claro": {
-  "erros": [
-   "hero TimeoutError: page.waitForSelector: Timeout 90000ms exceeded.\nCall log:\n  - waiting for locator('.hero .box') to be visible\n"
-  ],
-  "larguraPagina": [
-   430,
-   430
-  ],
-  "transbordando": []
  }
 }
