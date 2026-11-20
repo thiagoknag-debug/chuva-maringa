@@ -770,16 +770,19 @@ function desenha(){if(!H||!H.ws)return;const ob=window.__OBS,h0=+String(H.start|
   const gx=Math.max(...prox.map(o=>o.wg||0)),pico=prox.find(o=>(o.wg||0)===gx);
   /* aviso: tempestade chegando/presente pode trazer rajada súbita, mesmo com vento fraco agora */
   let av='';const F=window.__NCUI&&window.__NCUI.frase&&window.__NCUI.frase(),E=window.__NCUI&&window.__NCUI.estado&&window.__NCUI.estado();
-  const forte=F&&(F.k==='agora'||F.k==='vem')&&F.c&&F.c.k>=3,perto=E&&E.prox&&E.prox.km<=40&&E.prox.z>=45&&/direção/.test(E.prox.vem||'');
+  const instav=(ctx.aviso==='laranja'||ctx.aviso==='vermelho')||(ctx.pc&&ctx.pc.ts>=40);
+  const forte=F&&(F.k==='agora'||F.k==='vem')&&F.c&&F.c.k>=3,
+    perto=E&&E.prox&&/direção/.test(E.prox.vem||'')&&((E.prox.km<=50&&E.prox.z>=40)||(instav&&E.prox.km<=30));
   const RA=window.__RAIOS,raio=RA&&RA.perto!=null&&RA.perto<=25&&RA.atraso<=15&&RA.tend!=='se afastando';
   if(raio&&!forte&&!perto)av=`<p class="vt-av">⚡ Raios a ${Math.round(RA.perto)} km${RA.tend==='aproximando'?', se aproximando':''}. A frente de vento da tempestade pode trazer rajadas fortes de repente${(ag.ws||0)<20?', mesmo com vento fraco agora':''}.</p>`;
   else if(forte||perto||(ob&&ob.fresco&&ob.ts))av=`<p class="vt-av">⚠️ ${ob&&ob.fresco&&ob.ts?'Há nuvem de tempestade perto do aeroporto. ':''}${forte?'Chuva forte chegando. ':perto?`Tempestade a ${E.prox.km} km vindo para cá. `:''}A frente de vento que sai da tempestade pode trazer rajadas fortes de repente${(ag.ws||0)<20?', mesmo com vento fraco agora':''}.</p>`;
   else if(gx>=50)av=`<p class="vt-av">⚠️ Rajadas de até ${gx} km/h previstas perto das ${pad(pico.h)}h.</p>`;
+  else if(ctx.aviso==='laranja'||ctx.aviso==='vermelho')av=`<p class="vt-av">⚠️ Aviso ${ctx.aviso} de tempestade do INMET para hoje: com as tempestades podem vir rajadas de 60 a 100 km/h de repente. A medição do aeroporto é de hora em hora e não pega essas rajadas curtas.</p>`;
   /* resumo de cima: temperatura e vento medidos, quando houver medição recente */
   try{const now=document.querySelector('#hero .now');if(now&&ob&&ob.fresco){const nt=now.querySelector('.nt'),nw=now.querySelector('.nw');
     if(nt&&ob.T!=null)nt.textContent=ob.T+'°';if(nw&&ob.ws!=null)nw.innerHTML=`Vento ${s8(ob.wd)} ${ob.ws} km/h${ob.wg?` · rajadas ${ob.wg} km/h`:''}<span class="src">medido às ${ob.hora} no ${ob.est.nome}</span>`;}}catch(e){}
   el.innerHTML=`<div class="vt-top"><h2>Vento</h2><span class="vt-src">${ag.fonte}</span></div>
-   <div class="vt-main ${N.c}">${seta(ag.wd,'big')}<div><b>${ag.ws??'—'} km/h</b>${ag.wd!=null?` <span>vindo do ${d8(ag.wd)}</span>`:''}<div class="vt-sub">${gm!=null?`rajadas de ${gm} km/h · `:ob&&ob.fresco?'sem rajadas registradas · ':''}<b>${N.t}</b>: ${N.m}</div></div></div>
+   <div class="vt-main ${N.c}">${seta(ag.wd,'big')}<div><b>${ag.ws??'—'} km/h</b>${ag.wd!=null?` <span>vindo do ${d8(ag.wd)}</span>`:''}<div class="vt-sub">${gm!=null?`rajadas de ${gm} km/h · `:ob&&ob.fresco?'sem rajadas registradas · ':''}<b>${N.t}</b>: ${N.m}${instav&&N.c==='vl'?' agora, mas pode mudar de repente com tempestade':''}</div></div></div>
    ${av}
    <div class="vt-hrs" role="list" aria-label="Vento nas próximas 6 horas">${prox.map(o=>`<div class="vt-h${(o.wg||0)>=50?' hi':''}" role="listitem" aria-label="${pad(o.h)}h: ${o.ws} km/h do ${d8(o.wd)}, rajada ${o.wg}"><span>${pad(o.h)}h</span>${seta(o.wd)}<b>${o.ws}</b><i>${o.wg??''}</i></div>`).join('')}</div>
    <p class="vt-leg">Próximas 6 h: número de cima = vento médio, de baixo = rajada (km/h)${LOC.padrao?'; rajadas corrigidas pela auditoria com o aeroporto':''}.</p>`;}
@@ -1085,7 +1088,7 @@ const parHora=(()=>{if(!par)return'';let hh=(L.DH||[])[L.D.indexOf(par)]||[];if(
   const pc=hh.filter(o=>(o.p||0)>=30).reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,{mm:0});return (pc.mm||0)>=0.5?` Chuva mais forte perto das ${pad(pc.h)}h.`:'';})();
 const parTxt=par?`<p class="sub par211">⚠️ ${par[0]===key(now)?'Hoje':'Amanhã'}: cenário parecido com o temporal de 2/11 (risco ${par[15].pct}%).${parHora} Evite carro sob árvores e acompanhe o radar.</p>`:'';
 $('hero').innerHTML=`${agora()}<div><div class="lab" id="nxlab">${lab}</div><p class="head" id="nxhead">${head}</p><p class="sub" id="nxsub">${sub}</p>${ventoTxt}${parTxt}</div><div class="pair">${box('Hoje',L.D[dIdx(key(now))])}${box('Amanhã',L.D[dIdx(key(tmw))])}</div>`;
-try{window.__VTUI&&window.__VTUI.set({H});}catch(e){}try{window.__NCUI&&window.__NCUI.set({pc:L.D[0]&&L.D[0][16]});}catch(e){}
+try{window.__VTUI&&window.__VTUI.set({H,aviso:L.D[0]&&L.D[0][15]&&L.D[0][15].aviso,pc:L.D[0]&&L.D[0][16]});}catch(e){}try{window.__NCUI&&window.__NCUI.set({pc:L.D[0]&&L.D[0][16]});}catch(e){}
 try{window.__NCUI&&window.__NCUI.set({temp:H.t[0],cc:H.cc?H.cc[0]:null,dia:H.dia?H.dia[0]:1,DH:L.DH,aviso:L.D[0]&&L.D[0][15]&&L.D[0][15].aviso});}catch(e){}
 
 const arrow=d=>d==null?'':`<svg class="arr" viewBox="0 0 16 16" aria-hidden="true" style="transform:rotate(${(d+180)%360}deg)"><path d="M8 1.5 12.5 13 8 10.3 3.5 13z" fill="currentColor"/></svg>`;
