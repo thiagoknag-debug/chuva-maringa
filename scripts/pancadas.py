@@ -23,23 +23,36 @@ def meses():
     d = INI
     while d <= FIM:
         e = min(d + pd.offsets.MonthEnd(0), FIM); yield d, e; d = e + pd.Timedelta(days=1)
-# ---- previsões da véspera ----
-fc = []
-for a, b in meses():
-    r = get("https://previous-runs-api.open-meteo.com/v1/forecast", {"latitude": LAT, "longitude": LON, "timezone": TZ,
-            "start_date": a.strftime("%Y-%m-%d"), "end_date": b.strftime("%Y-%m-%d"), "hourly": "precipitation_previous_day1,cape_previous_day1", "models": ",".join(MODELS)})
-    if r is None or "hourly" not in r.json(): print("sem previsão", a.date()); continue
-    df = pd.DataFrame(r.json()["hourly"]); df["time"] = pd.to_datetime(df["time"]); fc.append(df.set_index("time")); print("prev", a.date(), flush=True); time.sleep(2)
-fc = pd.concat(fc).sort_index(); fc = fc[~fc.index.duplicated()]
-dia = fc.index.normalize()
-R, C = {}, {}
-for m in MODELS:
-    p, c = fc.get(f"precipitation_previous_day1_{m}"), fc.get(f"cape_previous_day1_{m}")
-    if p is not None:
-        g = p.groupby(dia); R[m] = g.sum(min_count=1).where(g.count() >= 20)
-    if c is not None:
-        g = c.groupby(dia); C[m] = g.max().where(g.count() >= 20)
-R, C = pd.DataFrame(R), pd.DataFrame(C)
+# ---- previsões arquivadas por antecedência (1, 2, 3 e 5 dias antes) ----
+LEADS = [1, 2, 3, 5]
+def prev_runs(a, b, l):
+    for k in range(6):
+        try:
+            r = requests.get("https://previous-runs-api.open-meteo.com/v1/forecast", timeout=300, headers=UA, params={"latitude": LAT, "longitude": LON, "timezone": TZ,
+                "start_date": a.strftime("%Y-%m-%d"), "end_date": b.strftime("%Y-%m-%d"), "hourly": f"precipitation_previous_day{l},cape_previous_day{l}", "models": ",".join(MODELS)})
+            if r.status_code == 200:
+                j = r.json()
+                if "hourly" in j: return pd.DataFrame(j["hourly"])
+            print("HTTP", r.status_code, r.text[:120], flush=True)
+        except Exception as e: print("erro", a.date(), l, str(e)[:120], flush=True)
+        time.sleep(20 * (k + 1))
+    return None
+FEAT = {}
+for l in LEADS:
+    partes = []
+    for a, b in meses():
+        df = prev_runs(a, b, l)
+        if df is None: print("sem previsão", l, a.date(), flush=True); continue
+        df["time"] = pd.to_datetime(df["time"]); partes.append(df.set_index("time")); time.sleep(1.5)
+    fc = pd.concat(partes).sort_index(); fc = fc[~fc.index.duplicated()]; dia = fc.index.normalize(); R, C = {}, {}
+    for m in MODELS:
+        pr_, cp_ = fc.get(f"precipitation_previous_day{l}_{m}"), fc.get(f"cape_previous_day{l}_{m}")
+        if pr_ is not None: g = pr_.groupby(dia); R[m] = g.sum(min_count=1).where(g.count() >= 20)
+        if cp_ is not None: g = cp_.groupby(dia); C[m] = g.max().where(g.count() >= 20)
+    R, C = pd.DataFrame(R).astype(float), pd.DataFrame(C).astype(float)
+    FEAT[l] = pd.DataFrame({"cape_med": C.median(axis=1), "cape_max": C.max(axis=1), "frac1": (R >= 1).sum(axis=1) / R.notna().sum(axis=1),
+                            "p_med": R.median(axis=1), "p_max": R.max(axis=1)}).astype(float)
+    print("antecedência", l, "dias", len(FEAT[l]), flush=True)
 # ---- aeroporto ----
 sb = []
 for a, b in meses():
@@ -75,14 +88,7 @@ def inmet(ano):
 iv = pd.concat([s for s in (inmet(a) for a in (2024, 2025, 2026)) if s is not None]).sort_index(); iv = iv[~iv.index.duplicated()]
 gi = iv.groupby(iv.index.normalize()); imm = gi.sum().where(gi.count() >= 24); imax = gi.max().where(gi.count() >= 24)
 obs["mm"] = imm.reindex(obs.index); obs["mmh_max"] = imax.reindex(obs.index)
-# ---- tabela ----
-X = pd.DataFrame({"cape_med": C.median(axis=1), "cape_max": C.max(axis=1), "frac1": (R >= 1).sum(axis=1) / R.notna().sum(axis=1),
-                  "p_med": R.median(axis=1), "p_max": R.max(axis=1)}).astype(float)
-D = X.join(obs, how="inner").dropna(subset=["cape_med", "frac1", "p_med", "p_max"])
-D["mes"] = D.index.month
-for c_ in ["ts", "chuva", "forte"]: D[c_] = D[c_].astype(bool)
-D.to_csv("lab/pancadas_dados.csv")
-print("dias:", len(D), "trovoada:", int(D.ts.sum()), "chuva:", int(D.chuva.sum()))
+# ---- tabela e ajuste por antecedência ----
 def feats(df, k):
     base = {"f": [df.frac1], "fc": [df.frac1, df.cape_med / 1000], "fcp": [df.frac1, df.cape_med / 1000, np.log1p(df.p_max)],
             "fcpi": [df.frac1, df.cape_med / 1000, np.log1p(df.p_max), (df.cape_med / 1000) * (df.p_max >= 1)]}[k]
@@ -97,32 +103,36 @@ pred = lambda b, Xm: 1 / (1 + np.exp(-(np.c_[np.ones(len(Xm)), Xm] @ b)))
 def auc(p, y):
     o = np.argsort(p); y = y[o]; n1 = y.sum(); n0 = len(y) - n1
     return float((np.cumsum(1 - y)[y == 1].sum()) / (n1 * n0)) if n1 and n0 else None
-corte = D.index[int(len(D) * 0.6)]
-tr, te = D[D.index < corte], D[D.index >= corte]
-res = {"periodo": [str(D.index.min().date()), str(D.index.max().date())], "corte_teste": str(corte.date()), "n_treino": len(tr), "n_teste": len(te), "alvos": {}}
-best = {}
-for alvo in ["ts", "chuva", "forte"]:
-    ytr, yte = tr[alvo].astype(float).values, te[alvo].astype(float).values
-    clim = ytr.mean(); bs_c = float(np.mean((clim - yte) ** 2)); out = {"taxa_treino": round(clim, 3), "taxa_teste": round(float(yte.mean()), 3), "modelos": {}}
-    for k in ["f", "fc", "fcp", "fcpi"]:
-        b = fit(feats(tr, k), ytr); p = pred(b, feats(te, k)); bs = float(np.mean((p - yte) ** 2))
-        bins = pd.cut(p, [0, .1, .2, .35, .5, .7, 1.01]); rel = pd.DataFrame({"p": p, "y": yte}).groupby(bins, observed=True).agg(prev=("p", "mean"), obs=("y", "mean"), n=("y", "size"))
-        out["modelos"][k] = {"coef": [round(float(x), 4) for x in b], "brier": round(bs, 4), "bss": round(1 - bs / bs_c, 3), "auc": round(auc(p, yte), 3) if auc(p, yte) else None,
-                             "confiab": [[round(r.prev, 2), round(r.obs, 2), int(r.n)] for r in rel.itertuples()]}
-    out["brier_clima"] = round(bs_c, 4)
-    k = max(out["modelos"], key=lambda q: out["modelos"][q]["bss"]); out["melhor"] = k; best[alvo] = k
-    res["alvos"][alvo] = out
-# dias com mediana ~0 e energia alta: o que aconteceu?
-z = D[D.p_med < 0.5]
-res["mediana_zero_por_cape"] = [[f"{a}-{b}", int(len(s)), round(float(s.ts.mean()), 2) if len(s) else None, round(float(s.chuva.mean()), 2) if len(s) else None]
-    for a, b in [(0, 1000), (1000, 2000), (2000, 3000), (3000, 4000), (4000, 99999)] for s in [z[(z.cape_med >= a) & (z.cape_med < b)]]]
-# modelo final: treina em tudo com a melhor combinação, se ganhou da climatologia no teste
-pj = json.load(open("lab/pesos.json")); fin = {}
-for alvo in ["ts", "chuva", "forte"]:
-    k = best[alvo]; o = res["alvos"][alvo]["modelos"][k]
-    if o["bss"] > 0.03:
-        b = fit(feats(D, k), D[alvo].astype(float).values); fin[alvo] = {"feats": k, "coef": [round(float(x), 4) for x in b], "bss_teste": o["bss"], "auc_teste": o["auc"], "n": len(D)}
-res["final"] = fin
-if fin: pj["pancadas"] = {"gerado": str(HOJE.date()), **fin}; json.dump(pj, open("lab/pesos.json", "w"), ensure_ascii=False, indent=1)
+res = {"gerado": str(HOJE.date()), "leads": {}}; fin_all = {}
+for l in LEADS:
+    D = FEAT[l].join(obs, how="inner").dropna(subset=["cape_med", "frac1", "p_med", "p_max"])
+    for c_ in ["ts", "chuva", "forte"]: D[c_] = D[c_].astype(bool)
+    if l == 1: D.to_csv("lab/pancadas_dados.csv")
+    D["cape_med"] = D["cape_med"].clip(upper=3700)
+    corte = D.index[int(len(D) * 0.6)]; tr, te = D[D.index < corte], D[D.index >= corte]
+    out_l = {"periodo": [str(D.index.min().date()), str(D.index.max().date())], "corte_teste": str(corte.date()), "n_treino": len(tr), "n_teste": len(te), "alvos": {}}
+    fin = {}
+    for alvo in ["ts", "chuva", "forte"]:
+        ytr, yte = tr[alvo].astype(float).values, te[alvo].astype(float).values
+        clim = ytr.mean(); bs_c = float(np.mean((clim - yte) ** 2)); o = {"taxa_treino": round(clim, 3), "taxa_teste": round(float(yte.mean()), 3), "brier_clima": round(bs_c, 4), "modelos": {}}
+        for k in ["f", "fc", "fcp", "fcpi"]:
+            b = fit(feats(tr, k), ytr); p = pred(b, feats(te, k)); bs = float(np.mean((p - yte) ** 2))
+            bins = pd.cut(p, [0, .1, .2, .35, .5, .7, 1.01]); rel = pd.DataFrame({"p": p, "y": yte}).groupby(bins, observed=True).agg(prev=("p", "mean"), obs=("y", "mean"), n=("y", "size"))
+            o["modelos"][k] = {"coef": [round(float(x), 4) for x in b], "brier": round(bs, 4), "bss": round(1 - bs / bs_c, 3), "auc": round(auc(p, yte), 3) if auc(p, yte) else None,
+                               "confiab": [[round(r.prev, 2), round(r.obs, 2), int(r.n)] for r in rel.itertuples()]}
+        kb = max(o["modelos"], key=lambda q: o["modelos"][q]["bss"]); o["melhor"] = kb; out_l["alvos"][alvo] = o
+        if o["modelos"][kb]["bss"] > 0.03:
+            b = fit(feats(D, kb), D[alvo].astype(float).values)
+            fin[alvo] = {"feats": kb, "coef": [round(float(x), 4) for x in b], "bss_teste": o["modelos"][kb]["bss"], "auc_teste": o["modelos"][kb]["auc"], "n": len(D)}
+    if l == 1:
+        z = D[D.p_med < 0.5]
+        out_l["mediana_zero_por_cape"] = [[f"{a}-{b}", int(len(s_)), round(float(s_.ts.mean()), 2) if len(s_) else None, round(float(s_.chuva.mean()), 2) if len(s_) else None]
+            for a, b in [(0, 1000), (1000, 2000), (2000, 3000), (3000, 99999)] for s_ in [z[(z.cape_med >= a) & (z.cape_med < b)]]]
+    res["leads"][str(l)] = out_l; fin_all[str(l)] = fin
+    print("antecedência", l, {a: (v["melhor"], v["modelos"][v["melhor"]]["bss"], v["modelos"][v["melhor"]]["auc"]) for a, v in out_l["alvos"].items()}, flush=True)
+pj = json.load(open("lab/pesos.json"))
+if fin_all.get("1"):
+    pj["pancadas"] = {"gerado": str(HOJE.date()), **fin_all["1"], "leads": fin_all}
+    json.dump(pj, open("lab/pesos.json", "w"), ensure_ascii=False, indent=1)
 json.dump(res, open("lab/pancadas.json", "w"), ensure_ascii=False, indent=1)
-print(json.dumps(res, ensure_ascii=False, indent=1)[:6000])
+print(json.dumps({l: {a: v["modelos"][v["melhor"]]["bss"] for a, v in o["alvos"].items()} for l, o in res["leads"].items()}))

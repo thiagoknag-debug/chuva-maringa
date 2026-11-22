@@ -8,7 +8,7 @@ permissions:
 jobs:
   auditoria:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -16,6 +16,8 @@ jobs:
           python-version: "3.12"
       - run: pip install pandas numpy requests
       - run: python scripts/analise.py lab
+      - name: Recalibrar índice de pancadas e trovoada
+        run: python scripts/pancadas.py || echo "pancadas falhou; mantém a calibração anterior"
       - name: Salvar resultados
         run: |
           git config user.name "auditoria-bot"

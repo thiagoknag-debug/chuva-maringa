@@ -6,7 +6,10 @@ from previsao import calcular
 TOPICO = os.environ.get("NTFY_TOPIC", "").strip()
 SITE = "https://thiagoknag-debug.github.io/chuva-maringa/"
 modo = sys.argv[1] if len(sys.argv) > 1 else "manha"
-P = calcular()
+try:
+    P = calcular()
+except Exception as e:
+    print("não consegui calcular a previsão agora:", e); sys.exit(0)
 os.makedirs("lab", exist_ok=True)
 json.dump(P, open("lab/ultima_previsao.json", "w"), ensure_ascii=False, indent=1)
 

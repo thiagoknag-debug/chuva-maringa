@@ -11,12 +11,14 @@ ENS = [["ecmwf_ifs025"], ["ecmwf_aifs025"], ["gfs025"], ["icon_seamless"], ["gem
 UA = {"User-Agent": "chuva-maringa"}
 B = {"latitude": LAT, "longitude": LON, "timezone": TZ}
 
-def _get(url, params, tries=3):
-    for _ in range(tries):
+def _get(url, params, tries=5):
+    import time
+    for k in range(tries):
         try:
-            r = requests.get(url, params=params, timeout=60, headers=UA)
+            r = requests.get(url, params=params, timeout=90, headers=UA)
             if r.status_code == 200: return r.json()
         except Exception: pass
+        time.sleep(20 * (k + 1))
     return None
 
 def pesos():

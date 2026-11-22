@@ -1,0 +1,30 @@
+name: Registro da previsão
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 9 * * *"    # ~06h41 em Maringá
+    - cron: "41 21 * * *"   # ~18h41 em Maringá
+permissions:
+  contents: write
+jobs:
+  registro:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+      - run: |
+          python3 -m http.server 8000 >/dev/null 2>&1 &
+          sleep 2
+          node scripts/registro.js || echo "registro falhou"
+      - name: Salvar
+        run: |
+          git config user.name "auditoria-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add lab/historico || true
+          git commit -q -m "Registro da previsão" || echo "sem mudancas"
+          git pull --rebase -q origin main || true
+          git push || true

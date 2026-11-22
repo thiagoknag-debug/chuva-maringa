@@ -21,15 +21,20 @@ LOG = []
 def log(*a):
     s = " ".join(str(x) for x in a); print(s, flush=True); LOG.append(s)
 
-def get(url, params=None, tries=4, timeout=180):
+def get(url, params=None, tries=6, timeout=300):
+    """Baixa com novas tentativas e espera crescente; se a resposta deveria ser JSON e veio quebrada, tenta de novo."""
     for k in range(tries):
         try:
             r = requests.get(url, params=params, timeout=timeout, headers={"User-Agent": "chuva-maringa-auditoria"})
-            if r.status_code == 200: return r
+            if r.status_code == 200:
+                if "json" in (r.headers.get("Content-Type") or ""):
+                    try: r.json()
+                    except Exception: log("JSON quebrado", url); time.sleep(15 * (k + 1)); continue
+                return r
             log("HTTP", r.status_code, url, str(r.text)[:200])
         except Exception as e:
             log("erro", url, e)
-        time.sleep(5 * (k + 1))
+        time.sleep(15 * (k + 1))
     return None
 
 # ---------------- 1. pluviômetro/anemômetro INMET (arquivos anuais públicos) ----------------
@@ -389,6 +394,12 @@ res = {"gerado": pesos["gerado"], "ultimo_dado_inmet": str(fim_obs), "dias_valid
        "horario": {"resumo": hor_res, "dias": hor[-60:]}, "temporal": {"calibracao": risco, "dias_avaliados": int(len(ok)), "por_cape": risco_cape, "eventos": eventos},
        "log": LOG[-80:]}
 json.dump(res, open(f"{OUT}/resultados.json", "w"), ensure_ascii=False, indent=1, default=str)
+# mantém o que outras calibrações gravaram (ex.: índice de pancadas), sem apagar
+try:
+    _ant = json.load(open(f"{OUT}/pesos.json"))
+    for _k, _v in _ant.items():
+        if _k not in pesos and _k not in ("risco", "risco_cape"): pesos[_k] = _v
+except Exception: pass
 json.dump(pesos, open(f"{OUT}/pesos.json", "w"), ensure_ascii=False, indent=1)
 
 # ---------------- 7. relatório legível ----------------
