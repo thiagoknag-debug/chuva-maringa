@@ -930,6 +930,7 @@ const $=id=>document.getElementById(id);
 const wd=['dom','seg','ter','qua','qui','sex','sáb'];
 const WD=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
 const pad=n=>String(n).padStart(2,'0');
+const key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 const fmt=(v,d=1)=>v==null?'—':Number(v).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
 const mmTxt=v=>v<0.5?'0':(v<10?fmt(v):fmt(v,0));
 const sameDay=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
@@ -1061,7 +1062,6 @@ const winMm=w=>{let s=0,p=0;for(let i=w.a;i<=w.b;i++){s+=H.mm[i]||0;p=Math.max(p
 
 /* resumo */
 const dIdx=k=>L.D.findIndex(d=>d[0]===k);
-const key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 const riscoK=p=>p>=50?'mx':p>=25?'al':p>=10?'md':'bx';
 /* horário provável do temporal no dia (cenários com trovoada), só daqui pra frente se for hoje */
 function horaTemp(d){const k=L.D.indexOf(d);let hh=(L.DH||[])[k]||[];if(d[0]===key(new Date())){const n=new Date();hh=hh.filter(o=>o.h>n.getHours()-(n.getMinutes()<30?1:0));}if(!hh.length)return null;
