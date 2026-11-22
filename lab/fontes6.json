@@ -1,0 +1,83 @@
+{
+ "ogimet_synop_83767": {
+  "status": 200,
+  "boletins": 18,
+  "com_grupo_chuva": 17,
+  "exemplo": "83767,2026,11,19,12,00,AAXX 19124 83767 22560 70902 10265 20218 39499 40107 53039 84220 333 20223 60005=="
+ },
+ "meteostat": {
+  "83767": {
+   "dias_recentes": 0,
+   "com_chuva_medida": 0,
+   "ultimos": [],
+   "ultimo_dia": "2026-03-19"
+  },
+  "SBMG0": 404,
+  "83766": {
+   "dias_recentes": 0,
+   "com_chuva_medida": 0,
+   "ultimos": [],
+   "ultimo_dia": "2026-03-19"
+  }
+ },
+ "ghcn_noaa": {
+  "status": 200,
+  "dias": 0,
+  "ultimos": []
+ },
+ "inmet_api": {
+  "2026-10-08/2026-11": {
+   "status": 204,
+   "inicio": ""
+  },
+  "diaria/2026-10-08/": {
+   "status": 404,
+   "inicio": "HttpException: E_ROUTE_NOT_FOUND: Route not found GET /estacao/diaria/2026-10-08/2026-11-22/A835"
+  }
+ },
+ "inmet_zip_ano": {
+  "arquivo": "INMET_S_PR_A835_MARINGA_01-01-2026_A_31-10-2026.CSV",
+  "horas_por_mes_[total,com_chuva_valida]": {
+   "2026/01": [
+    744,
+    0
+   ],
+   "2026/02": [
+    672,
+    179
+   ],
+   "2026/03": [
+    744,
+    252
+   ],
+   "2026/04": [
+    720,
+    0
+   ],
+   "2026/05": [
+    744,
+    0
+   ],
+   "2026/06": [
+    720,
+    0
+   ],
+   "2026/07": [
+    744,
+    0
+   ],
+   "2026/08": [
+    744,
+    0
+   ],
+   "2026/09": [
+    720,
+    0
+   ],
+   "2026/10": [
+    744,
+    247
+   ]
+  }
+ }
+}
