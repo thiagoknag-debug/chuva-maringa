@@ -2,7 +2,7 @@
 Alvo: o que o aeroporto (SBMG, METAR) registrou em cada dia — trovoada (TS ou VCTS) e chuva (RA/DZ/SH) — e o pluviômetro do INMET quando houver.
 Previsores: o que 11 modelos previam na véspera (Open-Meteo Previous Runs): energia (CAPE) e chuva.
 Teste fora da amostra (treino no período mais antigo, teste no mais recente). Grava lab/pancadas.json e, se ganhar da climatologia, lab/pesos.json["pancadas"]."""
-import io, json, time, zipfile, datetime as dt
+import io, os, sys, json, time, zipfile, datetime as dt
 import numpy as np, pandas as pd, requests
 LAT, LON, TZ = -23.4053, -51.9328, "America/Sao_Paulo"
 MODELS = ["ecmwf_ifs", "ecmwf_ifs025", "ecmwf_aifs025_single", "gfs_seamless", "icon_seamless", "meteofrance_seamless",
@@ -26,9 +26,9 @@ def meses():
 # ---- previsões arquivadas por antecedência (1, 2, 3 e 5 dias antes) ----
 LEADS = [1, 2, 3, 5]
 def prev_runs(a, b, l):
-    for k in range(6):
+    for k in range(7):
         try:
-            r = requests.get("https://previous-runs-api.open-meteo.com/v1/forecast", timeout=300, headers=UA, params={"latitude": LAT, "longitude": LON, "timezone": TZ,
+            r = requests.get("https://previous-runs-api.open-meteo.com/v1/forecast", timeout=150, headers=UA, params={"latitude": LAT, "longitude": LON, "timezone": TZ,
                 "start_date": a.strftime("%Y-%m-%d"), "end_date": b.strftime("%Y-%m-%d"), "hourly": f"precipitation_previous_day{l},cape_previous_day{l}", "models": ",".join(MODELS)})
             if r.status_code == 200:
                 j = r.json()
@@ -37,19 +37,33 @@ def prev_runs(a, b, l):
         except Exception as e: print("erro", a.date(), l, str(e)[:120], flush=True)
         time.sleep(20 * (k + 1))
     return None
-FEAT = {}
-for l in LEADS:
-    partes = []
+CACHE = "lab/cache"
+def diario(df, l):
+    """horário -> por dia: chuva somada e CAPE máximo de cada modelo (dia com pelo menos 20 h)"""
+    df["time"] = pd.to_datetime(df["time"]); df = df.set_index("time"); df = df[~df.index.duplicated()]; dia = df.index.normalize(); out = {}
+    for m in MODELS:
+        pr_, cp_ = df.get(f"precipitation_previous_day{l}_{m}"), df.get(f"cape_previous_day{l}_{m}")
+        if pr_ is not None: g = pr_.groupby(dia); out["p_" + m] = g.sum(min_count=1).where(g.count() >= 20)
+        if cp_ is not None: g = cp_.groupby(dia); out["c_" + m] = g.max().where(g.count() >= 20)
+    return pd.DataFrame(out).astype(float)
+def carrega_lead(l):
+    """usa o que já foi baixado (lab/cache/prevN.csv) e só busca os meses que faltam e os 2 últimos"""
+    fn = f"{CACHE}/prev{l}.csv"
+    old = pd.read_csv(fn, index_col=0, parse_dates=True) if os.path.exists(fn) else pd.DataFrame()
     for a, b in meses():
+        if not old.empty and b < FIM - pd.Timedelta(days=40) and len(old.loc[a:b]) >= (b - a).days: continue
         df = prev_runs(a, b, l)
         if df is None: print("sem previsão", l, a.date(), flush=True); continue
-        df["time"] = pd.to_datetime(df["time"]); partes.append(df.set_index("time")); time.sleep(1.5)
-    fc = pd.concat(partes).sort_index(); fc = fc[~fc.index.duplicated()]; dia = fc.index.normalize(); R, C = {}, {}
-    for m in MODELS:
-        pr_, cp_ = fc.get(f"precipitation_previous_day{l}_{m}"), fc.get(f"cape_previous_day{l}_{m}")
-        if pr_ is not None: g = pr_.groupby(dia); R[m] = g.sum(min_count=1).where(g.count() >= 20)
-        if cp_ is not None: g = cp_.groupby(dia); C[m] = g.max().where(g.count() >= 20)
-    R, C = pd.DataFrame(R).astype(float), pd.DataFrame(C).astype(float)
+        d = diario(df, l); old = pd.concat([old[~old.index.isin(d.index)], d]).sort_index()
+        os.makedirs(CACHE, exist_ok=True); old.to_csv(fn, float_format="%.2f"); print("previsões", l, a.date(), len(d), flush=True); time.sleep(1.5)
+    return old
+if len(sys.argv) > 2 and sys.argv[1] == "--so-cache":
+    for l in map(int, sys.argv[2:]): carrega_lead(l)
+    sys.exit(0)
+FEAT = {}
+for l in LEADS:
+    D = carrega_lead(l)
+    R = D[[c for c in D.columns if c.startswith("p_")]].astype(float); C = D[[c for c in D.columns if c.startswith("c_")]].astype(float)
     FEAT[l] = pd.DataFrame({"cape_med": C.median(axis=1), "cape_max": C.max(axis=1), "frac1": (R >= 1).sum(axis=1) / R.notna().sum(axis=1),
                             "p_med": R.median(axis=1), "p_max": R.max(axis=1)}).astype(float)
     print("antecedência", l, "dias", len(FEAT[l]), flush=True)
