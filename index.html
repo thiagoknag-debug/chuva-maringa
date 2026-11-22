@@ -596,7 +596,7 @@ async function atualiza(forcar){if(ocupado)return;ocupado=true;
   catch(e){if(!estado)el.innerHTML=`<h2>Próximos 60 minutos</h2><p class="hint">Radar indisponível agora. Tente de novo em alguns minutos.</p>`;window.__ncErr=String(e);}
   finally{ocupado=false;}}
 function calcula(){const V=NC.velocidade(Q,vento),agora=Date.now()/1000,P=NC.prever(Q,V.v,agora,null,CV),G0=Q[Q.length-1].G;
-  estado={V,P,prox:NC.maisProximo(G0,V.v),tipo:NC.tipo(G0,60),t0:Q[Q.length-1].t,agora};desenha();}
+  const ida=agora-Q[Q.length-1].t;estado={V,P,prox:NC.maisProximo(G0,V.v),tipo:NC.tipo(G0,60),t0:Q[Q.length-1].t,agora,velho:ida>40*60||ida<-15*60};desenha();}
 const quando=m=>{if(m<8)return'em poucos minutos';const r=Math.max(10,Math.round(m/5)*5),d=new Date(Date.now()+m*60e3);return `em ~${r} min (≈${hm(d)})`;};
 const catTxt=(P,a,b)=>{let z=null;for(let m=a;m<=Math.min(b,90);m++)if(P[m].p>=0.3&&P[m].z!=null)z=Math.max(z??-99,P[m].z);return NC.cat(z??22);};
 const fimEm=(P,a,lim)=>{for(let m=a;m<=lim-9;m++){let ok=true;for(let k=m;k<m+10;k++)if(P[k].p>=0.3){ok=false;break;}if(ok)return m;}return null;};
@@ -636,7 +636,12 @@ function anel(P){const R=118,r0=96,cx=130,cy=130;let s='';
     s+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${col}" stroke-opacity="${op}" stroke-width="${w}" stroke-linecap="round"/>`;}
   for(const [m,t] of [[15,'15'],[30,'30'],[45,'45']]){const a=(m*6-90)*Math.PI/180;s+=`<text x="${(cx+(R+11)*Math.cos(a)).toFixed(1)}" y="${(cy+(R+11)*Math.sin(a)+4).toFixed(1)}" text-anchor="middle" class="nc-tk">${t}</text>`;}
   return `<svg viewBox="-6 -6 272 272" class="nc-ring" aria-hidden="true">${s}</svg>`;}
-function desenha(){if(!estado)return;const F=frase(),C=confianca(F),{P,prox,V,t0}=estado;
+function velhoUI(){const t0=estado.t0,min=Math.round((Date.now()/1000-t0)/60);
+  el.classList.remove('chove');el.innerHTML=`<div class="nc-top"><h2>Próximos 60 minutos</h2></div><p class="hint">${min>0?`O radar está sem imagem nova desde as ${hm(new Date(t0*1000))} (há ${min>=120?Math.round(min/60)+' h':min+' min'})`:'O relógio deste aparelho não bate com o horário do radar'}. Sem previsão minuto a minuto até ele voltar; vale a previsão por hora abaixo.</p>`;
+  try{const L1=document.getElementById('nxlab'),H1=document.getElementById('nxhead'),S1=document.getElementById('nxsub');if(L1&&L1.dataset.o){L1.innerHTML=L1.dataset.o;H1.innerHTML=H1.dataset.o;S1.innerHTML=S1.dataset.o;}}catch(e){}
+  try{const now=document.querySelector('#hero .now'),h0=window.__HERO0;if(now&&h0){const i=now.querySelector('.ic'),t=now.querySelector('.ncond');if(i&&t){i.textContent=h0.c0.e;t.textContent=h0.c0.t;}}}catch(e){}
+  try{window.__VTUI&&window.__VTUI.redesenha();}catch(e){}}
+function desenha(){if(!estado)return;if(estado.velho)return velhoUI();const F=frase(),C=confianca(F),{P,prox,V,t0}=estado;
   /* chuva no radar com ar seco perto do chão: pode evaporar antes de chegar (virga) */
   const ob=window.__OBS,seco=ob&&ob.fresco&&ob.T!=null&&ob.Td!=null&&(ob.T-ob.Td)>=10;
   const RA=window.__RAIOS,raioOk=RA&&RA.perto!=null&&RA.atraso<=15;
@@ -679,8 +684,9 @@ function desenha(){if(!estado)return;const F=frase(),C=confianca(F),{P,prox,V,t0
     if(trov){if(i){i.textContent='⛈️';i.setAttribute('aria-label','Trovoada');}if(t)t.innerHTML='Trovoada<span class="src">raios a '+Math.round(RA.perto)+' km agora</span>';}
     else if((ch&&nada)||(!ch&&rad)){const k=icone(F);if(i){i.textContent=k[0];i.setAttribute('aria-label',k[1]);}if(t)t.innerHTML=(rad?(F.c?'Chuva '+F.c.t:'Chuva'):k[1])+'<span class="src">pelo radar agora</span>';}
     else if(i&&t){i.textContent=h0.c0.e;t.textContent=h0.c0.t;}}}catch(e){}}
-window.__NCUI={set(c){ctx=Object.assign(ctx,c);desenha();},estado:()=>estado,frase:()=>estado?frase():null,atualiza};
+window.__NCUI={set(c){ctx=Object.assign(ctx,c);desenha();},estado:()=>estado&&!estado.velho?estado:null,frase:()=>estado&&!estado.velho?frase():null,atualiza};
 atualiza(true);
+setTimeout(()=>{if(!estado&&!window.__ncErr){const h=el.querySelector('.hint');if(h)h.textContent='O radar está demorando para responder… continuo tentando.';}},25e3);
 setInterval(()=>{if(!document.hidden)atualiza(false);},180e3);
 setInterval(()=>{if(!document.hidden&&estado&&!ocupado)calcula();},60e3);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)atualiza(false);});
