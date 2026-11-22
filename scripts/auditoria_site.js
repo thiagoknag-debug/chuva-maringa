@@ -14,7 +14,7 @@ async function cenario(b, nome, { hash = '', dev = devices['iPhone 13'], hora = 
   await p.goto(BASE + '?t=' + Date.now() + hash);
   await p.waitForSelector('.hero .box', { timeout: 90000 }).catch(e => r.erros.push('hero não carregou'));
   r.ms_resumo = Date.now() - t0;
-  await p.waitForSelector('#nc .nc-h', { timeout: 60000 }).catch(() => r.erros.push('60min não carregou'));
+  await p.waitForFunction(() => document.querySelector('#nc .nc-h') || /sem imagem nova|relógio|indisponível/.test((document.querySelector('#nc .hint') || {}).textContent || ''), null, { timeout: 60000 }).catch(() => r.erros.push('60min não carregou'));
   await p.waitForSelector('#ra .ra-h', { timeout: 60000 }).catch(() => r.erros.push('raios não carregou'));
   await p.waitForTimeout(6000); r.ms_total = Date.now() - t0;
   const txt = await p.evaluate(() => document.body.innerText);
@@ -23,7 +23,7 @@ async function cenario(b, nome, { hash = '', dev = devices['iPhone 13'], hora = 
     const t = s => (document.querySelector(s)?.innerText || '').replace(/\s+/g, ' ').trim();
     const E = window.__NCUI && window.__NCUI.estado ? window.__NCUI.estado() : null;
     return { cidade: t('#cidade'), stamp: t('#stamp'), now: t('#hero .now'), proxima: t('#nxlab') + ' | ' + t('#nxhead') + ' | ' + t('#nxsub'),
-      hoje: t('.hero .box'), dia0: t('.day'), horas: document.querySelectorAll('#hours .h, .hours .h').length, nc: t('#nc .nc-h'), conf: t('#nc .nc-conf'),
+      hoje: t('.hero .box'), dia0: t('.day'), horas: document.querySelectorAll('#hours .h, .hours .h').length, nc: t('#nc .nc-h') || t('#nc .hint'), conf: t('#nc .nc-conf'),
       p0: E ? +E.P[0].p.toFixed(2) : null, vento: t('#vt .vt-main') + ' | ' + t('#vt .vt-av'), raios: t('#ra .ra-h'), avisos: [...document.querySelectorAll('.chip summary')].map(x => x.textContent.trim()),
       dias: document.querySelectorAll('.day').length };
   });
