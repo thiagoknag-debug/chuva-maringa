@@ -7,9 +7,6 @@
   ],
   "transbordando": [
    "svg.[object SVGAnimatedString] 549",
-   "rect.[object SVGAnimatedString] 544",
-   "text.[object SVGAnimatedString] 491",
-   "line.[object SVGAnimatedString] 544",
    "line.[object SVGAnimatedString] 544",
    "line.[object SVGAnimatedString] 544",
    "line.[object SVGAnimatedString] 544",
@@ -17,16 +14,19 @@
    "rect.[object SVGAnimatedString] 330",
    "rect.[object SVGAnimatedString] 337",
    "rect.[object SVGAnimatedString] 346",
-   "rect.[object SVGAnimatedString] 353"
+   "rect.[object SVGAnimatedString] 353",
+   "rect.[object SVGAnimatedString] 362",
+   "rect.[object SVGAnimatedString] 369",
+   "rect.[object SVGAnimatedString] 378"
   ]
  },
  "gps": {
-  "url": "http://localhost:8000/?t=1795388979237#gps",
+  "url": "http://localhost:8000/?t=1795438908823#gps",
   "h1": "Minha localização",
-  "sub": "Maringá - PR · GPS de 20h09 (±25 m)",
-  "stamp": "Atualizado às 20h09 · Domingo, 22/11",
+  "sub": "Maringá - PR · GPS de 10h01 (±25 m)",
+  "stamp": "Atualizado às 10h01 · Segunda, 23/11",
   "audit": true,
-  "vento": "VENTO\nmedido no aeroporto de Maringá às 19h\n9 km/h vindo do nordeste\nsem rajadas",
+  "vento": "VENTO\nmedido no aeroporto de Maringá às 09h\n24 km/h vindo do nordeste\nsem rajada",
   "nc": "PRÓXIMOS 60 MINUTOS\nConfiança baixa\n\nSem chuva no radar agora · pancadas isoladas podem se formar a qualquer momento\n\nRa"
  },
  "max_claro": {
@@ -37,9 +37,6 @@
   ],
   "transbordando": [
    "svg.[object SVGAnimatedString] 549",
-   "rect.[object SVGAnimatedString] 544",
-   "text.[object SVGAnimatedString] 491",
-   "line.[object SVGAnimatedString] 544",
    "line.[object SVGAnimatedString] 544",
    "line.[object SVGAnimatedString] 544",
    "line.[object SVGAnimatedString] 544",
@@ -47,7 +44,10 @@
    "rect.[object SVGAnimatedString] 441",
    "rect.[object SVGAnimatedString] 448",
    "rect.[object SVGAnimatedString] 457",
-   "rect.[object SVGAnimatedString] 463"
+   "rect.[object SVGAnimatedString] 463",
+   "text.[object SVGAnimatedString] 462",
+   "rect.[object SVGAnimatedString] 473",
+   "rect.[object SVGAnimatedString] 479"
   ]
  }
 }
