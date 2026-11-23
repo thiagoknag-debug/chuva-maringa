@@ -80,7 +80,8 @@ try:
 except Exception as e: print("era5", e, flush=True); era = pd.Series(dtype=float)
 # ---------- janelas ----------
 def janela(s, d, tipo, how):
-    ini = {"A": d - pd.Timedelta(hours=12), "B": d + pd.Timedelta(hours=12), "C": d}[tipo]; q = s.loc[ini:ini + pd.Timedelta(hours=23, minutes=59)]
+    # valores horários rotulados pelo FIM da hora: a janela 12Z->12Z vai do rótulo 13Z ao 12Z (inclusive)
+    ini = {"A": d - pd.Timedelta(hours=11), "B": d + pd.Timedelta(hours=13), "C": d + pd.Timedelta(hours=1)}[tipo]; q = s.loc[ini:ini + pd.Timedelta(hours=23)]
     return how(q)
 def serie(s, tipo, how): return pd.Series({d: janela(s, d, tipo, how) for d in mg.index})
 res_j = {}
@@ -94,6 +95,7 @@ mt = serie(sb["chuva"], best, lambda q: (q.any() if len(q) >= 20 else np.nan)); 
 e5 = serie(era, best, lambda q: q.sum() if q.count() >= 23 else np.nan)
 T = pd.DataFrame({"merge": mg.mm, "merge3": mg.mm3, "max3": mg.max3, "inmet": im, "metar": mt, "metar_horas": mtn, "era5": e5}); T.to_csv("lab/merge_comparacao.csv", float_format="%.2f")
 # ---------- notas ----------
+def ge(s, x): return (s >= x).where(s.notna())
 def cont(prev, obs):
     ok = prev.notna() & obs.notna(); p, o = prev[ok].astype(bool), obs[ok].astype(bool); a, b, c, d = (p & o).sum(), (p & ~o).sum(), (~p & o).sum(), (~p & ~o).sum()
     n = a + b + c + d; e = ((a + b) * (a + c) + (c + d) * (b + d)) / n if n else 0
@@ -103,13 +105,13 @@ def quant(x, y):
     ok = x.notna() & y.notna(); x, y = x[ok], y[ok]
     return {"n": int(ok.sum()), "total_prev": round(float(x.sum()), 1), "total_obs": round(float(y.sum()), 1), "vies_%": round(100 * (x.sum() / y.sum() - 1), 1) if y.sum() else None,
             "r": round(float(np.corrcoef(x, y)[0, 1]), 3), "erro_medio_mm": round(float((x - y).abs().mean()), 2)}
-OUT["vs_inmet"] = {k: {"quantidade": quant(T[k], T.inmet), ">=1mm": cont(T[k] >= 1, T.inmet >= 1), ">=10mm": cont(T[k] >= 10, T.inmet >= 10), ">=25mm": cont(T[k] >= 25, T.inmet >= 25)}
+OUT["vs_inmet"] = {k: {"quantidade": quant(T[k], T.inmet), ">=1mm": cont(ge(T[k], 1), ge(T.inmet, 1)), ">=10mm": cont(ge(T[k], 10), ge(T.inmet, 10)), ">=25mm": cont(ge(T[k], 25), ge(T.inmet, 25))}
                   for k in ("merge", "merge3", "era5")}
 sem_inmet = T.inmet.isna()
-OUT["vs_aeroporto"] = {k: {"todos_dias": {"limiar_0.2": cont(T[k] >= 0.2, T.metar), "limiar_1": cont(T[k] >= 1, T.metar)},
-                           "dias_sem_pluviometro_INMET": {"limiar_1": cont((T[k] >= 1)[sem_inmet], T.metar[sem_inmet])},
-                           "dias_com_pluviometro_INMET": {"limiar_1": cont((T[k] >= 1)[~sem_inmet], T.metar[~sem_inmet])},
-                           "chuva_longa(>=3_boletins)": cont(T[k] >= 1, T.metar_horas >= 3)} for k in ("merge", "merge3", "era5")}
-OUT["vs_aeroporto"]["inmet"] = {"todos_dias": {"limiar_1": cont(T.inmet >= 1, T.metar)}}
+OUT["vs_aeroporto"] = {k: {"todos_dias": {"limiar_0.2": cont(ge(T[k], 0.2), T.metar), "limiar_1": cont(ge(T[k], 1), T.metar)},
+                           "dias_sem_pluviometro_INMET": {"limiar_1": cont(ge(T[k], 1)[sem_inmet], T.metar[sem_inmet])},
+                           "dias_com_pluviometro_INMET": {"limiar_1": cont(ge(T[k], 1)[~sem_inmet], T.metar[~sem_inmet])},
+                           "chuva_longa(>=3_boletins)": cont(ge(T[k], 1), ge(T.metar_horas, 3))} for k in ("merge", "merge3", "era5")}
+OUT["vs_aeroporto"]["inmet"] = {"todos_dias": {"limiar_1": cont(ge(T.inmet, 1), T.metar)}}
 OUT["dias_conhecidos"] = {str(d.date()): {k: (None if pd.isna(T.loc[d, k]) else round(float(T.loc[d, k]), 1)) for k in T.columns} for d in pd.to_datetime(["2026-11-02", "2026-11-03", "2026-11-16", "2026-11-17", "2026-11-19", "2026-11-20", "2026-11-21", "2026-11-22"]) if d in T.index}
 salva(); print(json.dumps(OUT, ensure_ascii=False, default=str)[:6000])
