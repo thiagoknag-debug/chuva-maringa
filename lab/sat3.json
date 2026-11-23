@@ -1,15 +1,9 @@
 {
  "tempos": {
   "n": 1008,
-  "primeiro": "20261116.065021",
-  "ultimo": "20261123.064021"
+  "primeiro": "20261116.070021",
+  "ultimo": "20261123.065021"
  },
- "tabela_n": 238,
- "tabela_faixa": [
-  -86.2,
-  30.3
- ],
- "tabela_dispersao_mediana_C": 2.46,
  "teste": {
   "frames_sem_chuva_no_aeroporto": 506,
   "com_sinal": 188,
@@ -27,8 +21,6 @@
    "t": "2026-11-16 15:30:21",
    "px": 7,
    "km": 13.6,
-   "tmin": -22.6,
-   "esfriou": -21.3,
    "metar_agora": "",
    "metar_depois": "-SHRA"
   },
@@ -36,8 +28,6 @@
    "t": "2026-11-16 15:40:21",
    "px": 22,
    "km": 8.7,
-   "tmin": -38.7,
-   "esfriou": -31.5,
    "metar_agora": "",
    "metar_depois": "-SHRA"
   },
@@ -45,8 +35,6 @@
    "t": "2026-11-16 15:50:21",
    "px": 43,
    "km": 9.2,
-   "tmin": -41.5,
-   "esfriou": -39.5,
    "metar_agora": "",
    "metar_depois": "-SHRA VCSH"
   },
@@ -54,8 +42,6 @@
    "t": "2026-11-16 16:00:21",
    "px": 33,
    "km": 9.6,
-   "tmin": -46.8,
-   "esfriou": -51.4,
    "metar_agora": "-SHRA",
    "metar_depois": "VCSH"
   },
@@ -63,8 +49,6 @@
    "t": "2026-11-16 16:10:21",
    "px": 35,
    "km": 5.2,
-   "tmin": -47.5,
-   "esfriou": -35.5,
    "metar_agora": "-SHRA",
    "metar_depois": "VCSH"
   },
@@ -72,8 +56,6 @@
    "t": "2026-11-16 16:20:21",
    "px": 46,
    "km": 9.7,
-   "tmin": -47.5,
-   "esfriou": -36.9,
    "metar_agora": "-SHRA",
    "metar_depois": "VCSH"
   },
@@ -81,8 +63,6 @@
    "t": "2026-11-16 16:30:21",
    "px": 26,
    "km": 20.6,
-   "tmin": -46.8,
-   "esfriou": -34.2,
    "metar_agora": "",
    "metar_depois": "VCSH"
   },
@@ -90,8 +70,6 @@
    "t": "2026-11-16 16:40:21",
    "px": 14,
    "km": 32.4,
-   "tmin": -44.8,
-   "esfriou": -38.8,
    "metar_agora": "",
    "metar_depois": "VCSH"
   },
@@ -99,8 +77,6 @@
    "t": "2026-11-16 17:30:21",
    "px": 16,
    "km": 26.3,
-   "tmin": -32.0,
-   "esfriou": -30.0,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -108,8 +84,6 @@
    "t": "2026-11-16 17:40:21",
    "px": 7,
    "km": 33.4,
-   "tmin": -28.7,
-   "esfriou": -31.5,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -117,8 +91,6 @@
    "t": "2026-11-16 18:00:21",
    "px": 11,
    "km": 18.7,
-   "tmin": -32.8,
-   "esfriou": -25.6,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -126,8 +98,6 @@
    "t": "2026-11-16 18:10:21",
    "px": 52,
    "km": 25.9,
-   "tmin": -42.9,
-   "esfriou": -44.8,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -135,8 +105,6 @@
    "t": "2026-11-16 18:20:21",
    "px": 50,
    "km": 16.0,
-   "tmin": -43.5,
-   "esfriou": -23.4,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -144,8 +112,6 @@
    "t": "2026-11-16 18:30:21",
    "px": 52,
    "km": 7.2,
-   "tmin": -42.2,
-   "esfriou": -20.4,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -153,8 +119,6 @@
    "t": "2026-11-16 18:40:21",
    "px": 46,
    "km": 1.4,
-   "tmin": -38.1,
-   "esfriou": -23.4,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -162,8 +126,6 @@
    "t": "2026-11-16 18:50:21",
    "px": 59,
    "km": 5.9,
-   "tmin": -34.8,
-   "esfriou": -19.1,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -171,8 +133,6 @@
    "t": "2026-11-16 19:00:21",
    "px": 29,
    "km": 13.6,
-   "tmin": -28.1,
-   "esfriou": -13.9,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -180,8 +140,6 @@
    "t": "2026-11-16 19:40:21",
    "px": 5,
    "km": 16.1,
-   "tmin": -30.8,
-   "esfriou": -18.6,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -189,8 +147,6 @@
    "t": "2026-11-16 19:50:21",
    "px": 15,
    "km": 23.5,
-   "tmin": -44.8,
-   "esfriou": -16.7,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -198,8 +154,6 @@
    "t": "2026-11-16 20:00:21",
    "px": 30,
    "km": 19.6,
-   "tmin": -39.4,
-   "esfriou": -18.7,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -207,8 +161,6 @@
    "t": "2026-11-16 20:10:21",
    "px": 13,
    "km": 7.8,
-   "tmin": -34.8,
-   "esfriou": -13.6,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -216,8 +168,6 @@
    "t": "2026-11-16 20:20:21",
    "px": 8,
    "km": 5.2,
-   "tmin": -45.5,
-   "esfriou": -9.3,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -225,8 +175,6 @@
    "t": "2026-11-16 20:30:21",
    "px": 19,
    "km": 14.2,
-   "tmin": -45.5,
-   "esfriou": -16.3,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -234,8 +182,6 @@
    "t": "2026-11-16 20:40:21",
    "px": 23,
    "km": 11.6,
-   "tmin": -45.5,
-   "esfriou": -20.3,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -243,8 +189,6 @@
    "t": "2026-11-16 20:50:21",
    "px": 32,
    "km": 7.7,
-   "tmin": -44.2,
-   "esfriou": -18.3,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -252,8 +196,6 @@
    "t": "2026-11-16 21:00:21",
    "px": 36,
    "km": 11.6,
-   "tmin": -42.9,
-   "esfriou": -16.8,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -261,8 +203,6 @@
    "t": "2026-11-16 21:10:21",
    "px": 41,
    "km": 23.0,
-   "tmin": -40.2,
-   "esfriou": -14.2,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -270,8 +210,6 @@
    "t": "2026-11-16 21:20:21",
    "px": 4,
    "km": 37.0,
-   "tmin": -37.4,
-   "esfriou": -7.4,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -279,8 +217,6 @@
    "t": "2026-11-17 13:30:21",
    "px": 4,
    "km": 34.3,
-   "tmin": -14.6,
-   "esfriou": -14.0,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -288,8 +224,6 @@
    "t": "2026-11-17 16:20:21",
    "px": 7,
    "km": 33.0,
-   "tmin": -16.7,
-   "esfriou": -20.7,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -297,8 +231,6 @@
    "t": "2026-11-17 16:30:21",
    "px": 5,
    "km": 27.4,
-   "tmin": -11.3,
-   "esfriou": -12.6,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -306,8 +238,6 @@
    "t": "2026-11-17 16:40:21",
    "px": 5,
    "km": 36.3,
-   "tmin": -25.2,
-   "esfriou": -11.3,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -315,8 +245,6 @@
    "t": "2026-11-17 16:50:21",
    "px": 24,
    "km": 29.5,
-   "tmin": -34.8,
-   "esfriou": -19.7,
    "metar_agora": "",
    "metar_depois": "VCSH"
   },
@@ -324,8 +252,6 @@
    "t": "2026-11-17 17:00:21",
    "px": 46,
    "km": 27.3,
-   "tmin": -33.4,
-   "esfriou": -19.3,
    "metar_agora": "",
    "metar_depois": "VCSH"
   },
@@ -333,8 +259,6 @@
    "t": "2026-11-17 17:10:21",
    "px": 51,
    "km": 19.6,
-   "tmin": -35.5,
-   "esfriou": -22.7,
    "metar_agora": "",
    "metar_depois": "VCSH"
   },
@@ -342,8 +266,6 @@
    "t": "2026-11-17 17:20:21",
    "px": 50,
    "km": 8.7,
-   "tmin": -39.4,
-   "esfriou": -24.1,
    "metar_agora": "",
    "metar_depois": "VCSH"
   },
@@ -351,8 +273,6 @@
    "t": "2026-11-17 17:30:21",
    "px": 29,
    "km": 13.2,
-   "tmin": -44.2,
-   "esfriou": -20.6,
    "metar_agora": "",
    "metar_depois": "VCSH"
   },
@@ -360,8 +280,6 @@
    "t": "2026-11-17 17:40:21",
    "px": 6,
    "km": 29.1,
-   "tmin": -26.9,
-   "esfriou": -16.6,
    "metar_agora": "",
    "metar_depois": "VCSH"
   },
@@ -369,8 +287,6 @@
    "t": "2026-11-17 18:00:21",
    "px": 12,
    "km": 32.5,
-   "tmin": -39.4,
-   "esfriou": -14.0,
    "metar_agora": "VCSH",
    "metar_depois": "VCSH -TSRA VCSH"
   },
@@ -378,8 +294,6 @@
    "t": "2026-11-17 18:10:21",
    "px": 60,
    "km": 10.1,
-   "tmin": -41.5,
-   "esfriou": -15.5,
    "metar_agora": "VCSH",
    "metar_depois": "VCSH -TSRA VCSH"
   },
@@ -387,8 +301,6 @@
    "t": "2026-11-17 18:20:21",
    "px": 46,
    "km": 5.9,
-   "tmin": -46.2,
-   "esfriou": -20.1,
    "metar_agora": "VCSH",
    "metar_depois": "VCSH -TSRA VCSH"
   },
@@ -396,8 +308,6 @@
    "t": "2026-11-17 18:30:21",
    "px": 10,
    "km": 11.2,
-   "tmin": -26.9,
-   "esfriou": -16.8,
    "metar_agora": "",
    "metar_depois": "VCSH -TSRA VCSH"
   },
@@ -405,8 +315,6 @@
    "t": "2026-11-17 18:40:21",
    "px": 43,
    "km": 1.4,
-   "tmin": -54.9,
-   "esfriou": -15.5,
    "metar_agora": "",
    "metar_depois": "VCSH -TSRA VCSH"
   },
@@ -414,8 +322,6 @@
    "t": "2026-11-17 18:50:21",
    "px": 46,
    "km": 4.3,
-   "tmin": -48.8,
-   "esfriou": -22.3,
    "metar_agora": "",
    "metar_depois": "VCSH -TSRA VCSH"
   },
@@ -423,8 +329,6 @@
    "t": "2026-11-17 19:00:21",
    "px": 61,
    "km": 1.4,
-   "tmin": -53.6,
-   "esfriou": -19.7,
    "metar_agora": "VCSH",
    "metar_depois": "-TSRA VCSH"
   },
@@ -432,8 +336,6 @@
    "t": "2026-11-17 19:10:21",
    "px": 61,
    "km": 11.6,
-   "tmin": -50.1,
-   "esfriou": -20.8,
    "metar_agora": "VCSH -TSRA VCSH",
    "metar_depois": ""
   },
@@ -441,8 +343,6 @@
    "t": "2026-11-17 19:20:21",
    "px": 84,
    "km": 20.1,
-   "tmin": -49.5,
-   "esfriou": -32.8,
    "metar_agora": "VCSH -TSRA VCSH",
    "metar_depois": ""
   },
@@ -450,8 +350,6 @@
    "t": "2026-11-17 19:30:21",
    "px": 46,
    "km": 31.4,
-   "tmin": -47.5,
-   "esfriou": -28.2,
    "metar_agora": "-TSRA VCSH",
    "metar_depois": ""
   },
@@ -459,8 +357,6 @@
    "t": "2026-11-17 19:40:21",
    "px": 4,
    "km": 39.5,
-   "tmin": -46.8,
-   "esfriou": -8.8,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -468,8 +364,6 @@
    "t": "2026-11-17 20:20:21",
    "px": 9,
    "km": 19.4,
-   "tmin": -20.0,
-   "esfriou": -17.2,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -477,8 +371,6 @@
    "t": "2026-11-17 20:30:21",
    "px": 43,
    "km": 17.5,
-   "tmin": -32.0,
-   "esfriou": -22.6,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -486,8 +378,6 @@
    "t": "2026-11-17 20:40:21",
    "px": 36,
    "km": 11.3,
-   "tmin": -32.0,
-   "esfriou": -22.9,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -495,8 +385,6 @@
    "t": "2026-11-17 20:50:21",
    "px": 54,
    "km": 1.4,
-   "tmin": -32.0,
-   "esfriou": -22.2,
    "metar_agora": "",
    "metar_depois": "VCTS"
   },
@@ -504,8 +392,6 @@
    "t": "2026-11-17 21:00:21",
    "px": 61,
    "km": 1.4,
-   "tmin": -36.8,
-   "esfriou": -24.2,
    "metar_agora": "",
    "metar_depois": "VCTS"
   },
@@ -513,8 +399,6 @@
    "t": "2026-11-17 21:10:21",
    "px": 74,
    "km": 8.7,
-   "tmin": -39.4,
-   "esfriou": -22.2,
    "metar_agora": "",
    "metar_depois": "VCTS"
   },
@@ -522,8 +406,6 @@
    "t": "2026-11-17 21:20:21",
    "px": 50,
    "km": 18.9,
-   "tmin": -40.2,
-   "esfriou": -12.0,
    "metar_agora": "",
    "metar_depois": "VCTS"
   },
@@ -531,8 +413,6 @@
    "t": "2026-11-17 21:30:21",
    "px": 9,
    "km": 30.3,
-   "tmin": -38.7,
-   "esfriou": -44.7,
    "metar_agora": "",
    "metar_depois": "VCTS"
   },
@@ -540,8 +420,6 @@
    "t": "2026-11-17 21:40:21",
    "px": 59,
    "km": 27.5,
-   "tmin": -65.5,
-   "esfriou": -66.8,
    "metar_agora": "",
    "metar_depois": "VCTS"
   },
@@ -549,8 +427,6 @@
    "t": "2026-11-17 21:50:21",
    "px": 120,
    "km": 7.2,
-   "tmin": -64.9,
-   "esfriou": -62.2,
    "metar_agora": "",
    "metar_depois": "VCTS -TSRA"
   },
@@ -558,8 +434,6 @@
    "t": "2026-11-17 22:00:21",
    "px": 163,
    "km": 1.4,
-   "tmin": -64.9,
-   "esfriou": -56.2,
    "metar_agora": "VCTS",
    "metar_depois": "-TSRA"
   },
@@ -567,8 +441,6 @@
    "t": "2026-11-17 22:10:21",
    "px": 169,
    "km": 1.4,
-   "tmin": -63.6,
-   "esfriou": -48.3,
    "metar_agora": "VCTS",
    "metar_depois": "-TSRA"
   },
@@ -576,8 +448,6 @@
    "t": "2026-11-17 22:20:21",
    "px": 135,
    "km": 4.3,
-   "tmin": -63.6,
-   "esfriou": -38.9,
    "metar_agora": "VCTS",
    "metar_depois": "-TSRA"
   },
@@ -585,8 +455,6 @@
    "t": "2026-11-17 22:30:21",
    "px": 45,
    "km": 7.7,
-   "tmin": -62.2,
-   "esfriou": -36.8,
    "metar_agora": "",
    "metar_depois": "-TSRA"
   },
@@ -594,8 +462,6 @@
    "t": "2026-11-18 13:50:21",
    "px": 24,
    "km": 27.8,
-   "tmin": -44.8,
-   "esfriou": -8.7,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -603,8 +469,6 @@
    "t": "2026-11-18 14:00:21",
    "px": 12,
    "km": 24.6,
-   "tmin": -46.2,
-   "esfriou": -6.8,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -612,8 +476,6 @@
    "t": "2026-11-18 14:10:21",
    "px": 35,
    "km": 15.2,
-   "tmin": -45.5,
-   "esfriou": -7.5,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -621,8 +483,6 @@
    "t": "2026-11-18 14:20:21",
    "px": 18,
    "km": 14.4,
-   "tmin": -41.5,
-   "esfriou": -8.1,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -630,8 +490,6 @@
    "t": "2026-11-18 14:30:21",
    "px": 12,
    "km": 30.4,
-   "tmin": -37.4,
-   "esfriou": -7.4,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -639,8 +497,6 @@
    "t": "2026-11-18 16:40:21",
    "px": 12,
    "km": 35.5,
-   "tmin": -45.5,
-   "esfriou": -8.1,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -648,8 +504,6 @@
    "t": "2026-11-18 16:50:21",
    "px": 10,
    "km": 35.8,
-   "tmin": -41.5,
-   "esfriou": -7.4,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -657,8 +511,6 @@
    "t": "2026-11-18 17:10:21",
    "px": 50,
    "km": 13.3,
-   "tmin": -38.7,
-   "esfriou": -10.0,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -666,8 +518,6 @@
    "t": "2026-11-18 17:20:21",
    "px": 71,
    "km": 7.2,
-   "tmin": -40.2,
-   "esfriou": -14.3,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -675,8 +525,6 @@
    "t": "2026-11-18 17:30:21",
    "px": 67,
    "km": 3.2,
-   "tmin": -42.2,
-   "esfriou": -16.3,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -684,8 +532,6 @@
    "t": "2026-11-18 17:40:21",
    "px": 77,
    "km": 15.3,
-   "tmin": -42.9,
-   "esfriou": -16.0,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -693,8 +539,6 @@
    "t": "2026-11-18 17:50:21",
    "px": 50,
    "km": 31.6,
-   "tmin": -40.8,
-   "esfriou": -13.9,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -702,8 +546,6 @@
    "t": "2026-11-18 18:10:21",
    "px": 11,
    "km": 33.2,
-   "tmin": -32.8,
-   "esfriou": -9.3,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -711,8 +553,6 @@
    "t": "2026-11-18 18:20:21",
    "px": 76,
    "km": 7.8,
-   "tmin": -36.8,
-   "esfriou": -15.5,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -720,8 +560,6 @@
    "t": "2026-11-18 18:30:21",
    "px": 78,
    "km": 3.2,
-   "tmin": -32.8,
-   "esfriou": -18.8,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -729,8 +567,6 @@
    "t": "2026-11-18 18:40:21",
    "px": 103,
    "km": 15.3,
-   "tmin": -33.4,
-   "esfriou": -19.5,
    "metar_agora": "",
    "metar_depois": ""
   },
@@ -738,12 +574,108 @@
    "t": "2026-11-18 18:50:21",
    "px": 95,
    "km": 20.5,
-   "tmin": -34.8,
-   "esfriou": -24.8,
    "metar_agora": "",
    "metar_depois": ""
   }
  ],
+ "variantes": {
+  "A_atual_15km": {
+   "frames": 506,
+   "com_sinal": 65,
+   "chuva_depois_com_sinal": 0.2,
+   "chuva_depois_sem_sinal": 0.186,
+   "lift": 1.08,
+   "POD": 0.14
+  },
+  "A_atual_25km": {
+   "frames": 506,
+   "com_sinal": 121,
+   "chuva_depois_com_sinal": 0.182,
+   "chuva_depois_sem_sinal": 0.19,
+   "lift": 0.96,
+   "POD": 0.23
+  },
+  "A_atual_40km": {
+   "frames": 506,
+   "com_sinal": 188,
+   "chuva_depois_com_sinal": 0.165,
+   "chuva_depois_sem_sinal": 0.201,
+   "lift": 0.82,
+   "POD": 0.33
+  },
+  "B_15km": {
+   "frames": 506,
+   "com_sinal": 28,
+   "chuva_depois_com_sinal": 0.286,
+   "chuva_depois_sem_sinal": 0.182,
+   "lift": 1.57,
+   "POD": 0.08
+  },
+  "B_25km": {
+   "frames": 506,
+   "com_sinal": 56,
+   "chuva_depois_com_sinal": 0.268,
+   "chuva_depois_sem_sinal": 0.178,
+   "lift": 1.51,
+   "POD": 0.16
+  },
+  "B_40km": {
+   "frames": 506,
+   "com_sinal": 95,
+   "chuva_depois_com_sinal": 0.221,
+   "chuva_depois_sem_sinal": 0.18,
+   "lift": 1.23,
+   "POD": 0.22
+  },
+  "C_nascendo_15km": {
+   "frames": 506,
+   "com_sinal": 7,
+   "chuva_depois_com_sinal": 0.571,
+   "chuva_depois_sem_sinal": 0.182,
+   "lift": 3.13,
+   "POD": 0.04
+  },
+  "C_nascendo_25km": {
+   "frames": 506,
+   "com_sinal": 19,
+   "chuva_depois_com_sinal": 0.368,
+   "chuva_depois_sem_sinal": 0.181,
+   "lift": 2.04,
+   "POD": 0.07
+  },
+  "C_nascendo_40km": {
+   "frames": 506,
+   "com_sinal": 47,
+   "chuva_depois_com_sinal": 0.298,
+   "chuva_depois_sem_sinal": 0.176,
+   "lift": 1.69,
+   "POD": 0.15
+  },
+  "D_nascendo_rapido_15km": {
+   "frames": 506,
+   "com_sinal": 7,
+   "chuva_depois_com_sinal": 0.571,
+   "chuva_depois_sem_sinal": 0.182,
+   "lift": 3.13,
+   "POD": 0.04
+  },
+  "D_nascendo_rapido_25km": {
+   "frames": 506,
+   "com_sinal": 19,
+   "chuva_depois_com_sinal": 0.368,
+   "chuva_depois_sem_sinal": 0.181,
+   "lift": 2.04,
+   "POD": 0.07
+  },
+  "D_nascendo_rapido_40km": {
+   "frames": 506,
+   "com_sinal": 47,
+   "chuva_depois_com_sinal": 0.298,
+   "chuva_depois_sem_sinal": 0.176,
+   "lift": 1.69,
+   "POD": 0.15
+  }
+ },
  "linha_2026-11-16": [
   [
    "13:20",
@@ -839,57 +771,57 @@
   [
    "15:30",
    13.6,
-   -22.6,
-   -21.3,
+   null,
+   null,
    ""
   ],
   [
    "15:40",
    8.7,
-   -38.7,
-   -31.5,
+   null,
+   null,
    ""
   ],
   [
    "15:50",
    9.2,
-   -41.5,
-   -39.5,
+   null,
+   null,
    ""
   ],
   [
    "16:00",
    9.6,
-   -46.8,
-   -51.4,
+   null,
+   null,
    "-SHRA"
   ],
   [
    "16:10",
    5.2,
-   -47.5,
-   -35.5,
+   null,
+   null,
    ""
   ],
   [
    "16:20",
    9.7,
-   -47.5,
-   -36.9,
+   null,
+   null,
    ""
   ],
   [
    "16:30",
    20.6,
-   -46.8,
-   -34.2,
+   null,
+   null,
    ""
   ],
   [
    "16:40",
    32.4,
-   -44.8,
-   -38.8,
+   null,
+   null,
    ""
   ],
   [
@@ -923,15 +855,15 @@
   [
    "17:30",
    26.3,
-   -32.0,
-   -30.0,
+   null,
+   null,
    ""
   ],
   [
    "17:40",
    33.4,
-   -28.7,
-   -31.5,
+   null,
+   null,
    ""
   ],
   [
@@ -944,50 +876,50 @@
   [
    "18:00",
    18.7,
-   -32.8,
-   -25.6,
+   null,
+   null,
    ""
   ],
   [
    "18:10",
    25.9,
-   -42.9,
-   -44.8,
+   null,
+   null,
    ""
   ],
   [
    "18:20",
    16.0,
-   -43.5,
-   -23.4,
+   null,
+   null,
    ""
   ],
   [
    "18:30",
    7.2,
-   -42.2,
-   -20.4,
+   null,
+   null,
    ""
   ],
   [
    "18:40",
    1.4,
-   -38.1,
-   -23.4,
+   null,
+   null,
    ""
   ],
   [
    "18:50",
    5.9,
-   -34.8,
-   -19.1,
+   null,
+   null,
    ""
   ],
   [
    "19:00",
    13.6,
-   -28.1,
-   -13.9,
+   null,
+   null,
    ""
   ],
   [
@@ -1014,15 +946,15 @@
   [
    "19:40",
    16.1,
-   -30.8,
-   -18.6,
+   null,
+   null,
    ""
   ],
   [
    "19:50",
    23.5,
-   -44.8,
-   -16.7,
+   null,
+   null,
    ""
   ]
  ],
@@ -1044,106 +976,106 @@
   [
    "13:40",
    35.4,
-   -24.1,
-   -9.5,
+   null,
+   null,
    ""
   ],
   [
    "13:50",
    37.4,
-   -41.5,
-   -15.5,
+   null,
+   null,
    ""
   ],
   [
    "14:00",
    7.1,
-   -42.2,
-   -17.5,
+   null,
+   null,
    ""
   ],
   [
    "14:10",
    25.9,
-   -41.5,
-   -19.6,
+   null,
+   null,
    ""
   ],
   [
    "14:20",
    23.0,
-   -44.8,
-   -17.4,
+   null,
+   null,
    ""
   ],
   [
    "14:30",
    15.0,
-   -45.5,
-   -10.9,
+   null,
+   null,
    ""
   ],
   [
    "14:40",
    23.3,
-   -44.8,
-   -10.3,
+   null,
+   null,
    ""
   ],
   [
    "14:50",
    14.4,
-   -46.8,
-   -12.2,
+   null,
+   null,
    ""
   ],
   [
    "15:00",
    9.6,
-   -48.8,
-   -12.0,
+   null,
+   null,
    ""
   ],
   [
    "15:10",
    11.5,
-   -46.8,
-   -12.3,
+   null,
+   null,
    ""
   ],
   [
    "15:20",
    20.2,
-   -38.1,
-   -12.9,
+   null,
+   null,
    ""
   ],
   [
    "15:30",
    10.4,
-   -48.1,
-   -10.0,
+   null,
+   null,
    ""
   ],
   [
    "15:40",
    24.0,
-   -45.5,
-   -15.5,
+   null,
+   null,
    ""
   ],
   [
    "15:50",
    15.8,
-   -61.6,
-   -22.7,
+   null,
+   null,
    ""
   ],
   [
    "16:00",
    11.2,
-   -37.4,
-   -9.9,
+   null,
+   null,
    "TS VCSH"
   ],
   [
@@ -1163,8 +1095,8 @@
   [
    "16:30",
    28.8,
-   -38.1,
-   -8.1,
+   null,
+   null,
    ""
   ],
   [
@@ -1184,29 +1116,29 @@
   [
    "17:00",
    31.9,
-   -36.1,
-   -8.1,
+   null,
+   null,
    ""
   ],
   [
    "17:10",
    27.3,
-   -35.5,
-   -13.5,
+   null,
+   null,
    ""
   ],
   [
    "17:20",
    20.1,
-   -33.4,
-   -14.7,
+   null,
+   null,
    ""
   ],
   [
    "17:30",
    19.2,
-   -33.4,
-   -13.5,
+   null,
+   null,
    ""
   ],
   [
@@ -1254,15 +1186,15 @@
   [
    "18:40",
    5.9,
-   -30.8,
-   -12.8,
+   null,
+   null,
    ""
   ],
   [
    "18:50",
    5.9,
-   -34.0,
-   -10.2,
+   null,
+   null,
    ""
   ],
   [
@@ -1289,22 +1221,22 @@
   [
    "19:30",
    28.2,
-   -35.5,
-   -12.1,
+   null,
+   null,
    ""
   ],
   [
    "19:40",
    18.7,
-   -19.3,
-   -8.6,
+   null,
+   null,
    ""
   ],
   [
    "19:50",
    7.8,
-   -24.7,
-   -14.2,
+   null,
+   null,
    ""
   ]
  ],
@@ -1312,78 +1244,78 @@
   [
    "18:00",
    1.4,
-   -41.5,
-   -28.7,
+   null,
+   null,
    ""
   ],
   [
    "18:10",
    3.2,
-   -43.5,
-   -27.3,
+   null,
+   null,
    ""
   ],
   [
    "18:20",
    11.2,
-   -42.9,
-   -26.0,
+   null,
+   null,
    ""
   ],
   [
    "18:30",
    5.9,
-   -45.5,
-   -21.2,
+   null,
+   null,
    ""
   ],
   [
    "18:40",
    9.6,
-   -45.5,
-   -11.4,
+   null,
+   null,
    ""
   ],
   [
    "18:50",
    16.1,
-   -42.9,
-   -9.3,
+   null,
+   null,
    ""
   ],
   [
    "19:00",
    18.7,
-   -45.5,
-   -12.1,
+   null,
+   null,
    ""
   ],
   [
    "19:10",
    22.4,
-   -46.2,
-   -12.1,
+   null,
+   null,
    ""
   ],
   [
    "19:20",
    34.5,
-   -38.1,
-   -7.4,
+   null,
+   null,
    ""
   ],
   [
    "19:30",
    15.2,
-   -45.5,
-   -6.1,
+   null,
+   null,
    ""
   ],
   [
    "19:40",
    27.7,
-   -48.8,
-   -9.4,
+   null,
+   null,
    ""
   ],
   [
@@ -1417,8 +1349,8 @@
   [
    "20:30",
    36.1,
-   -58.8,
-   -20.1,
+   null,
+   null,
    ""
   ],
   [
