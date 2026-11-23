@@ -19,10 +19,15 @@ jobs:
       - name: Recalibrar índice de pancadas e trovoada
         run: python scripts/pancadas.py || echo "pancadas falhou; mantém a calibração anterior"
       - name: Salvar resultados
+        if: always()
         run: |
           git config user.name "auditoria-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add lab
-          git commit -m "Auditoria automatica" || echo "sem mudancas"
-          git pull --rebase -q origin main || true
-          git push
+          rm -rf /tmp/out && cp -r lab /tmp/out
+          for i in 1 2 3 4 5 6; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            for f in resultados.json relatorio.html mes.json pancadas.json pancadas_dados.csv cache/merge_maringa.csv cache/prev1.csv cache/prev2.csv cache/prev3.csv cache/prev5.csv; do if [ -f /tmp/out/$f ]; then mkdir -p "$(dirname lab/$f)"; cp /tmp/out/$f lab/$f; fi; done
+            [ -f /tmp/out/pesos.json ] && python3 scripts/junta_pesos.py /tmp/out/pesos.json lab/pesos.json chuva fator_volume prob vento risco risco_cape gerado pancadas
+            git add lab && (git commit -q -m "Auditoria automatica" || true) && git push -q && break
+            sleep $((RANDOM % 15 + 5))
+          done

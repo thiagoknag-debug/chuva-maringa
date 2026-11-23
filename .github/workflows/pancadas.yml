@@ -24,13 +24,16 @@ jobs:
           SO: ${{ inputs.so_cache }}
         run: |
           if [ -n "$SO" ]; then python scripts/pancadas.py --so-cache $SO; else python scripts/pancadas.py; fi
-      - name: Salvar
+      - name: Salvar resultados
         if: always()
         run: |
           git config user.name "auditoria-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A lab
-          git commit -q -m "Calibração de pancadas ${SO:-completa}" || echo "sem mudancas"
-          for i in 1 2 3 4 5 6; do git pull --rebase -q origin main && git push -q && break; sleep $((RANDOM % 20 + 5)); done
-        env:
-          SO: ${{ inputs.so_cache }}
+          rm -rf /tmp/out && cp -r lab /tmp/out
+          for i in 1 2 3 4 5 6; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            for f in pancadas.json pancadas_dados.csv cache/prev1.csv cache/prev2.csv cache/prev3.csv cache/prev5.csv; do if [ -f /tmp/out/$f ]; then mkdir -p "$(dirname lab/$f)"; cp /tmp/out/$f lab/$f; fi; done
+            [ -f /tmp/out/pesos.json ] && python3 scripts/junta_pesos.py /tmp/out/pesos.json lab/pesos.json pancadas
+            git add lab && (git commit -q -m "Calibração de pancadas" || true) && git push -q && break
+            sleep $((RANDOM % 15 + 5))
+          done
