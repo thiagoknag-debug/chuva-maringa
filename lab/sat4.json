@@ -1,0 +1,26 @@
+{
+ "ultimo": {
+  "url": "https://realearth.ssec.wisc.edu/api/probe?lat=-23.42&lon=-51.94&products=G19-ABI-FD-BAND13",
+  "texto": " Lat/Lon: 23.42&deg;S 51.94&deg;W GOES East ABI Full Disk B13 \"Clean\" Infrared Probe encountered an error "
+ },
+ "sufixo_t1": {
+  "url": "https://realearth.ssec.wisc.edu/api/probe?lat=-23.42&lon=-51.94&products=G19-ABI-FD-BAND13_20261123_063021",
+  "texto": " Lat/Lon: 23.42&deg;S 51.94&deg;W GOES East ABI Full Disk B13 \"Clean\" Infrared Probe encountered an error "
+ },
+ "sufixo_t0": {
+  "url": "https://realearth.ssec.wisc.edu/api/probe?lat=-23.42&lon=-51.94&products=G19-ABI-FD-BAND13_20261123_014021",
+  "texto": " Lat/Lon: 23.42&deg;S 51.94&deg;W GOES East ABI Full Disk B13 \"Clean\" Infrared Probe encountered an error "
+ },
+ "time_t0": {
+  "url": "https://realearth.ssec.wisc.edu/api/probe?lat=-23.42&lon=-51.94&products=G19-ABI-FD-BAND13&time=20261123.014021",
+  "texto": " Lat/Lon: 23.42&deg;S 51.94&deg;W GOES East ABI Full Disk B13 \"Clean\" Infrared Probe encountered an error "
+ },
+ "time_t0_": {
+  "url": "https://realearth.ssec.wisc.edu/api/probe?lat=-23.42&lon=-51.94&products=G19-ABI-FD-BAND13&time=20261123_014021",
+  "texto": " Lat/Lon: 23.42&deg;S 51.94&deg;W GOES East ABI Full Disk B13 \"Clean\" Infrared Probe encountered an error "
+ },
+ "timestamp": {
+  "url": "https://realearth.ssec.wisc.edu/api/probe?lat=-23.42&lon=-51.94&products=G19-ABI-FD-BAND13&timestamp=20261123.014021",
+  "texto": " Lat/Lon: 23.42&deg;S 51.94&deg;W GOES East ABI Full Disk B13 \"Clean\" Infrared Probe encountered an error "
+ }
+}
