@@ -178,9 +178,9 @@ def combina(idx, l, w, fat=None, modo="media"):
     W = pd.Series(w); num = (M * W).sum(axis=1, min_count=1); den = M.notna().mul(W).sum(axis=1)
     return num / den.replace(0, np.nan)
 
-def frac_chuva(idx, l, w):
+def frac_chuva(idx, l, w, thr=1):
     M = pd.DataFrame({m: P[l][m].loc[idx] for m in w})
-    return (M >= 1).sum(axis=1) / M.notna().sum(axis=1).replace(0, np.nan)
+    return (M >= thr).sum(axis=1) / M.notna().sum(axis=1).replace(0, np.nan)
 
 def fv(x): return pd.to_numeric(x, errors='coerce').astype(float).fillna(0).values
 
@@ -215,8 +215,8 @@ for l in LEADS:
         for nome, serie in cand.items():
             res.setdefault(nome, []).append({"treino": tr, "teste": te, **(placar(serie, Y.loc[ite]) or {}),
                                              "csi10": (placar(serie, Y.loc[ite], 10) or {}).get("csi")})
-        # chance de chuva calibrada (≥1 mm e ≥10 mm)
-        for thr in (1, 10):
+        # chance de chuva calibrada (≥1 mm, ≥10 mm e ≥25 mm); comparação com a fração bruta de modelos que passam do mesmo limite
+        for thr in (1, 10, 25):
             f_tr, f_te = frac_chuva(itr, l, w), frac_chuva(ite, l, w)
             m_tr, m_te = combina(itr, l, w, fat), combina(ite, l, w, fat)
             Xtr = np.c_[fv(f_tr), np.log1p(fv(m_tr))]; ytr = (Y.loc[itr] >= thr).astype(float).values
@@ -227,7 +227,7 @@ for l in LEADS:
                 s = bins == k
                 if s.sum() >= 5: conf.append({"faixa": f"{k*10}-{k*10+10}%", "n": int(s.sum()),
                                                "prevista": round(float(pc[s].mean()), 2), "real": round(float(yte[s].mean()), 2)})
-            prob.setdefault(f"d{l}_{thr}mm", []).append({"treino": tr, "brier_bruto": brier(fv(f_te), yte),
+            prob.setdefault(f"d{l}_{thr}mm", []).append({"treino": tr, "brier_bruto": brier(fv(frac_chuva(ite, l, w, thr)), yte), "casos_teste": int(yte.sum()),
                                                        "brier_calibrado": brier(pc, yte), "confiabilidade": conf})
     metodos[l] = res
 
@@ -390,9 +390,14 @@ for l in LEADS:
     pesos["chuva"][f"d{l}"] = {m: round(v, 4) for m, v in pesos_inv(dias, l).items()}
     pesos["fator_volume"][f"d{l}"] = {m: round(v, 3) for m, v in fatores(dias, l).items()}
     w = pesos_inv(dias, l)
-    for thr in (1, 10):
-        X = np.c_[fv(frac_chuva(dias, l, w)), np.log1p(fv(combina(dias, l, w, fatores(dias, l))))]
-        pesos["prob"][f"d{l}_{thr}mm"] = [round(float(x), 4) for x in logit_fit(X, (Y >= thr).astype(float).values)]
+    for thr in (1, 10, 25):
+        try:
+            if thr == 25:   # só entra se, nos testes fora da amostra, a calibrada errou menos que a fração bruta de modelos ≥25 mm
+                pr_ = prob.get(f"d{l}_25mm", [])
+                if not pr_ or np.mean([x["brier_calibrado"] for x in pr_]) >= np.mean([x["brier_bruto"] for x in pr_]): continue
+            X = np.c_[fv(frac_chuva(dias, l, w)), np.log1p(fv(combina(dias, l, w, fatores(dias, l))))]
+            pesos["prob"][f"d{l}_{thr}mm"] = [round(float(x), 4) for x in logit_fit(X, (Y >= thr).astype(float).values)]
+        except Exception as e: log("prob", thr, "falhou:", str(e)[:120])
 if vento:
     iv = {m: 1 / v["erro_vento_kmh"] for m, v in vento.items()}; t = sum(iv.values())
     def fvento(m, v):
