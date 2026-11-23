@@ -361,6 +361,9 @@ footer.foot p{margin:4px 0}
 .nc-vazio{margin:6px 0 2px;text-align:center;color:var(--muted);font-size:14px;line-height:1.4}
 .ra.compacto .ra-h{margin:2px 0 0;font-size:15px;font-weight:600}
 @media (max-width:360px){.rk-chip{font-size:12px;line-height:1.3;padding:4px 8px}.bx2.trv{font-size:12.5px}}
+.nc-blend{margin:8px 0 0;font-size:14px;text-align:center;color:var(--ink)}.nc-blend b{color:var(--rain)}
+.h .p sup{font-size:9px;color:var(--muted);margin-left:1px}
+.nc-sat{margin:8px 0 0;font-size:14px;line-height:1.45;padding:8px 10px;border-radius:10px;background:var(--card);border:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -399,6 +402,7 @@ footer.foot p{margin:4px 0}
   </section>
   <section class="card">
     <h2>Próximas 48 horas</h2>
+    <p class="hint" id="hrsnota" hidden></p>
     <div class="hours" id="hours" role="list"></div>
     <p class="hint">Ícone = tempo previsto. % = chance de chover. Barra = quantidade (mm). O horário pode variar algumas horas. Seta = para onde o vento sopra, com a velocidade em km/h; o número embaixo é a rajada.</p>
   </section>
@@ -541,8 +545,8 @@ function disco(G,x,y,rp){const r=Math.max(1.5,rp),r2=r*r;let n=0,c=0,c15=0;const
 const cat=z=>z==null?null:z>=55?{k:5,t:'temporal (possível granizo)',c:'#d946ef'}:z>=48?{k:4,t:'muito forte',c:'#dc2626'}:z>=40?{k:3,t:'forte',c:'#f59e0b'}:z>=30?{k:2,t:'moderada',c:'#2563eb'}:{k:1,t:'fraca',c:'#38bdf8'};
 const mmh=z=>z==null?0:Math.pow(Math.pow(10,z/10)/200,1/1.6);
 /* previsão: quadros [{t (s), G}], velocidade v={vx,vy} px/min, tAgora (s); devolve minuto a minuto (0..90) */
-function prever(Q,v,tAgora,alvo,Cv){const [ax,ay]=alvo||[PX,PY];const f0=Q[Q.length-1],f1=Q.length>1?Q[Q.length-2]:null,out=[];
-  for(let m=0;m<=90;m++){const L=(tAgora-f0.t)/60+m,rk=(2.5+0.09*L)/KM;
+function prever(Q,v,tAgora,alvo,Cv,hz=90,st=1){const [ax,ay]=alvo||[PX,PY];const f0=Q[Q.length-1],f1=Q.length>1?Q[Q.length-2]:null,out=[];
+  for(let m=0;m<=hz;m+=st){const L=(tAgora-f0.t)/60+m,rk=(2.5+0.09*L)/KM;
     const a=disco(f0.G,ax-v.vx*L,ay-v.vy*L,rk);let p=a.p,z=a.z,p15=a.p15;
     if(f1){const L1=(tAgora-f1.t)/60+m,b=disco(f1.G,ax-v.vx*L1,ay-v.vy*L1,(2.5+0.09*L1)/KM);p=(2*a.p+b.p)/3;p15=(2*a.p15+b.p15)/3;if(z==null)z=b.z;else if(b.z!=null)z=Math.round((2*z+b.z)/3);}
     out.push({m,p,z,p15,u:semRadar(Cv,ax-v.vx*L,ay-v.vy*L,rk)});}
@@ -600,7 +604,23 @@ async function atualiza(forcar){if(ocupado)return;ocupado=true;
   catch(e){if(!estado)el.innerHTML=`<h2>Próximos 60 minutos</h2><p class="hint">Radar indisponível agora. Tente de novo em alguns minutos.</p>`;window.__ncErr=String(e);}
   finally{ocupado=false;}}
 function calcula(){const V=NC.velocidade(Q,vento),agora=Date.now()/1000,P=NC.prever(Q,V.v,agora,null,CV),G0=Q[Q.length-1].G;
-  const ida=agora-Q[Q.length-1].t;estado={V,P,prox:NC.maisProximo(G0,V.v),tipo:NC.tipo(G0,60),t0:Q[Q.length-1].t,agora,velho:ida>40*60||ida<-15*60};desenha();}
+  const ida=agora-Q[Q.length-1].t;estado={V,P,prox:NC.maisProximo(G0,V.v),tipo:NC.tipo(G0,60),t0:Q[Q.length-1].t,agora,velho:ida>40*60||ida<-15*60};mistura();desenha();}
+/* próximas 3 horas: junta a projeção do radar (até 3 h) com a chance por hora dos modelos. O radar pesa mais no começo
+   (peso = e^(-minutos/τ); τ = 75 min, ou 45 min em dia instável, porque o radar não vê as células que ainda vão nascer) */
+function mistura(){try{
+  const L=window.__L,H=L&&L.H;if(!H||!estado||estado.velho||!Q.length)return;
+  if(!H.p0)H.p0=H.p.slice();
+  const V=estado.V,PH=NC.prever(Q,V.v,estado.agora,null,CV,180,5),mm=new Date().getMinutes(),pc=ctx.pc||{},RA=window.__RAIOS;
+  const inst=(pc.ts||0)>=40||(RA&&RA.perto!=null&&RA.perto<=60),tau=inst?45:75,S=window.__SAT&&window.__SAT.sinal;
+  H.blend=[];
+  for(let k=1;k<=3&&k<H.p.length;k++){const a=Math.max(0,(k-1)*60-mm),b=k*60-mm;let pr=0,u=0,n=0;
+    for(const x of PH)if(x.m>=a&&x.m<=b){pr=Math.max(pr,x.p);u+=x.u;n++;}
+    if(!n||u/n>=0.5){H.p[k]=H.p0[k];continue;}
+    if(S&&S.km<=40&&k<=2)pr=Math.max(pr,S.p||0.3);
+    const w=Math.exp(-((a+b)/2)/tau),pm=(H.p0[k]??0)/100;
+    H.p[k]=Math.round(100*(w*pr+(1-w)*pm));H.blend[k]={p:H.p[k],pr:Math.round(100*pr),pm:Math.round(100*pm),w:Math.round(100*w)};}
+  window.__HORAS&&window.__HORAS();
+}catch(e){console.error('radar + modelos',e);}}
 const quando=m=>{if(m<8)return'em poucos minutos';const r=Math.max(10,Math.round(m/5)*5),d=new Date(Date.now()+m*60e3);return `em ~${r} min (≈${hm(d)})`;};
 const catTxt=(P,a,b)=>{let z=null;for(let m=a;m<=Math.min(b,90);m++)if(P[m].p>=0.3&&P[m].z!=null)z=Math.max(z??-99,P[m].z);return NC.cat(z??22);};
 const fimEm=(P,a,lim)=>{for(let m=a;m<=lim-9;m++){let ok=true;for(let k=m;k<m+10;k++)if(P[k].p>=0.3){ok=false;break;}if(ok)return m;}return null;};
@@ -617,7 +637,7 @@ function frase(){const {P,prox}=estado;const r=m=>P[m].p>=0.5,ps=m=>P[m].p>=0.3;
   if(!prox)return{h:'Sem chuva por no mínimo 60 min · nenhuma chuva num raio de 170 km',k:'limpo'};
   return{h:'Sem chuva por no mínimo 60 min',k:'nada'};}
 function potencial(){const ob=window.__OBS;if(ob&&ob.fresco&&(ob.ts||ob.tcu))return{p:30,pt:ob.ts?30:10,nuvem:true};const hh=new Date().getHours();if(ctx.pc&&ctx.pc.ts>=40&&hh>=11&&hh<=21)return{p:ctx.pc.chuva||30,pt:ctx.pc.ts,indice:true};const dh=ctx.DH&&ctx.DH[0];if(!dh)return ctx.aviso?{p:0,pt:0}:null;const h=new Date().getHours(),s=dh.filter(o=>o.h>=h&&o.h<=h+2);if(!s.length)return null;
-  const p=Math.max(...s.map(o=>o.p||0)),pt=Math.max(...s.map(o=>o.pt||0));return (p>=30||pt>=15||ctx.aviso)?{p,pt}:null;}
+  const cal=s.some(o=>o.cal),p=Math.max(...s.map(o=>o.p||0)),pt=cal?Math.max(...s.map(o=>o.tc||0)):Math.max(...s.map(o=>o.pt||0));return (p>=(cal?15:30)||pt>=(cal?10:15)||ctx.aviso)?{p,pt,cal}:null;}
 const icone=F=>{const o=estado.P[0];if(o.p>=0.5){const c=NC.cat(o.z??22);return c.k>=3?['⛈️','Tempestade']:['🌧️','Chuva'];}
   const cc=ctx.cc,d=ctx.dia!==0;if(cc!=null&&cc>=70)return['☁️','Nublado'];if(cc!=null&&cc>=30)return d?['⛅','Sol entre nuvens']:['☁️','Parcialmente nublado'];return d?['☀️','Céu limpo']:['🌙','Céu limpo'];};
 function confianca(F){const {V,tipo,prox,t0,agora}=estado,mot=[];let n=3;
@@ -631,7 +651,7 @@ function confianca(F){const {V,tipo,prox,t0,agora}=estado,mot=[];let n=3;
   if(atraso>20){n--;mot.push(`o radar está atrasado ${Math.round(atraso)} min`);}
   if(F.k==='nada'&&prox&&prox.km<40&&conv){n=Math.min(n,1);}
   const pot=potencial();
-  if(F.k!=='agora'&&F.k!=='vem'&&pot){n=Math.min(n,pot.pt>=25?1:2);mot.push('a atmosfera está instável e pancadas podem se formar sem aparecer antes no radar');}
+  if(F.k!=='agora'&&F.k!=='vem'&&pot){n=Math.min(n,pot.pt>=(pot.cal?15:25)?1:2);mot.push('a atmosfera está instável e pancadas podem se formar sem aparecer antes no radar');}
   if(!mot.length)mot.push(F.k==='nada'?'a chuva mais próxima não vem para cá':'chuva organizada e movimento estável');
   return{t:n>=3?'alta':n===2?'média':'baixa',m:mot.join('; ')};}
 function anel(P){const R=118,r0=96,cx=130,cy=130;let s='';
@@ -659,18 +679,21 @@ function desenha(){if(!estado)return;if(estado.velho)return velhoUI();const F=fr
   const proxTxt=prox?`Chuva mais próxima: ${NC.cat(prox.z).t} a ${prox.km} km ao ${prox.dir}${prox.vem?`, ${prox.vem}`:''}.`:'Nenhuma chuva no radar num raio de 170 km.';
   const movTxt=V.kmh>=3?`A chuva na região anda do ${de(V.v)} para o ${dir(V.v)} a ~${Math.round(V.kmh)} km/h${V.fonte==='vento'?' (estimado pelo vento em altitude)':''}.`:'A chuva na região está quase parada.';
   const hz=(()=>{const dh=ctx.DH&&ctx.DH[0];if(!dh||F.k==='agora'||F.k==='vem')return'';const h=new Date().getHours(),s=dh.filter(o=>o.h>=h&&o.h<=h+3);if(!s.length)return'';
-    const p=Math.max(...s.map(o=>o.p||0)),pt=Math.max(...s.map(o=>o.pt||0));
+    const cal=s.some(o=>o.cal),p=Math.max(...s.map(o=>o.p||0)),pt=cal?Math.max(...s.map(o=>o.tc||0)):Math.max(...s.map(o=>o.pt||0)),LP=cal?15:30,LT=cal?10:15;
     const ob=window.__OBS,nv=ob&&ob.fresco&&(ob.ts||ob.tcu);
-    return (p>=30||pt>=15||ctx.aviso||nv)?`<p class="nc-av">⚠️ O radar ainda não mostra chuva por aqui, mas ${nv?`o aeroporto viu ${ob.ts?'nuvens de tempestade':'nuvens de chuva crescendo'} às ${ob.hora}, `:''}${ctx.aviso?`há aviso ${ctx.aviso} do INMET e `:nv?'e ':''}os modelos dão ${p}% de chance de chuva${pt>=15?` e ${pt}% de trovoada`:''} nas próximas horas. Pancadas pequenas podem cair sobre a cidade sem aparecer no radar: o radar mais próximo fica longe e não enxerga bem as nuvens baixas daqui.</p>`:'';})();
+    return (p>=LP||pt>=LT||ctx.aviso||nv)?`<p class="nc-av">⚠️ O radar ainda não mostra chuva por aqui, mas ${nv?`o aeroporto viu ${ob.ts?'nuvens de tempestade':'nuvens de chuva crescendo'} às ${ob.hora}, `:''}${ctx.aviso?`há aviso ${ctx.aviso} do INMET e `:nv?'e ':''}os modelos dão ${cal?'até ':''}${p}% de chance de chuva${cal?' por hora':''}${pt>=LT?` e ${pt}% de trovoada`:''} nas próximas horas. Pancadas pequenas podem cair sobre a cidade sem aparecer no radar: o radar mais próximo fica longe e não enxerga bem as nuvens baixas daqui.</p>`:'';})();
   const vazio=P.filter(x=>x.m<=60).every(x=>x.p<0.15&&x.u<0.5);
   el.innerHTML=`<div class="nc-top"><h2>Próximos 60 minutos</h2><span class="nc-conf c-${C.t}">Confiança ${C.t}</span></div>
    <p class="nc-h">${F.h}</p>
    ${vazio?`<p class="nc-vazio">Radar das ${hm(new Date(t0*1000))}: nenhuma chuva prevista sobre ${LOC.nome} na próxima hora.</p>`:`<div class="nc-dial">${anel(P)}<div class="nc-mid"><span class="nc-now">AGORA</span>${(i=>`<span class="ic nc-ic" role="img" aria-label="${i[1]}">${i[0]}</span>`)(icone(F))}<b>${(ob&&ob.fresco&&ob.T!=null)?ob.T+'°':ctx.temp!=null?ctx.temp+'°':''}</b><span class="nc-sm">radar ${hm(new Date(t0*1000))}</span></div></div>
    <ul class="nc-leg"><li><i style="background:#38bdf8"></i>fraca</li><li><i style="background:#2563eb"></i>moderada</li><li><i style="background:#f59e0b"></i>forte</li><li><i style="background:#dc2626"></i>muito forte</li><li><i style="background:#d946ef"></i>temporal</li><li><i class="ls"></i>possível</li></ul>`}
-   ${virga}${hz}
+   ${virga}${hz}${(()=>{const H=window.__L&&window.__L.H,B=H&&H.blend;if(!B||!B.some(Boolean))return'';const h0=new Date().getHours(),pd=n=>String((h0+n)%24).padStart(2,'0')+'h';
+     const it=[1,2,3].filter(k=>B[k]).map(k=>`${k===1?'até '+pd(1):pd(k-1)+'–'+pd(k)} <b>${B[k].p}%</b>`);
+     return `<p class="nc-blend">Próximas horas (radar + modelos): ${it.join(' · ')}${window.__SAT&&window.__SAT.sinal&&window.__SAT.sinal.km<=40?' · inclui o satélite':''}</p>`;})()}
+   ${(()=>{const S=window.__SAT&&window.__SAT.sinal;if(!S||(prox&&prox.km<=10))return'';return `<p class="nc-sat">🛰️ <b>Satélite:</b> nuvem de chuva nascendo a ${S.km} km ao ${S.dir} (o topo esfriou ${S.esfriou} °C em 20 min). Nos testes, a chuva chegou na hora seguinte em cerca de 1 a cada 3 vezes.</p>`;})()}
    <p class="nc-d">${proxTxt} ${movTxt}</p>
    <p class="nc-d"><b>Por que confiança ${C.t}:</b> ${C.m}.</p>
-   <details class="nc-how"><summary>Como funciona e quanto acerta</summary><p>Pego as 4 últimas imagens do radar (uma a cada 10 min), meço para onde e a que velocidade a chuva está andando e projeto esse movimento até 90 min à frente, minuto a minuto, sobre ${LOC.nome}. A cor indica a intensidade (fraca = até ~2 mm/h; moderada = 3–10; forte = 10–40; muito forte = 50+; temporal = possível granizo). As imagens chegam com ~10 min de atraso (agora: ${atraso} min), e isso já entra na conta.</p><p>Teste com o radar real de 5/11 (2 h de chuva no Paraná, 13 mil comparações): com 10 min de antecedência, avisou 84% das chuvas e 19% dos avisos não se confirmaram; com 30 min, 73% e 40%; com 60 min, 69% e 52%. Projetar o movimento acertou bem mais que supor que "a chuva fica onde está". O que não dá para prever: tempestades que nascem do nada perto da cidade.</p></details>`;
+   <details class="nc-how"><summary>Como funciona e quanto acerta</summary><p>Pego as 4 últimas imagens do radar (uma a cada 10 min), meço para onde e a que velocidade a chuva está andando e projeto esse movimento até 90 min à frente, minuto a minuto, sobre ${LOC.nome}. A cor indica a intensidade (fraca = até ~2 mm/h; moderada = 3–10; forte = 10–40; muito forte = 50+; temporal = possível granizo). As imagens chegam com ~10 min de atraso (agora: ${atraso} min), e isso já entra na conta.</p><p>Teste com o radar real de 5/11 (2 h de chuva no Paraná, 13 mil comparações): com 10 min de antecedência, avisou 84% das chuvas e 19% dos avisos não se confirmaram; com 30 min, 73% e 40%; com 60 min, 69% e 52%. Projetar o movimento acertou bem mais que supor que "a chuva fica onde está". O que não dá para prever: tempestades que nascem do nada perto da cidade.</p><p><b>Próximas horas:</b> junto essa projeção (até 3 h) com a chance por hora dos modelos. O radar pesa mais no começo e os modelos depois (em dia instável o radar perde peso mais rápido, porque não vê as células que ainda vão nascer). <b>Satélite:</b> procuro nuvens nascendo perto da cidade (topo que esfriou 15 °C ou mais em 20 min onde antes não havia nuvem alta). Num teste de 7 dias, com esse sinal a até 25 km choveu no aeroporto na hora seguinte em 37% das vezes, contra 18% sem ele. Ainda é pouco teste: o site está registrando para conferir.</p></details>`;
   el.classList.toggle('chove',F.k==='agora'||F.k==='vem');try{window.__VTUI&&window.__VTUI.redesenha();}catch(e){}
   /* "Próxima chuva" do resumo: quando o radar vê chuva agora ou chegando, ele manda */
   try{const L1=document.getElementById('nxlab'),H1=document.getElementById('nxhead'),S1=document.getElementById('nxsub');
@@ -689,7 +712,7 @@ function desenha(){if(!estado)return;if(estado.velho)return velhoUI();const F=fr
     if(trov){if(i){i.textContent='⛈️';i.setAttribute('aria-label','Trovoada');}if(t)t.innerHTML='Trovoada<span class="src">raios a '+Math.round(RA.perto)+' km agora</span>';}
     else if((ch&&nada)||(!ch&&rad)){const k=icone(F);if(i){i.textContent=k[0];i.setAttribute('aria-label',k[1]);}if(t)t.innerHTML=(rad?(F.c?'Chuva '+F.c.t:'Chuva'):k[1])+'<span class="src">pelo radar agora</span>';}
     else if(i&&t){i.textContent=h0.c0.e;t.textContent=h0.c0.t;}}}catch(e){}}
-window.__NCUI={set(c){ctx=Object.assign(ctx,c);desenha();},estado:()=>estado&&!estado.velho?estado:null,frase:()=>estado&&!estado.velho?frase():null,atualiza};
+window.__NCUI={set(c){ctx=Object.assign(ctx,c);mistura();desenha();},estado:()=>estado&&!estado.velho?estado:null,frase:()=>estado&&!estado.velho?frase():null,atualiza};
 atualiza(true);
 setTimeout(()=>{if(!estado&&!window.__ncErr){const h=el.querySelector('.hint');if(h)h.textContent='O radar está demorando para responder… continuo tentando.';}},25e3);
 setInterval(()=>{if(!document.hidden)atualiza(false);},180e3);
@@ -762,6 +785,43 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)atualiza()
 })();
 }catch(e){console.error('módulo raios.ui.js',e);}
 try{
+/* Satélite (GOES-19 infravermelho, via RealEarth/SSEC): nuvem de chuva NASCENDO perto da cidade — topo que esfriou ≥15 °C em 20 min,
+   onde 20 min antes não havia nuvem alta num raio de ~10 km. Teste em 7 dias de nov/2026 (pouco ainda): com o sinal a até 25 km,
+   choveu no aeroporto na hora seguinte em 37% das vezes; sem o sinal, em 18%. Por isso é só um aviso e um empurrão pequeno na chance. */
+(()=>{const P='G19-ABI-FD-BAND13',R=25,NW=110,NH=110,box=[LOC.lat-1.0,LOC.lon-1.1,LOC.lat+1.0,LOC.lon+1.1];
+ const DIR=['norte','nordeste','leste','sudeste','sul','sudoeste','oeste','noroeste'];
+ let TAB=null,MAP=null;const cache=new Map();
+ const kmLat=111.2,kmLon=111.2*Math.cos(LOC.lat*Math.PI/180),dist=new Float32Array(NW*NH),az=new Float32Array(NW*NH);
+ for(let i=0;i<NH;i++)for(let j=0;j<NW;j++){const la=box[2]-(i+0.5)/NH*(box[2]-box[0]),lo=box[1]+(j+0.5)/NW*(box[3]-box[1]),dy=(la-LOC.lat)*kmLat,dx=(lo-LOC.lon)*kmLon;
+   dist[i*NW+j]=Math.hypot(dx,dy);az[i*NW+j]=(Math.atan2(dx,dy)*180/Math.PI+360)%360;}
+ async function tabela(){if(MAP)return;TAB=await fetch('lab/sat_cores.json',{cache:'force-cache'}).then(r=>r.json());MAP=new Map(TAB.map(x=>[x[0].join(','),x[1]]));}
+ function valor(r,g,b){const k=r+','+g+','+b;let v=MAP.get(k);if(v!==undefined)return v;let best=1e9,bv=NaN;
+   for(const x of TAB){const d=(x[0][0]-r)**2+(x[0][1]-g)**2+(x[0][2]-b)**2;if(d<best){best=d;bv=x[1];}}v=best<=300?bv:NaN;MAP.set(k,v);return v;}
+ async function quadro(t){if(cache.has(t))return cache.get(t);const img=new Image();img.crossOrigin='anonymous';
+   img.src=`https://realearth.ssec.wisc.edu/api/image?products=${P}_${t.replace('.','_')}&bounds=${box.join(',')}&width=${NW}&height=${NH}`;await img.decode();
+   const c=document.createElement('canvas');c.width=NW;c.height=NH;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(img,0,0);
+   const d=x.getImageData(0,0,NW,NH).data,T=new Float32Array(NW*NH);for(let i=0;i<NW*NH;i++)T[i]=d[4*i+3]?valor(d[4*i],d[4*i+1],d[4*i+2]):NaN;
+   cache.set(t,T);if(cache.size>6)cache.delete(cache.keys().next().value);return T;}
+ function sinal(T0,T10,T20){let n=0,km=1e9,a=0,tmin=99,esf=0;
+   for(let i=0;i<NH;i++)for(let j=0;j<NW;j++){const k=i*NW+j;if(dist[k]>R)continue;const t0=T0[k];if(!(t0<=-25))continue;if(T10&&!(t0<=T10[k]+1))continue;
+     let m=Infinity;for(let p=Math.max(0,i-5);p<=Math.min(NH-1,i+5);p++)for(let q=Math.max(0,j-5);q<=Math.min(NW-1,j+5);q++){const v=T20[p*NW+q];if(v<m)m=v;}
+     if(m===Infinity||m<-15||t0-m>-15)continue;
+     n++;if(dist[k]<km){km=dist[k];a=az[k];}tmin=Math.min(tmin,t0);esf=Math.min(esf,t0-m);}
+   return n>=2?{km:Math.max(1,Math.round(km)),dir:DIR[Math.round(a/45)%8],tmin:Math.round(tmin),esfriou:Math.round(-esf),p:0.35}:null;}
+ const tt=t=>Date.UTC(+t.slice(0,4),+t.slice(4,6)-1,+t.slice(6,8),+t.slice(9,11),+t.slice(11,13),+t.slice(13,15))/1000;
+ async function atualiza(){try{await tabela();
+   const ts=(await fetch(`https://realearth.ssec.wisc.edu/api/times?products=${P}`).then(r=>r.json()))[P]||[];if(ts.length<3)return;
+   const t0=ts[ts.length-1],perto=alvo=>ts.reduce((b,t)=>Math.abs(tt(t)-alvo)<Math.abs(tt(b)-alvo)?t:b,ts[0]);
+   const t10=perto(tt(t0)-600),t20=perto(tt(t0)-1200),atraso=Math.round((Date.now()/1000-tt(t0))/60);
+   if(atraso>40||atraso<-15||Math.abs(tt(t0)-tt(t20)-1200)>300){window.__SAT={sinal:null,atraso,t:t0,velho:true};return;}
+   const [A,B,C]=await Promise.all([quadro(t0),quadro(t10),quadro(t20)]);
+   window.__SAT={sinal:sinal(A,Math.abs(tt(t0)-tt(t10)-600)<=300?B:null,C),atraso,t:t0};
+   window.__NCUI&&window.__NCUI.set({});
+ }catch(e){console.error('satélite',e);}}
+ atualiza();setInterval(atualiza,10*60e3);
+})();
+}catch(e){console.error('módulo sat.ui.js',e);}
+try{
 /* ===== Vento: medido agora (aeroporto mais próximo) + próximas horas + aviso de rajada com tempestade ===== */
 (function(){
 const $=id=>document.getElementById(id),pad=n=>String(n).padStart(2,'0');
@@ -816,7 +876,7 @@ atualiza();setInterval(()=>{if(!document.hidden)atualiza();},10*60e3);setInterva
 })();
 }catch(e){console.error('módulo vento.ui.js',e);}
 /* Configuração: o que usar do arquivo de pesos da auditoria (lab/pesos.json) */
-/* Decidido pela auditoria de 189 dias (set/2024–ago/2026): mediana dos modelos venceu; correção de volume piorou;
+/* Auditoria de 488 dias com chuva medida (INMET + MERGE/INPE, set/2024–out/2026): mediana dos modelos venceu; correção de volume não ajudou;
    chance de chuva forte calibrada melhorou muito; vento calibrado pela estação do INMET. */
 const CFG={mediana:true, chanceForteCalibrada:true, ventoCalibrado:true};
 const W0={ecmwf_ifs:.10,ecmwf_ifs025:.11,ecmwf_aifs025_single:.13,gfs_seamless:.07,icon_seamless:.09,meteofrance_seamless:.075,ukmo_seamless:.06,jma_seamless:.07,gem_seamless:.08,cma_grapes_global:.15,best_match:.09};
@@ -893,6 +953,32 @@ for(let i=s;i<s+48&&i<T.length;i++){let n=0,d=0,mx=0,tt=0,td=0;
  const vv=vento(i), sc=escala[T[i].slice(0,10)]??1;
  H.mm.push(d?r1(n/d*sc):null); H.mx.push(r1(mx)); H.p.push(k?Math.round(100*c/k):null); H.t.push(td?Math.round(tt/td):null);
  H.ws.push(vv.ws);H.wg.push(vv.wg);H.wgx.push(vv.wgx);H.wd.push(vv.wd);H.cc.push(nuvem(i));H.dia.push(diaH(i));}
+/* chance por hora CALIBRADA com o aeroporto (lab/pesos.json["hora"], só Maringá): o que os 11 modelos previam hora a hora,
+   energia (CAPE), chuva do dia e ciclo do dia → "das vezes em que o site disse X%, choveu naquela hora em X%" */
+const HC=PJ&&PJ.hora,PCAL=[],TCAL=[];
+if(HC&&(HC.d0||HC.d1)){try{
+ const Pm=M.map(m=>T.map((_,i)=>hv('precipitation',m,i))), Cm=M.map(m=>T.map((_,i)=>hv('cape',m,i)));
+ const rmax=(a,i,r)=>{let v=null;for(let k=Math.max(0,i-r);k<=Math.min(a.length-1,i+r);k++){const x=a[k];if(x!=null&&(v==null||x>v))v=x;}return v;};
+ const DI={};
+ for(const day of [...new Set(T.map(t=>t.slice(0,10)))]){const idx=T.map((t,i)=>t.startsWith(day)?i:-1).filter(i=>i>=0);let nr=0,nv=0,cx=null;
+   M.forEach((m,j)=>{const a=idx.map(i=>Pm[j][i]).filter(x=>x!=null);if(a.length>=20){nv++;if(a.reduce((x,y)=>x+y,0)>=1)nr++;}idx.forEach(i=>{const c=Cm[j][i];if(c!=null&&(cx==null||c>cx))cx=c;});});
+   DI[day]={fr1d:nv?nr/nv:null,capemax:cx==null?null:Math.min(4000,cx)/1000};}
+ const feat=i=>{let n=0,f01=0,f05=0,f01w=0;const p3=[],cs=[];
+   M.forEach((m,j)=>{if(Pm[j][i]!=null)n++;const a=rmax(Pm[j],i,1),b=rmax(Pm[j],i,3);if(a!=null){p3.push(a);if(a>=0.1)f01++;if(a>=0.5)f05++;}if(b!=null&&b>=0.1)f01w++;const c=Cm[j][i];if(c!=null)cs.push(c);});
+   const di=DI[T[i].slice(0,10)];if(!n||!di||di.fr1d==null||di.capemax==null||!cs.length)return null;
+   const w=2*Math.PI*((+T[i].slice(11,13)-0.5+24)%24)/24,cape=Math.min(3700,med(cs))/1000;
+   const F={f01:f01/n,f05:f05/n,f01w:f01w/n,pmed:Math.log1p(med(p3)),fr1d:di.fr1d,cape,capemax:di.capemax,s1:Math.sin(w),c1:Math.cos(w),s2:Math.sin(2*w),c2:Math.cos(2*w)};
+   F.cs1=F.cape*F.s1;F.cc1=F.cape*F.c1;F.fs1=F.fr1d*F.s1;F.fc1=F.fr1d*F.c1;return F;};
+ const ap=(o,F)=>{if(!o||!F||!o.coef)return null;let z=o.coef[0];o.cols.forEach((c,k)=>{z+=o.coef[k+1]*F[c];});return 1/(1+Math.exp(-z));};
+ const mix=(a,b,w)=>a==null?b:b==null?a:(1-w)*a+w*b;
+ /* calibrado de 00h de hoje até 48 h à frente (antecedência 0 = rodada mais nova; passa para a da véspera entre 12 h e 36 h) */
+ for(let i=0;i<T.length&&i<s+H.p.length;i++){const F=feat(i),w=Math.min(1,Math.max(0,(i-s-12)/24));
+   const pc=mix(ap(HC.d0&&HC.d0.chuva,F),ap(HC.d1&&HC.d1.chuva,F),w),tc=mix(ap(HC.d0&&HC.d0.trov,F),ap(HC.d1&&HC.d1.trov,F),w);
+   PCAL[i]=pc==null?null:Math.round(100*pc);TCAL[i]=tc==null?null:Math.round(100*tc);}
+ H.pc=PCAL.slice(s,s+H.p.length);H.tc=TCAL.slice(s,s+H.p.length);
+ if(H.pc.filter(x=>x!=null).length>=24){H.pb=H.p.slice();H.p=H.p.map((x,k)=>H.pc[k]??x);H.cal=true;
+   const L0=(HC.d0&&HC.d0.chuva&&HC.d0.chuva.lim)||{};H.lim={hora:Math.round(100*(L0.hora??0.3)),dia:Math.round(100*(L0.dia??0.3))};}
+}catch(e){console.error('chance por hora calibrada',e);}}
 const A=await avisosP;
 /* risco de temporal (rajada ≥70 km/h, chuva ≥50 mm, ou muita instabilidade com chuva) — hoje, amanhã e depois */
 const ORD={amarelo:1,laranja:2,vermelho:3};
@@ -925,12 +1011,13 @@ D.slice(0,3).forEach(dd=>{const day=dd[0],idx=T.map((t,i)=>t.startsWith(day)?i:-
   if(dd[16].chuva!=null){dd[17]=dd[4];dd[4]=dd[16].chuva;}});}}
 /* detalhe por dia: hora a hora para os 10 dias (chuva, chance, trovoada, temperatura, vento) */
 const MEMG=MEMX.filter(x=>x.g||x.c);
-const DH=D.map(dd=>{const day=dd[0],idx=T.map((t,i)=>t.startsWith(day)?i:-1).filter(i=>i>=0),sc=escala[day]??1;
+const DH=D.map(dd=>{const day=dd[0],idx=T.map((t,i)=>t.startsWith(day)?i:-1).filter(i=>i>=0),sc=escala[day]??1,diaCal=idx.length>0&&idx.every(i=>PCAL[i]!=null); /* o dia inteiro calibrado, ou nada (para não misturar escalas) */
  return idx.map(i=>{let n=0,d=0,tt=0,td=0;for(const m of M){const x=hv('precipitation',m,i);if(x!=null){n+=x;d++;}const y=hv('temperature_2m',m,i);if(y!=null){tt+=y;td++;}}
   let c=0,k=0;for(const a0 of (MEMH.length?MEMH:MEM)){const x=a0[i];if(x==null)continue;k++;if(x>=0.2)c++;}
   let ts=0,tk=0;for(const x of MEMG){const p=x.p[i],g=x.g?x.g[i]:null,cp=x.c?x.c[i]:null;if(p==null||(g==null&&cp==null))continue;tk++;if(p>=0.5&&((cp!=null&&cp>=1500)||(g!=null&&g>=55)))ts++;}
   const vv=vento(i);
-  return {h:+T[i].slice(11,13),p:k?Math.round(100*c/k):null,mm:d?r1(n/d*sc):null,pt:tk?Math.round(100*ts/tk):null,t:td?Math.round(tt/td):null,ws:vv.ws,wg:vv.wg,wd:vv.wd,cc:nuvem(i),dia:diaH(i)};});});
+  const pcal=H.cal&&diaCal?PCAL[i]:null,tcal=H.cal&&diaCal?TCAL[i]:null;
+  return {h:+T[i].slice(11,13),p:pcal??(k?Math.round(100*c/k):null),pb:k?Math.round(100*c/k):null,cal:pcal!=null,tc:tcal,mm:d?r1(n/d*sc):null,pt:tk?Math.round(100*ts/tk):null,t:td?Math.round(tt/td):null,ws:vv.ws,wg:vv.wg,wd:vv.wd,cc:nuvem(i),dia:diaH(i)};});});
 return {gen:new Date().toISOString(),H,D,DH,alerts:A||[],alertasFalhou:A===null,pesos:PJ?PJ.gerado:null,ens:ensOK};
 }
 (async function(){
@@ -1045,7 +1132,7 @@ let saiu=Date.now();document.addEventListener('visibilitychange',()=>{if(documen
 
 let L,O;
 let offline=null;const CK='prev:'+LOC.slug;
-try{[L,O]=await Promise.all([coletar(),LOC.padrao?fetch('oct.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).catch(()=>null):Promise.resolve(null)]);
+try{[L,O]=await Promise.all([coletar(),LOC.padrao?fetch('lab/mes.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json();}).catch(()=>fetch('oct.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json())).catch(()=>null):Promise.resolve(null)]);
   try{localStorage.setItem(CK,JSON.stringify({t:Date.now(),L}));}catch(e){}}
 catch(e){let c=null;try{c=JSON.parse(localStorage.getItem(CK)||'null');}catch(_){}
   if(c&&c.L&&Date.now()-c.t<36*3600e3){L=c.L;O=null;offline=new Date(c.t);}
@@ -1063,9 +1150,11 @@ $('alerts').innerHTML=(L.alertasFalhou?`<details class="chip"><summary><i class=
 
 /* horas */
 const H=L.H, n=H.mm.length, st=new Date(H.start+':00');
+/* limiares: com a chance por hora calibrada (Maringá) o número é a chance real de chover naquela hora, menor que a fração de cenários */
+const LH=H.cal&&H.lim?{chuva:Math.max(20,H.lim.hora),panc:Math.max(10,Math.round(H.lim.hora*0.6)),jan:Math.max(10,H.lim.dia)}:{chuva:50,panc:30,jan:50}; /* calibrado: ícone de chuva ≥25%/h, pancadas ≥15%/h, janela de chuva ≥15%/h (limiares de melhor acerto no teste) */
 const hrs=[...Array(n)].map((_,i)=>new Date(st.getTime()+i*3600e3));
 const wins=[];let cur=null;
-for(let i=0;i<n;i++){if(H.p[i]>=50){if(!cur)cur={a:i,b:i};else cur.b=i;}else if(cur){wins.push(cur);cur=null;}}if(cur)wins.push(cur);
+for(let i=0;i<n;i++){if(H.p[i]>=LH.jan){if(!cur)cur={a:i,b:i};else cur.b=i;}else if(cur){wins.push(cur);cur=null;}}if(cur)wins.push(cur);
 const winMm=w=>{let s=0,p=0;for(let i=w.a;i<=w.b;i++){s+=H.mm[i]||0;p=Math.max(p,H.p[i]);}return{s,p};};
 
 /* resumo */
@@ -1081,9 +1170,9 @@ const dir8=d=>d==null?'':['N','NE','L','SE','S','SO','O','NO'][Math.round(d/45)%
 const box=(lab,d)=>{if(!d)return'';return `<div class="box tap" role="button" tabindex="0" data-k="${L.D.indexOf(d)}" aria-label="Ver detalhes de ${lab}"><span class="bxh">${lab} ${ic(condD(d))}</span><b class="${panc(d)?'pc':''}">${mmDia(d)}</b><span>${panc(d)?`isoladas · ${d[4]}% de chance${d[3]>=1?` · até ~${fmt(d[3],0)} mm onde cair`:''}`:`${d[4]??'—'}% de chance`}</span><span class="bx2">${d[10]}° a ${d[9]}°</span>${d[16]&&d[16].ts!=null&&d[16].ts>=15?`<span class="bx2 trv">⛈️ Trovoada ${d[16].ts}%${d[16].forte>=25?` · chuva forte ${d[16].forte}%`:''}</span>`:''}<span class="bx2${d[11]>=50?' bxw':''}">Rajadas até ${d[11]??'—'} km/h</span>${d[15]?`<span class="rk-chip rk-${riscoK(d[15].pct)}">${(()=>{const pi=d[15].aviso&&d[15].bruto!=null&&d[15].bruto<d[15].pct-5,h=d[15].pct>=10&&horaTemp(d);return pi&&!h?`Aviso ${d[15].aviso} do INMET · temporais isolados possíveis`:`Temporal severo: ${d[15].nivel.toLowerCase()} · ${d[15].pct}%${h?' · '+h.txt:''}`;})()}</span>`:''}<span class="more">Ver horários ›</span></div>`;};
 /* ícones de tempo */
 const condH=i=>{const p=H.p[i]??0,mm=H.mm[i]||0,g=H.wg?H.wg[i]||0:0,cc=H.cc?H.cc[i]:null,dia=H.dia?H.dia[i]:1;
-  if(p>=50&&(mm>=4||g>=55))return{e:'⛈️',t:'Tempestade',k:'storm'};
-  if(p>=50&&mm>=0.5)return{e:'🌧️',t:'Chuva',k:'rain'};
-  if(p>=30&&mm>=0.1)return dia?{e:'🌦️',t:'Pancadas',k:'rain'}:{e:'🌧️',t:'Chuva fraca',k:'rain'};
+  if(p>=LH.chuva&&(mm>=4||g>=55))return{e:'⛈️',t:'Tempestade',k:'storm'};
+  if(p>=LH.chuva&&mm>=0.5)return{e:'🌧️',t:'Chuva',k:'rain'};
+  if(p>=LH.panc&&mm>=0.1)return dia?{e:'🌦️',t:'Pancadas',k:'rain'}:{e:'🌧️',t:'Chuva fraca',k:'rain'};
   if(cc!=null&&cc>=80)return{e:'☁️',t:'Nublado',k:'cloud'};
   if(cc!=null&&cc>=35)return dia?{e:'⛅',t:'Sol entre nuvens',k:'clear'}:{e:'☁️',t:'Parcialmente nublado',k:'night'};
   return dia?{e:'☀️',t:'Céu limpo',k:'clear'}:{e:'🌙',t:'Céu limpo',k:'night'};};
@@ -1103,13 +1192,13 @@ let head,sub,lab;
 /* dia de pancadas: a chance por hora fica baixa (não se sabe a hora exata), mas a do dia é alta: mostra a faixa mais provável */
 const pancJan=(k)=>{const d=L.D[k],hh=(L.DH||[])[k]||[];if(!d||!d[16])return null;const pd=Math.max(d[16].chuva||0,d[16].ts||0);if(pd<50)return null;
   const h0=k===0?now.getHours():-1,s=hh.filter(o=>o.h>h0||(k===0&&o.h===h0));if(!s.length)return null;const mx=Math.max(...s.map(o=>o.p||0));if(mx<5)return null;
-  const lim=Math.max(5,mx*0.6),sel=s.filter(o=>(o.p||0)>=lim);return {k,a:sel[0].h,b:sel[sel.length-1].h+1,pd,d};};
+  const lim=Math.max(5,mx*(s.some(o=>o.cal)?0.5:0.6)),sel=s.filter(o=>(o.p||0)>=lim);return {k,a:sel[0].h,b:sel[sel.length-1].h+1,pd,d};};
 const sig=wins.filter(w=>winMm(w).s>=1);
 if(wins.length){const w=sig[0]||wins[0],a=hrs[w.a],b=new Date(hrs[w.b].getTime()+3600e3),m=winMm(w);
   const light=!sig.length;
   lab=w.a===0?(light?'Garoa agora':'Chuva agora'):(light?'Próxima garoa':'Próxima chuva');
   head=w.a===0?`Até as ${(b.getHours()===0?"24":pad(b.getHours()))}h`:`${dayName(a)}, das ${pad(a.getHours())}h às ${(b.getHours()===0?"24":pad(b.getHours()))}h`;
-  sub=`Cerca de ${mmTxt(m.s)} mm · chance de até ${m.p}%`;
+  {const dd=L.D[dIdx(key(a))];sub=H.cal&&dd&&dd[4]!=null?`Cerca de ${mmTxt(m.s)} mm · chance no dia ${dd[4]}% · em cada hora, até ${m.p}%`:`Cerca de ${mmTxt(m.s)} mm · chance de até ${m.p}%`;}
   {let k=w.a;for(let i=w.a;i<=w.b;i++)if((H.mm[i]||0)>(H.mm[k]||0))k=i;if(w.b>w.a&&(H.mm[k]||0)>=0.5)sub+=` · mais forte perto das ${pad(hrs[k].getHours())}h`;}
   const prev=wins.filter(x=>x.a<w.a);
   if(prev.length)sub+=` · antes disso, garoa fraca ${prev[0].a===0?'agora':'às '+pad(hrs[prev[0].a].getHours())+'h'}`;}
@@ -1140,9 +1229,11 @@ const windCell=i=>{const ws=H.ws?H.ws[i]:null,wg=H.wg?H.wg[i]:null;if(ws==null)r
 radar().catch(e=>{window.__radarErr=String(e&&e.stack||e).slice(0,400);const m=document.getElementById('rmsg');if(m)m.textContent='Radar indisponível agora.';});
 const drop=p=>`<svg viewBox="0 0 20 24" aria-hidden="true"><path d="M10 1.5C10 1.5 2.5 10.2 2.5 15a7.5 7.5 0 0 0 15 0C17.5 10.2 10 1.5 10 1.5z" fill="var(--rain)" fill-opacity="${(0.08+0.92*p/100).toFixed(2)}" stroke="var(--rain)" stroke-width="1.2"/></svg>`;
 const hmax=Math.max(4,...H.mm.map(v=>v||0));
-$('hours').innerHTML=hrs.map((d,i)=>{const p=H.p[i]??0,v=H.mm[i]||0,nd=d.getHours()===0&&i>0;
+const desenhaHoras=()=>{$('hours').innerHTML=hrs.map((d,i)=>{const p=H.p[i]??0,v=H.mm[i]||0,nd=d.getHours()===0&&i>0;
   const t=i===0?'Agora':pad(d.getHours())+'h';
-  return `<div class="h${nd?' newday':''}" role="listitem" aria-label="${dayName(d)} ${pad(d.getHours())}h: ${p}% de chance, ${fmt(v)} mm"><div class="t">${nd?`<b>${dayName(d)}</b>`:''}${t}</div>${ic(condH(i))}<div class="p" style="color:${p>=50?'var(--rain)':'var(--muted)'}">${p}%</div><div class="bar"><i style="height:${Math.round(100*Math.min(v,hmax)/hmax)}%"></i></div><div class="mm">${v>=0.1?fmt(v):''}</div><div class="deg">${H.t[i]??''}°</div>${windCell(i)}</div>`;}).join('');
+  return `<div class="h${nd?' newday':''}" role="listitem" aria-label="${dayName(d)} ${pad(d.getHours())}h: ${p}% de chance, ${fmt(v)} mm"><div class="t">${nd?`<b>${dayName(d)}</b>`:''}${t}</div>${ic(condH(i))}<div class="p" style="color:${p>=LH.chuva?'var(--rain)':'var(--muted)'}">${p}%${H.blend&&H.blend[i]!=null?'<sup title="radar + modelos">r</sup>':''}</div><div class="bar"><i style="height:${Math.round(100*Math.min(v,hmax)/hmax)}%"></i></div><div class="mm">${v>=0.1?fmt(v):''}</div><div class="deg">${H.t[i]??''}°</div>${windCell(i)}</div>`;}).join('');};
+desenhaHoras();window.__HORAS=desenhaHoras;
+{const hn=$('hrsnota');if(hn&&H.cal){hn.textContent='Chance por hora calibrada com 26 meses do aeroporto de Maringá: quando o site diz 40%, chove naquela hora em cerca de 40% das vezes. “r” = radar + modelos.';hn.hidden=false;}}
 
 /* dias */
 const S=Math.min(60,Math.max(20,...L.D.map(d=>d[3]||0)));
@@ -1153,10 +1244,10 @@ $('days').innerHTML=L.D.map((d,k)=>{const dt=new Date(d[0]+'T12:00:00'),P=d[4];
 
 
 /* painel de detalhes do dia */
-const condO=o=>{const p=o.p??0,mm=o.mm||0,g=o.wg||0,pt=o.pt??0;
-  if(p>=50&&(pt>=30||mm>=4||g>=55))return{e:'⛈️',t:'Tempestade',k:'storm'};
-  if(p>=50&&mm>=0.5)return{e:'🌧️',t:'Chuva',k:'rain'};
-  if(p>=30&&mm>=0.1)return o.dia?{e:'🌦️',t:'Pancadas',k:'rain'}:{e:'🌧️',t:'Chuva fraca',k:'rain'};
+const condO=o=>{const p=o.p??0,mm=o.mm||0,g=o.wg||0,pt=o.pt??0,Lo=o.cal?LH:{chuva:50,panc:30};
+  if(p>=Lo.chuva&&(pt>=30||(o.tc??0)>=20||mm>=4||g>=55))return{e:'⛈️',t:'Tempestade',k:'storm'};
+  if(p>=Lo.chuva&&mm>=0.5)return{e:'🌧️',t:'Chuva',k:'rain'};
+  if(p>=Lo.panc&&mm>=0.1)return o.dia?{e:'🌦️',t:'Pancadas',k:'rain'}:{e:'🌧️',t:'Chuva fraca',k:'rain'};
   if(o.cc!=null&&o.cc>=80)return{e:'☁️',t:'Nublado',k:'cloud'};
   if(o.cc!=null&&o.cc>=35)return o.dia?{e:'⛅',t:'Sol entre nuvens',k:'clear'}:{e:'☁️',t:'Parcialmente nublado',k:'night'};
   return o.dia?{e:'☀️',t:'Céu limpo',k:'clear'}:{e:'🌙',t:'Céu limpo',k:'night'};};
@@ -1166,16 +1257,17 @@ function openDay(k){const d=L.D[k],hAll=(L.DH||[])[k]||[];if(!d)return;const dt=
   const hoje=d[0]===key(now),h0=now.getHours(),hh=hoje?hAll.filter(o=>o.h>=h0):hAll,resto=hoje?' (daqui pra frente)':'';
   const titulo=(nm==='Hoje'||nm==='Amanhã'?nm+', ':'')+WD[dt.getDay()].toLowerCase()+' '+dt.getDate()+'/'+(dt.getMonth()+1);
   const av=(L.alerts||[]).filter(a=>a.ini<=d[0]&&d[0]<=a.fim);
-  const wc=janelas(hh,'p',50), wt=janelas(hh,'pt',25);
-  const pmax=hh.reduce((a,o)=>(o.p??0)>(a.p??0)?o:a,{p:0}), tmax=hh.reduce((a,o)=>(o.pt??0)>(a.pt??0)?o:a,{pt:0});
+  const kc=hh.length>0&&hh.every(o=>o.cal), TK=kc?'tc':'pt', ph=kc?' por hora':'';  /* dia calibrado (hoje/amanhã em Maringá): limiares de chance real por hora */
+  const wc=janelas(hh,'p',kc?LH.jan:50), wt=janelas(hh,TK,kc?15:25);
+  const pmax=hh.reduce((a,o)=>(o.p??0)>(a.p??0)?o:a,{p:0}), tmax=hh.reduce((a,o)=>(o[TK]??0)>(a[TK]??0)?o:a,{[TK]:0});
   const chuvaTxt=wc.length?wc.map(w=>{const s=hh.slice(w.a,w.b+1);const mm=s.reduce((x,o)=>x+(o.mm||0),0),pm=Math.max(...s.map(o=>o.p||0));
       const pk=s.reduce((a,o)=>(o.mm||0)>(a.mm||0)?o:a,s[0]);
-      return `<li><b>Das ${hTxt(hh[w.a].h)} às ${hTxt(hh[w.b].h+1)}</b><span>~${mmTxt(mm)} mm · chance até ${pm}%</span><span class="pk">Mais forte perto das ${hTxt(pk.h)} (~${mmTxt(pk.mm||0)} mm nessa hora)</span></li>`;}).join('')
-    :`<li><b>Sem horário com chance alta</b><span>Maior chance: ${pmax.p||0}%${pmax.h!=null?' às '+hTxt(pmax.h):''}</span></li>`;
-  const tempTxt=wt.length?wt.map(w=>{const s=hh.slice(w.a,w.b+1);const pm=Math.max(...s.map(o=>o.pt||0)),g=Math.max(...s.map(o=>o.wg||0));
-      const pk=s.reduce((a,o)=>(o.pt||0)>(a.pt||0)?o:a,s[0]);
-      return `<li class="tw"><b>⛈️ Das ${hTxt(hh[w.a].h)} às ${hTxt(hh[w.b].h+1)}</b><span>chance de trovoada até ${pm}% · rajadas até ${g} km/h</span><span class="pk">Pico perto das ${hTxt(pk.h)}</span></li>`;}).join('')
-    :`<li><b>Chance baixa de trovoada</b><span>Maior chance: ${tmax.pt||0}%${tmax.h!=null&&tmax.pt?' às '+hTxt(tmax.h):''}</span></li>`;
+      return `<li><b>Das ${hTxt(hh[w.a].h)} às ${hTxt(hh[w.b].h+1)}</b><span>~${mmTxt(mm)} mm · chance até ${pm}%${ph}</span><span class="pk">Mais forte perto das ${hTxt(pk.h)} (~${mmTxt(pk.mm||0)} mm nessa hora)</span></li>`;}).join('')
+    :`<li><b>Sem horário com chance alta</b><span>Maior chance: ${pmax.p||0}%${ph}${pmax.h!=null?' às '+hTxt(pmax.h):''}</span></li>`;
+  const tempTxt=wt.length?wt.map(w=>{const s=hh.slice(w.a,w.b+1);const pm=Math.max(...s.map(o=>o[TK]||0)),g=Math.max(...s.map(o=>o.wg||0));
+      const pk=s.reduce((a,o)=>(o[TK]||0)>(a[TK]||0)?o:a,s[0]);
+      return `<li class="tw"><b>⛈️ Das ${hTxt(hh[w.a].h)} às ${hTxt(hh[w.b].h+1)}</b><span>chance de trovoada até ${pm}%${ph} · rajadas até ${g} km/h</span><span class="pk">Pico perto das ${hTxt(pk.h)}</span></li>`;}).join('')
+    :`<li><b>Chance baixa de trovoada</b><span>Maior chance: ${tmax[TK]||0}%${ph}${tmax.h!=null&&tmax[TK]?' às '+hTxt(tmax.h):''}</span></li>`;
   const per=[['Madrugada',0,6],['Manhã',6,12],['Tarde',12,18],['Noite',18,24]].map(([n,a,b])=>{const s=hAll.filter(o=>o.h>=a&&o.h<b);if(!s.length)return'';const pas=hoje&&b<=h0;
     const mm=s.reduce((x,o)=>x+(o.mm||0),0),p=Math.max(...s.map(o=>o.p||0)),pt=Math.max(...s.map(o=>o.pt||0)),g=Math.max(...s.map(o=>o.wg||0)),
       tn=Math.min(...s.map(o=>o.t??99)),tx=Math.max(...s.map(o=>o.t??-99)),mid=s[Math.floor(s.length/2)],
@@ -1193,7 +1285,7 @@ function openDay(k){const d=L.D[k],hAll=(L.DH||[])[k]||[];if(!d)return;const dt=
       <div class="vgraf" aria-hidden="true">${graf}</div><div class="vleg"><span><i class="s"></i>vento médio</span><span><i class="g"></i>rajada</span></div></div>`;})();
   const hmx=Math.max(3,...hAll.map(o=>o.mm||0));
   const horas=hAll.map(o=>`<div class="h${hoje&&o.h<h0?' past':''}" role="listitem" aria-label="${hTxt(o.h)}: ${o.p}% de chance, ${fmt(o.mm)} mm, trovoada ${o.pt??0}%"><div class="t">${hTxt(o.h)}</div>${ic(condO(o))}<div class="p" style="color:${(o.p??0)>=50?'var(--rain)':'var(--muted)'}">${o.p??'—'}%</div><div class="bar"><i style="height:${Math.round(100*Math.min(o.mm||0,hmx)/hmx)}%"></i></div><div class="mm">${(o.mm||0)>=0.1?fmt(o.mm):''}</div><div class="deg">${o.t??''}°</div>${o.ws!=null?`<div class="wnd">${arrow(o.wd)}<span>${o.ws}</span></div><div class="gst${(o.wg||0)>=50?' hi':''}">${(o.wg||0)>=25?o.wg:''}</div>`:''}${(o.pt??0)>=15?`<div class="tsx">⛈️${o.pt}</div>`:'<div class="tsx"></div>'}</div>`).join('');
-  $('sheet-body').innerHTML=`<div class="sh-head">${ic(cd,'big')}<div><h3 id="sh-t">${titulo}</h3><p>${cd.t}${d[15]?` · temporal severo ${d[15].nivel.toLowerCase()} (${d[15].pct}%)${(()=>{const h=horaTemp(d);return h?', mais provável '+(h.a===h.b-1?'perto das '+pad(h.a)+'h':'entre '+h.txt.replace('–',' e '))+(h.b-h.a>1?', pico ~'+pad(h.pico)+'h':''):'';})()}`:''}</p></div></div>
+  $('sheet-body').innerHTML=`<div class="sh-head">${ic(cd,'big')}<div><h3 id="sh-t">${titulo}</h3><p>${cd.t}${d[15]?` · temporal severo ${d[15].nivel.toLowerCase()} (${d[15].pct}%)${(()=>{const h=horaTemp(d);return h?', mais provável '+(h.a===h.b-1||h.b-h.a>7?'perto das '+pad(h.pico)+'h':'entre '+h.txt.replace('–',' e ')+', pico ~'+pad(h.pico)+'h'):'';})()}`:''}</p></div></div>
    ${av.map(a=>`<p class="sh-av"><i class="dot" style="background:${col[a.lvl]||col.amarelo}"></i>Aviso ${a.lvl} do INMET: ${a.tit}. ${a.txt}</p>`).join('')}
    <div class="sh-sum"><div><b>${mmTxt(d[1])} mm</b><span>chuva (${fmt(d[2],0)}–${fmt(d[3],0)} entre modelos)</span></div><div><b>${d[4]??'—'}%</b><span>chance de chover</span></div>
      <div><b>${d[10]}°–${d[9]}°</b><span>mín – máx</span></div><div><b>${d[11]??'—'} km/h</b><span>rajada máxima${d[12]!=null?' ~'+hTxt(d[12]):''}</span></div></div>
@@ -1217,39 +1309,44 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')fecha();if((e.key===
     const txt=`🌧️ Previsão para ${LOC.nome}\n${linha(L.D[0],'Hoje')}\n${linha(L.D[1],'Amanhã')}`;
     try{if(navigator.share){await navigator.share({title:'Chuva em '+LOC.nome,text:txt,url});return;}}catch(e){if(e&&e.name==='AbortError')return;}
     try{await navigator.clipboard.writeText(txt+'\n'+url);b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1500);}catch(e){}});})();
-/* outubro */
+/* auditoria: último mês completo (lab/mes.json, refeito todo dia 2) */
 if(!O){const a=$('audit');if(a)a.hidden=true;return;}
-const oc=O.oct, W=O.fc.weights, names=oc.names;
+const oc=O.oct, names=oc.names, NDm=oc.truth.length, novo=!!O.mes;
+const MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const mesNome=novo?MESES[+O.mes.slice(5,7)-1]:'outubro', mesAno=novo?`${mesNome} de ${O.mes.slice(0,4)}`:'outubro de 2026', mm2=novo?O.mes.slice(5,7):'10';
 const short={EC:'ECMWF',AI:'ECMWF IA',GF:'GFS (EUA)',IC:'ICON (Alemanha)',MF:'Météo-France',UK:'UK Met Office',JM:'JMA (Japão)',GE:'GEM (Canadá)',CM:'CMA (China)',BM:'Best Match'};
-const real=oc.res.EC.d1.all.sumo;
-let base='gauge', model='CM';
-const ab=Object.keys(names);
-function rankHTML(){const rows=ab.map(k=>({k,v:oc.res[k].d1[base].mae,acc:oc.res[k].d1[base].acc})).sort((a,b)=>a.v-b.v);const mx=rows[rows.length-1].v;
+let base=novo?'all':'gauge', model='EC';
+const ab=Object.keys(names).filter(k=>oc.res[k]&&oc.res[k].d1&&oc.res[k].d1[base]);
+const nf=x=>x==null?0:x;
+function rankHTML(){const rows=ab.map(k=>({k,v:oc.res[k].d1[base].mae})).filter(r=>r.v!=null).sort((a,b)=>a.v-b.v);const mx=rows[rows.length-1].v;
   return rows.map((r,i)=>`<div class="rk${i===0?' best':''}"><span class="nm">${short[r.k]}</span><span class="bt"><i style="width:${Math.max(4,100*r.v/mx)}%"></i></span><span class="vl">${fmt(r.v)} mm</span></div>`).join('');}
-function chartHTML(){const fc=oc.models[model].d1, tr=oc.truth;
-  const Wd=620,Hd=220,ml=30,mr=6,mt=22,mb=28,iw=Wd-ml-mr,ih=Hd-mt-mb,bw=iw/31;
+function chartHTML(){const fc=oc.models[model].d1.map(nf), tr=oc.truth.map(nf);
+  const Wd=620,Hd=220,ml=30,mr=6,mt=22,mb=28,iw=Wd-ml-mr,ih=Hd-mt-mb,bw=iw/NDm;
   const top=Math.max(10,Math.ceil(Math.max(...tr,...fc)/10)*10), y=v=>mt+ih-ih*v/top;
-  let s=`<svg viewBox="0 0 ${Wd} ${Hd}" role="img" aria-label="Chuva real e prevista por ${names[model]} em outubro">`;
-  const x0=ml+21*bw;s+=`<rect x="${x0}" y="${mt-18}" width="${iw-21*bw}" height="${ih+18}" fill="var(--rain-3)" opacity=".45" rx="6"/><text x="${x0+6}" y="${mt-6}" font-size="11" fill="var(--muted)">medido no pluviômetro</text>`;
+  let s=`<svg viewBox="0 0 ${Wd} ${Hd}" role="img" aria-label="Chuva real e prevista por ${names[model]} em ${mesNome}">`;
+  if(!novo){const x0=ml+21*bw;s+=`<rect x="${x0}" y="${mt-18}" width="${iw-21*bw}" height="${ih+18}" fill="var(--rain-3)" opacity=".45" rx="6"/><text x="${x0+6}" y="${mt-6}" font-size="11" fill="var(--muted)">medido no pluviômetro</text>`;}
   const step=top>40?20:10;for(let t=0;t<=top;t+=step)s+=`<line x1="${ml}" x2="${Wd-mr}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)"/><text x="${ml-5}" y="${y(t)+4}" font-size="10.5" text-anchor="end" fill="var(--muted)">${t}</text>`;
-  for(let i=0;i<31;i++){const x=ml+i*bw;
-    s+=`<rect x="${x+bw*.1}" y="${y(tr[i])}" width="${bw*.38}" height="${mt+ih-y(tr[i])}" rx="1.5" fill="var(--rain)"><title>${i+1}/10 · real ${fmt(tr[i])} mm</title></rect>`;
-    s+=`<rect x="${x+bw*.52}" y="${y(fc[i])}" width="${bw*.38}" height="${mt+ih-y(fc[i])}" rx="1.5" fill="var(--bad)" fill-opacity=".75"><title>${i+1}/10 · previsto ${fmt(fc[i])} mm</title></rect>`;
-    if(i%5===0||i===30)s+=`<text x="${x+bw/2}" y="${Hd-10}" font-size="10.5" text-anchor="middle" fill="var(--muted)">${i+1}</text>`;}
+  for(let i=0;i<NDm;i++){const x=ml+i*bw,fonte=oc.src&&oc.src[i]?` (${oc.src[i]==='MERGE'?'MERGE/INPE':oc.src[i]})`:'';
+    s+=`<rect x="${x+bw*.1}" y="${y(tr[i])}" width="${bw*.38}" height="${mt+ih-y(tr[i])}" rx="1.5" fill="var(--rain)"><title>${i+1}/${mm2} · real ${fmt(tr[i])} mm${fonte}</title></rect>`;
+    s+=`<rect x="${x+bw*.52}" y="${y(fc[i])}" width="${bw*.38}" height="${mt+ih-y(fc[i])}" rx="1.5" fill="var(--bad)" fill-opacity=".75"><title>${i+1}/${mm2} · previsto ${fmt(fc[i])} mm</title></rect>`;
+    if(i%5===0||i===NDm-1)s+=`<text x="${x+bw/2}" y="${Hd-10}" font-size="10.5" text-anchor="middle" fill="var(--muted)">${i+1}</text>`;}
   return s+'</svg>';}
 function verdict(){const r=oc.res[model].d1.all,g=oc.res[model].d1.gauge,d=Math.round((r.sumf/r.sumo-1)*100);
-  return `No mês choveu <b>${fmt(r.sumo,0)} mm</b> e o ${short[model]} previu <b>${fmt(r.sumf,0)} mm</b> (${d>=0?'+':''}${d}%). Acertou se ia chover ou não em <b>${Math.round(r.acc*100)}%</b> dos dias. No período do pluviômetro, errou em média <b>${fmt(g.mae)} mm</b> por dia.`;}
+  return `No mês choveu <b>${fmt(r.sumo,0)} mm</b> e o ${short[model]} previu <b>${fmt(r.sumf,0)} mm</b> (${d>=0?'+':''}${d}%). Acertou se ia chover ou não em <b>${Math.round(r.acc*100)}%</b> dos dias. ${novo?`Errou em média <b>${fmt(r.mae)} mm</b> por dia.`:`No período do pluviômetro, errou em média <b>${fmt(g.mae)} mm</b> por dia.`}`;}
+const LG=O.longo||null, fontes=novo&&oc.src?{m:oc.src.filter(x=>x==='MERGE').length,i:oc.src.filter(x=>x==='INMET').length}:null;
+const dtBR=x=>x?x.slice(8,10)+'/'+x.slice(5,7)+'/'+x.slice(0,4):'';
 $('auditBody').innerHTML=`<ul class="takeaways">
-<li><b>Auditoria longa (189 dias com pluviômetro, set/2024 a ago/2026):</b> os modelos ficaram bem parecidos entre si. A diferença entre os 8 melhores é de cerca de 0,5 mm por dia.</li>
-<li><b>Combinar vence:</b> a mediana dos modelos errou de 10% a 17% menos que o melhor modelo sozinho (ECMWF) nos testes fora da amostra. É o método que o site usa.</li>
-<li><b>O exagero de volume de outubro não se repetiu</b> no período longo, e corrigir o volume piorou o resultado. Por isso o site não corrige.</li>
+${LG?`<li><b>Auditoria longa (${LG.dias} dias com chuva medida, ${dtBR(LG.de)} a ${dtBR(LG.ate)}, nas temporadas de chuva):</b> ${LG.inmet} dias pelo pluviômetro do INMET e ${LG.merge} pelo MERGE do INPE (satélite + pluviômetros), que cobre os dias em que o pluviômetro de Maringá falhou. Os 8 melhores modelos ficaram a ${fmt(LG.spread8_mm)} mm por dia um do outro.</li>
+<li><b>Combinar é o mais seguro:</b>${LG.acerto_mediana!=null?` a mediana dos modelos acertou se ia chover ou não em ${Math.round(100*LG.acerto_mediana)}% dos dias (ECMWF sozinho: ${Math.round(100*LG.acerto_ecmwf)}%; o melhor modelo de cada temporada: ${Math.round(100*LG.acerto_melhor)}%) e`:' a mediana dos modelos'} errou ${LG.mediana_vs_ecmwf_pct>0?`${fmt(LG.mediana_vs_ecmwf_pct,0)}% menos`:`${fmt(-LG.mediana_vs_ecmwf_pct,0)}% mais`} milímetros que o ECMWF, nos testes fora da amostra.${LG.mediana_vs_melhor_pct<0?` O melhor modelo de cada temporada errou ${fmt(-LG.mediana_vs_melhor_pct,0)}% menos em milímetros, mas ele muda de uma temporada para a outra.`:''} É o método que o site usa.</li>
+<li><b>Corrigir o volume de cada modelo</b> ${LG.volume_vs_pesos_pct>1?`melhorou ${fmt(LG.volume_vs_pesos_pct,0)}%`:LG.volume_vs_pesos_pct<-1?`piorou ${fmt(-LG.volume_vs_pesos_pct,0)}%`:'quase não mudou o erro'} nos testes, por isso o site não corrige.</li>`
+:`<li><b>Auditoria longa (189 dias com pluviômetro, set/2024 a ago/2026):</b> os modelos ficaram bem parecidos entre si.</li>`}
 <li><b>Vento:</b> GFS, GEM e CMA exageram o vento em 50% a 80%. O ICON foi o mais preciso. O site corrige cada modelo pelo que a estação do INMET mediu.</li>
-<li>Abaixo, o detalhe de <b>outubro de 2026</b>, que foi um mês só. Nele o CMA foi o melhor, mas não se destacou no período longo.</li></ul>
+<li>Abaixo, o detalhe de <b>${mesAno}</b>, que é um mês só.${fontes?` Chuva medida: ${fontes.m} dias pelo MERGE/INPE e ${fontes.i} pelo pluviômetro do INMET; cada dia vai das 9h do dia anterior às 9h, como o pluviômetro marca.`:''}</li></ul>
 <p class="sub-p"><a href="lab/relatorio.html" style="color:var(--rain)">Ver relatório técnico completo</a> · atualizado sozinho todo dia 2.</p>
-<p class="sub-h">Outubro: erro médio por dia (quanto menor, melhor)</p><p class="sub-p">Previsão feita na véspera.</p>
-<div class="seg" role="group" aria-label="Base de comparação"><button type="button" data-b="gauge" aria-pressed="true">Pluviômetro (22–31)</button><button type="button" data-b="all" aria-pressed="false">Mês todo</button></div>
+<p class="sub-h">${mesNome[0].toUpperCase()+mesNome.slice(1)}: erro médio por dia (quanto menor, melhor)</p><p class="sub-p">Previsão feita na véspera.</p>
+${novo?'':`<div class="seg" role="group" aria-label="Base de comparação"><button type="button" data-b="gauge" aria-pressed="true">Pluviômetro (22–31)</button><button type="button" data-b="all" aria-pressed="false">Mês todo</button></div>`}
 <div class="rank" id="rank"></div>
-<p class="sub-h">Outubro dia a dia: real × previsto</p>
+<p class="sub-h">${mesNome[0].toUpperCase()+mesNome.slice(1)} dia a dia: real × previsto</p>
 <select id="selModel" aria-label="Modelo">${ab.map(k=>`<option value="${k}">${names[k]}</option>`).join('')}</select>
 <div class="legend"><span><i class="sw" style="width:10px;height:10px;border-radius:2px;background:var(--rain)"></i>choveu (real)</span><span><i class="sw" style="width:10px;height:10px;border-radius:2px;background:var(--bad);opacity:.75"></i>previsto na véspera</span></div>
 <div class="chartbox" id="ochart"></div><p class="verdict" id="verdict"></p>`;
