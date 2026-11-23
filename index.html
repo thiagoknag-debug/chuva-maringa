@@ -883,7 +883,7 @@ const W0={ecmwf_ifs:.10,ecmwf_ifs025:.11,ecmwf_aifs025_single:.13,gfs_seamless:.
 async function coletar(){
 const TZ=(()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||"America/Sao_Paulo";}catch(e){return "America/Sao_Paulo";}})(); /* horários no fuso do aparelho, para bater com o relógio */
 const B=`latitude=${LOC.lat}&longitude=${LOC.lon}&timezone=${encodeURIComponent(TZ)}`;
-const get=async(u,opt)=>{for(let k=0;k<3;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),30000);const r=await fetch(u,{signal:ac.signal,...(opt||{})});if(r.ok)return r.json();}catch(e){} await new Promise(r=>setTimeout(r,1500));} throw new Error("falhou: "+u.slice(8,40));};
+const get=async(u,opt)=>{for(let k=0;k<3;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),15000+5000*k); /* 15 s, 20 s, 25 s: se a fonte travar, cai na última previsão salva em ~1 min */const r=await fetch(u,{signal:ac.signal,...(opt||{})});if(r.ok)return r.json();}catch(e){} await new Promise(r=>setTimeout(r,1500));} throw new Error("falhou: "+u.slice(8,40));};
 const avisosP=(async()=>{let A=[];if(LOC.cc!=="BR")return A;try{let j=null;for(let k=0;k<2&&!j;k++){try{const ac=new AbortController();setTimeout(()=>ac.abort(),15000);const r=await fetch("https://apiprevmet3.inmet.gov.br/avisos/ativos",{signal:ac.signal});if(r.ok)j=await r.json();}catch(e){}}if(!j)throw new Error("avisos");
  const lv={"Perigo Potencial":"amarelo","Perigo":"laranja","Grande Perigo":"vermelho"};
  const L=[...(j.hoje||[]),...(j.futuro||[])].filter(a=>{const alvo=semAcento(LOC.nome+"-"+LOC.uf).replace(/\s+/g,"");return String(a.municipios||"").split(",").some(m=>semAcento(m).replace(/\s+/g,"")===alvo);}).map(a=>({lvl:lv[a.severidade]||"amarelo",tit:String(a.descricao).toLowerCase(),ini:a.data_inicio.slice(0,10),fim:a.data_fim.slice(0,10),txt:String(Array.isArray(a.riscos)?a.riscos[0]:a.riscos).split(/\.\s+(Baixo r|R)isco/)[0].replace(/\.$/,"")+"."})).sort((a,b)=>a.ini<b.ini?-1:1);
@@ -943,9 +943,11 @@ for(const day of dates){const idx=T.map((t,i)=>t.startsWith(day)?i:-1).filter(i=
  let P1=pr(1),P10=pr(10);
  const cal=CFG.chanceForteCalibrada&&PJ&&PJ.prob&&PJ.prob[`d${l}_10mm`];
  if(cal&&nm>=4&&dw>0){const b=cal,x=b[0]+b[1]*(nr/nm)+b[2]*Math.log1p(mw/dw);P10=Math.round(100/(1+Math.exp(-x)));}
+ let P25=pr(25);const c25=CFG.chanceForteCalibrada&&PJ&&PJ.prob&&PJ.prob[`d${l}_25mm`]; /* só existe se a auditoria mostrou que a calibrada erra menos */
+ if(c25&&nm>=4&&dw>0){const x=c25[0]+c25[1]*(nr/nm)+c25[2]*Math.log1p(mw/dw);P25=Math.round(100/(1+Math.exp(-x)));}
  let gmax=0,gmaxH=null,wmax=0;idx.forEach(i=>{const vv=vento(i);if(vv.wg!=null&&vv.wg>gmax){gmax=vv.wg;gmaxH=+T[i].slice(11,13);}if(vv.ws!=null)wmax=Math.max(wmax,vv.ws);});
  const ccd=(()=>{const a=idx.filter(i=>{const h=+T[i].slice(11,13);return h>=7&&h<=18;}).map(nuvem).filter(x=>x!=null);return a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):null;})();
- D.push([day,mm!=null?r1(mm):null,v.length?r1(Math.min(...v)):null,v.length?r1(Math.max(...v)):null,P1,P10,pr(25),pr(50),sums.length,Math.round(tx),Math.round(tn),gmax,gmaxH,Math.round(wmax),ccd]);}
+ D.push([day,mm!=null?r1(mm):null,v.length?r1(Math.min(...v)):null,v.length?r1(Math.max(...v)):null,P1,P10,P25,pr(50),sums.length,Math.round(tx),Math.round(tn),gmax,gmaxH,Math.round(wmax),ccd]);}
 const H={start:T[s],mm:[],mx:[],p:[],t:[],ws:[],wg:[],wgx:[],wd:[],cc:[],dia:[]};
 for(let i=s;i<s+48&&i<T.length;i++){let n=0,d=0,mx=0,tt=0,td=0;
  for(const m of M){const x=hv("precipitation",m,i); if(x!=null){n+=x;d++;mx=Math.max(mx,x);} const y=hv("temperature_2m",m,i); if(y!=null){tt+=y;td++;}}
