@@ -112,7 +112,7 @@ def janela(p, horas_obs):
     if p.max() <= 0: return None
     jan = p >= 0.6 * p.max(); return float((jan & horas_obs).sum() / max(1, horas_obs.sum())), float(jan.mean())
 RES = {"gerado": str(HOJE.date()), "leads": {}}; PES = {}
-for l in (0, 1):
+for l in (0, 1, 2):
     D = carrega(l); F = feats(D)
     T = F.join(OBS[["chuva", "trov", "forte"]], how="inner").dropna(subset=["f01", "fr1d", "cape", "capemax"])
     tr, te = T[T.index < "2026-01-01"], T[T.index >= "2026-01-01"]

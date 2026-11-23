@@ -32,7 +32,7 @@ jobs:
           rm -rf /tmp/out && cp -r lab /tmp/out
           for i in 1 2 3 4 5 6; do
             git fetch -q origin main && git reset -q --hard origin/main
-            for f in hora.json cache/hora_d0.csv.gz cache/hora_d1.csv.gz cache/metar_sbmg_hora.csv.gz; do if [ -f /tmp/out/$f ]; then mkdir -p "$(dirname lab/$f)"; cp /tmp/out/$f lab/$f; fi; done
+            for f in hora.json cache/hora_d0.csv.gz cache/hora_d1.csv.gz cache/hora_d2.csv.gz cache/metar_sbmg_hora.csv.gz; do if [ -f /tmp/out/$f ]; then mkdir -p "$(dirname lab/$f)"; cp /tmp/out/$f lab/$f; fi; done
             [ -f /tmp/out/pesos.json ] && python3 scripts/junta_pesos.py /tmp/out/pesos.json lab/pesos.json hora
             git add lab && (git commit -q -m "Calibração por hora" || true) && git push -q && break
             sleep $((RANDOM % 15 + 5))
