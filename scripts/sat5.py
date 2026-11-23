@@ -60,9 +60,16 @@ R["tabela_n"] = len(tab); R["tabela_faixa"] = [tab[0][1], tab[-1][1]] if tab els
 json.dump(tab, open("lab/sat_cores.json", "w")); salva()
 if len(tab) < 30: raise SystemExit("tabela pequena demais")
 C = np.array([x[0] for x in tab], float); V = np.array([x[1] for x in tab], float)
+LUT = {tuple(x[0]): x[1] for x in tab}
 def decodifica(a):
-    rgb = a[..., :3].reshape(-1, 3).astype(float); d = ((rgb[:, None, :] - C[None, :, :]) ** 2).sum(-1)
-    k = d.argmin(1); v = V[k].copy(); v[d[np.arange(len(k)), k] > 300] = np.nan; v[a[..., 3].reshape(-1) == 0] = np.nan
+    rgb = a[..., :3].reshape(-1, 3).astype(np.int64); al = a[..., 3].reshape(-1)
+    keys = rgb[:, 0] * 65536 + rgb[:, 1] * 256 + rgb[:, 2]; uk, inv = np.unique(keys, return_inverse=True); vals = np.empty(len(uk))
+    for n_, k_ in enumerate(uk):
+        c = (int(k_ // 65536), int((k_ // 256) % 256), int(k_ % 256))
+        if c in LUT: vals[n_] = LUT[c]
+        else:
+            d = ((C - np.array(c, float)) ** 2).sum(1); j_ = int(d.argmin()); vals[n_] = V[j_] if d[j_] <= 300 else np.nan
+    v = vals[inv.reshape(-1)]; v[al == 0] = np.nan
     return v.reshape(a.shape[:2])
 # ---------- 2) teste ----------
 BOX = (LAT - 1.0, LON - 1.1, LAT + 1.0, LON + 1.1); NW = NH = 110   # ~2 km por pixel
