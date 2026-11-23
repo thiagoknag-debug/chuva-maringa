@@ -54,7 +54,7 @@ for alvo in ("20261119.190000", "20261120.213000", "20261122.193000", "20261117.
     print("par", t, "cores", len(pares), flush=True)
 tab = []; disp = []
 for c, vs in pares.items():
-    if len(vs) >= 4: q = np.percentile(vs, [25, 50, 75]); tab.append([list(c), round(float(q[1]), 1)]); disp.append(q[2] - q[0])
+    if len(vs) >= 4: q = np.percentile(vs, [25, 50, 75]); tab.append([[int(v) for v in c], round(float(q[1]), 1), len(vs)]); disp.append(float(q[2] - q[0]))
 tab.sort(key=lambda x: x[1])
 R["tabela_n"] = len(tab); R["tabela_faixa"] = [tab[0][1], tab[-1][1]] if tab else None; R["tabela_dispersao_mediana_C"] = round(float(np.median(disp)), 2) if disp else None
 json.dump(tab, open("lab/sat_cores.json", "w")); salva()
