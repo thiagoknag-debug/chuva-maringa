@@ -146,8 +146,9 @@ for l in (0, 1):
                                                  "seco": [round(float(q), 3) for q in g_[g_.nh == 0].mx.quantile([.1, .25, .5, .75, .9])]}}
         bf = fit(T[CONJ[best]].values, T[alvo].astype(float).values)
         out["alvos"][alvo] = {"taxa_teste": round(float(yte.mean()), 3), "modelos": m, "escolhido": best}
+        lh = max(m["limiares"]["hora"], key=lambda x: m["limiares"]["hora"][x]["hss"] or -1); ld = max(m["limiares"]["dia"], key=lambda x: m["limiares"]["dia"][x]["hss"] or -1)
         if m[best]["bss"] > 0.02: PES.setdefault(f"d{l}", {})[alvo] = {"feats": best, "cols": CONJ[best], "coef": [round(float(x), 4) for x in bf],
-                                                                    "bss_teste": m[best]["bss"], "auc_teste": m[best]["auc"]}
+                                                                    "bss_teste": m[best]["bss"], "auc_teste": m[best]["auc"], "lim": {"hora": float(lh), "dia": float(ld)}}
         print("lead", l, alvo, json.dumps({k: (v.get("bss"), v.get("auc")) for k, v in m.items() if isinstance(v, dict) and "bss" in v}), "janela", m["janela"], "limiares", json.dumps(m["limiares"]), flush=True)
     RES["leads"][str(l)] = out
 json.dump(RES, open("lab/hora.json", "w"), ensure_ascii=False, indent=1)
