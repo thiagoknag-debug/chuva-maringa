@@ -1,1256 +1,1551 @@
 {
- "gerado": "2026-11-04T14:21Z",
- "ultimo_dado_inmet": "2026-08-31 20:00:00",
- "dias_validos": 189,
+ "gerado": "2026-11-23T07:02Z",
+ "ultimo_dado_inmet": "2026-10-31 20:00:00",
+ "dias_validos": 488,
+ "chuva_medida": {
+  "janela": "09h do dia anterior às 09h (como o pluviômetro marca)",
+  "INMET": 180,
+  "MERGE_INPE": 308,
+  "de": "2024-09-01",
+  "ate": "2026-11-01"
+ },
  "dias_por_temporada": {
-  "2024-25": 153,
-  "2025-26": 36,
-  "2026-27": 0
+  "2024-25": 213,
+  "2025-26": 213,
+  "2026-27": 62
  },
  "ranking": {
   "d1": {
    "ECMWF 9 km": {
     "geral": {
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 4,
-     "falsos": 9,
-     "csi": 0.409,
-     "erro_mm": 3.63,
+     "n": 241,
+     "acerto": 0.776,
+     "perdidas": 10,
+     "falsos": 44,
+     "csi": 0.585,
+     "erro_mm": 5.84,
      "vies": 1.19
     },
     "forte10": {
-     "n": 36,
-     "acerto": 0.833,
-     "perdidas": 3,
-     "falsos": 3,
-     "csi": 0.4,
-     "erro_mm": 3.63,
+     "n": 241,
+     "acerto": 0.809,
+     "perdidas": 14,
+     "falsos": 32,
+     "csi": 0.343,
+     "erro_mm": 5.84,
      "vies": 1.19
     },
     "2024-25": null,
     "2025-26": {
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 4,
-     "falsos": 9,
-     "csi": 0.409,
-     "erro_mm": 3.63,
-     "vies": 1.19
+     "n": 181,
+     "acerto": 0.762,
+     "perdidas": 8,
+     "falsos": 35,
+     "csi": 0.538,
+     "erro_mm": 5.05,
+     "vies": 1.13
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.817,
+     "perdidas": 2,
+     "falsos": 9,
+     "csi": 0.703,
+     "erro_mm": 8.2,
+     "vies": 1.3
+    }
    },
    "ECMWF 25 km": {
     "geral": {
-     "n": 189,
-     "acerto": 0.762,
-     "perdidas": 11,
-     "falsos": 34,
-     "csi": 0.511,
-     "erro_mm": 4.31,
-     "vies": 1.02
+     "n": 482,
+     "acerto": 0.772,
+     "perdidas": 20,
+     "falsos": 90,
+     "csi": 0.54,
+     "erro_mm": 5.15,
+     "vies": 1.11
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.873,
-     "perdidas": 10,
-     "falsos": 14,
-     "csi": 0.429,
-     "erro_mm": 4.31,
-     "vies": 1.02
+     "n": 482,
+     "acerto": 0.846,
+     "perdidas": 27,
+     "falsos": 47,
+     "csi": 0.383,
+     "erro_mm": 5.15,
+     "vies": 1.11
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.784,
-     "perdidas": 7,
-     "falsos": 26,
-     "csi": 0.535,
-     "erro_mm": 4.49,
-     "vies": 1.04
+     "n": 211,
+     "acerto": 0.749,
+     "perdidas": 8,
+     "falsos": 45,
+     "csi": 0.485,
+     "erro_mm": 5.23,
+     "vies": 0.98
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.667,
-     "perdidas": 4,
-     "falsos": 8,
-     "csi": 0.429,
-     "erro_mm": 3.54,
-     "vies": 0.87
+     "n": 211,
+     "acerto": 0.773,
+     "perdidas": 11,
+     "falsos": 37,
+     "csi": 0.52,
+     "erro_mm": 4.14,
+     "vies": 1.1
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.85,
+     "perdidas": 1,
+     "falsos": 8,
+     "csi": 0.75,
+     "erro_mm": 8.41,
+     "vies": 1.48
+    }
    },
    "ECMWF IA": {
     "geral": {
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 4,
-     "falsos": 7,
-     "csi": 0.45,
-     "erro_mm": 3.51,
-     "vies": 0.8
+     "n": 312,
+     "acerto": 0.737,
+     "perdidas": 9,
+     "falsos": 73,
+     "csi": 0.531,
+     "erro_mm": 4.13,
+     "vies": 1.01
     },
     "forte10": {
-     "n": 36,
-     "acerto": 0.778,
-     "perdidas": 6,
-     "falsos": 2,
-     "csi": 0.111,
-     "erro_mm": 3.51,
-     "vies": 0.8
+     "n": 312,
+     "acerto": 0.869,
+     "perdidas": 19,
+     "falsos": 22,
+     "csi": 0.369,
+     "erro_mm": 4.13,
+     "vies": 1.01
     },
-    "2024-25": null,
+    "2024-25": {
+     "n": 41,
+     "acerto": 0.659,
+     "perdidas": 2,
+     "falsos": 12,
+     "csi": 0.391,
+     "erro_mm": 3.38,
+     "vies": 0.78
+    },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 4,
-     "falsos": 7,
-     "csi": 0.45,
-     "erro_mm": 3.51,
-     "vies": 0.8
+     "n": 211,
+     "acerto": 0.744,
+     "perdidas": 7,
+     "falsos": 47,
+     "csi": 0.509,
+     "erro_mm": 3.36,
+     "vies": 0.98
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.767,
+     "perdidas": 0,
+     "falsos": 14,
+     "csi": 0.667,
+     "erro_mm": 7.34,
+     "vies": 1.17
+    }
    },
    "GFS (EUA)": {
     "geral": {
-     "n": 189,
-     "acerto": 0.778,
-     "perdidas": 13,
-     "falsos": 29,
-     "csi": 0.517,
-     "erro_mm": 4.56,
-     "vies": 0.74
+     "n": 482,
+     "acerto": 0.759,
+     "perdidas": 31,
+     "falsos": 85,
+     "csi": 0.504,
+     "erro_mm": 5.03,
+     "vies": 0.85
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.841,
-     "perdidas": 18,
-     "falsos": 12,
-     "csi": 0.25,
-     "erro_mm": 4.56,
-     "vies": 0.74
+     "n": 482,
+     "acerto": 0.851,
+     "perdidas": 40,
+     "falsos": 32,
+     "csi": 0.314,
+     "erro_mm": 5.03,
+     "vies": 0.85
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.797,
-     "perdidas": 9,
-     "falsos": 22,
-     "csi": 0.537,
-     "erro_mm": 4.76,
-     "vies": 0.77
+     "n": 211,
+     "acerto": 0.701,
+     "perdidas": 18,
+     "falsos": 45,
+     "csi": 0.388,
+     "erro_mm": 4.74,
+     "vies": 0.71
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 4,
-     "falsos": 7,
-     "csi": 0.45,
-     "erro_mm": 3.71,
-     "vies": 0.55
+     "n": 211,
+     "acerto": 0.796,
+     "perdidas": 12,
+     "falsos": 31,
+     "csi": 0.543,
+     "erro_mm": 3.8,
+     "vies": 0.79
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.833,
+     "perdidas": 1,
+     "falsos": 9,
+     "csi": 0.73,
+     "erro_mm": 10.38,
+     "vies": 1.37
+    }
    },
    "ICON (Alemanha)": {
     "geral": {
-     "n": 189,
-     "acerto": 0.794,
-     "perdidas": 11,
-     "falsos": 28,
-     "csi": 0.547,
-     "erro_mm": 4.22,
-     "vies": 1.04
+     "n": 482,
+     "acerto": 0.78,
+     "perdidas": 29,
+     "falsos": 77,
+     "csi": 0.531,
+     "erro_mm": 4.75,
+     "vies": 0.99
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.841,
-     "perdidas": 12,
-     "falsos": 18,
-     "csi": 0.348,
-     "erro_mm": 4.22,
-     "vies": 1.04
+     "n": 482,
+     "acerto": 0.855,
+     "perdidas": 31,
+     "falsos": 39,
+     "csi": 0.375,
+     "erro_mm": 4.75,
+     "vies": 0.99
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.817,
-     "perdidas": 6,
-     "falsos": 22,
-     "csi": 0.582,
-     "erro_mm": 4.36,
-     "vies": 1.08
-    },
-    "2025-26": {
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 5,
-     "falsos": 6,
-     "csi": 0.421,
-     "erro_mm": 3.63,
-     "vies": 0.8
-    },
-    "2026-27": null
-   },
-   "Météo-France": {
-    "geral": {
-     "n": 189,
-     "acerto": 0.767,
-     "perdidas": 13,
-     "falsos": 31,
-     "csi": 0.506,
-     "erro_mm": 4.63,
-     "vies": 0.87
-    },
-    "forte10": {
-     "n": 189,
-     "acerto": 0.831,
-     "perdidas": 18,
-     "falsos": 14,
-     "csi": 0.238,
-     "erro_mm": 4.63,
-     "vies": 0.87
-    },
-    "2024-25": {
-     "n": 153,
-     "acerto": 0.797,
-     "perdidas": 8,
-     "falsos": 23,
-     "csi": 0.544,
-     "erro_mm": 4.74,
+     "n": 211,
+     "acerto": 0.758,
+     "perdidas": 10,
+     "falsos": 41,
+     "csi": 0.485,
+     "erro_mm": 4.54,
      "vies": 0.92
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 5,
-     "falsos": 8,
-     "csi": 0.381,
-     "erro_mm": 4.14,
-     "vies": 0.62
+     "n": 211,
+     "acerto": 0.782,
+     "perdidas": 17,
+     "falsos": 29,
+     "csi": 0.5,
+     "erro_mm": 3.69,
+     "vies": 0.9
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.85,
+     "perdidas": 2,
+     "falsos": 7,
+     "csi": 0.743,
+     "erro_mm": 9.22,
+     "vies": 1.35
+    }
+   },
+   "Météo-France": {
+    "geral": {
+     "n": 482,
+     "acerto": 0.757,
+     "perdidas": 28,
+     "falsos": 89,
+     "csi": 0.508,
+     "erro_mm": 5.5,
+     "vies": 1.06
+    },
+    "forte10": {
+     "n": 482,
+     "acerto": 0.84,
+     "perdidas": 34,
+     "falsos": 43,
+     "csi": 0.336,
+     "erro_mm": 5.5,
+     "vies": 1.06
+    },
+    "2024-25": {
+     "n": 211,
+     "acerto": 0.749,
+     "perdidas": 8,
+     "falsos": 45,
+     "csi": 0.485,
+     "erro_mm": 5.18,
+     "vies": 0.87
+    },
+    "2025-26": {
+     "n": 211,
+     "acerto": 0.744,
+     "perdidas": 15,
+     "falsos": 39,
+     "csi": 0.471,
+     "erro_mm": 4.68,
+     "vies": 1.08
+    },
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.833,
+     "perdidas": 5,
+     "falsos": 5,
+     "csi": 0.697,
+     "erro_mm": 9.47,
+     "vies": 1.5
+    }
    },
    "UK Met Office": {
     "geral": {
-     "n": 150,
-     "acerto": 0.767,
-     "perdidas": 12,
-     "falsos": 23,
-     "csi": 0.5,
-     "erro_mm": 5.17,
-     "vies": 0.94
+     "n": 419,
+     "acerto": 0.761,
+     "perdidas": 24,
+     "falsos": 76,
+     "csi": 0.519,
+     "erro_mm": 6.13,
+     "vies": 1.3
     },
     "forte10": {
-     "n": 150,
-     "acerto": 0.827,
-     "perdidas": 14,
-     "falsos": 12,
-     "csi": 0.235,
-     "erro_mm": 5.17,
-     "vies": 0.94
+     "n": 419,
+     "acerto": 0.842,
+     "perdidas": 23,
+     "falsos": 43,
+     "csi": 0.377,
+     "erro_mm": 6.13,
+     "vies": 1.3
     },
     "2024-25": {
-     "n": 114,
-     "acerto": 0.789,
-     "perdidas": 6,
-     "falsos": 18,
-     "csi": 0.538,
-     "erro_mm": 5.68,
-     "vies": 1.03
-    },
-    "2025-26": {
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 6,
-     "falsos": 5,
-     "csi": 0.389,
-     "erro_mm": 3.54,
-     "vies": 0.51
-    },
-    "2026-27": null
-   },
-   "JMA (Japão)": {
-    "geral": {
-     "n": 189,
-     "acerto": 0.772,
-     "perdidas": 9,
-     "falsos": 34,
-     "csi": 0.533,
-     "erro_mm": 4.07,
-     "vies": 0.88
-    },
-    "forte10": {
-     "n": 189,
-     "acerto": 0.868,
-     "perdidas": 10,
-     "falsos": 15,
-     "csi": 0.419,
-     "erro_mm": 4.07,
-     "vies": 0.88
-    },
-    "2024-25": {
-     "n": 153,
-     "acerto": 0.784,
-     "perdidas": 5,
-     "falsos": 28,
-     "csi": 0.548,
-     "erro_mm": 4.22,
-     "vies": 0.91
-    },
-    "2025-26": {
-     "n": 36,
-     "acerto": 0.722,
-     "perdidas": 4,
-     "falsos": 6,
-     "csi": 0.474,
-     "erro_mm": 3.46,
-     "vies": 0.73
-    },
-    "2026-27": null
-   },
-   "GEM (Canadá)": {
-    "geral": {
-     "n": 189,
-     "acerto": 0.783,
-     "perdidas": 17,
-     "falsos": 24,
-     "csi": 0.5,
-     "erro_mm": 5.13,
-     "vies": 0.87
-    },
-    "forte10": {
-     "n": 189,
-     "acerto": 0.857,
-     "perdidas": 17,
-     "falsos": 10,
-     "csi": 0.289,
-     "erro_mm": 5.13,
-     "vies": 0.87
-    },
-    "2024-25": {
-     "n": 153,
-     "acerto": 0.817,
-     "perdidas": 10,
-     "falsos": 18,
-     "csi": 0.556,
+     "n": 148,
+     "acerto": 0.723,
+     "perdidas": 8,
+     "falsos": 33,
+     "csi": 0.446,
      "erro_mm": 5.28,
      "vies": 0.93
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 7,
-     "falsos": 6,
-     "csi": 0.316,
-     "erro_mm": 4.47,
-     "vies": 0.51
+     "n": 211,
+     "acerto": 0.777,
+     "perdidas": 13,
+     "falsos": 34,
+     "csi": 0.515,
+     "erro_mm": 5.06,
+     "vies": 1.32
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.8,
+     "perdidas": 3,
+     "falsos": 9,
+     "csi": 0.676,
+     "erro_mm": 12.0,
+     "vies": 2.0
+    }
+   },
+   "JMA (Japão)": {
+    "geral": {
+     "n": 482,
+     "acerto": 0.763,
+     "perdidas": 26,
+     "falsos": 88,
+     "csi": 0.519,
+     "erro_mm": 4.89,
+     "vies": 0.92
+    },
+    "forte10": {
+     "n": 482,
+     "acerto": 0.842,
+     "perdidas": 33,
+     "falsos": 43,
+     "csi": 0.345,
+     "erro_mm": 4.89,
+     "vies": 0.92
+    },
+    "2024-25": {
+     "n": 211,
+     "acerto": 0.758,
+     "perdidas": 7,
+     "falsos": 44,
+     "csi": 0.5,
+     "erro_mm": 4.88,
+     "vies": 0.85
+    },
+    "2025-26": {
+     "n": 211,
+     "acerto": 0.749,
+     "perdidas": 15,
+     "falsos": 38,
+     "csi": 0.475,
+     "erro_mm": 4.01,
+     "vies": 0.93
+    },
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.833,
+     "perdidas": 4,
+     "falsos": 6,
+     "csi": 0.706,
+     "erro_mm": 7.97,
+     "vies": 1.11
+    }
+   },
+   "GEM (Canadá)": {
+    "geral": {
+     "n": 482,
+     "acerto": 0.811,
+     "perdidas": 34,
+     "falsos": 57,
+     "csi": 0.558,
+     "erro_mm": 5.6,
+     "vies": 1.07
+    },
+    "forte10": {
+     "n": 482,
+     "acerto": 0.853,
+     "perdidas": 40,
+     "falsos": 31,
+     "csi": 0.317,
+     "erro_mm": 5.6,
+     "vies": 1.07
+    },
+    "2024-25": {
+     "n": 211,
+     "acerto": 0.787,
+     "perdidas": 13,
+     "falsos": 32,
+     "csi": 0.5,
+     "erro_mm": 5.17,
+     "vies": 0.78
+    },
+    "2025-26": {
+     "n": 211,
+     "acerto": 0.834,
+     "perdidas": 18,
+     "falsos": 17,
+     "csi": 0.562,
+     "erro_mm": 5.27,
+     "vies": 1.17
+    },
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.817,
+     "perdidas": 3,
+     "falsos": 8,
+     "csi": 0.694,
+     "erro_mm": 8.28,
+     "vies": 1.59
+    }
    },
    "CMA (China)": {
     "geral": {
-     "n": 189,
-     "acerto": 0.783,
-     "perdidas": 9,
-     "falsos": 32,
-     "csi": 0.544,
-     "erro_mm": 4.28,
+     "n": 421,
+     "acerto": 0.777,
+     "perdidas": 24,
+     "falsos": 70,
+     "csi": 0.546,
+     "erro_mm": 5.07,
      "vies": 0.9
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.857,
-     "perdidas": 14,
-     "falsos": 13,
-     "csi": 0.341,
-     "erro_mm": 4.28,
+     "n": 421,
+     "acerto": 0.848,
+     "perdidas": 36,
+     "falsos": 28,
+     "csi": 0.347,
+     "erro_mm": 5.07,
      "vies": 0.9
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.797,
-     "perdidas": 7,
-     "falsos": 24,
-     "csi": 0.551,
-     "erro_mm": 4.59,
-     "vies": 0.93
+     "n": 211,
+     "acerto": 0.768,
+     "perdidas": 12,
+     "falsos": 37,
+     "csi": 0.484,
+     "erro_mm": 5.0,
+     "vies": 0.85
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.722,
+     "n": 150,
+     "acerto": 0.767,
+     "perdidas": 10,
+     "falsos": 25,
+     "csi": 0.539,
+     "erro_mm": 4.18,
+     "vies": 0.9
+    },
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.833,
      "perdidas": 2,
      "falsos": 8,
-     "csi": 0.524,
-     "erro_mm": 2.96,
-     "vies": 0.79
-    },
-    "2026-27": null
+     "csi": 0.722,
+     "erro_mm": 7.52,
+     "vies": 1.04
+    }
    },
    "Best Match": {
     "geral": {
-     "n": 189,
-     "acerto": 0.783,
-     "perdidas": 10,
-     "falsos": 31,
-     "csi": 0.539,
-     "erro_mm": 4.22,
-     "vies": 1.1
+     "n": 482,
+     "acerto": 0.776,
+     "perdidas": 23,
+     "falsos": 85,
+     "csi": 0.538,
+     "erro_mm": 5.01,
+     "vies": 1.06
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.857,
-     "perdidas": 9,
-     "falsos": 18,
-     "csi": 0.413,
-     "erro_mm": 4.22,
-     "vies": 1.1
+     "n": 482,
+     "acerto": 0.849,
+     "perdidas": 28,
+     "falsos": 45,
+     "csi": 0.381,
+     "erro_mm": 5.01,
+     "vies": 1.06
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.817,
-     "perdidas": 6,
-     "falsos": 22,
-     "csi": 0.582,
-     "erro_mm": 4.36,
-     "vies": 1.08
+     "n": 211,
+     "acerto": 0.758,
+     "perdidas": 10,
+     "falsos": 41,
+     "csi": 0.485,
+     "erro_mm": 4.54,
+     "vies": 0.92
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 4,
-     "falsos": 9,
-     "csi": 0.409,
-     "erro_mm": 3.63,
-     "vies": 1.19
+     "n": 211,
+     "acerto": 0.782,
+     "perdidas": 11,
+     "falsos": 35,
+     "csi": 0.531,
+     "erro_mm": 4.57,
+     "vies": 1.1
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.817,
+     "perdidas": 2,
+     "falsos": 9,
+     "csi": 0.703,
+     "erro_mm": 8.2,
+     "vies": 1.3
+    }
    }
   },
   "d2": {
    "ECMWF 9 km": {
     "geral": {
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 4,
-     "falsos": 9,
-     "csi": 0.409,
-     "erro_mm": 4.97,
-     "vies": 1.29
+     "n": 240,
+     "acerto": 0.733,
+     "perdidas": 13,
+     "falsos": 51,
+     "csi": 0.533,
+     "erro_mm": 6.54,
+     "vies": 1.24
     },
     "forte10": {
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 4,
-     "falsos": 7,
-     "csi": 0.214,
-     "erro_mm": 4.97,
-     "vies": 1.29
+     "n": 240,
+     "acerto": 0.779,
+     "perdidas": 16,
+     "falsos": 37,
+     "csi": 0.293,
+     "erro_mm": 6.54,
+     "vies": 1.24
     },
     "2024-25": null,
     "2025-26": {
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 4,
-     "falsos": 9,
-     "csi": 0.409,
-     "erro_mm": 4.97,
-     "vies": 1.29
+     "n": 180,
+     "acerto": 0.706,
+     "perdidas": 11,
+     "falsos": 42,
+     "csi": 0.47,
+     "erro_mm": 5.89,
+     "vies": 1.24
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.817,
+     "perdidas": 2,
+     "falsos": 9,
+     "csi": 0.703,
+     "erro_mm": 8.51,
+     "vies": 1.26
+    }
    },
    "ECMWF 25 km": {
     "geral": {
-     "n": 189,
-     "acerto": 0.73,
-     "perdidas": 11,
-     "falsos": 40,
-     "csi": 0.48,
-     "erro_mm": 4.97,
-     "vies": 1.06
+     "n": 482,
+     "acerto": 0.739,
+     "perdidas": 22,
+     "falsos": 104,
+     "csi": 0.502,
+     "erro_mm": 5.55,
+     "vies": 1.16
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.852,
-     "perdidas": 12,
-     "falsos": 16,
+     "n": 482,
+     "acerto": 0.84,
+     "perdidas": 29,
+     "falsos": 48,
      "csi": 0.364,
-     "erro_mm": 4.97,
-     "vies": 1.06
+     "erro_mm": 5.55,
+     "vies": 1.16
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.745,
-     "perdidas": 7,
-     "falsos": 32,
-     "csi": 0.494,
-     "erro_mm": 5.15,
-     "vies": 1.05
+     "n": 211,
+     "acerto": 0.697,
+     "perdidas": 10,
+     "falsos": 54,
+     "csi": 0.429,
+     "erro_mm": 5.65,
+     "vies": 0.98
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.667,
-     "perdidas": 4,
-     "falsos": 8,
-     "csi": 0.429,
-     "erro_mm": 4.21,
-     "vies": 1.11
+     "n": 211,
+     "acerto": 0.754,
+     "perdidas": 11,
+     "falsos": 41,
+     "csi": 0.5,
+     "erro_mm": 4.75,
+     "vies": 1.3
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.833,
+     "perdidas": 1,
+     "falsos": 9,
+     "csi": 0.73,
+     "erro_mm": 7.95,
+     "vies": 1.31
+    }
    },
    "ECMWF IA": {
     "geral": {
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 4,
-     "falsos": 7,
-     "csi": 0.45,
-     "erro_mm": 3.39,
-     "vies": 0.75
+     "n": 311,
+     "acerto": 0.717,
+     "perdidas": 7,
+     "falsos": 81,
+     "csi": 0.516,
+     "erro_mm": 4.31,
+     "vies": 1.06
     },
     "forte10": {
-     "n": 36,
-     "acerto": 0.806,
-     "perdidas": 6,
-     "falsos": 1,
-     "csi": 0.125,
-     "erro_mm": 3.39,
-     "vies": 0.75
+     "n": 311,
+     "acerto": 0.862,
+     "perdidas": 16,
+     "falsos": 27,
+     "csi": 0.377,
+     "erro_mm": 4.31,
+     "vies": 1.06
     },
-    "2024-25": null,
+    "2024-25": {
+     "n": 40,
+     "acerto": 0.55,
+     "perdidas": 2,
+     "falsos": 16,
+     "csi": 0.308,
+     "erro_mm": 2.7,
+     "vies": 0.93
+    },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 4,
-     "falsos": 7,
-     "csi": 0.45,
-     "erro_mm": 3.39,
-     "vies": 0.75
+     "n": 211,
+     "acerto": 0.735,
+     "perdidas": 5,
+     "falsos": 51,
+     "csi": 0.509,
+     "erro_mm": 3.57,
+     "vies": 0.99
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.767,
+     "perdidas": 0,
+     "falsos": 14,
+     "csi": 0.667,
+     "erro_mm": 7.97,
+     "vies": 1.24
+    }
    },
    "GFS (EUA)": {
     "geral": {
-     "n": 189,
-     "acerto": 0.772,
-     "perdidas": 9,
-     "falsos": 34,
-     "csi": 0.533,
-     "erro_mm": 4.54,
-     "vies": 0.81
+     "n": 482,
+     "acerto": 0.753,
+     "perdidas": 26,
+     "falsos": 93,
+     "csi": 0.508,
+     "erro_mm": 5.57,
+     "vies": 0.99
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.857,
-     "perdidas": 16,
-     "falsos": 11,
-     "csi": 0.308,
-     "erro_mm": 4.54,
-     "vies": 0.81
+     "n": 482,
+     "acerto": 0.849,
+     "perdidas": 37,
+     "falsos": 36,
+     "csi": 0.33,
+     "erro_mm": 5.57,
+     "vies": 0.99
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.784,
-     "perdidas": 6,
-     "falsos": 27,
-     "csi": 0.542,
-     "erro_mm": 4.54,
-     "vies": 0.81
+     "n": 211,
+     "acerto": 0.73,
+     "perdidas": 12,
+     "falsos": 45,
+     "csi": 0.447,
+     "erro_mm": 4.99,
+     "vies": 0.71
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.722,
-     "perdidas": 3,
-     "falsos": 7,
-     "csi": 0.5,
-     "erro_mm": 4.53,
-     "vies": 0.82
+     "n": 211,
+     "acerto": 0.754,
+     "perdidas": 13,
+     "falsos": 39,
+     "csi": 0.49,
+     "erro_mm": 4.76,
+     "vies": 1.1
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.833,
+     "perdidas": 1,
+     "falsos": 9,
+     "csi": 0.73,
+     "erro_mm": 10.4,
+     "vies": 1.45
+    }
    },
    "ICON (Alemanha)": {
     "geral": {
-     "n": 189,
-     "acerto": 0.772,
-     "perdidas": 12,
-     "falsos": 31,
-     "csi": 0.517,
-     "erro_mm": 4.64,
-     "vies": 0.99
+     "n": 482,
+     "acerto": 0.761,
+     "perdidas": 27,
+     "falsos": 88,
+     "csi": 0.515,
+     "erro_mm": 5.31,
+     "vies": 1.12
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.836,
-     "perdidas": 15,
-     "falsos": 16,
-     "csi": 0.295,
-     "erro_mm": 4.64,
-     "vies": 0.99
+     "n": 482,
+     "acerto": 0.853,
+     "perdidas": 30,
+     "falsos": 41,
+     "csi": 0.377,
+     "erro_mm": 5.31,
+     "vies": 1.12
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.791,
-     "perdidas": 7,
-     "falsos": 25,
-     "csi": 0.543,
-     "erro_mm": 4.77,
-     "vies": 1.02
+     "n": 211,
+     "acerto": 0.749,
+     "perdidas": 9,
+     "falsos": 44,
+     "csi": 0.48,
+     "erro_mm": 4.87,
+     "vies": 0.91
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 5,
-     "falsos": 6,
-     "csi": 0.421,
-     "erro_mm": 4.12,
-     "vies": 0.8
+     "n": 211,
+     "acerto": 0.768,
+     "perdidas": 14,
+     "falsos": 35,
+     "csi": 0.5,
+     "erro_mm": 3.94,
+     "vies": 1.08
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.783,
+     "perdidas": 4,
+     "falsos": 9,
+     "csi": 0.649,
+     "erro_mm": 11.65,
+     "vies": 1.76
+    }
    },
    "Météo-France": {
     "geral": {
-     "n": 189,
-     "acerto": 0.704,
-     "perdidas": 17,
-     "falsos": 39,
-     "csi": 0.423,
-     "erro_mm": 5.65,
-     "vies": 1.06
+     "n": 482,
+     "acerto": 0.741,
+     "perdidas": 30,
+     "falsos": 95,
+     "csi": 0.488,
+     "erro_mm": 5.98,
+     "vies": 1.19
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.815,
-     "perdidas": 16,
-     "falsos": 19,
-     "csi": 0.255,
-     "erro_mm": 5.65,
-     "vies": 1.06
+     "n": 482,
+     "acerto": 0.842,
+     "perdidas": 34,
+     "falsos": 42,
+     "csi": 0.339,
+     "erro_mm": 5.98,
+     "vies": 1.19
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.725,
+     "n": 211,
+     "acerto": 0.716,
      "perdidas": 12,
-     "falsos": 30,
-     "csi": 0.44,
-     "erro_mm": 6.02,
-     "vies": 1.12
+     "falsos": 48,
+     "csi": 0.434,
+     "erro_mm": 5.73,
+     "vies": 1.0
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.611,
-     "perdidas": 5,
-     "falsos": 9,
-     "csi": 0.364,
-     "erro_mm": 4.05,
-     "vies": 0.7
+     "n": 211,
+     "acerto": 0.744,
+     "perdidas": 15,
+     "falsos": 39,
+     "csi": 0.471,
+     "erro_mm": 4.73,
+     "vies": 1.2
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.817,
+     "perdidas": 3,
+     "falsos": 8,
+     "csi": 0.694,
+     "erro_mm": 11.25,
+     "vies": 1.63
+    }
    },
    "UK Met Office": {
     "geral": {
-     "n": 126,
-     "acerto": 0.754,
-     "perdidas": 8,
-     "falsos": 23,
-     "csi": 0.544,
-     "erro_mm": 6.03,
-     "vies": 1.3
+     "n": 405,
+     "acerto": 0.753,
+     "perdidas": 21,
+     "falsos": 79,
+     "csi": 0.526,
+     "erro_mm": 6.73,
+     "vies": 1.46
     },
     "forte10": {
-     "n": 126,
-     "acerto": 0.794,
-     "perdidas": 13,
-     "falsos": 13,
-     "csi": 0.257,
-     "erro_mm": 6.03,
-     "vies": 1.3
+     "n": 405,
+     "acerto": 0.795,
+     "perdidas": 28,
+     "falsos": 55,
+     "csi": 0.297,
+     "erro_mm": 6.73,
+     "vies": 1.46
     },
     "2024-25": {
-     "n": 90,
-     "acerto": 0.733,
-     "perdidas": 5,
-     "falsos": 19,
-     "csi": 0.529,
-     "erro_mm": 6.84,
-     "vies": 1.39
+     "n": 134,
+     "acerto": 0.694,
+     "perdidas": 7,
+     "falsos": 34,
+     "csi": 0.453,
+     "erro_mm": 6.32,
+     "vies": 1.18
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.806,
-     "perdidas": 3,
-     "falsos": 4,
-     "csi": 0.588,
-     "erro_mm": 3.99,
-     "vies": 0.98
+     "n": 211,
+     "acerto": 0.773,
+     "perdidas": 11,
+     "falsos": 37,
+     "csi": 0.52,
+     "erro_mm": 5.3,
+     "vies": 1.45
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.817,
+     "perdidas": 3,
+     "falsos": 8,
+     "csi": 0.694,
+     "erro_mm": 12.68,
+     "vies": 1.96
+    }
    },
    "JMA (Japão)": {
     "geral": {
-     "n": 189,
-     "acerto": 0.799,
-     "perdidas": 10,
-     "falsos": 28,
-     "csi": 0.558,
-     "erro_mm": 4.33,
-     "vies": 0.85
+     "n": 482,
+     "acerto": 0.778,
+     "perdidas": 27,
+     "falsos": 80,
+     "csi": 0.533,
+     "erro_mm": 5.06,
+     "vies": 0.94
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.841,
-     "perdidas": 15,
-     "falsos": 15,
-     "csi": 0.302,
-     "erro_mm": 4.33,
-     "vies": 0.85
+     "n": 482,
+     "acerto": 0.828,
+     "perdidas": 35,
+     "falsos": 48,
+     "csi": 0.314,
+     "erro_mm": 5.06,
+     "vies": 0.94
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.817,
-     "perdidas": 6,
-     "falsos": 22,
-     "csi": 0.582,
-     "erro_mm": 4.5,
-     "vies": 0.85
+     "n": 211,
+     "acerto": 0.758,
+     "perdidas": 9,
+     "falsos": 42,
+     "csi": 0.49,
+     "erro_mm": 4.82,
+     "vies": 0.78
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.722,
-     "perdidas": 4,
-     "falsos": 6,
-     "csi": 0.474,
-     "erro_mm": 3.59,
-     "vies": 0.85
+     "n": 211,
+     "acerto": 0.773,
+     "perdidas": 16,
+     "falsos": 32,
+     "csi": 0.495,
+     "erro_mm": 4.27,
+     "vies": 1.05
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.867,
+     "perdidas": 2,
+     "falsos": 6,
+     "csi": 0.765,
+     "erro_mm": 8.67,
+     "vies": 1.06
+    }
    },
    "GEM (Canadá)": {
     "geral": {
-     "n": 189,
-     "acerto": 0.757,
-     "perdidas": 12,
-     "falsos": 34,
-     "csi": 0.5,
-     "erro_mm": 6.34,
-     "vies": 1.34
+     "n": 482,
+     "acerto": 0.751,
+     "perdidas": 36,
+     "falsos": 84,
+     "csi": 0.485,
+     "erro_mm": 6.6,
+     "vies": 1.29
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.847,
-     "perdidas": 11,
-     "falsos": 18,
-     "csi": 0.37,
-     "erro_mm": 6.34,
-     "vies": 1.34
+     "n": 482,
+     "acerto": 0.822,
+     "perdidas": 38,
+     "falsos": 48,
+     "csi": 0.289,
+     "erro_mm": 6.6,
+     "vies": 1.29
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.797,
-     "perdidas": 5,
-     "falsos": 26,
-     "csi": 0.563,
-     "erro_mm": 6.69,
-     "vies": 1.4
+     "n": 211,
+     "acerto": 0.72,
+     "perdidas": 11,
+     "falsos": 48,
+     "csi": 0.443,
+     "erro_mm": 6.63,
+     "vies": 1.16
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.583,
-     "perdidas": 7,
-     "falsos": 8,
-     "csi": 0.286,
-     "erro_mm": 4.85,
-     "vies": 1.05
+     "n": 211,
+     "acerto": 0.758,
+     "perdidas": 21,
+     "falsos": 30,
+     "csi": 0.452,
+     "erro_mm": 6.04,
+     "vies": 1.46
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.833,
+     "perdidas": 4,
+     "falsos": 6,
+     "csi": 0.706,
+     "erro_mm": 8.49,
+     "vies": 1.25
+    }
    },
    "CMA (China)": {
     "geral": {
-     "n": 188,
-     "acerto": 0.745,
-     "perdidas": 12,
-     "falsos": 36,
-     "csi": 0.489,
-     "erro_mm": 5.13,
-     "vies": 0.92
+     "n": 415,
+     "acerto": 0.716,
+     "perdidas": 28,
+     "falsos": 90,
+     "csi": 0.476,
+     "erro_mm": 5.92,
+     "vies": 1.02
     },
     "forte10": {
-     "n": 188,
-     "acerto": 0.83,
-     "perdidas": 17,
-     "falsos": 15,
-     "csi": 0.256,
-     "erro_mm": 5.13,
-     "vies": 0.92
+     "n": 415,
+     "acerto": 0.819,
+     "perdidas": 39,
+     "falsos": 36,
+     "csi": 0.286,
+     "erro_mm": 5.92,
+     "vies": 1.02
     },
     "2024-25": {
-     "n": 152,
-     "acerto": 0.73,
-     "perdidas": 9,
-     "falsos": 32,
-     "csi": 0.468,
-     "erro_mm": 5.67,
-     "vies": 0.95
+     "n": 209,
+     "acerto": 0.703,
+     "perdidas": 11,
+     "falsos": 51,
+     "csi": 0.431,
+     "erro_mm": 5.63,
+     "vies": 0.82
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.806,
-     "perdidas": 3,
-     "falsos": 4,
-     "csi": 0.588,
-     "erro_mm": 2.86,
-     "vies": 0.77
+     "n": 146,
+     "acerto": 0.726,
+     "perdidas": 12,
+     "falsos": 28,
+     "csi": 0.481,
+     "erro_mm": 4.86,
+     "vies": 1.15
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.733,
+     "perdidas": 5,
+     "falsos": 11,
+     "csi": 0.59,
+     "erro_mm": 9.51,
+     "vies": 1.33
+    }
    },
    "Best Match": {
     "geral": {
-     "n": 189,
-     "acerto": 0.762,
-     "perdidas": 11,
-     "falsos": 34,
-     "csi": 0.511,
-     "erro_mm": 4.8,
-     "vies": 1.06
+     "n": 482,
+     "acerto": 0.749,
+     "perdidas": 24,
+     "falsos": 97,
+     "csi": 0.508,
+     "erro_mm": 5.48,
+     "vies": 1.08
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.825,
-     "perdidas": 12,
-     "falsos": 21,
-     "csi": 0.327,
-     "erro_mm": 4.8,
-     "vies": 1.06
+     "n": 482,
+     "acerto": 0.832,
+     "perdidas": 30,
+     "falsos": 51,
+     "csi": 0.347,
+     "erro_mm": 5.48,
+     "vies": 1.08
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.791,
-     "perdidas": 7,
-     "falsos": 25,
-     "csi": 0.543,
-     "erro_mm": 4.77,
-     "vies": 1.02
+     "n": 211,
+     "acerto": 0.749,
+     "perdidas": 9,
+     "falsos": 44,
+     "csi": 0.48,
+     "erro_mm": 4.87,
+     "vies": 0.91
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 4,
-     "falsos": 9,
-     "csi": 0.409,
-     "erro_mm": 4.97,
-     "vies": 1.29
+     "n": 211,
+     "acerto": 0.73,
+     "perdidas": 13,
+     "falsos": 44,
+     "csi": 0.467,
+     "erro_mm": 5.24,
+     "vies": 1.2
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.817,
+     "perdidas": 2,
+     "falsos": 9,
+     "csi": 0.703,
+     "erro_mm": 8.51,
+     "vies": 1.26
+    }
    }
   },
   "d3": {
    "ECMWF 9 km": {
     "geral": {
-     "n": 30,
-     "acerto": 0.7,
-     "perdidas": 3,
-     "falsos": 6,
-     "csi": 0.471,
-     "erro_mm": 4.19,
-     "vies": 1.05
+     "n": 233,
+     "acerto": 0.717,
+     "perdidas": 13,
+     "falsos": 53,
+     "csi": 0.522,
+     "erro_mm": 6.26,
+     "vies": 1.27
     },
     "forte10": {
-     "n": 30,
-     "acerto": 0.7,
-     "perdidas": 5,
-     "falsos": 4,
-     "csi": 0.182,
-     "erro_mm": 4.19,
-     "vies": 1.05
+     "n": 233,
+     "acerto": 0.807,
+     "perdidas": 12,
+     "falsos": 33,
+     "csi": 0.366,
+     "erro_mm": 6.26,
+     "vies": 1.27
     },
     "2024-25": null,
     "2025-26": {
-     "n": 30,
-     "acerto": 0.7,
-     "perdidas": 3,
-     "falsos": 6,
-     "csi": 0.471,
-     "erro_mm": 4.19,
-     "vies": 1.05
+     "n": 173,
+     "acerto": 0.653,
+     "perdidas": 13,
+     "falsos": 47,
+     "csi": 0.423,
+     "erro_mm": 5.46,
+     "vies": 1.27
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.9,
+     "perdidas": 0,
+     "falsos": 6,
+     "csi": 0.824,
+     "erro_mm": 8.57,
+     "vies": 1.29
+    }
    },
    "ECMWF 25 km": {
     "geral": {
-     "n": 189,
-     "acerto": 0.709,
-     "perdidas": 10,
-     "falsos": 45,
-     "csi": 0.466,
-     "erro_mm": 5.12,
-     "vies": 1.12
+     "n": 482,
+     "acerto": 0.743,
+     "perdidas": 20,
+     "falsos": 104,
+     "csi": 0.51,
+     "erro_mm": 5.53,
+     "vies": 1.22
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.825,
-     "perdidas": 12,
-     "falsos": 21,
-     "csi": 0.327,
-     "erro_mm": 5.12,
-     "vies": 1.12
+     "n": 482,
+     "acerto": 0.832,
+     "perdidas": 27,
+     "falsos": 54,
+     "csi": 0.362,
+     "erro_mm": 5.53,
+     "vies": 1.22
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.725,
-     "perdidas": 7,
-     "falsos": 35,
-     "csi": 0.475,
-     "erro_mm": 5.42,
-     "vies": 1.13
+     "n": 211,
+     "acerto": 0.711,
+     "perdidas": 9,
+     "falsos": 52,
+     "csi": 0.445,
+     "erro_mm": 5.61,
+     "vies": 1.02
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 3,
-     "falsos": 10,
-     "csi": 0.435,
-     "erro_mm": 3.84,
-     "vies": 1.09
+     "n": 211,
+     "acerto": 0.725,
+     "perdidas": 11,
+     "falsos": 47,
+     "csi": 0.473,
+     "erro_mm": 4.51,
+     "vies": 1.39
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.917,
+     "perdidas": 0,
+     "falsos": 5,
+     "csi": 0.848,
+     "erro_mm": 8.86,
+     "vies": 1.38
+    }
    },
    "ECMWF IA": {
     "geral": {
-     "n": 36,
-     "acerto": 0.722,
-     "perdidas": 3,
-     "falsos": 7,
-     "csi": 0.5,
-     "erro_mm": 2.96,
-     "vies": 0.68
+     "n": 310,
+     "acerto": 0.716,
+     "perdidas": 6,
+     "falsos": 82,
+     "csi": 0.519,
+     "erro_mm": 4.53,
+     "vies": 1.06
     },
     "forte10": {
-     "n": 36,
-     "acerto": 0.833,
-     "perdidas": 6,
-     "falsos": 0,
-     "csi": 0.143,
-     "erro_mm": 2.96,
-     "vies": 0.68
+     "n": 310,
+     "acerto": 0.835,
+     "perdidas": 21,
+     "falsos": 30,
+     "csi": 0.292,
+     "erro_mm": 4.53,
+     "vies": 1.06
     },
-    "2024-25": null,
+    "2024-25": {
+     "n": 39,
+     "acerto": 0.513,
+     "perdidas": 2,
+     "falsos": 17,
+     "csi": 0.296,
+     "erro_mm": 2.84,
+     "vies": 0.86
+    },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.722,
-     "perdidas": 3,
-     "falsos": 7,
-     "csi": 0.5,
-     "erro_mm": 2.96,
-     "vies": 0.68
+     "n": 211,
+     "acerto": 0.739,
+     "perdidas": 4,
+     "falsos": 51,
+     "csi": 0.518,
+     "erro_mm": 3.73,
+     "vies": 0.98
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.767,
+     "perdidas": 0,
+     "falsos": 14,
+     "csi": 0.667,
+     "erro_mm": 8.44,
+     "vies": 1.29
+    }
    },
    "GFS (EUA)": {
     "geral": {
-     "n": 189,
-     "acerto": 0.698,
-     "perdidas": 16,
-     "falsos": 41,
-     "csi": 0.424,
-     "erro_mm": 5.35,
-     "vies": 0.93
+     "n": 482,
+     "acerto": 0.71,
+     "perdidas": 34,
+     "falsos": 106,
+     "csi": 0.451,
+     "erro_mm": 5.5,
+     "vies": 1.05
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.815,
-     "perdidas": 19,
-     "falsos": 16,
-     "csi": 0.205,
-     "erro_mm": 5.35,
-     "vies": 0.93
+     "n": 482,
+     "acerto": 0.84,
+     "perdidas": 39,
+     "falsos": 38,
+     "csi": 0.306,
+     "erro_mm": 5.5,
+     "vies": 1.05
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.719,
-     "perdidas": 10,
-     "falsos": 33,
-     "csi": 0.449,
-     "erro_mm": 5.22,
-     "vies": 0.87
+     "n": 211,
+     "acerto": 0.682,
+     "perdidas": 15,
+     "falsos": 52,
+     "csi": 0.391,
+     "erro_mm": 5.36,
+     "vies": 0.85
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.611,
-     "perdidas": 6,
-     "falsos": 8,
-     "csi": 0.333,
-     "erro_mm": 5.92,
-     "vies": 1.23
+     "n": 211,
+     "acerto": 0.711,
+     "perdidas": 16,
+     "falsos": 45,
+     "csi": 0.435,
+     "erro_mm": 4.44,
+     "vies": 1.21
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.8,
+     "perdidas": 3,
+     "falsos": 9,
+     "csi": 0.676,
+     "erro_mm": 9.68,
+     "vies": 1.22
+    }
    },
    "ICON (Alemanha)": {
     "geral": {
-     "n": 189,
-     "acerto": 0.757,
-     "perdidas": 13,
-     "falsos": 33,
-     "csi": 0.495,
-     "erro_mm": 5.13,
-     "vies": 1.09
+     "n": 482,
+     "acerto": 0.763,
+     "perdidas": 22,
+     "falsos": 92,
+     "csi": 0.527,
+     "erro_mm": 5.63,
+     "vies": 1.14
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.825,
-     "perdidas": 12,
-     "falsos": 21,
-     "csi": 0.327,
-     "erro_mm": 5.13,
-     "vies": 1.09
+     "n": 482,
+     "acerto": 0.826,
+     "perdidas": 35,
+     "falsos": 49,
+     "csi": 0.311,
+     "erro_mm": 5.63,
+     "vies": 1.14
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.791,
-     "perdidas": 8,
-     "falsos": 24,
-     "csi": 0.536,
+     "n": 211,
+     "acerto": 0.749,
+     "perdidas": 9,
+     "falsos": 44,
+     "csi": 0.48,
      "erro_mm": 5.3,
-     "vies": 1.15
+     "vies": 1.01
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.611,
-     "perdidas": 5,
-     "falsos": 9,
-     "csi": 0.364,
-     "erro_mm": 4.39,
-     "vies": 0.79
+     "n": 211,
+     "acerto": 0.763,
+     "perdidas": 12,
+     "falsos": 38,
+     "csi": 0.505,
+     "erro_mm": 4.07,
+     "vies": 1.03
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.817,
+     "perdidas": 1,
+     "falsos": 10,
+     "csi": 0.711,
+     "erro_mm": 12.26,
+     "vies": 1.72
+    }
    },
    "Météo-France": {
     "geral": {
-     "n": 189,
-     "acerto": 0.677,
-     "perdidas": 18,
-     "falsos": 43,
-     "csi": 0.396,
-     "erro_mm": 6.34,
-     "vies": 1.27
+     "n": 481,
+     "acerto": 0.74,
+     "perdidas": 28,
+     "falsos": 97,
+     "csi": 0.492,
+     "erro_mm": 6.11,
+     "vies": 1.29
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.804,
-     "perdidas": 16,
-     "falsos": 21,
-     "csi": 0.245,
-     "erro_mm": 6.34,
-     "vies": 1.27
+     "n": 481,
+     "acerto": 0.819,
+     "perdidas": 33,
+     "falsos": 54,
+     "csi": 0.315,
+     "erro_mm": 6.11,
+     "vies": 1.29
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.699,
-     "perdidas": 11,
-     "falsos": 35,
-     "csi": 0.425,
-     "erro_mm": 7.02,
-     "vies": 1.37
+     "n": 211,
+     "acerto": 0.72,
+     "perdidas": 8,
+     "falsos": 51,
+     "csi": 0.459,
+     "erro_mm": 6.36,
+     "vies": 1.19
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.583,
-     "perdidas": 7,
-     "falsos": 8,
-     "csi": 0.286,
-     "erro_mm": 3.41,
-     "vies": 0.67
+     "n": 210,
+     "acerto": 0.752,
+     "perdidas": 15,
+     "falsos": 37,
+     "csi": 0.48,
+     "erro_mm": 4.92,
+     "vies": 1.3
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.767,
+     "perdidas": 5,
+     "falsos": 9,
+     "csi": 0.622,
+     "erro_mm": 9.34,
+     "vies": 1.5
+    }
    },
    "UK Met Office": {
     "geral": {
-     "n": 82,
-     "acerto": 0.732,
-     "perdidas": 7,
-     "falsos": 15,
-     "csi": 0.488,
-     "erro_mm": 4.85,
-     "vies": 1.26
+     "n": 327,
+     "acerto": 0.725,
+     "perdidas": 21,
+     "falsos": 69,
+     "csi": 0.497,
+     "erro_mm": 7.23,
+     "vies": 1.53
     },
     "forte10": {
-     "n": 82,
-     "acerto": 0.841,
-     "perdidas": 5,
-     "falsos": 8,
-     "csi": 0.381,
-     "erro_mm": 4.85,
-     "vies": 1.26
+     "n": 327,
+     "acerto": 0.804,
+     "perdidas": 16,
+     "falsos": 48,
+     "csi": 0.347,
+     "erro_mm": 7.23,
+     "vies": 1.53
     },
     "2024-25": {
-     "n": 46,
-     "acerto": 0.739,
-     "perdidas": 3,
-     "falsos": 9,
-     "csi": 0.5,
-     "erro_mm": 4.94,
-     "vies": 1.13
+     "n": 57,
+     "acerto": 0.719,
+     "perdidas": 2,
+     "falsos": 14,
+     "csi": 0.515,
+     "erro_mm": 6.75,
+     "vies": 1.3
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.722,
-     "perdidas": 4,
-     "falsos": 6,
-     "csi": 0.474,
-     "erro_mm": 4.72,
-     "vies": 1.48
+     "n": 210,
+     "acerto": 0.714,
+     "perdidas": 16,
+     "falsos": 44,
+     "csi": 0.439,
+     "erro_mm": 5.69,
+     "vies": 1.41
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.767,
+     "perdidas": 3,
+     "falsos": 11,
+     "csi": 0.641,
+     "erro_mm": 13.08,
+     "vies": 1.96
+    }
    },
    "JMA (Japão)": {
     "geral": {
-     "n": 189,
-     "acerto": 0.741,
-     "perdidas": 10,
-     "falsos": 39,
-     "csi": 0.495,
-     "erro_mm": 4.87,
-     "vies": 0.99
+     "n": 482,
+     "acerto": 0.737,
+     "perdidas": 24,
+     "falsos": 103,
+     "csi": 0.496,
+     "erro_mm": 5.17,
+     "vies": 1.07
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.82,
-     "perdidas": 14,
-     "falsos": 20,
-     "csi": 0.292,
-     "erro_mm": 4.87,
-     "vies": 0.99
+     "n": 482,
+     "acerto": 0.822,
+     "perdidas": 27,
+     "falsos": 59,
+     "csi": 0.348,
+     "erro_mm": 5.17,
+     "vies": 1.07
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.765,
-     "perdidas": 5,
-     "falsos": 31,
-     "csi": 0.526,
-     "erro_mm": 4.98,
+     "n": 211,
+     "acerto": 0.706,
+     "perdidas": 7,
+     "falsos": 55,
+     "csi": 0.451,
+     "erro_mm": 4.94,
      "vies": 0.96
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 5,
-     "falsos": 8,
-     "csi": 0.381,
-     "erro_mm": 4.38,
-     "vies": 1.17
+     "n": 211,
+     "acerto": 0.739,
+     "perdidas": 16,
+     "falsos": 39,
+     "csi": 0.461,
+     "erro_mm": 4.43,
+     "vies": 1.07
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.833,
+     "perdidas": 1,
+     "falsos": 9,
+     "csi": 0.73,
+     "erro_mm": 8.6,
+     "vies": 1.33
+    }
    },
    "GEM (Canadá)": {
     "geral": {
-     "n": 189,
-     "acerto": 0.767,
-     "perdidas": 11,
-     "falsos": 33,
-     "csi": 0.516,
-     "erro_mm": 6.53,
-     "vies": 1.26
+     "n": 482,
+     "acerto": 0.73,
+     "perdidas": 48,
+     "falsos": 82,
+     "csi": 0.437,
+     "erro_mm": 5.66,
+     "vies": 1.16
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.794,
-     "perdidas": 17,
-     "falsos": 22,
-     "csi": 0.22,
-     "erro_mm": 6.53,
-     "vies": 1.26
+     "n": 482,
+     "acerto": 0.855,
+     "perdidas": 37,
+     "falsos": 33,
+     "csi": 0.34,
+     "erro_mm": 5.66,
+     "vies": 1.16
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.791,
-     "perdidas": 5,
-     "falsos": 27,
-     "csi": 0.556,
-     "erro_mm": 7.03,
-     "vies": 1.37
+     "n": 211,
+     "acerto": 0.725,
+     "perdidas": 11,
+     "falsos": 47,
+     "csi": 0.448,
+     "erro_mm": 6.33,
+     "vies": 1.26
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.667,
-     "perdidas": 6,
-     "falsos": 6,
-     "csi": 0.368,
-     "erro_mm": 4.43,
-     "vies": 0.63
+     "n": 211,
+     "acerto": 0.72,
+     "perdidas": 31,
+     "falsos": 28,
+     "csi": 0.352,
+     "erro_mm": 3.5,
+     "vies": 0.87
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.783,
+     "perdidas": 6,
+     "falsos": 7,
+     "csi": 0.629,
+     "erro_mm": 10.88,
+     "vies": 1.52
+    }
    },
    "CMA (China)": {
     "geral": {
-     "n": 187,
-     "acerto": 0.733,
-     "perdidas": 11,
-     "falsos": 39,
-     "csi": 0.485,
-     "erro_mm": 5.87,
-     "vies": 1.11
+     "n": 408,
+     "acerto": 0.672,
+     "perdidas": 30,
+     "falsos": 104,
+     "csi": 0.432,
+     "erro_mm": 6.87,
+     "vies": 1.17
     },
     "forte10": {
-     "n": 187,
-     "acerto": 0.829,
-     "perdidas": 14,
-     "falsos": 18,
-     "csi": 0.304,
-     "erro_mm": 5.87,
-     "vies": 1.11
+     "n": 408,
+     "acerto": 0.782,
+     "perdidas": 44,
+     "falsos": 45,
+     "csi": 0.212,
+     "erro_mm": 6.87,
+     "vies": 1.17
     },
     "2024-25": {
-     "n": 151,
-     "acerto": 0.735,
-     "perdidas": 8,
-     "falsos": 32,
-     "csi": 0.481,
-     "erro_mm": 6.17,
-     "vies": 1.09
+     "n": 208,
+     "acerto": 0.673,
+     "perdidas": 13,
+     "falsos": 55,
+     "csi": 0.398,
+     "erro_mm": 6.57,
+     "vies": 1.02
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.722,
-     "perdidas": 3,
-     "falsos": 7,
-     "csi": 0.5,
-     "erro_mm": 4.65,
-     "vies": 1.2
+     "n": 140,
+     "acerto": 0.629,
+     "perdidas": 12,
+     "falsos": 40,
+     "csi": 0.395,
+     "erro_mm": 5.78,
+     "vies": 1.41
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.767,
+     "perdidas": 5,
+     "falsos": 9,
+     "csi": 0.622,
+     "erro_mm": 10.46,
+     "vies": 1.19
+    }
    },
    "Best Match": {
     "geral": {
-     "n": 189,
-     "acerto": 0.772,
-     "perdidas": 12,
-     "falsos": 31,
-     "csi": 0.517,
-     "erro_mm": 5.01,
+     "n": 482,
+     "acerto": 0.745,
+     "perdidas": 24,
+     "falsos": 99,
+     "csi": 0.504,
+     "erro_mm": 5.46,
      "vies": 1.14
     },
     "forte10": {
-     "n": 189,
-     "acerto": 0.82,
-     "perdidas": 11,
-     "falsos": 23,
-     "csi": 0.333,
-     "erro_mm": 5.01,
+     "n": 482,
+     "acerto": 0.832,
+     "perdidas": 27,
+     "falsos": 54,
+     "csi": 0.362,
+     "erro_mm": 5.46,
      "vies": 1.14
     },
     "2024-25": {
-     "n": 153,
-     "acerto": 0.791,
-     "perdidas": 8,
-     "falsos": 24,
-     "csi": 0.536,
+     "n": 211,
+     "acerto": 0.749,
+     "perdidas": 9,
+     "falsos": 44,
+     "csi": 0.48,
      "erro_mm": 5.3,
-     "vies": 1.15
+     "vies": 1.01
     },
     "2025-26": {
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 4,
-     "falsos": 7,
-     "csi": 0.45,
-     "erro_mm": 3.79,
-     "vies": 1.07
+     "n": 211,
+     "acerto": 0.697,
+     "perdidas": 15,
+     "falsos": 49,
+     "csi": 0.429,
+     "erro_mm": 4.74,
+     "vies": 1.23
     },
-    "2026-27": null
+    "2026-27": {
+     "n": 60,
+     "acerto": 0.9,
+     "perdidas": 0,
+     "falsos": 6,
+     "csi": 0.824,
+     "erro_mm": 8.57,
+     "vies": 1.29
+    }
    }
   }
  },
@@ -1263,14 +1558,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.667,
-     "perdidas": 4,
-     "falsos": 8,
-     "csi": 0.429,
-     "erro_mm": 3.54,
-     "vies": 0.87,
-     "csi10": 0.222
+     "n": 271,
+     "acerto": 0.79,
+     "perdidas": 12,
+     "falsos": 45,
+     "csi": 0.581,
+     "erro_mm": 5.09,
+     "vies": 1.21,
+     "csi10": 0.371
     },
     {
      "treino": "2025-26",
@@ -1278,14 +1573,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.784,
-     "perdidas": 7,
-     "falsos": 26,
-     "csi": 0.535,
-     "erro_mm": 4.49,
-     "vies": 1.04,
-     "csi10": 0.485
+     "n": 271,
+     "acerto": 0.771,
+     "perdidas": 9,
+     "falsos": 53,
+     "csi": 0.554,
+     "erro_mm": 5.93,
+     "vies": 1.12,
+     "csi10": 0.397
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.761,
+     "perdidas": 19,
+     "falsos": 82,
+     "csi": 0.502,
+     "erro_mm": 4.68,
+     "vies": 1.03,
+     "csi10": 0.381
     }
    ],
    "Melhor modelo do treino sozinho": [
@@ -1295,14 +1605,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.722,
-     "perdidas": 4,
-     "falsos": 6,
-     "csi": 0.474,
-     "erro_mm": 3.46,
-     "vies": 0.73,
-     "csi10": 0.1
+     "n": 271,
+     "acerto": 0.749,
+     "perdidas": 7,
+     "falsos": 61,
+     "csi": 0.553,
+     "erro_mm": 4.24,
+     "vies": 1.04,
+     "csi10": 0.383
     },
     {
      "treino": "2025-26",
@@ -1310,14 +1620,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.797,
-     "perdidas": 7,
-     "falsos": 24,
-     "csi": 0.551,
-     "erro_mm": 4.59,
-     "vies": 0.93,
-     "csi10": 0.364
+     "n": 101,
+     "acerto": 0.723,
+     "perdidas": 2,
+     "falsos": 26,
+     "csi": 0.569,
+     "erro_mm": 5.73,
+     "vies": 1.07,
+     "csi10": 0.296
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 252,
+     "acerto": 0.73,
+     "perdidas": 9,
+     "falsos": 59,
+     "csi": 0.489,
+     "erro_mm": 3.36,
+     "vies": 0.95,
+     "csi10": 0.395
     }
    ],
    "Média simples de todos": [
@@ -1327,14 +1652,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 3,
-     "falsos": 8,
-     "csi": 0.476,
-     "erro_mm": 3.52,
-     "vies": 0.73,
-     "csi10": 0.0
+     "n": 271,
+     "acerto": 0.79,
+     "perdidas": 8,
+     "falsos": 49,
+     "csi": 0.593,
+     "erro_mm": 4.86,
+     "vies": 1.14,
+     "csi10": 0.324
     },
     {
      "treino": "2025-26",
@@ -1342,14 +1667,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.784,
-     "perdidas": 4,
-     "falsos": 29,
-     "csi": 0.554,
-     "erro_mm": 4.05,
-     "vies": 0.97,
-     "csi10": 0.485
+     "n": 271,
+     "acerto": 0.738,
+     "perdidas": 7,
+     "falsos": 64,
+     "csi": 0.527,
+     "erro_mm": 5.32,
+     "vies": 1.01,
+     "csi10": 0.406
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.751,
+     "perdidas": 13,
+     "falsos": 92,
+     "csi": 0.507,
+     "erro_mm": 4.19,
+     "vies": 0.95,
+     "csi10": 0.407
     }
    ],
    "Mediana de todos": [
@@ -1359,14 +1699,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 4,
-     "falsos": 7,
-     "csi": 0.45,
-     "erro_mm": 3.54,
-     "vies": 0.6,
-     "csi10": 0.0
+     "n": 271,
+     "acerto": 0.804,
+     "perdidas": 11,
+     "falsos": 42,
+     "csi": 0.602,
+     "erro_mm": 4.55,
+     "vies": 1.01,
+     "csi10": 0.328
     },
     {
      "treino": "2025-26",
@@ -1374,14 +1714,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.843,
-     "perdidas": 5,
-     "falsos": 19,
-     "csi": 0.625,
-     "erro_mm": 3.89,
-     "vies": 0.87,
-     "csi10": 0.424
+     "n": 271,
+     "acerto": 0.793,
+     "perdidas": 9,
+     "falsos": 47,
+     "csi": 0.579,
+     "erro_mm": 5.06,
+     "vies": 0.89,
+     "csi10": 0.379
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.78,
+     "perdidas": 19,
+     "falsos": 74,
+     "csi": 0.523,
+     "erro_mm": 3.97,
+     "vies": 0.83,
+     "csi10": 0.369
     }
    ],
    "Pesos por acerto (atual do site)": [
@@ -1391,14 +1746,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 3,
-     "falsos": 8,
-     "csi": 0.476,
-     "erro_mm": 3.5,
-     "vies": 0.74,
-     "csi10": 0.0
+     "n": 271,
+     "acerto": 0.797,
+     "perdidas": 7,
+     "falsos": 48,
+     "csi": 0.604,
+     "erro_mm": 4.82,
+     "vies": 1.13,
+     "csi10": 0.309
     },
     {
      "treino": "2025-26",
@@ -1406,14 +1761,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.784,
-     "perdidas": 4,
-     "falsos": 29,
-     "csi": 0.554,
-     "erro_mm": 4.02,
-     "vies": 0.97,
-     "csi10": 0.485
+     "n": 271,
+     "acerto": 0.742,
+     "perdidas": 7,
+     "falsos": 63,
+     "csi": 0.53,
+     "erro_mm": 5.32,
+     "vies": 1.01,
+     "csi10": 0.42
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.754,
+     "perdidas": 12,
+     "falsos": 92,
+     "csi": 0.512,
+     "erro_mm": 4.17,
+     "vies": 0.94,
+     "csi10": 0.414
     }
    ],
    "Pesos + correção de volume": [
@@ -1423,14 +1793,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.694,
-     "perdidas": 3,
-     "falsos": 8,
-     "csi": 0.476,
-     "erro_mm": 3.54,
-     "vies": 0.76,
-     "csi10": 0.0
+     "n": 271,
+     "acerto": 0.786,
+     "perdidas": 7,
+     "falsos": 51,
+     "csi": 0.592,
+     "erro_mm": 5.18,
+     "vies": 1.33,
+     "csi10": 0.306
     },
     {
      "treino": "2025-26",
@@ -1438,14 +1808,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.771,
-     "perdidas": 4,
-     "falsos": 31,
-     "csi": 0.539,
-     "erro_mm": 4.74,
-     "vies": 1.26,
-     "csi10": 0.486
+     "n": 271,
+     "acerto": 0.742,
+     "perdidas": 7,
+     "falsos": 63,
+     "csi": 0.53,
+     "erro_mm": 5.32,
+     "vies": 1.0,
+     "csi10": 0.441
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.773,
+     "perdidas": 14,
+     "falsos": 82,
+     "csi": 0.527,
+     "erro_mm": 3.88,
+     "vies": 0.7,
+     "csi10": 0.39
     }
    ]
   },
@@ -1457,14 +1842,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.667,
-     "perdidas": 4,
-     "falsos": 8,
-     "csi": 0.429,
-     "erro_mm": 4.21,
-     "vies": 1.11,
-     "csi10": 0.2
+     "n": 271,
+     "acerto": 0.771,
+     "perdidas": 12,
+     "falsos": 50,
+     "csi": 0.56,
+     "erro_mm": 5.46,
+     "vies": 1.3,
+     "csi10": 0.342
     },
     {
      "treino": "2025-26",
@@ -1472,14 +1857,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.745,
-     "perdidas": 7,
-     "falsos": 32,
-     "csi": 0.494,
-     "erro_mm": 5.15,
-     "vies": 1.05,
-     "csi10": 0.412
+     "n": 271,
+     "acerto": 0.727,
+     "perdidas": 11,
+     "falsos": 63,
+     "csi": 0.503,
+     "erro_mm": 6.16,
+     "vies": 1.07,
+     "csi10": 0.394
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.725,
+     "perdidas": 21,
+     "falsos": 95,
+     "csi": 0.463,
+     "erro_mm": 5.2,
+     "vies": 1.13,
+     "csi10": 0.357
     }
    ],
    "Melhor modelo do treino sozinho": [
@@ -1489,14 +1889,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.722,
-     "perdidas": 4,
-     "falsos": 6,
-     "csi": 0.474,
-     "erro_mm": 3.59,
-     "vies": 0.85,
-     "csi10": 0.222
+     "n": 271,
+     "acerto": 0.742,
+     "perdidas": 5,
+     "falsos": 65,
+     "csi": 0.551,
+     "erro_mm": 4.55,
+     "vies": 1.07,
+     "csi10": 0.385
     },
     {
      "treino": "2025-26",
@@ -1504,14 +1904,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 152,
-     "acerto": 0.73,
-     "perdidas": 9,
-     "falsos": 32,
-     "csi": 0.468,
-     "erro_mm": 5.67,
-     "vies": 0.95,
-     "csi10": 0.257
+     "n": 100,
+     "acerto": 0.68,
+     "perdidas": 2,
+     "falsos": 30,
+     "csi": 0.529,
+     "erro_mm": 5.86,
+     "vies": 1.19,
+     "csi10": 0.323
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.725,
+     "perdidas": 21,
+     "falsos": 95,
+     "csi": 0.463,
+     "erro_mm": 5.2,
+     "vies": 1.13,
+     "csi10": 0.357
     }
    ],
    "Média simples de todos": [
@@ -1521,14 +1936,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.75,
-     "perdidas": 2,
-     "falsos": 7,
-     "csi": 0.55,
-     "erro_mm": 3.64,
-     "vies": 0.93,
-     "csi10": 0.125
+     "n": 271,
+     "acerto": 0.749,
+     "perdidas": 6,
+     "falsos": 62,
+     "csi": 0.556,
+     "erro_mm": 5.26,
+     "vies": 1.27,
+     "csi10": 0.3
     },
     {
      "treino": "2025-26",
@@ -1536,14 +1951,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.752,
-     "perdidas": 3,
-     "falsos": 35,
-     "csi": 0.525,
-     "erro_mm": 4.68,
+     "n": 271,
+     "acerto": 0.72,
+     "perdidas": 5,
+     "falsos": 71,
+     "csi": 0.516,
+     "erro_mm": 5.75,
+     "vies": 1.06,
+     "csi10": 0.384
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.716,
+     "perdidas": 11,
+     "falsos": 109,
+     "csi": 0.478,
+     "erro_mm": 4.55,
      "vies": 1.05,
-     "csi10": 0.371
+     "csi10": 0.378
     }
    ],
    "Mediana de todos": [
@@ -1553,14 +1983,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.722,
-     "perdidas": 4,
-     "falsos": 6,
-     "csi": 0.474,
-     "erro_mm": 3.62,
-     "vies": 0.8,
-     "csi10": 0.125
+     "n": 271,
+     "acerto": 0.793,
+     "perdidas": 11,
+     "falsos": 45,
+     "csi": 0.588,
+     "erro_mm": 4.84,
+     "vies": 1.08,
+     "csi10": 0.317
     },
     {
      "treino": "2025-26",
@@ -1568,14 +1998,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.784,
-     "perdidas": 7,
-     "falsos": 26,
-     "csi": 0.535,
-     "erro_mm": 4.26,
-     "vies": 0.87,
-     "csi10": 0.375
+     "n": 271,
+     "acerto": 0.756,
+     "perdidas": 11,
+     "falsos": 55,
+     "csi": 0.532,
+     "erro_mm": 5.37,
+     "vies": 0.89,
+     "csi10": 0.338
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.746,
+     "perdidas": 19,
+     "falsos": 88,
+     "csi": 0.488,
+     "erro_mm": 4.22,
+     "vies": 0.88,
+     "csi10": 0.373
     }
    ],
    "Pesos por acerto (atual do site)": [
@@ -1585,14 +2030,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.75,
-     "perdidas": 2,
-     "falsos": 7,
-     "csi": 0.55,
-     "erro_mm": 3.71,
-     "vies": 0.93,
-     "csi10": 0.111
+     "n": 271,
+     "acerto": 0.749,
+     "perdidas": 5,
+     "falsos": 63,
+     "csi": 0.558,
+     "erro_mm": 5.17,
+     "vies": 1.24,
+     "csi10": 0.296
     },
     {
      "treino": "2025-26",
@@ -1600,14 +2045,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.752,
-     "perdidas": 3,
-     "falsos": 35,
-     "csi": 0.525,
-     "erro_mm": 4.67,
-     "vies": 1.03,
-     "csi10": 0.382
+     "n": 271,
+     "acerto": 0.716,
+     "perdidas": 6,
+     "falsos": 71,
+     "csi": 0.51,
+     "erro_mm": 5.73,
+     "vies": 1.05,
+     "csi10": 0.365
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.718,
+     "perdidas": 11,
+     "falsos": 108,
+     "csi": 0.48,
+     "erro_mm": 4.55,
+     "vies": 1.05,
+     "csi10": 0.374
     }
    ],
    "Pesos + correção de volume": [
@@ -1617,14 +2077,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.75,
-     "perdidas": 2,
-     "falsos": 7,
-     "csi": 0.55,
-     "erro_mm": 3.76,
-     "vies": 0.91,
-     "csi10": 0.111
+     "n": 271,
+     "acerto": 0.749,
+     "perdidas": 4,
+     "falsos": 64,
+     "csi": 0.561,
+     "erro_mm": 5.43,
+     "vies": 1.34,
+     "csi10": 0.306
     },
     {
      "treino": "2025-26",
@@ -1632,14 +2092,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.752,
-     "perdidas": 3,
-     "falsos": 35,
-     "csi": 0.525,
-     "erro_mm": 5.01,
-     "vies": 1.17,
-     "csi10": 0.417
+     "n": 271,
+     "acerto": 0.727,
+     "perdidas": 6,
+     "falsos": 68,
+     "csi": 0.519,
+     "erro_mm": 5.43,
+     "vies": 0.89,
+     "csi10": 0.328
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.737,
+     "perdidas": 15,
+     "falsos": 96,
+     "csi": 0.488,
+     "erro_mm": 4.17,
+     "vies": 0.78,
+     "csi10": 0.354
     }
    ]
   },
@@ -1651,14 +2126,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 3,
-     "falsos": 10,
-     "csi": 0.435,
-     "erro_mm": 3.84,
-     "vies": 1.09,
-     "csi10": 0.273
+     "n": 271,
+     "acerto": 0.768,
+     "perdidas": 11,
+     "falsos": 52,
+     "csi": 0.559,
+     "erro_mm": 5.48,
+     "vies": 1.39,
+     "csi10": 0.352
     },
     {
      "treino": "2025-26",
@@ -1666,14 +2141,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.725,
-     "perdidas": 7,
-     "falsos": 35,
-     "csi": 0.475,
-     "erro_mm": 5.42,
-     "vies": 1.13,
+     "n": 271,
+     "acerto": 0.756,
+     "perdidas": 9,
+     "falsos": 57,
+     "csi": 0.538,
+     "erro_mm": 6.33,
+     "vies": 1.12,
      "csi10": 0.342
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.718,
+     "perdidas": 20,
+     "falsos": 99,
+     "csi": 0.459,
+     "erro_mm": 5.06,
+     "vies": 1.19,
+     "csi10": 0.385
     }
    ],
    "Melhor modelo do treino sozinho": [
@@ -1683,14 +2173,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.722,
+     "n": 271,
+     "acerto": 0.745,
      "perdidas": 4,
-     "falsos": 6,
-     "csi": 0.474,
-     "erro_mm": 4.72,
-     "vies": 1.48,
-     "csi10": 0.364
+     "falsos": 65,
+     "csi": 0.558,
+     "erro_mm": 4.77,
+     "vies": 1.08,
+     "csi10": 0.309
     },
     {
      "treino": "2025-26",
@@ -1698,7 +2188,29 @@
       "2024-25",
       "2026-27"
      ],
-     "csi10": null
+     "n": 271,
+     "acerto": 0.738,
+     "perdidas": 17,
+     "falsos": 54,
+     "csi": 0.493,
+     "erro_mm": 7.34,
+     "vies": 1.33,
+     "csi10": 0.329
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 250,
+     "acerto": 0.704,
+     "perdidas": 6,
+     "falsos": 68,
+     "csi": 0.475,
+     "erro_mm": 3.59,
+     "vies": 0.97,
+     "csi10": 0.311
     }
    ],
    "Média simples de todos": [
@@ -1708,14 +2220,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 3,
-     "falsos": 10,
-     "csi": 0.435,
-     "erro_mm": 3.89,
-     "vies": 1.03,
-     "csi10": 0.222
+     "n": 271,
+     "acerto": 0.734,
+     "perdidas": 5,
+     "falsos": 67,
+     "csi": 0.544,
+     "erro_mm": 5.09,
+     "vies": 1.26,
+     "csi10": 0.353
     },
     {
      "treino": "2025-26",
@@ -1723,14 +2235,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.719,
-     "perdidas": 3,
-     "falsos": 40,
-     "csi": 0.494,
-     "erro_mm": 5.21,
-     "vies": 1.14,
-     "csi10": 0.359
+     "n": 271,
+     "acerto": 0.686,
+     "perdidas": 5,
+     "falsos": 80,
+     "csi": 0.488,
+     "erro_mm": 6.13,
+     "vies": 1.16,
+     "csi10": 0.346
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.682,
+     "perdidas": 10,
+     "falsos": 124,
+     "csi": 0.453,
+     "erro_mm": 4.62,
+     "vies": 1.11,
+     "csi10": 0.389
     }
    ],
    "Mediana de todos": [
@@ -1740,14 +2267,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 5,
-     "falsos": 8,
-     "csi": 0.381,
-     "erro_mm": 3.56,
-     "vies": 0.81,
-     "csi10": 0.222
+     "n": 271,
+     "acerto": 0.771,
+     "perdidas": 12,
+     "falsos": 50,
+     "csi": 0.56,
+     "erro_mm": 4.79,
+     "vies": 1.09,
+     "csi10": 0.317
     },
     {
      "treino": "2025-26",
@@ -1755,14 +2282,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.771,
+     "n": 271,
+     "acerto": 0.756,
      "perdidas": 7,
-     "falsos": 28,
-     "csi": 0.521,
-     "erro_mm": 4.68,
-     "vies": 0.94,
-     "csi10": 0.371
+     "falsos": 59,
+     "csi": 0.545,
+     "erro_mm": 5.62,
+     "vies": 0.99,
+     "csi10": 0.333
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.735,
+     "perdidas": 20,
+     "falsos": 92,
+     "csi": 0.474,
+     "erro_mm": 4.2,
+     "vies": 0.93,
+     "csi10": 0.386
     }
    ],
    "Pesos por acerto (atual do site)": [
@@ -1772,14 +2314,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.639,
-     "perdidas": 3,
-     "falsos": 10,
-     "csi": 0.435,
-     "erro_mm": 3.93,
-     "vies": 1.06,
-     "csi10": 0.222
+     "n": 271,
+     "acerto": 0.738,
+     "perdidas": 5,
+     "falsos": 66,
+     "csi": 0.548,
+     "erro_mm": 5.03,
+     "vies": 1.24,
+     "csi10": 0.338
     },
     {
      "treino": "2025-26",
@@ -1787,14 +2329,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.725,
-     "perdidas": 3,
-     "falsos": 39,
-     "csi": 0.5,
-     "erro_mm": 5.3,
+     "n": 271,
+     "acerto": 0.697,
+     "perdidas": 5,
+     "falsos": 77,
+     "csi": 0.497,
+     "erro_mm": 6.12,
      "vies": 1.16,
-     "csi10": 0.35
+     "csi10": 0.338
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.687,
+     "perdidas": 11,
+     "falsos": 121,
+     "csi": 0.455,
+     "erro_mm": 4.61,
+     "vies": 1.11,
+     "csi10": 0.396
     }
    ],
    "Pesos + correção de volume": [
@@ -1804,14 +2361,14 @@
       "2025-26",
       "2026-27"
      ],
-     "n": 36,
-     "acerto": 0.611,
-     "perdidas": 4,
-     "falsos": 10,
-     "csi": 0.391,
-     "erro_mm": 3.84,
-     "vies": 0.98,
-     "csi10": 0.222
+     "n": 271,
+     "acerto": 0.734,
+     "perdidas": 5,
+     "falsos": 67,
+     "csi": 0.544,
+     "erro_mm": 5.0,
+     "vies": 1.22,
+     "csi10": 0.328
     },
     {
      "treino": "2025-26",
@@ -1819,14 +2376,29 @@
       "2024-25",
       "2026-27"
      ],
-     "n": 153,
-     "acerto": 0.725,
-     "perdidas": 3,
-     "falsos": 39,
-     "csi": 0.5,
-     "erro_mm": 5.8,
-     "vies": 1.3,
-     "csi10": 0.318
+     "n": 271,
+     "acerto": 0.712,
+     "perdidas": 6,
+     "falsos": 72,
+     "csi": 0.506,
+     "erro_mm": 5.78,
+     "vies": 1.02,
+     "csi10": 0.342
+    },
+    {
+     "treino": "2026-27",
+     "teste": [
+      "2024-25",
+      "2025-26"
+     ],
+     "n": 422,
+     "acerto": 0.718,
+     "perdidas": 15,
+     "falsos": 104,
+     "csi": 0.471,
+     "erro_mm": 4.18,
+     "vies": 0.8,
+     "csi10": 0.39
     }
    ]
   }
@@ -1835,81 +2407,202 @@
   "d1_1mm": [
    {
     "treino": "2024-25",
-    "brier_bruto": 0.2483,
-    "brier_calibrado": 0.1937,
+    "brier_bruto": 0.1518,
+    "brier_calibrado": 0.1206,
     "confiabilidade": [
      {
       "faixa": "0-10%",
-      "n": 18,
-      "prevista": 0.05,
-      "real": 0.17
+      "n": 140,
+      "prevista": 0.04,
+      "real": 0.06
+     },
+     {
+      "faixa": "10-20%",
+      "n": 22,
+      "prevista": 0.14,
+      "real": 0.23
+     },
+     {
+      "faixa": "20-30%",
+      "n": 10,
+      "prevista": 0.25,
+      "real": 0.4
+     },
+     {
+      "faixa": "30-40%",
+      "n": 15,
+      "prevista": 0.35,
+      "real": 0.33
+     },
+     {
+      "faixa": "40-50%",
+      "n": 10,
+      "prevista": 0.45,
+      "real": 0.6
+     },
+     {
+      "faixa": "50-60%",
+      "n": 14,
+      "prevista": 0.55,
+      "real": 0.79
      },
      {
       "faixa": "60-70%",
-      "n": 5,
-      "prevista": 0.66,
-      "real": 0.8
+      "n": 12,
+      "prevista": 0.63,
+      "real": 0.83
+     },
+     {
+      "faixa": "70-80%",
+      "n": 14,
+      "prevista": 0.74,
+      "real": 0.64
+     },
+     {
+      "faixa": "80-90%",
+      "n": 17,
+      "prevista": 0.85,
+      "real": 0.76
+     },
+     {
+      "faixa": "90-100%",
+      "n": 21,
+      "prevista": 0.93,
+      "real": 1.0
      }
     ]
    },
    {
     "treino": "2025-26",
-    "brier_bruto": 0.1348,
-    "brier_calibrado": 0.1485,
+    "brier_bruto": 0.1574,
+    "brier_calibrado": 0.1118,
     "confiabilidade": [
      {
       "faixa": "0-10%",
-      "n": 50,
-      "prevista": 0.08,
-      "real": 0.04
+      "n": 104,
+      "prevista": 0.07,
+      "real": 0.06
      },
      {
       "faixa": "10-20%",
-      "n": 27,
+      "n": 37,
       "prevista": 0.14,
-      "real": 0.11
+      "real": 0.05
      },
      {
       "faixa": "20-30%",
-      "n": 7,
-      "prevista": 0.23,
-      "real": 0.0
+      "n": 23,
+      "prevista": 0.25,
+      "real": 0.22
      },
      {
       "faixa": "30-40%",
-      "n": 6,
-      "prevista": 0.33,
+      "n": 12,
+      "prevista": 0.37,
       "real": 0.17
      },
      {
       "faixa": "40-50%",
-      "n": 5,
-      "prevista": 0.48,
-      "real": 0.4
+      "n": 10,
+      "prevista": 0.45,
+      "real": 0.7
      },
      {
       "faixa": "50-60%",
-      "n": 6,
+      "n": 11,
       "prevista": 0.55,
-      "real": 0.33
+      "real": 0.36
      },
      {
       "faixa": "60-70%",
-      "n": 6,
+      "n": 16,
       "prevista": 0.65,
-      "real": 0.5
+      "real": 0.62
      },
      {
       "faixa": "70-80%",
-      "n": 5,
+      "n": 20,
       "prevista": 0.75,
       "real": 0.6
      },
      {
+      "faixa": "80-90%",
+      "n": 21,
+      "prevista": 0.85,
+      "real": 0.9
+     },
+     {
       "faixa": "90-100%",
-      "n": 38,
-      "prevista": 0.98,
-      "real": 0.74
+      "n": 21,
+      "prevista": 0.93,
+      "real": 0.95
+     }
+    ]
+   },
+   {
+    "treino": "2026-27",
+    "brier_bruto": 0.1631,
+    "brier_calibrado": 0.1199,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 190,
+      "prevista": 0.06,
+      "real": 0.06
+     },
+     {
+      "faixa": "10-20%",
+      "n": 49,
+      "prevista": 0.13,
+      "real": 0.08
+     },
+     {
+      "faixa": "20-30%",
+      "n": 29,
+      "prevista": 0.25,
+      "real": 0.28
+     },
+     {
+      "faixa": "30-40%",
+      "n": 15,
+      "prevista": 0.36,
+      "real": 0.33
+     },
+     {
+      "faixa": "40-50%",
+      "n": 19,
+      "prevista": 0.45,
+      "real": 0.37
+     },
+     {
+      "faixa": "50-60%",
+      "n": 17,
+      "prevista": 0.55,
+      "real": 0.29
+     },
+     {
+      "faixa": "60-70%",
+      "n": 22,
+      "prevista": 0.66,
+      "real": 0.68
+     },
+     {
+      "faixa": "70-80%",
+      "n": 26,
+      "prevista": 0.76,
+      "real": 0.62
+     },
+     {
+      "faixa": "80-90%",
+      "n": 26,
+      "prevista": 0.86,
+      "real": 0.85
+     },
+     {
+      "faixa": "90-100%",
+      "n": 33,
+      "prevista": 0.94,
+      "real": 0.88
      }
     ]
    }
@@ -1917,69 +2610,160 @@
   "d1_10mm": [
    {
     "treino": "2024-25",
-    "brier_bruto": 0.2791,
-    "brier_calibrado": 0.154,
+    "brier_bruto": 0.262,
+    "brier_calibrado": 0.1148,
     "confiabilidade": [
      {
       "faixa": "0-10%",
-      "n": 27,
-      "prevista": 0.02,
-      "real": 0.07
+      "n": 172,
+      "prevista": 0.01,
+      "real": 0.03
+     },
+     {
+      "faixa": "10-20%",
+      "n": 22,
+      "prevista": 0.15,
+      "real": 0.18
+     },
+     {
+      "faixa": "20-30%",
+      "n": 11,
+      "prevista": 0.24,
+      "real": 0.27
+     },
+     {
+      "faixa": "30-40%",
+      "n": 7,
+      "prevista": 0.34,
+      "real": 0.43
+     },
+     {
+      "faixa": "40-50%",
+      "n": 13,
+      "prevista": 0.44,
+      "real": 0.38
+     },
+     {
+      "faixa": "50-60%",
+      "n": 8,
+      "prevista": 0.55,
+      "real": 0.12
+     },
+     {
+      "faixa": "60-70%",
+      "n": 13,
+      "prevista": 0.65,
+      "real": 0.38
+     },
+     {
+      "faixa": "70-80%",
+      "n": 12,
+      "prevista": 0.76,
+      "real": 0.5
+     },
+     {
+      "faixa": "80-90%",
+      "n": 14,
+      "prevista": 0.86,
+      "real": 0.5
      }
     ]
    },
    {
     "treino": "2025-26",
-    "brier_bruto": 0.213,
-    "brier_calibrado": 0.1148,
+    "brier_bruto": 0.2352,
+    "brier_calibrado": 0.0959,
     "confiabilidade": [
      {
       "faixa": "0-10%",
-      "n": 81,
-      "prevista": 0.05,
-      "real": 0.0
+      "n": 170,
+      "prevista": 0.03,
+      "real": 0.02
      },
      {
       "faixa": "10-20%",
-      "n": 10,
+      "n": 24,
       "prevista": 0.14,
-      "real": 0.0
+      "real": 0.12
      },
      {
       "faixa": "20-30%",
-      "n": 15,
+      "n": 20,
       "prevista": 0.24,
-      "real": 0.07
+      "real": 0.5
      },
      {
       "faixa": "30-40%",
-      "n": 6,
-      "prevista": 0.36,
-      "real": 0.33
+      "n": 19,
+      "prevista": 0.34,
+      "real": 0.32
+     },
+     {
+      "faixa": "40-50%",
+      "n": 13,
+      "prevista": 0.45,
+      "real": 0.54
      },
      {
       "faixa": "50-60%",
-      "n": 7,
-      "prevista": 0.56,
-      "real": 0.29
+      "n": 9,
+      "prevista": 0.54,
+      "real": 0.67
+     },
+     {
+      "faixa": "60-70%",
+      "n": 12,
+      "prevista": 0.65,
+      "real": 0.58
      },
      {
       "faixa": "70-80%",
-      "n": 6,
-      "prevista": 0.76,
-      "real": 0.33
+      "n": 7,
+      "prevista": 0.73,
+      "real": 0.71
+     }
+    ]
+   },
+   {
+    "treino": "2026-27",
+    "brier_bruto": 0.2164,
+    "brier_calibrado": 0.0905,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 222,
+      "prevista": 0.08,
+      "real": 0.01
      },
      {
-      "faixa": "80-90%",
-      "n": 8,
-      "prevista": 0.85,
-      "real": 0.38
+      "faixa": "10-20%",
+      "n": 109,
+      "prevista": 0.14,
+      "real": 0.1
      },
      {
-      "faixa": "90-100%",
+      "faixa": "20-30%",
+      "n": 48,
+      "prevista": 0.24,
+      "real": 0.4
+     },
+     {
+      "faixa": "30-40%",
+      "n": 26,
+      "prevista": 0.34,
+      "real": 0.58
+     },
+     {
+      "faixa": "40-50%",
       "n": 16,
-      "prevista": 0.95,
+      "prevista": 0.44,
       "real": 0.69
+     },
+     {
+      "faixa": "50-60%",
+      "n": 5,
+      "prevista": 0.53,
+      "real": 0.8
      }
     ]
    }
@@ -1987,87 +2771,196 @@
   "d2_1mm": [
    {
     "treino": "2024-25",
-    "brier_bruto": 0.2061,
-    "brier_calibrado": 0.1845,
+    "brier_bruto": 0.1642,
+    "brier_calibrado": 0.1335,
     "confiabilidade": [
      {
       "faixa": "0-10%",
-      "n": 15,
+      "n": 124,
       "prevista": 0.05,
-      "real": 0.13
+      "real": 0.05
      },
      {
       "faixa": "10-20%",
-      "n": 6,
-      "prevista": 0.13,
-      "real": 0.33
+      "n": 32,
+      "prevista": 0.14,
+      "real": 0.31
+     },
+     {
+      "faixa": "20-30%",
+      "n": 13,
+      "prevista": 0.24,
+      "real": 0.31
+     },
+     {
+      "faixa": "30-40%",
+      "n": 16,
+      "prevista": 0.34,
+      "real": 0.56
      },
      {
       "faixa": "40-50%",
-      "n": 5,
-      "prevista": 0.46,
-      "real": 0.4
+      "n": 11,
+      "prevista": 0.45,
+      "real": 0.36
+     },
+     {
+      "faixa": "50-60%",
+      "n": 20,
+      "prevista": 0.54,
+      "real": 0.6
      },
      {
       "faixa": "60-70%",
-      "n": 6,
+      "n": 10,
       "prevista": 0.64,
-      "real": 0.67
+      "real": 0.6
+     },
+     {
+      "faixa": "70-80%",
+      "n": 17,
+      "prevista": 0.74,
+      "real": 0.88
+     },
+     {
+      "faixa": "80-90%",
+      "n": 19,
+      "prevista": 0.85,
+      "real": 0.74
+     },
+     {
+      "faixa": "90-100%",
+      "n": 13,
+      "prevista": 0.93,
+      "real": 1.0
      }
     ]
    },
    {
     "treino": "2025-26",
-    "brier_bruto": 0.1646,
-    "brier_calibrado": 0.1647,
+    "brier_bruto": 0.1814,
+    "brier_calibrado": 0.1227,
     "confiabilidade": [
      {
-      "faixa": "10-20%",
-      "n": 74,
-      "prevista": 0.12,
+      "faixa": "0-10%",
+      "n": 100,
+      "prevista": 0.07,
       "real": 0.05
      },
      {
+      "faixa": "10-20%",
+      "n": 35,
+      "prevista": 0.14,
+      "real": 0.11
+     },
+     {
       "faixa": "20-30%",
-      "n": 11,
-      "prevista": 0.23,
-      "real": 0.27
+      "n": 20,
+      "prevista": 0.25,
+      "real": 0.2
      },
      {
       "faixa": "30-40%",
-      "n": 5,
-      "prevista": 0.36,
-      "real": 0.8
+      "n": 11,
+      "prevista": 0.37,
+      "real": 0.09
      },
      {
       "faixa": "40-50%",
-      "n": 9,
-      "prevista": 0.46,
+      "n": 12,
+      "prevista": 0.44,
       "real": 0.33
      },
      {
       "faixa": "50-60%",
-      "n": 7,
-      "prevista": 0.56,
-      "real": 0.71
+      "n": 22,
+      "prevista": 0.55,
+      "real": 0.45
+     },
+     {
+      "faixa": "60-70%",
+      "n": 29,
+      "prevista": 0.65,
+      "real": 0.69
      },
      {
       "faixa": "70-80%",
-      "n": 13,
-      "prevista": 0.75,
-      "real": 0.38
+      "n": 25,
+      "prevista": 0.74,
+      "real": 0.76
      },
      {
       "faixa": "80-90%",
+      "n": 21,
+      "prevista": 0.84,
+      "real": 0.95
+     }
+    ]
+   },
+   {
+    "treino": "2026-27",
+    "brier_bruto": 0.1846,
+    "brier_calibrado": 0.147,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 211,
+      "prevista": 0.06,
+      "real": 0.06
+     },
+     {
+      "faixa": "10-20%",
+      "n": 48,
+      "prevista": 0.14,
+      "real": 0.27
+     },
+     {
+      "faixa": "20-30%",
+      "n": 28,
+      "prevista": 0.24,
+      "real": 0.5
+     },
+     {
+      "faixa": "30-40%",
+      "n": 19,
+      "prevista": 0.35,
+      "real": 0.32
+     },
+     {
+      "faixa": "40-50%",
+      "n": 19,
+      "prevista": 0.45,
+      "real": 0.42
+     },
+     {
+      "faixa": "50-60%",
+      "n": 17,
+      "prevista": 0.56,
+      "real": 0.41
+     },
+     {
+      "faixa": "60-70%",
+      "n": 14,
+      "prevista": 0.65,
+      "real": 0.64
+     },
+     {
+      "faixa": "70-80%",
       "n": 11,
-      "prevista": 0.87,
-      "real": 0.73
+      "prevista": 0.75,
+      "real": 0.64
+     },
+     {
+      "faixa": "80-90%",
+      "n": 14,
+      "prevista": 0.86,
+      "real": 0.64
      },
      {
       "faixa": "90-100%",
-      "n": 18,
+      "n": 45,
       "prevista": 0.97,
-      "real": 0.72
+      "real": 0.8
      }
     ]
    }
@@ -2075,69 +2968,142 @@
   "d2_10mm": [
    {
     "treino": "2024-25",
-    "brier_bruto": 0.237,
-    "brier_calibrado": 0.1449,
+    "brier_bruto": 0.2725,
+    "brier_calibrado": 0.114,
     "confiabilidade": [
      {
       "faixa": "0-10%",
-      "n": 22,
-      "prevista": 0.02,
-      "real": 0.09
+      "n": 171,
+      "prevista": 0.01,
+      "real": 0.03
      },
      {
       "faixa": "10-20%",
-      "n": 6,
-      "prevista": 0.15,
-      "real": 0.17
+      "n": 14,
+      "prevista": 0.14,
+      "real": 0.36
      },
      {
       "faixa": "20-30%",
-      "n": 5,
-      "prevista": 0.24,
-      "real": 0.6
+      "n": 16,
+      "prevista": 0.25,
+      "real": 0.19
+     },
+     {
+      "faixa": "30-40%",
+      "n": 20,
+      "prevista": 0.34,
+      "real": 0.3
+     },
+     {
+      "faixa": "40-50%",
+      "n": 8,
+      "prevista": 0.45,
+      "real": 0.25
+     },
+     {
+      "faixa": "50-60%",
+      "n": 12,
+      "prevista": 0.55,
+      "real": 0.33
+     },
+     {
+      "faixa": "60-70%",
+      "n": 12,
+      "prevista": 0.65,
+      "real": 0.25
+     },
+     {
+      "faixa": "70-80%",
+      "n": 12,
+      "prevista": 0.76,
+      "real": 0.67
+     },
+     {
+      "faixa": "80-90%",
+      "n": 10,
+      "prevista": 0.85,
+      "real": 0.5
      }
     ]
    },
    {
     "treino": "2025-26",
-    "brier_bruto": 0.2465,
-    "brier_calibrado": 0.0917,
+    "brier_bruto": 0.2617,
+    "brier_calibrado": 0.108,
     "confiabilidade": [
      {
       "faixa": "0-10%",
-      "n": 76,
-      "prevista": 0.05,
-      "real": 0.0
+      "n": 162,
+      "prevista": 0.03,
+      "real": 0.02
      },
      {
       "faixa": "10-20%",
-      "n": 16,
-      "prevista": 0.14,
-      "real": 0.12
+      "n": 41,
+      "prevista": 0.15,
+      "real": 0.17
      },
      {
       "faixa": "20-30%",
-      "n": 8,
-      "prevista": 0.24,
-      "real": 0.12
+      "n": 20,
+      "prevista": 0.25,
+      "real": 0.55
      },
      {
       "faixa": "30-40%",
-      "n": 18,
+      "n": 23,
       "prevista": 0.35,
-      "real": 0.11
+      "real": 0.39
      },
      {
       "faixa": "40-50%",
-      "n": 22,
+      "n": 8,
       "prevista": 0.45,
-      "real": 0.32
+      "real": 0.38
      },
      {
       "faixa": "50-60%",
-      "n": 13,
+      "n": 10,
       "prevista": 0.56,
-      "real": 0.69
+      "real": 0.9
+     },
+     {
+      "faixa": "60-70%",
+      "n": 9,
+      "prevista": 0.64,
+      "real": 0.44
+     }
+    ]
+   },
+   {
+    "treino": "2026-27",
+    "brier_bruto": 0.2418,
+    "brier_calibrado": 0.0957,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 206,
+      "prevista": 0.07,
+      "real": 0.01
+     },
+     {
+      "faixa": "10-20%",
+      "n": 72,
+      "prevista": 0.15,
+      "real": 0.07
+     },
+     {
+      "faixa": "20-30%",
+      "n": 71,
+      "prevista": 0.26,
+      "real": 0.21
+     },
+     {
+      "faixa": "30-40%",
+      "n": 73,
+      "prevista": 0.35,
+      "real": 0.51
      }
     ]
    }
@@ -2145,31 +3111,79 @@
   "d3_1mm": [
    {
     "treino": "2024-25",
-    "brier_bruto": 0.2359,
-    "brier_calibrado": 0.2059,
+    "brier_bruto": 0.1769,
+    "brier_calibrado": 0.1413,
     "confiabilidade": [
      {
       "faixa": "0-10%",
+      "n": 123,
+      "prevista": 0.04,
+      "real": 0.07
+     },
+     {
+      "faixa": "10-20%",
+      "n": 29,
+      "prevista": 0.15,
+      "real": 0.24
+     },
+     {
+      "faixa": "20-30%",
+      "n": 15,
+      "prevista": 0.27,
+      "real": 0.47
+     },
+     {
+      "faixa": "30-40%",
       "n": 16,
-      "prevista": 0.05,
-      "real": 0.19
+      "prevista": 0.35,
+      "real": 0.5
+     },
+     {
+      "faixa": "40-50%",
+      "n": 21,
+      "prevista": 0.44,
+      "real": 0.33
      },
      {
       "faixa": "50-60%",
-      "n": 5,
-      "prevista": 0.56,
-      "real": 0.8
+      "n": 24,
+      "prevista": 0.55,
+      "real": 0.75
+     },
+     {
+      "faixa": "60-70%",
+      "n": 14,
+      "prevista": 0.64,
+      "real": 0.64
+     },
+     {
+      "faixa": "70-80%",
+      "n": 19,
+      "prevista": 0.75,
+      "real": 0.79
+     },
+     {
+      "faixa": "80-90%",
+      "n": 14,
+      "prevista": 0.84,
+      "real": 1.0
      }
     ]
    },
    {
     "treino": "2025-26",
-    "brier_bruto": 0.1788,
-    "brier_calibrado": 0.1404,
+    "brier_bruto": 0.1871,
+    "brier_calibrado": 0.1298,
     "confiabilidade": [
      {
+      "faixa": "0-10%",
+      "n": 92,
+      "prevista": 0.08,
+      "real": 0.05
+     },
+     {
       "faixa": "10-20%",
-      "n": 63,
+      "n": 39,
       "prevista": 0.15,
       "real": 0.05
      },
@@ -2177,37 +3191,116 @@
       "faixa": "20-30%",
       "n": 15,
       "prevista": 0.25,
-      "real": 0.0
+      "real": 0.2
      },
      {
       "faixa": "30-40%",
-      "n": 13,
+      "n": 22,
       "prevista": 0.34,
-      "real": 0.38
+      "real": 0.27
      },
      {
       "faixa": "40-50%",
-      "n": 6,
-      "prevista": 0.45,
+      "n": 18,
+      "prevista": 0.46,
       "real": 0.5
      },
      {
       "faixa": "50-60%",
-      "n": 10,
-      "prevista": 0.55,
-      "real": 0.3
+      "n": 19,
+      "prevista": 0.54,
+      "real": 0.47
      },
      {
       "faixa": "60-70%",
-      "n": 33,
-      "prevista": 0.66,
-      "real": 0.58
+      "n": 19,
+      "prevista": 0.64,
+      "real": 0.63
      },
      {
       "faixa": "70-80%",
-      "n": 13,
-      "prevista": 0.72,
-      "real": 0.92
+      "n": 21,
+      "prevista": 0.74,
+      "real": 0.76
+     },
+     {
+      "faixa": "80-90%",
+      "n": 22,
+      "prevista": 0.86,
+      "real": 0.77
+     },
+     {
+      "faixa": "90-100%",
+      "n": 8,
+      "prevista": 0.92,
+      "real": 1.0
+     }
+    ]
+   },
+   {
+    "treino": "2026-27",
+    "brier_bruto": 0.2006,
+    "brier_calibrado": 0.1534,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 188,
+      "prevista": 0.04,
+      "real": 0.06
+     },
+     {
+      "faixa": "10-20%",
+      "n": 31,
+      "prevista": 0.15,
+      "real": 0.13
+     },
+     {
+      "faixa": "20-30%",
+      "n": 25,
+      "prevista": 0.24,
+      "real": 0.24
+     },
+     {
+      "faixa": "30-40%",
+      "n": 14,
+      "prevista": 0.35,
+      "real": 0.36
+     },
+     {
+      "faixa": "40-50%",
+      "n": 12,
+      "prevista": 0.47,
+      "real": 0.5
+     },
+     {
+      "faixa": "50-60%",
+      "n": 24,
+      "prevista": 0.56,
+      "real": 0.29
+     },
+     {
+      "faixa": "60-70%",
+      "n": 20,
+      "prevista": 0.66,
+      "real": 0.4
+     },
+     {
+      "faixa": "70-80%",
+      "n": 41,
+      "prevista": 0.75,
+      "real": 0.51
+     },
+     {
+      "faixa": "80-90%",
+      "n": 45,
+      "prevista": 0.85,
+      "real": 0.69
+     },
+     {
+      "faixa": "90-100%",
+      "n": 26,
+      "prevista": 0.92,
+      "real": 0.85
      }
     ]
    }
@@ -2215,75 +3308,142 @@
   "d3_10mm": [
    {
     "treino": "2024-25",
-    "brier_bruto": 0.2668,
-    "brier_calibrado": 0.1449,
+    "brier_bruto": 0.2716,
+    "brier_calibrado": 0.1019,
     "confiabilidade": [
      {
       "faixa": "0-10%",
-      "n": 23,
-      "prevista": 0.02,
-      "real": 0.13
+      "n": 168,
+      "prevista": 0.01,
+      "real": 0.04
      },
      {
       "faixa": "10-20%",
-      "n": 5,
+      "n": 21,
       "prevista": 0.14,
+      "real": 0.19
+     },
+     {
+      "faixa": "20-30%",
+      "n": 21,
+      "prevista": 0.25,
+      "real": 0.19
+     },
+     {
+      "faixa": "30-40%",
+      "n": 15,
+      "prevista": 0.34,
       "real": 0.2
+     },
+     {
+      "faixa": "40-50%",
+      "n": 14,
+      "prevista": 0.45,
+      "real": 0.21
+     },
+     {
+      "faixa": "50-60%",
+      "n": 13,
+      "prevista": 0.55,
+      "real": 0.46
+     },
+     {
+      "faixa": "60-70%",
+      "n": 14,
+      "prevista": 0.65,
+      "real": 0.64
+     },
+     {
+      "faixa": "70-80%",
+      "n": 9,
+      "prevista": 0.74,
+      "real": 0.56
      }
     ]
    },
    {
     "treino": "2025-26",
-    "brier_bruto": 0.2599,
-    "brier_calibrado": 0.0988,
+    "brier_bruto": 0.2684,
+    "brier_calibrado": 0.1125,
     "confiabilidade": [
      {
       "faixa": "0-10%",
-      "n": 71,
-      "prevista": 0.08,
-      "real": 0.0
+      "n": 158,
+      "prevista": 0.03,
+      "real": 0.03
      },
      {
       "faixa": "10-20%",
-      "n": 18,
-      "prevista": 0.14,
-      "real": 0.11
+      "n": 41,
+      "prevista": 0.15,
+      "real": 0.2
      },
      {
       "faixa": "20-30%",
-      "n": 14,
-      "prevista": 0.26,
-      "real": 0.14
+      "n": 21,
+      "prevista": 0.25,
+      "real": 0.38
      },
      {
       "faixa": "30-40%",
-      "n": 12,
-      "prevista": 0.36,
-      "real": 0.25
+      "n": 17,
+      "prevista": 0.37,
+      "real": 0.41
      },
      {
       "faixa": "40-50%",
-      "n": 20,
+      "n": 7,
       "prevista": 0.45,
-      "real": 0.2
+      "real": 0.29
      },
      {
       "faixa": "50-60%",
       "n": 6,
-      "prevista": 0.54,
-      "real": 0.17
+      "prevista": 0.55,
+      "real": 0.5
      },
      {
       "faixa": "60-70%",
-      "n": 6,
-      "prevista": 0.65,
-      "real": 1.0
+      "n": 13,
+      "prevista": 0.64,
+      "real": 0.69
      },
      {
       "faixa": "70-80%",
-      "n": 6,
-      "prevista": 0.74,
-      "real": 0.5
+      "n": 8,
+      "prevista": 0.75,
+      "real": 0.38
+     }
+    ]
+   },
+   {
+    "treino": "2026-27",
+    "brier_bruto": 0.2482,
+    "brier_calibrado": 0.0989,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 201,
+      "prevista": 0.06,
+      "real": 0.01
+     },
+     {
+      "faixa": "10-20%",
+      "n": 51,
+      "prevista": 0.15,
+      "real": 0.08
+     },
+     {
+      "faixa": "20-30%",
+      "n": 56,
+      "prevista": 0.26,
+      "real": 0.09
+     },
+     {
+      "faixa": "30-40%",
+      "n": 117,
+      "prevista": 0.35,
+      "real": 0.43
      }
     ]
    }
@@ -2291,94 +3451,103 @@
  },
  "vento": {
   "ECMWF 9 km": {
-   "horas": 1045,
-   "erro_vento_kmh": 3.3,
-   "vies_vento": 1.23,
+   "horas": 2506,
+   "erro_vento_kmh": 3.5,
+   "vies_vento": 1.26,
    "dias_rajada": 0,
    "erro_rajada_kmh": null,
    "vies_rajada": null,
    "acerto_rajada50": null
   },
   "ECMWF 25 km": {
-   "horas": 4815,
+   "horas": 6276,
    "erro_vento_kmh": 3.9,
-   "vies_vento": 1.24,
+   "vies_vento": 1.25,
    "dias_rajada": 0,
    "erro_rajada_kmh": null,
    "vies_rajada": null,
    "acerto_rajada50": null
   },
   "ECMWF IA": {
-   "horas": 924,
-   "erro_vento_kmh": 2.8,
-   "vies_vento": 1.05,
+   "horas": 2385,
+   "erro_vento_kmh": 3.0,
+   "vies_vento": 1.09,
    "dias_rajada": 0,
    "erro_rajada_kmh": null,
    "vies_rajada": null,
    "acerto_rajada50": null
   },
   "GFS (EUA)": {
-   "horas": 4815,
-   "erro_vento_kmh": 5.1,
-   "vies_vento": 1.53,
-   "dias_rajada": 198,
-   "erro_rajada_kmh": 9.3,
+   "horas": 6276,
+   "erro_vento_kmh": 5.2,
+   "vies_vento": 1.54,
+   "dias_rajada": 259,
+   "erro_rajada_kmh": 8.8,
    "vies_rajada": 1.02,
-   "acerto_rajada50": 0.864
+   "acerto_rajada50": 0.853
   },
   "ICON (Alemanha)": {
-   "horas": 4815,
+   "horas": 6276,
    "erro_vento_kmh": 3.1,
-   "vies_vento": 0.99,
-   "dias_rajada": 198,
-   "erro_rajada_kmh": 6.4,
+   "vies_vento": 1.0,
+   "dias_rajada": 259,
+   "erro_rajada_kmh": 6.6,
    "vies_rajada": 0.94,
-   "acerto_rajada50": 0.914
+   "acerto_rajada50": 0.9
+  },
+  "Météo-France": {
+   "horas": 1461,
+   "erro_vento_kmh": 4.0,
+   "vies_vento": 1.31,
+   "dias_rajada": 61,
+   "erro_rajada_kmh": 7.4,
+   "vies_rajada": 0.9,
+   "acerto_rajada50": 0.82
   },
   "UK Met Office": {
-   "horas": 3006,
-   "erro_vento_kmh": 4.7,
-   "vies_vento": 1.49,
-   "dias_rajada": 147,
-   "erro_rajada_kmh": 9.0,
-   "vies_rajada": 1.13,
-   "acerto_rajada50": 0.871
+   "horas": 4467,
+   "erro_vento_kmh": 4.6,
+   "vies_vento": 1.48,
+   "dias_rajada": 208,
+   "erro_rajada_kmh": 8.5,
+   "vies_rajada": 1.06,
+   "acerto_rajada50": 0.861
   },
   "JMA (Japão)": {
-   "horas": 4815,
-   "erro_vento_kmh": 3.5,
-   "vies_vento": 0.7,
+   "horas": 6276,
+   "erro_vento_kmh": 3.4,
+   "vies_vento": 0.76,
    "dias_rajada": 0,
    "erro_rajada_kmh": null,
    "vies_rajada": null,
    "acerto_rajada50": null
   },
   "GEM (Canadá)": {
-   "horas": 4815,
-   "erro_vento_kmh": 5.9,
-   "vies_vento": 1.66,
-   "dias_rajada": 198,
-   "erro_rajada_kmh": 9.1,
-   "vies_rajada": 0.9,
-   "acerto_rajada50": 0.894
+   "horas": 6276,
+   "erro_vento_kmh": 6.0,
+   "vies_vento": 1.68,
+   "dias_rajada": 259,
+   "erro_rajada_kmh": 9.0,
+   "vies_rajada": 0.91,
+   "acerto_rajada50": 0.88
   },
   "CMA (China)": {
-   "horas": 4815,
-   "erro_vento_kmh": 6.8,
-   "vies_vento": 1.82,
-   "dias_rajada": 198,
+   "horas": 6276,
+   "erro_vento_kmh": 6.9,
+   "vies_vento": 1.83,
+   "dias_rajada": 259,
    "erro_rajada_kmh": 8.3,
    "vies_rajada": 1.06,
-   "acerto_rajada50": 0.848
+   "acerto_rajada50": 0.834
   },
   "Best Match": {
-   "horas": 4815,
-   "erro_vento_kmh": 3.2,
-   "vies_vento": 1.04,
-   "dias_rajada": 198,
-   "erro_rajada_kmh": 6.4,
+   "horas": 6276,
+   "erro_vento_kmh": 3.3,
+   "vies_vento": 1.09,
+   "dias_rajada": 259,
+   "erro_rajada_kmh": 6.6,
    "vies_rajada": 0.94,
-   "acerto_rajada50": 0.914
+   "acerto_rajada50": 0.9
   }
  },
  "vento_aeroporto": {
@@ -2441,178 +3610,178 @@
  "horario": {
   "resumo": {
    "dias": 28,
-   "erro_medio_h": 4.7,
-   "vies_h": -1.7,
-   "ate_2h": 0.32,
-   "ate_4h": 0.61
+   "erro_medio_h": 4.5,
+   "vies_h": -1.8,
+   "ate_2h": 0.36,
+   "ate_4h": 0.68
   },
   "dias": [
    {
-    "dia": "2024-09-15",
-    "obs": 7,
-    "prev": 16,
-    "erro_h": 9
+    "dia": "2024-09-16",
+    "obs": 0,
+    "prev": 6,
+    "erro_h": 6
    },
    {
-    "dia": "2024-09-20",
-    "obs": 18,
-    "prev": 19,
+    "dia": "2024-09-21",
+    "obs": 8,
+    "prev": 9,
     "erro_h": 1
-   },
-   {
-    "dia": "2024-10-09",
-    "obs": 11,
-    "prev": 13,
-    "erro_h": 2
    },
    {
     "dia": "2024-10-10",
-    "obs": 13,
-    "prev": 0,
-    "erro_h": -13
+    "obs": 1,
+    "prev": 3,
+    "erro_h": 2
    },
    {
     "dia": "2024-10-11",
-    "obs": 0,
+    "obs": 3,
     "prev": 0,
-    "erro_h": 0
+    "erro_h": -3
    },
    {
-    "dia": "2024-10-19",
-    "obs": 17,
-    "prev": 8,
-    "erro_h": -9
-   },
-   {
-    "dia": "2024-10-24",
-    "obs": 0,
-    "prev": 15,
-    "erro_h": 15
-   },
-   {
-    "dia": "2024-11-02",
-    "obs": 10,
-    "prev": 11,
-    "erro_h": 1
-   },
-   {
-    "dia": "2024-11-04",
-    "obs": 17,
-    "prev": 9,
-    "erro_h": -8
-   },
-   {
-    "dia": "2024-11-06",
-    "obs": 12,
-    "prev": 10,
-    "erro_h": -2
-   },
-   {
-    "dia": "2024-11-07",
-    "obs": 9,
-    "prev": 0,
-    "erro_h": -9
-   },
-   {
-    "dia": "2024-11-28",
-    "obs": 13,
-    "prev": 9,
-    "erro_h": -4
-   },
-   {
-    "dia": "2024-11-29",
-    "obs": 0,
-    "prev": 3,
-    "erro_h": 3
-   },
-   {
-    "dia": "2024-12-02",
-    "obs": 14,
-    "prev": 10,
-    "erro_h": -4
-   },
-   {
-    "dia": "2024-12-07",
-    "obs": 16,
-    "prev": 10,
-    "erro_h": -6
-   },
-   {
-    "dia": "2024-12-08",
-    "obs": 0,
-    "prev": 7,
-    "erro_h": 7
-   },
-   {
-    "dia": "2024-12-09",
-    "obs": 0,
-    "prev": 0,
-    "erro_h": 0
-   },
-   {
-    "dia": "2024-12-14",
-    "obs": 0,
-    "prev": 3,
-    "erro_h": 3
-   },
-   {
-    "dia": "2024-12-20",
-    "obs": 8,
-    "prev": 8,
-    "erro_h": 0
-   },
-   {
-    "dia": "2024-12-21",
+    "dia": "2024-10-20",
     "obs": 7,
     "prev": 0,
     "erro_h": -7
    },
    {
-    "dia": "2025-01-23",
-    "obs": 16,
-    "prev": 11,
-    "erro_h": -5
+    "dia": "2024-10-24",
+    "obs": 1,
+    "prev": 5,
+    "erro_h": 4
    },
    {
-    "dia": "2025-02-04",
-    "obs": 16,
-    "prev": 8,
-    "erro_h": -8
+    "dia": "2024-11-03",
+    "obs": 0,
+    "prev": 1,
+    "erro_h": 1
    },
    {
-    "dia": "2025-02-05",
-    "obs": 10,
-    "prev": 7,
+    "dia": "2024-11-05",
+    "obs": 7,
+    "prev": 0,
+    "erro_h": -7
+   },
+   {
+    "dia": "2024-11-07",
+    "obs": 2,
+    "prev": 0,
+    "erro_h": -2
+   },
+   {
+    "dia": "2024-11-08",
+    "obs": 4,
+    "prev": 0,
+    "erro_h": -4
+   },
+   {
+    "dia": "2024-11-22",
+    "obs": 13,
+    "prev": 6,
+    "erro_h": -7
+   },
+   {
+    "dia": "2024-11-29",
+    "obs": 3,
+    "prev": 0,
     "erro_h": -3
    },
    {
+    "dia": "2024-11-30",
+    "obs": 0,
+    "prev": 0,
+    "erro_h": 0
+   },
+   {
+    "dia": "2024-12-03",
+    "obs": 4,
+    "prev": 0,
+    "erro_h": -4
+   },
+   {
+    "dia": "2024-12-08",
+    "obs": 6,
+    "prev": 0,
+    "erro_h": -6
+   },
+   {
+    "dia": "2024-12-09",
+    "obs": 2,
+    "prev": 0,
+    "erro_h": -2
+   },
+   {
+    "dia": "2024-12-10",
+    "obs": 4,
+    "prev": 0,
+    "erro_h": -4
+   },
+   {
+    "dia": "2024-12-14",
+    "obs": 3,
+    "prev": 13,
+    "erro_h": 10
+   },
+   {
+    "dia": "2024-12-20",
+    "obs": 8,
+    "prev": 22,
+    "erro_h": 14
+   },
+   {
+    "dia": "2024-12-21",
+    "obs": 0,
+    "prev": 0,
+    "erro_h": 0
+   },
+   {
+    "dia": "2025-01-22",
+    "obs": 2,
+    "prev": 0,
+    "erro_h": -2
+   },
+   {
+    "dia": "2025-02-05",
+    "obs": 6,
+    "prev": 0,
+    "erro_h": -6
+   },
+   {
     "dia": "2025-02-06",
-    "obs": 7,
-    "prev": 3,
+    "obs": 0,
+    "prev": 0,
+    "erro_h": 0
+   },
+   {
+    "dia": "2025-02-14",
+    "obs": 13,
+    "prev": 9,
     "erro_h": -4
    },
    {
     "dia": "2026-03-09",
-    "obs": 1,
-    "prev": 0,
-    "erro_h": -1
+    "obs": 15,
+    "prev": 11,
+    "erro_h": -4
    },
    {
     "dia": "2026-03-10",
-    "obs": 5,
-    "prev": 6,
-    "erro_h": 1
+    "obs": 19,
+    "prev": 0,
+    "erro_h": -19
    },
    {
-    "dia": "2026-03-11",
-    "obs": 14,
-    "prev": 11,
-    "erro_h": -3
+    "dia": "2026-10-23",
+    "obs": 0,
+    "prev": 0,
+    "erro_h": 0
    },
    {
-    "dia": "2026-03-18",
-    "obs": 17,
-    "prev": 14,
+    "dia": "2026-10-25",
+    "obs": 11,
+    "prev": 8,
     "erro_h": -3
    }
   ]
@@ -2620,48 +3789,48 @@
  "temporal": {
   "calibracao": {
    "coef": [
-    -2.5129,
-    -0.2646,
-    -0.0854,
-    0.3126
+    -2.8225,
+    -0.189,
+    0.0239,
+    0.2636
    ],
-   "n_eventos": 13,
-   "n_dias": 273,
-   "brier": 0.0451,
-   "brier_fora_amostra": 0.0516,
-   "brier_climatologia": 0.0454,
-   "brier_regra_modelos": 0.0489,
+   "n_eventos": 14,
+   "n_dias": 312,
+   "brier": 0.0426,
+   "brier_fora_amostra": 0.0453,
+   "brier_climatologia": 0.0429,
+   "brier_regra_modelos": 0.0445,
    "usar": false
   },
-  "dias_avaliados": 273,
+  "dias_avaliados": 312,
   "por_cape": [
    {
     "de": 0,
     "ate": 1000,
-    "dias": 70,
+    "dias": 86,
     "eventos": 0,
     "taxa": 0.0
    },
    {
     "de": 1000,
     "ate": 2000,
-    "dias": 60,
+    "dias": 66,
     "eventos": 1,
-    "taxa": 0.017
+    "taxa": 0.015
    },
    {
     "de": 2000,
     "ate": 3000,
-    "dias": 78,
-    "eventos": 6,
-    "taxa": 0.077
+    "dias": 86,
+    "eventos": 7,
+    "taxa": 0.081
    },
    {
     "de": 3000,
     "ate": 99999,
-    "dias": 65,
+    "dias": 74,
     "eventos": 6,
-    "taxa": 0.092
+    "taxa": 0.081
    }
   ],
   "eventos": [
@@ -2694,7 +3863,7 @@
     "raj_sbmg": null,
     "trovoada": true,
     "prev_chuva_med": 7.4,
-    "prev_raj_med": 32,
+    "prev_raj_med": 33,
     "prev_cape_max": 1920,
     "prev_frac_modelos": 0.0
    },
@@ -2766,7 +3935,7 @@
    },
    {
     "dia": "2026-03-17",
-    "chuva_mm": 0.8,
+    "chuva_mm": null,
     "raj_inmet": 80,
     "raj_sbmg": 61,
     "trovoada": true,
@@ -2778,7 +3947,7 @@
    {
     "dia": "2026-09-11",
     "chuva_mm": null,
-    "raj_inmet": null,
+    "raj_inmet": 64,
     "raj_sbmg": 83,
     "trovoada": true,
     "prev_chuva_med": 13.1,
@@ -2789,18 +3958,29 @@
    {
     "dia": "2026-09-21",
     "chuva_mm": null,
-    "raj_inmet": null,
+    "raj_inmet": 76,
     "raj_sbmg": 87,
     "trovoada": true,
     "prev_chuva_med": 1.0,
-    "prev_raj_med": 40,
+    "prev_raj_med": 41,
     "prev_cape_max": 3930,
     "prev_frac_modelos": 0.09
    },
    {
+    "dia": "2026-09-22",
+    "chuva_mm": null,
+    "raj_inmet": 74,
+    "raj_sbmg": 44,
+    "trovoada": true,
+    "prev_chuva_med": 26.4,
+    "prev_raj_med": 54,
+    "prev_cape_max": 2180,
+    "prev_frac_modelos": 0.36
+   },
+   {
     "dia": "2026-09-28",
     "chuva_mm": null,
-    "raj_inmet": null,
+    "raj_inmet": 68,
     "raj_sbmg": 87,
     "trovoada": true,
     "prev_chuva_med": 0.0,
@@ -2813,32 +3993,34 @@
  "log": [
   "INMET 2024: INMET_S_PR_A835_MARINGA_01-01-2024_A_31-12-2024.CSV — 8784 horas, chuva válida 8476",
   "INMET 2025: 2025/INMET_S_PR_A835_MARINGA_01-01-2025_A_31-12-2025.CSV — 8760 horas, chuva válida 966",
-  "INMET 2026: INMET_S_PR_A835_MARINGA_01-01-2026_A_31-08-2026.CSV — 5832 horas, chuva válida 4592",
-  "último dado de chuva do INMET: 2026-08-31 20:00:00",
+  "INMET 2026: INMET_S_PR_A835_MARINGA_01-01-2026_A_31-10-2026.CSV — 7296 horas, chuva válida 678",
+  "último dado de chuva do INMET: 2026-10-31 20:00:00",
+  "MERGE: baixados 11 de 11 · série com 814 dias até 2026-11-22 00:00:00",
   "previsões 2024-09-01 2024-09-30 ok",
   "previsões 2024-10-01 2024-10-31 ok",
   "previsões 2024-11-01 2024-11-30 ok",
   "previsões 2024-12-01 2024-12-31 ok",
   "previsões 2025-01-01 2025-01-31 ok",
-  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
+  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=300)",
   "previsões 2025-02-01 2025-02-28 ok",
   "previsões 2025-03-01 2025-03-31 ok",
   "previsões 2025-09-01 2025-09-30 ok",
   "previsões 2025-10-01 2025-10-31 ok",
+  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=300)",
   "previsões 2025-11-01 2025-11-30 ok",
   "previsões 2025-12-01 2025-12-31 ok",
-  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=180)",
   "previsões 2026-01-01 2026-01-31 ok",
   "previsões 2026-02-01 2026-02-28 ok",
   "previsões 2026-03-01 2026-03-31 ok",
   "previsões 2026-09-01 2026-09-30 ok",
+  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=300)",
   "previsões 2026-10-01 2026-10-31 ok",
-  "dias com pluviômetro completo e previsão: 189",
+  "dias com chuva medida e previsão: 488 · INMET 180 · MERGE 308",
   "SBMG: horas 11562 dias completos 484 dias com trovoada 149",
-  "horário: {'dias': 28, 'erro_medio_h': 4.7, 'vies_h': -1.7, 'ate_2h': 0.32, 'ate_4h': 0.61}",
-  "temporal: dias avaliados 273 dias severos 13",
-  "risco calibrado: {'coef': [-2.5129, -0.2646, -0.0854, 0.3126], 'n_eventos': 13, 'n_dias': 273, 'brier': 0.0451, 'brier_fora_amostra': 0.0516, 'brier_climatologia': 0.0454, 'brier_regra_modelos': 0.0489}",
+  "horário: {'dias': 28, 'erro_medio_h': 4.5, 'vies_h': -1.8, 'ate_2h': 0.36, 'ate_4h': 0.68}",
+  "temporal: dias avaliados 312 dias severos 14",
+  "risco calibrado: {'coef': [-2.8225, -0.189, 0.0239, 0.2636], 'n_eventos': 14, 'n_dias': 312, 'brier': 0.0426, 'brier_fora_amostra': 0.0453, 'brier_climatologia': 0.0429, 'brier_regra_modelos': 0.0445}",
   "calibração do risco não superou a climatologia fora da amostra: não será usada no site",
-  "temporal por CAPE: [{'de': 0, 'ate': 1000, 'dias': 70, 'eventos': 0, 'taxa': 0.0}, {'de': 1000, 'ate': 2000, 'dias': 60, 'eventos': 1, 'taxa': 0.017}, {'de': 2000, 'ate': 3000, 'dias': 78, 'eventos': 6, 'taxa': 0.077}, {'de': 3000, 'ate': 99999, 'dias': 65, 'eventos': 6, 'taxa': 0.092}]"
+  "temporal por CAPE: [{'de': 0, 'ate': 1000, 'dias': 86, 'eventos': 0, 'taxa': 0.0}, {'de': 1000, 'ate': 2000, 'dias': 66, 'eventos': 1, 'taxa': 0.015}, {'de': 2000, 'ate': 3000, 'dias': 86, 'eventos': 7, 'taxa': 0.081}, {'de': 3000, 'ate': 99999, 'dias': 74, 'eventos': 6, 'taxa': 0.081}]"
  ]
 }
