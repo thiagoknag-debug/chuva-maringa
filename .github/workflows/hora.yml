@@ -1,0 +1,36 @@
+name: Calibrar chance por hora
+on:
+  workflow_dispatch:
+    inputs:
+      so_cache:
+        description: "Só baixar as previsões destas antecedências (ex.: 2). Vazio = calibrar tudo"
+        required: false
+        default: ""
+permissions:
+  contents: write
+jobs:
+  calibrar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests pandas numpy
+      - name: Calibrar
+        timeout-minutes: 165
+        env:
+          SO: ${{ inputs.so_cache }}
+        run: |
+          if [ -n "$SO" ]; then python scripts/hora.py --so-cache $SO; else python scripts/hora.py; fi
+      - name: Salvar
+        if: always()
+        run: |
+          git config user.name "auditoria-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A lab
+          git commit -q -m "Calibração por hora ${SO:-completa}" || echo "sem mudancas"
+          for i in 1 2 3 4 5 6; do git pull --rebase -q origin main && git push -q && break; sleep $((RANDOM % 20 + 5)); done
+        env:
+          SO: ${{ inputs.so_cache }}
