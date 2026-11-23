@@ -1,0 +1,113 @@
+{
+ "gibs_tempos": {
+  "status": 400,
+  "dominio": "<ExceptionReport xsi:schemaLocation='http://schemas.opengis.net/ows/1.1.0/owsExceptionReport.xsd' xmlns:ows='http://www.opengis.net/ows/1.1' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xml:lang='en' version='1.1.0'><Exception exceptionCode='InvalidParameterValue' locator=''><ExceptionText>Invalid periods start date</ExceptionText></Exception></ExceptionReport>",
+  "agora": "2026-11-23T06:43:05.128386+00:00"
+ },
+ "gibs_cores": {
+  "status": 404,
+  "n": 0,
+  "primeiros": [],
+  "ultimos": [],
+  "unidades": [],
+  "trecho": "Not Found. The requested URL was not found on this server."
+ },
+ "gibs_tile_default": {
+  "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/GOES-East_ABI_Band13_Clean_Infrared/default/default/GoogleMapsCompatible_Level6/6/36/22.png",
+  "status": 200,
+  "bytes": 81265,
+  "cors": "*",
+  "modo": "RGBA",
+  "tamanho": [
+   256,
+   256
+  ],
+  "cores_distintas": 5364
+ },
+ "gibs_tile_19nov_1600Z": {
+  "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/GOES-East_ABI_Band13_Clean_Infrared/default/2026-11-19T16:00:00Z/GoogleMapsCompatible_Level6/6/36/22.png",
+  "status": 200,
+  "bytes": 106506,
+  "cors": "*",
+  "modo": "RGBA",
+  "tamanho": [
+   256,
+   256
+  ],
+  "cores_distintas": 8445
+ },
+ "realearth": {
+  "n": 319,
+  "ir": [
+   "G19-ABI-CONUS-BAND07-FIRE",
+   "G19-ABI-CONUS-BAND13",
+   "G19-ABI-CONUS-BAND13-GRAD",
+   "G19-ABI-CONUS-BAND14",
+   "G19-ABI-CONUS-airmass",
+   "G19-ABI-CONUS-fire-temperature-awips",
+   "G19-ABI-CONUS-ir-sandwich",
+   "G19-ABI-FD-BAND13",
+   "G19-ABI-FD-BAND13-GRAD",
+   "G19-ABI-FD-BAND14",
+   "G19-ABI-FD-airmass",
+   "G19-ABI-FD-fire-temperature-awips",
+   "G19-ABI-FD-ir-sandwich",
+   "G19-ABI-MESO1-BAND13",
+   "G19-ABI-MESO1-BAND13-GRAD",
+   "G19-ABI-MESO1-BAND14",
+   "G19-ABI-MESO1-airmass",
+   "G19-ABI-MESO1-fire-temperature-awips",
+   "G19-ABI-MESO1-ir-sandwich",
+   "G19-ABI-MESO2-BAND13",
+   "G19-ABI-MESO2-BAND13-GRAD",
+   "G19-ABI-MESO2-BAND14",
+   "G19-ABI-MESO2-airmass",
+   "G19-ABI-MESO2-fire-temperature-awips",
+   "G19-ABI-MESO2-ir-sandwich"
+  ],
+  "G19-ABI-CONUS-BAND07-FIRE": {
+   "ultimo": "20261123.063618",
+   "atraso_min": 7
+  },
+  "G19-ABI-CONUS-BAND13": {
+   "ultimo": "20261123.063618",
+   "atraso_min": 7
+  },
+  "G19-ABI-CONUS-BAND13-GRAD": {
+   "ultimo": "20261123.063618",
+   "atraso_min": 7
+  },
+  "G19-ABI-CONUS-BAND14": {
+   "ultimo": "20261123.063618",
+   "atraso_min": 7
+  },
+  "G19-ABI-CONUS-airmass": {
+   "ultimo": "20261123.063618",
+   "atraso_min": 7
+  },
+  "G19-ABI-CONUS-fire-temperature-awips": {
+   "ultimo": "20261123.063618",
+   "atraso_min": 7
+  },
+  "G19-ABI-CONUS-ir-sandwich": {
+   "ultimo": "20261123.063618",
+   "atraso_min": 7
+  },
+  "G19-ABI-FD-BAND13": {
+   "ultimo": "20261123.062021",
+   "atraso_min": 23
+  }
+ },
+ "aws_goes19": {
+  "06h": {
+   "arquivos": 4,
+   "ultimo": "M6C13_G19_s20263270630219_e20263270639539_c20263270640001.nc",
+   "MB": 23.6
+  },
+  "05h": {
+   "arquivos": 6,
+   "ultimo": "M6C13_G19_s20263270550219_e20263270559538_c20263270600012.nc",
+   "MB": 23.6
+  }
+ }
+}
