@@ -1,0 +1,10 @@
+{
+ "tempos": {
+  "n": 1008,
+  "primeiro": "20261116.064021",
+  "ultimo": "20261123.063021"
+ },
+ "exemplo_sonda": "<html><body style=\"padding:0px;margin:0px;\">\n<table class=\"latlon\">\n<tr><td style=\"text-align:right;\">Lat/Lon:</td>\n<td style=\"font-weight:bold;\">16.0175&deg;S 59.98&deg;W</td></tr>\n</table>\n<html><body style=\"padding:0px;margin:0px;\">\n<div style=\"margin-top:4px;margin-bottom:4px;border:1px solid #DDD;border-radius:4px;background-color:#EEE;padding:2px;font-size:120%;font-weight:bold;white-space:nowrap;\">GOES East ABI Full Disk B13 \"Clean\" Infrared</div>\n<span style=\"color:#D06060;\">Probe encountered an error\n</span><br>\n</body></html>\n\n",
+ "tabela_n": 0,
+ "tabela_faixa": null
+}
