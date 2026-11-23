@@ -1,0 +1,218 @@
+{
+ "dns": {
+  "ips": [
+   "150.163.178.56"
+  ],
+  "seg": 0.9
+ },
+ "tcp_80": {
+  "ok": true,
+  "ms": 200,
+  "seg": 0.2
+ },
+ "tcp_443": {
+  "ok": true,
+  "ms": 197,
+  "seg": 0.2
+ },
+ "tcp_21": {
+  "erro": "TimeoutError: timed out",
+  "seg": 10.0
+ },
+ "http http://ftp.cptec.inpe.br/": {
+  "status": 200,
+  "bytes": 4811,
+  "itens": [
+   "avalia/",
+   "bdados/",
+   "chuva/",
+   "clima/",
+   "dbnet/",
+   "distribuicao/",
+   "goes/",
+   "modelos/",
+   "ncep/",
+   "nowcasting/",
+   "oceano/",
+   "pesquisa/",
+   "rainfall/"
+  ],
+  "seg": 1.0
+ },
+ "http https://ftp.cptec.inpe.br/": {
+  "status": 200,
+  "bytes": 4811,
+  "itens": [
+   "avalia/",
+   "bdados/",
+   "chuva/",
+   "clima/",
+   "dbnet/",
+   "distribuicao/",
+   "goes/",
+   "modelos/",
+   "ncep/",
+   "nowcasting/",
+   "oceano/",
+   "pesquisa/",
+   "rainfall/"
+  ],
+  "seg": 0.6
+ },
+ "http http://ftp.cptec.inpe.br/modelos/tempo/MERGE/GPM/DAILY/": {
+  "status": 200,
+  "bytes": 10607,
+  "itens": [
+   "2016/",
+   "2017/",
+   "2018/",
+   "2019/",
+   "2020/",
+   "2021/",
+   "2022/",
+   "2023/",
+   "2024/",
+   "2025/",
+   "2026/",
+   "GLOBO/",
+   "MERGE_CPTEC.ctl",
+   "MERGE_CPTEC.idx",
+   "MERGE_NEW_1998_2024.tar.gz"
+  ],
+  "seg": 1.1
+ },
+ "ftp": {
+  "erro": "TimeoutError: timed out",
+  "seg": 25.0
+ },
+ "arquivo 2026-11-22": {
+  "bytes": 502866,
+  "nome": "Precipitation from radar",
+  "un": "kg m**-2",
+  "dataDate": 20261122,
+  "dataTime": 1200,
+  "stepRange": "0",
+  "grade": [
+   -60.05,
+   32.25,
+   -120.05000000000001,
+   -20.05000000000001,
+   [
+    924,
+    1001
+   ]
+  ],
+  "ponto": [
+   -23.45,
+   -51.95
+  ],
+  "mm": 0.0,
+  "mm_3x3": 0.11,
+  "max_3x3": 0.31,
+  "seg": 2.7
+ },
+ "arquivo 2026-11-21": {
+  "bytes": 519427,
+  "nome": "Precipitation from radar",
+  "un": "kg m**-2",
+  "dataDate": 20261121,
+  "dataTime": 1200,
+  "stepRange": "0",
+  "grade": [
+   -60.05,
+   32.25,
+   -120.05000000000001,
+   -20.05000000000001,
+   [
+    924,
+    1001
+   ]
+  ],
+  "ponto": [
+   -23.45,
+   -51.95
+  ],
+  "mm": 16.44,
+  "mm_3x3": 20.69,
+  "max_3x3": 31.0,
+  "seg": 2.3
+ },
+ "arquivo 2026-11-20": {
+  "bytes": 449144,
+  "nome": "Precipitation from radar",
+  "un": "kg m**-2",
+  "dataDate": 20261120,
+  "dataTime": 1200,
+  "stepRange": "0",
+  "grade": [
+   -60.05,
+   32.25,
+   -120.05000000000001,
+   -20.05000000000001,
+   [
+    924,
+    1001
+   ]
+  ],
+  "ponto": [
+   -23.45,
+   -51.95
+  ],
+  "mm": 1.5,
+  "mm_3x3": 0.56,
+  "max_3x3": 1.5,
+  "seg": 2.1
+ },
+ "arquivo 2026-11-19": {
+  "bytes": 463489,
+  "nome": "Precipitation from radar",
+  "un": "kg m**-2",
+  "dataDate": 20261119,
+  "dataTime": 1200,
+  "stepRange": "0",
+  "grade": [
+   -60.05,
+   32.25,
+   -120.05000000000001,
+   -20.05000000000001,
+   [
+    924,
+    1001
+   ]
+  ],
+  "ponto": [
+   -23.45,
+   -51.95
+  ],
+  "mm": 0.0,
+  "mm_3x3": 0.0,
+  "max_3x3": 0.0,
+  "seg": 2.3
+ },
+ "arquivo 2026-11-02": {
+  "bytes": 452557,
+  "nome": "Precipitation from radar",
+  "un": "kg m**-2",
+  "dataDate": 20261102,
+  "dataTime": 1200,
+  "stepRange": "0",
+  "grade": [
+   -60.05,
+   32.25,
+   -120.05000000000001,
+   -20.05000000000001,
+   [
+    924,
+    1001
+   ]
+  ],
+  "ponto": [
+   -23.45,
+   -51.95
+  ],
+  "mm": 12.25,
+  "mm_3x3": 15.38,
+  "max_3x3": 20.25,
+  "seg": 2.3
+ }
+}
