@@ -449,11 +449,15 @@ try:
     mm_, mb_, me_ = med("Mediana de todos"), med("Melhor modelo do treino sozinho"), med("ECMWF 25 km sozinho (referência)")
     pw_, pv_ = med("Pesos por acerto (atual do site)"), med("Pesos + correção de volume")
     pct_ = lambda a_, b_: round(100 * (1 - a_ / b_), 1) if a_ and b_ else None
+    def acm(nome, l=1):
+        xs = [x["acerto"] for x in metodos.get(l, {}).get(nome, []) if x.get("acerto") is not None]
+        return round(float(np.mean(xs)), 3) if xs else None
     longo = {"dias": int(len(dias)), "inmet": int((FONTE.reindex(dias) == "INMET").sum()), "merge": int((FONTE.reindex(dias) == "MERGE").sum()),
              "de": str(dias.min().date()), "ate": str(dias.max().date()), "spread8_mm": round(e1[7] - e1[0], 2) if len(e1) >= 8 else None,
              "erro_mediana": round(mm_, 2) if mm_ else None, "erro_melhor": round(mb_, 2) if mb_ else None, "erro_ecmwf": round(me_, 2) if me_ else None,
              "erro_pesos": round(pw_, 2) if pw_ else None, "erro_volume": round(pv_, 2) if pv_ else None,
-             "mediana_vs_melhor_pct": pct_(mm_, mb_), "mediana_vs_ecmwf_pct": pct_(mm_, me_), "pesos_vs_mediana_pct": pct_(pw_, mm_), "volume_vs_pesos_pct": pct_(pv_, pw_)}
+             "mediana_vs_melhor_pct": pct_(mm_, mb_), "mediana_vs_ecmwf_pct": pct_(mm_, me_), "pesos_vs_mediana_pct": pct_(pw_, mm_), "volume_vs_pesos_pct": pct_(pv_, pw_),
+             "acerto_mediana": acm("Mediana de todos"), "acerto_melhor": acm("Melhor modelo do treino sozinho"), "acerto_ecmwf": acm("ECMWF 25 km sozinho (referência)"), "acerto_pesos": acm("Pesos por acerto (atual do site)")}
     mes = {"mes": FIM.strftime("%Y-%m"), "dias": [str(d.date()) for d in mi], "gerado": pesos["gerado"], "longo": longo,
            "oct": {"truth": [None if pd.isna(x) else round(float(x), 1) for x in tr], "src": [None if pd.isna(x) else str(x) for x in src],
                    "models": models, "names": NOM, "res": resm},

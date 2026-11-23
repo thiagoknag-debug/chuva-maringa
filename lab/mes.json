@@ -49,7 +49,11 @@
   "mediana_vs_melhor_pct": -1.9,
   "mediana_vs_ecmwf_pct": 13.5,
   "pesos_vs_mediana_pct": -5.4,
-  "volume_vs_pesos_pct": -0.5
+  "volume_vs_pesos_pct": -0.5,
+  "acerto_mediana": 0.792,
+  "acerto_melhor": 0.734,
+  "acerto_ecmwf": 0.774,
+  "acerto_pesos": 0.764
  },
  "oct": {
   "truth": [
