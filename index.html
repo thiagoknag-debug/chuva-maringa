@@ -613,11 +613,11 @@ function mistura(){try{
   const V=estado.V,PH=NC.prever(Q,V.v,estado.agora,null,CV,180,5),mm=new Date().getMinutes(),pc=ctx.pc||{},RA=window.__RAIOS;
   const inst=(pc.ts||0)>=40||(RA&&RA.perto!=null&&RA.perto<=60),tau=inst?45:75,S=window.__SAT&&window.__SAT.sinal;
   H.blend=[];
-  for(let k=1;k<=3&&k<H.p.length;k++){const a=Math.max(0,(k-1)*60-mm),b=k*60-mm;let pr=0,u=0,n=0;
+  for(let k=0;k<=3&&k<H.p.length;k++){const a=k?Math.max(0,(k-1)*60-mm):0,b=k?k*60-mm:10;let pr=0,u=0,n=0; /* k=0 (“Agora”): o radar de agora manda */
     for(const x of PH)if(x.m>=a&&x.m<=b){pr=Math.max(pr,x.p);u+=x.u;n++;}
     if(!n||u/n>=0.5){H.p[k]=H.p0[k];continue;}
     if(S&&S.km<=40&&k<=2)pr=Math.max(pr,S.p||0.3);
-    const w=Math.exp(-((a+b)/2)/tau),pm=(H.p0[k]??0)/100;
+    const w=k?Math.exp(-((a+b)/2)/tau):0.9,pm=(H.p0[k]??0)/100;
     H.p[k]=Math.round(100*(w*pr+(1-w)*pm));H.blend[k]={p:H.p[k],pr:Math.round(100*pr),pm:Math.round(100*pm),w:Math.round(100*w)};}
   window.__HORAS&&window.__HORAS();
 }catch(e){console.error('radar + modelos',e);}}
@@ -681,7 +681,7 @@ function desenha(){if(!estado)return;if(estado.velho)return velhoUI();const F=fr
   const hz=(()=>{const dh=ctx.DH&&ctx.DH[0];if(!dh||F.k==='agora'||F.k==='vem')return'';const h=new Date().getHours(),s=dh.filter(o=>o.h>=h&&o.h<=h+3);if(!s.length)return'';
     const cal=s.some(o=>o.cal),p=Math.max(...s.map(o=>o.p||0)),pt=cal?Math.max(...s.map(o=>o.tc||0)):Math.max(...s.map(o=>o.pt||0)),LP=cal?15:30,LT=cal?10:15;
     const ob=window.__OBS,nv=ob&&ob.fresco&&(ob.ts||ob.tcu);
-    return (p>=LP||pt>=LT||ctx.aviso||nv)?`<p class="nc-av">⚠️ O radar ainda não mostra chuva por aqui, mas ${nv?`o aeroporto viu ${ob.ts?'nuvens de tempestade':'nuvens de chuva crescendo'} às ${ob.hora}, `:''}${ctx.aviso?`há aviso ${ctx.aviso} do INMET e `:nv?'e ':''}os modelos dão ${cal?'até ':''}${p}% de chance de chuva${cal?' por hora':''}${pt>=LT?` e ${pt}% de trovoada`:''} nas próximas horas. Pancadas pequenas podem cair sobre a cidade sem aparecer no radar: o radar mais próximo fica longe e não enxerga bem as nuvens baixas daqui.</p>`:'';})();
+    return (p>=LP||pt>=LT||ctx.aviso||nv)?`<p class="nc-av">⚠️ O radar ainda não mostra chuva por aqui, mas ${nv?`o aeroporto viu ${ob.ts?'nuvens de tempestade':'nuvens de chuva crescendo'} às ${ob.hora}, `:''}${ctx.aviso?`há aviso ${ctx.aviso} do INMET e `:nv?'e ':''}os modelos dão ${cal?'até ':''}${p}% de chance de chuva${cal?' por hora':''}${pt>=LT?` e ${pt}% de trovoada${cal?' por perto':''}`:''} nas próximas horas. Pancadas pequenas podem cair sobre a cidade sem aparecer no radar: o radar mais próximo fica longe e não enxerga bem as nuvens baixas daqui.</p>`:'';})();
   const vazio=P.filter(x=>x.m<=60).every(x=>x.p<0.15&&x.u<0.5);
   el.innerHTML=`<div class="nc-top"><h2>Próximos 60 minutos</h2><span class="nc-conf c-${C.t}">Confiança ${C.t}</span></div>
    <p class="nc-h">${F.h}</p>
@@ -1268,7 +1268,7 @@ function openDay(k){const d=L.D[k],hAll=(L.DH||[])[k]||[];if(!d)return;const dt=
     :`<li><b>Sem horário com chance alta</b><span>Maior chance: ${pmax.p||0}%${ph}${pmax.h!=null?' às '+hTxt(pmax.h):''}</span></li>`;
   const tempTxt=wt.length?wt.map(w=>{const s=hh.slice(w.a,w.b+1);const pm=Math.max(...s.map(o=>o[TK]||0)),g=Math.max(...s.map(o=>o.wg||0));
       const pk=s.reduce((a,o)=>(o[TK]||0)>(a[TK]||0)?o:a,s[0]);
-      return `<li class="tw"><b>⛈️ Das ${hTxt(hh[w.a].h)} às ${hTxt(hh[w.b].h+1)}</b><span>chance de trovoada até ${pm}%${ph} · rajadas até ${g} km/h</span><span class="pk">Pico perto das ${hTxt(pk.h)}</span></li>`;}).join('')
+      return `<li class="tw"><b>⛈️ Das ${hTxt(hh[w.a].h)} às ${hTxt(hh[w.b].h+1)}</b><span>${kc?'trovoada por perto':'chance de trovoada'} até ${pm}%${ph} · rajadas até ${g} km/h</span><span class="pk">Pico perto das ${hTxt(pk.h)}</span></li>`;}).join('')
     :`<li><b>Chance baixa de trovoada</b><span>Maior chance: ${tmax[TK]||0}%${ph}${tmax.h!=null&&tmax[TK]?' às '+hTxt(tmax.h):''}</span></li>`;
   const per=[['Madrugada',0,6],['Manhã',6,12],['Tarde',12,18],['Noite',18,24]].map(([n,a,b])=>{const s=hAll.filter(o=>o.h>=a&&o.h<b);if(!s.length)return'';const pas=hoje&&b<=h0;
     const mm=s.reduce((x,o)=>x+(o.mm||0),0),p=Math.max(...s.map(o=>o.p||0)),pt=Math.max(...s.map(o=>o.pt||0)),g=Math.max(...s.map(o=>o.wg||0)),
