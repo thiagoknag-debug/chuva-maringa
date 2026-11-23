@@ -134,11 +134,21 @@ for l in (0, 1):
                 r = janela(g[col].values, g[alvo].values.astype(bool))
                 if r: jj[nome].append(r)
         m["janela"] = {k: {"dias": len(v), "horas_com_chuva_dentro": round(float(np.mean([x[0] for x in v])), 3), "tamanho_medio_h": round(24 * float(np.mean([x[1] for x in v])), 1)} for k, v in jj.items() if v}
+        # limiares para o site: por hora (ícone/chance) e por dia (existe janela de chuva × choveu ≥2 h no aeroporto)
+        def hss(pr_, ob_):
+            a1, b1, c1 = int((pr_ & ob_).sum()), int((pr_ & ~ob_).sum()), int((~pr_ & ob_).sum()); d1 = len(pr_) - a1 - b1 - c1; n_ = len(pr_)
+            e_ = ((a1 + b1) * (a1 + c1) + (c1 + d1) * (b1 + d1)) / n_ if n_ else 0
+            return {"hss": round((a1 + d1 - e_) / (n_ - e_), 3) if n_ - e_ else None, "pod": round(a1 / max(1, a1 + c1), 3), "far": round(b1 / max(1, a1 + b1), 3)}
+        g_ = te.assign(pcal=pb).groupby(te.index.normalize()).agg(mx=("pcal", "max"), nh=(alvo, "sum"), n=(alvo, "size")); g_ = g_[g_.n >= 18]
+        m["limiares"] = {"hora": {str(x): hss(pb >= x, yte.astype(bool)) for x in (0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5)},
+                         "dia": {str(x): hss((g_.mx >= x).values, (g_.nh >= 2).values) for x in (0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5)},
+                         "max_por_dia_quantis": {"choveu": [round(float(q), 3) for q in g_[g_.nh >= 2].mx.quantile([.1, .25, .5, .75, .9])],
+                                                 "seco": [round(float(q), 3) for q in g_[g_.nh == 0].mx.quantile([.1, .25, .5, .75, .9])]}}
         bf = fit(T[CONJ[best]].values, T[alvo].astype(float).values)
         out["alvos"][alvo] = {"taxa_teste": round(float(yte.mean()), 3), "modelos": m, "escolhido": best}
         if m[best]["bss"] > 0.02: PES.setdefault(f"d{l}", {})[alvo] = {"feats": best, "cols": CONJ[best], "coef": [round(float(x), 4) for x in bf],
                                                                     "bss_teste": m[best]["bss"], "auc_teste": m[best]["auc"]}
-        print("lead", l, alvo, json.dumps({k: (v.get("bss"), v.get("auc")) for k, v in m.items() if isinstance(v, dict) and "bss" in v}), "janela", m["janela"], flush=True)
+        print("lead", l, alvo, json.dumps({k: (v.get("bss"), v.get("auc")) for k, v in m.items() if isinstance(v, dict) and "bss" in v}), "janela", m["janela"], "limiares", json.dumps(m["limiares"]), flush=True)
     RES["leads"][str(l)] = out
 json.dump(RES, open("lab/hora.json", "w"), ensure_ascii=False, indent=1)
 if PES:
