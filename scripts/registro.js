@@ -9,7 +9,7 @@ const { chromium, devices } = require('playwright'); const fs = require('fs');
     return { gerado: L.gen, cenarios: L.ens || null, dias: L.D.map(d => ({ dia: d[0], mm: d[1], mm_min: d[2], mm_max: d[3], chance: d[4], chance_cenarios: d[17] ?? null, p10: d[5], tmax: d[9], tmin: d[10], rajada: d[11],
       temporal: d[15] ? d[15].pct : null, trovoada: d[16] ? d[16].ts : null, chuva_cal: d[16] ? d[16].chuva : null, forte: d[16] ? d[16].forte : null })),
       horas: { inicio: L.H.start, chance: L.H.p, mm: L.H.mm, rajada: L.H.wg, vento: L.H.ws },
-      nowcast: E ? { radar: E.t0, p: E.P.filter(x => x.m % 10 === 0).map(x => [x.m, +x.p.toFixed(2), x.z]) } : null, raios: window.__RAIOS || null, obs: window.__OBS ? { ...window.__OBS, t: String(window.__OBS.t) } : null }; });
+      nowcast: E ? { radar: E.t0, p: E.P.filter(x => x.m % 10 === 0).map(x => [x.m, +x.p.toFixed(2), x.z]) } : null, raios: window.__RAIOS || null, sat: window.__SAT || null, proximas3h: (L.H.blend || []).slice(0, 4), hora_calibrada: !!L.H.cal, horas_bruto: (L.H.pb || []).slice(0, 48), obs: window.__OBS ? { ...window.__OBS, t: String(window.__OBS.t) } : null }; });
   const t = new Date(); const nome = `lab/historico/${t.toISOString().slice(0, 13).replace('T', '_')}.json`;
   fs.mkdirSync('lab/historico', { recursive: true }); fs.writeFileSync(nome, JSON.stringify(r)); console.log(nome, JSON.stringify(r.dias.slice(0, 3)));
   await b.close();

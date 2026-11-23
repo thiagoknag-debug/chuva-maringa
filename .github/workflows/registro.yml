@@ -2,8 +2,7 @@ name: Registro da previsão
 on:
   workflow_dispatch:
   schedule:
-    - cron: "41 9 * * *"    # ~06h41 em Maringá
-    - cron: "41 21 * * *"   # ~18h41 em Maringá
+    - cron: "41 9,15,17,19,21,23 * * *"    # 06h41 e de 2 em 2 h das 12h41 às 20h41 (Maringá), para conferir as próximas horas
 permissions:
   contents: write
 jobs:
