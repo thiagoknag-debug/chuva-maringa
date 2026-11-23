@@ -81,6 +81,21 @@ def diario(serie, exige=24, how="sum"):
 obs_dia = diario(obs["chuva"])
 obs_raj = diario(obs["rajada"], exige=20, how="max")
 
+# ---------------- 1b. chuva medida das 09h às 09h: INMET quando completo, senão MERGE (CPTEC/INPE) ----------------
+def diario9(serie, exige=24, how="sum"):
+    """janela das 09h do dia anterior às 09h do dia (rótulo = dia da leitura, como pluviômetro); horários rotulados pelo fim da hora"""
+    g = serie.groupby((serie.index + pd.Timedelta(hours=14)).normalize())
+    v = g.sum(min_count=1) if how == "sum" else g.max()
+    return v.where(g.count() >= exige)
+obs9 = diario9(obs["chuva"])
+try:
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import merge_lib
+    MG = merge_lib.serie(dt.date(2024, 8, 31), (HOJE - pd.Timedelta(days=1)).date(), log=log)["mm"]
+except Exception as e:
+    log("MERGE indisponível:", str(e)[:200]); MG = pd.Series(dtype=float)
+verdade = obs9.combine_first(MG)
+FONTE = pd.Series(np.where(obs9.reindex(verdade.index).notna(), "INMET", "MERGE"), index=verdade.index)
+
 # ---------------- 2. previsões arquivadas (Open-Meteo Previous Runs) ----------------
 def meses():
     for s, (a, b) in SEASONS.items():
@@ -109,17 +124,18 @@ def col(m, var):
     c = f"{var}_{m}"
     return fc[c] if c in fc.columns else pd.Series(np.nan, index=fc.index)
 
-dias = obs_dia.dropna().index
-dias = dias[dias.isin(fc.index.normalize().unique())]
-temporada = fc["temporada"].groupby(fc.index.normalize()).first()
-log("dias com pluviômetro completo e previsão:", len(dias))
+rot9 = (fc.index + pd.Timedelta(hours=14)).normalize()
+dias = verdade.dropna().index
+dias = dias[dias.isin(rot9.unique())]
+temporada = fc["temporada"].groupby(rot9).first()
+log("dias com chuva medida e previsão:", len(dias), "· INMET", int((FONTE.reindex(dias) == "INMET").sum()), "· MERGE", int((FONTE.reindex(dias) == "MERGE").sum()))
 
 P = {}   # P[lead][model] = série diária prevista
 for l in LEADS:
     P[l] = {}
     for m in MODELS:
-        P[l][m] = diario(col(m, f"precipitation_previous_day{l}")).reindex(dias)
-Y = obs_dia.reindex(dias)
+        P[l][m] = diario9(col(m, f"precipitation_previous_day{l}")).reindex(dias)
+Y = verdade.reindex(dias)
 SEA = temporada.reindex(dias)
 
 # ---------------- 3. métricas ----------------
@@ -290,7 +306,7 @@ med_h = Mh.median(axis=1)
 oh = obs["chuva"]
 for d_ in dias:
     if Y.loc[d_] < 5: continue
-    di = pd.date_range(d_, periods=24, freq="h")
+    di = pd.date_range(d_ - pd.Timedelta(hours=14), periods=24, freq="h")
     po = oh.reindex(di); pf = med_h.reindex(di)
     if po.isna().any() or pf.isna().all() or pf.sum() < 2: continue
     io_ = np.argmax(po.values >= 0.5) if (po.values >= 0.5).any() else None
@@ -387,6 +403,8 @@ if vento:
                       "fator_rajada": {m: round(1 / v["vies_rajada"], 3) for m, v in vento.items() if v["vies_rajada"]}}
 
 res = {"gerado": pesos["gerado"], "ultimo_dado_inmet": str(fim_obs), "dias_validos": len(dias),
+       "chuva_medida": {"janela": "09h do dia anterior às 09h (como o pluviômetro marca)", "INMET": int((FONTE.reindex(dias) == "INMET").sum()),
+                        "MERGE_INPE": int((FONTE.reindex(dias) == "MERGE").sum()), "de": str(dias.min().date()) if len(dias) else None, "ate": str(dias.max().date()) if len(dias) else None},
        "dias_por_temporada": {s: int((SEA == s).sum()) for s in SEASONS},
        "ranking": {f"d{l}": {NOMES[m]: v for m, v in ranking[l].items()} for l in LEADS},
        "metodos": {f"d{l}": v for l, v in metodos.items()}, "probabilidade": prob,
@@ -402,13 +420,55 @@ try:
 except Exception: pass
 json.dump(pesos, open(f"{OUT}/pesos.json", "w"), ensure_ascii=False, indent=1)
 
+# ---------------- 6b. detalhe do último mês completo + números da auditoria longa (para o site) ----------------
+try:
+    COD = {"EC": "ecmwf_ifs", "AI": "ecmwf_aifs025_single", "GF": "gfs_seamless", "IC": "icon_seamless", "MF": "meteofrance_seamless",
+           "UK": "ukmo_seamless", "JM": "jma_seamless", "GE": "gem_seamless", "CM": "cma_grapes_global", "BM": "best_match"}
+    NOM = {"EC": "ECMWF IFS", "AI": "ECMWF AIFS (IA)", "GF": "GFS (NOAA)", "IC": "ICON (DWD)", "MF": "Météo-France", "UK": "UK Met Office",
+           "JM": "JMA (Japão)", "GE": "GEM (Canadá)", "CM": "CMA (China)", "BM": "Open-Meteo Best Match"}
+    mi = pd.date_range(FIM.replace(day=1), FIM, freq="D"); tr = verdade.reindex(mi); src = FONTE.reindex(mi)
+    def st(f, o, thr=1.0):
+        k = f.notna() & o.notna(); f, o = f[k], o[k]
+        if len(f) == 0: return None
+        F, O = f >= thr, o >= thr; h, mi_, fa, cn = int((F & O).sum()), int((~F & O).sum()), int((F & ~O).sum()), int((~F & ~O).sum())
+        return {"n": int(len(f)), "hit": h, "miss": mi_, "fa": fa, "cn": cn, "acc": round((h + cn) / len(f), 3),
+                "pod": round(h / (h + mi_), 3) if h + mi_ else None, "far": round(fa / (h + fa), 3) if h + fa else None,
+                "csi": round(h / (h + mi_ + fa), 3) if h + mi_ + fa else None, "mae": round(float((f - o).abs().mean()), 3),
+                "sumf": round(float(f.sum()), 1), "sumo": round(float(o.sum()), 1)}
+    models, resm = {}, {}
+    for c, m in COD.items():
+        models[c], resm[c] = {}, {}
+        for l in LEADS:
+            ser = diario9(col(m, f"precipitation_previous_day{l}")).reindex(mi)
+            models[c][f"d{l}"] = [None if pd.isna(x) else round(float(x), 1) for x in ser]
+            resm[c][f"d{l}"] = {"all": st(ser, tr), "gauge": st(ser[src == "INMET"], tr[src == "INMET"])}
+    e1 = sorted(v["geral"]["erro_mm"] for v in ranking[1].values() if v.get("geral"))
+    def med(nome, l=1):
+        xs = [x["erro_mm"] for x in metodos.get(l, {}).get(nome, []) if x.get("erro_mm") is not None]
+        return float(np.mean(xs)) if xs else None
+    mm_, mb_, me_ = med("Mediana de todos"), med("Melhor modelo do treino sozinho"), med("ECMWF 25 km sozinho (referência)")
+    pw_, pv_ = med("Pesos por acerto (atual do site)"), med("Pesos + correção de volume")
+    pct_ = lambda a_, b_: round(100 * (1 - a_ / b_), 1) if a_ and b_ else None
+    longo = {"dias": int(len(dias)), "inmet": int((FONTE.reindex(dias) == "INMET").sum()), "merge": int((FONTE.reindex(dias) == "MERGE").sum()),
+             "de": str(dias.min().date()), "ate": str(dias.max().date()), "spread8_mm": round(e1[7] - e1[0], 2) if len(e1) >= 8 else None,
+             "erro_mediana": round(mm_, 2) if mm_ else None, "erro_melhor": round(mb_, 2) if mb_ else None, "erro_ecmwf": round(me_, 2) if me_ else None,
+             "erro_pesos": round(pw_, 2) if pw_ else None, "erro_volume": round(pv_, 2) if pv_ else None,
+             "mediana_vs_melhor_pct": pct_(mm_, mb_), "mediana_vs_ecmwf_pct": pct_(mm_, me_), "pesos_vs_mediana_pct": pct_(pw_, mm_), "volume_vs_pesos_pct": pct_(pv_, pw_)}
+    mes = {"mes": FIM.strftime("%Y-%m"), "dias": [str(d.date()) for d in mi], "gerado": pesos["gerado"], "longo": longo,
+           "oct": {"truth": [None if pd.isna(x) else round(float(x), 1) for x in tr], "src": [None if pd.isna(x) else str(x) for x in src],
+                   "models": models, "names": NOM, "res": resm},
+           "fc": {"weights": {c: pesos["chuva"].get("d1", {}).get(m) for c, m in COD.items()}}}
+    json.dump(mes, open(f"{OUT}/mes.json", "w"), ensure_ascii=False, indent=1)
+    log("detalhe do mês:", mes["mes"], longo)
+except Exception as e: log("detalhe do mês falhou:", repr(e)[:300])
+
 # ---------------- 7. relatório legível ----------------
 def tab(linhas, cab):
     h = "<table><tr>" + "".join(f"<th>{c}</th>" for c in cab) + "</tr>"
     return h + "".join("<tr>" + "".join(f"<td>{'' if x is None else x}</td>" for x in l) + "</tr>" for l in linhas) + "</table>"
 pct = lambda x: "—" if x is None else f"{round(x*100)}%"
 H = [f"<h1>Auditoria da chuva em Maringá</h1><p>Gerado em {pesos['gerado'][:16].replace('T',' ')} UTC · "
-     f"{len(dias)} dias com pluviômetro completo · por temporada: {res['dias_por_temporada']} · último dado do INMET: {fim_obs}</p>"]
+     f"{len(dias)} dias com chuva medida (INMET quando completo, senão MERGE/INPE; 09h→09h) · por temporada: {res['dias_por_temporada']} · último dado do INMET: {fim_obs}</p>"]
 for l in LEADS:
     lin = []
     for m in MODELS:

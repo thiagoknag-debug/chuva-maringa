@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pandas numpy requests
+      - run: pip install pandas numpy requests pygrib
       - run: python scripts/analise.py lab
       - name: Recalibrar índice de pancadas e trovoada
         run: python scripts/pancadas.py || echo "pancadas falhou; mantém a calibração anterior"
