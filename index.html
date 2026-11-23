@@ -704,7 +704,7 @@ function desenha(){if(!estado)return;if(estado.velho)return velhoUI();const F=fr
         H1.textContent=F.k==='agora'?`Chuva ${c.t}${fim!=null&&fim<=60?' · deve parar '+quando(fim):''}`:`Chuva ${c.t} ${quando(F.m)}`;
         S1.innerHTML=`Pelo radar das ${hm(new Date(t0*1000))}. Os modelos previam: ${H1.dataset.o.toLowerCase()} (${S1.dataset.o})`;}
       else if(/agora/i.test(L1.dataset.o)&&P[0].u<0.5&&P[0].p<0.2&&!(prox&&prox.km<=10)){L1.textContent='Agora · radar';H1.textContent='Sem chuva sobre a cidade agora';
-        const ch=(S1.dataset.o.match(/chance de até \d+%/)||[''])[0];S1.innerHTML=`${prox?`Chuva mais próxima a ${prox.km} km ao ${prox.dir}${prox.vem?', '+prox.vem:''}. `:''}Radar das ${hm(new Date(t0*1000))}; os modelos previam chuva ${H1.dataset.o.toLowerCase()}${ch?` (${ch})`:''}.`;}
+        const m1=S1.dataset.o.match(/chance de até (\d+)%/),m2=S1.dataset.o.match(/em cada hora, até (\d+)%/),ch=m1?`chance de até ${m1[1]}%`:m2?`até ${m2[1]}% por hora`:'';S1.innerHTML=`${prox?`Chuva mais próxima a ${prox.km} km ao ${prox.dir}${prox.vem?', '+prox.vem:''}. `:''}Radar das ${hm(new Date(t0*1000))}; os modelos previam chuva ${H1.dataset.o.toLowerCase()}${ch?` (${ch})`:''}.`;}
       else{L1.innerHTML=L1.dataset.o;H1.innerHTML=H1.dataset.o;S1.innerHTML=S1.dataset.o;}}}catch(e){}
   /* o resumo de cima usa o modelo; quando o radar discorda sobre "chovendo agora", o radar manda */
   try{const now=document.querySelector('#hero .now'),h0=window.__HERO0;if(now&&h0&&P[0].u<0.5){const ch=/chuva|tempest|pancada|garoa/i.test(h0.c0.t),rad=P[0].p>=0.5,nada=P[0].p<0.2;const trov=RA&&RA.perto!=null&&RA.perto<=10&&RA.atraso<=15;
@@ -974,8 +974,10 @@ if(HC&&(HC.d0||HC.d1)){try{
  const ap=(o,F)=>{if(!o||!F||!o.coef)return null;let z=o.coef[0];o.cols.forEach((c,k)=>{z+=o.coef[k+1]*F[c];});return 1/(1+Math.exp(-z));};
  const mix=(a,b,w)=>a==null?b:b==null?a:(1-w)*a+w*b;
  /* calibrado de 00h de hoje até 48 h à frente (antecedência 0 = rodada mais nova; passa para a da véspera entre 12 h e 36 h) */
- for(let i=0;i<T.length&&i<s+H.p.length;i++){const F=feat(i),w=Math.min(1,Math.max(0,(i-s-12)/24));
-   const pc=mix(ap(HC.d0&&HC.d0.chuva,F),ap(HC.d1&&HC.d1.chuva,F),w),tc=mix(ap(HC.d0&&HC.d0.trov,F),ap(HC.d1&&HC.d1.trov,F),w);
+ const ate=s+(HC.d2?72:H.p.length); /* com a antecedência de 2 dias, calibra até o fim de depois de amanhã */
+ for(let i=0;i<T.length&&i<ate;i++){const F=feat(i),dh=i-s,lim=x=>Math.min(1,Math.max(0,x));
+   const e2=HC.d2&&dh>36,par=(a0,a1,a2)=>e2?mix(ap(a1,F),ap(a2,F),lim((dh-36)/24)):mix(ap(a0,F),ap(a1,F),lim((dh-12)/24));
+   const pc=par(HC.d0&&HC.d0.chuva,HC.d1&&HC.d1.chuva,HC.d2&&HC.d2.chuva),tc=par(HC.d0&&HC.d0.trov,HC.d1&&HC.d1.trov,HC.d2&&HC.d2.trov);
    PCAL[i]=pc==null?null:Math.round(100*pc);TCAL[i]=tc==null?null:Math.round(100*tc);}
  H.pc=PCAL.slice(s,s+H.p.length);H.tc=TCAL.slice(s,s+H.p.length);
  if(H.pc.filter(x=>x!=null).length>=24){H.pb=H.p.slice();H.p=H.p.map((x,k)=>H.pc[k]??x);H.cal=true;
@@ -1198,7 +1200,7 @@ const pancJan=(k)=>{const d=L.D[k],hh=(L.DH||[])[k]||[];if(!d||!d[16])return nul
 const sig=wins.filter(w=>winMm(w).s>=1);
 if(wins.length){const w=sig[0]||wins[0],a=hrs[w.a],b=new Date(hrs[w.b].getTime()+3600e3),m=winMm(w);
   const light=!sig.length;
-  lab=w.a===0?(light?'Garoa agora':'Chuva agora'):(light?'Próxima garoa':'Próxima chuva');
+  lab=w.a===0?(H.cal&&(H.p[0]??0)<50?(light?'Pode garoar agora':'Pode chover agora'):(light?'Garoa agora':'Chuva agora')):(light?'Próxima garoa':'Próxima chuva'); /* com chance por hora calibrada, 'chuva agora' só com chance alta */
   head=w.a===0?`Até as ${(b.getHours()===0?"24":pad(b.getHours()))}h`:`${dayName(a)}, das ${pad(a.getHours())}h às ${(b.getHours()===0?"24":pad(b.getHours()))}h`;
   {const dd=L.D[dIdx(key(a))];sub=H.cal&&dd&&dd[4]!=null?`Cerca de ${mmTxt(m.s)} mm · chance no dia ${dd[4]}% · em cada hora, até ${m.p}%`:`Cerca de ${mmTxt(m.s)} mm · chance de até ${m.p}%`;}
   {let k=w.a;for(let i=w.a;i<=w.b;i++)if((H.mm[i]||0)>(H.mm[k]||0))k=i;if(w.b>w.a&&(H.mm[k]||0)>=0.5)sub+=` · mais forte perto das ${pad(hrs[k].getHours())}h`;}
