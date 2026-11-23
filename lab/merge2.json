@@ -1,0 +1,365 @@
+{
+ "merge": {
+  "dias": 813,
+  "de": "2024-09-01 00:00:00",
+  "ate": "2026-11-22 00:00:00",
+  "sem_arquivo": [],
+  "n_sem": 0,
+  "ponto_da_grade": [
+   -23.449999999999477,
+   -51.949999999989075
+  ],
+  "seg": 169
+ },
+ "janela": {
+  "A=12Z dia anterior->12Z dia": {
+   "n": 185,
+   "r_pearson": 0.933
+  },
+  "B=12Z dia->12Z dia seguinte": {
+   "n": 184,
+   "r_pearson": 0.109
+  },
+  "C=00Z->24Z do dia": {
+   "n": 185,
+   "r_pearson": 0.332
+  }
+ },
+ "janela_escolhida": "A",
+ "vs_inmet": {
+  "merge": {
+   "quantidade": {
+    "n": 185,
+    "total_prev": 792.8,
+    "total_obs": 881.8,
+    "vies_%": -10.1,
+    "r": 0.933,
+    "erro_medio_mm": 1.51
+   },
+   ">=1mm": {
+    "n": 813,
+    "acerto": 0.776,
+    "detecta_chuva(POD)": 0.896,
+    "alarme_falso(FAR)": 0.805,
+    "CSI": 0.191,
+    "HSS": 0.248
+   },
+   ">=10mm": {
+    "n": 813,
+    "acerto": 0.903,
+    "detecta_chuva(POD)": 0.897,
+    "alarme_falso(FAR)": 0.745,
+    "CSI": 0.248,
+    "HSS": 0.361
+   },
+   ">=25mm": {
+    "n": 813,
+    "acerto": 0.953,
+    "detecta_chuva(POD)": 0.5,
+    "alarme_falso(FAR)": 0.842,
+    "CSI": 0.136,
+    "HSS": 0.223
+   }
+  },
+  "merge3": {
+   "quantidade": {
+    "n": 185,
+    "total_prev": 758.9,
+    "total_obs": 881.8,
+    "vies_%": -13.9,
+    "r": 0.925,
+    "erro_medio_mm": 1.57
+   },
+   ">=1mm": {
+    "n": 813,
+    "acerto": 0.769,
+    "detecta_chuva(POD)": 0.917,
+    "alarme_falso(FAR)": 0.807,
+    "CSI": 0.19,
+    "HSS": 0.245
+   },
+   ">=10mm": {
+    "n": 813,
+    "acerto": 0.907,
+    "detecta_chuva(POD)": 0.931,
+    "alarme_falso(FAR)": 0.733,
+    "CSI": 0.262,
+    "HSS": 0.381
+   },
+   ">=25mm": {
+    "n": 813,
+    "acerto": 0.956,
+    "detecta_chuva(POD)": 0.5,
+    "alarme_falso(FAR)": 0.833,
+    "CSI": 0.143,
+    "HSS": 0.233
+   }
+  },
+  "era5": {
+   "quantidade": {
+    "n": 185,
+    "total_prev": 830.9,
+    "total_obs": 881.8,
+    "vies_%": -5.8,
+    "r": 0.478,
+    "erro_medio_mm": 4.68
+   },
+   ">=1mm": {
+    "n": 813,
+    "acerto": 0.645,
+    "detecta_chuva(POD)": 0.875,
+    "alarme_falso(FAR)": 0.871,
+    "CSI": 0.127,
+    "HSS": 0.136
+   },
+   ">=10mm": {
+    "n": 813,
+    "acerto": 0.846,
+    "detecta_chuva(POD)": 0.586,
+    "alarme_falso(FAR)": 0.869,
+    "CSI": 0.12,
+    "HSS": 0.165
+   },
+   ">=25mm": {
+    "n": 813,
+    "acerto": 0.961,
+    "detecta_chuva(POD)": 0.25,
+    "alarme_falso(FAR)": 0.885,
+    "CSI": 0.086,
+    "HSS": 0.141
+   }
+  }
+ },
+ "vs_aeroporto": {
+  "merge": {
+   "todos_dias": {
+    "limiar_0.2": {
+     "n": 753,
+     "acerto": 0.884,
+     "detecta_chuva(POD)": 0.774,
+     "alarme_falso(FAR)": 0.095,
+     "CSI": 0.716,
+     "HSS": 0.746
+    },
+    "limiar_1": {
+     "n": 753,
+     "acerto": 0.87,
+     "detecta_chuva(POD)": 0.686,
+     "alarme_falso(FAR)": 0.044,
+     "CSI": 0.664,
+     "HSS": 0.706
+    }
+   },
+   "dias_sem_pluviometro_INMET": {
+    "limiar_1": {
+     "n": 587,
+     "acerto": 0.876,
+     "detecta_chuva(POD)": 0.694,
+     "alarme_falso(FAR)": 0.045,
+     "CSI": 0.673,
+     "HSS": 0.716
+    }
+   },
+   "dias_com_pluviometro_INMET": {
+    "limiar_1": {
+     "n": 166,
+     "acerto": 0.849,
+     "detecta_chuva(POD)": 0.657,
+     "alarme_falso(FAR)": 0.043,
+     "CSI": 0.638,
+     "HSS": 0.67
+    }
+   },
+   "chuva_longa(>=3_boletins)": {
+    "n": 813,
+    "acerto": 0.884,
+    "detecta_chuva(POD)": 0.875,
+    "alarme_falso(FAR)": 0.332,
+    "CSI": 0.61,
+    "HSS": 0.684
+   }
+  },
+  "merge3": {
+   "todos_dias": {
+    "limiar_0.2": {
+     "n": 753,
+     "acerto": 0.879,
+     "detecta_chuva(POD)": 0.816,
+     "alarme_falso(FAR)": 0.144,
+     "CSI": 0.717,
+     "HSS": 0.74
+    },
+    "limiar_1": {
+     "n": 753,
+     "acerto": 0.876,
+     "detecta_chuva(POD)": 0.71,
+     "alarme_falso(FAR)": 0.052,
+     "CSI": 0.684,
+     "HSS": 0.723
+    }
+   },
+   "dias_sem_pluviometro_INMET": {
+    "limiar_1": {
+     "n": 587,
+     "acerto": 0.884,
+     "detecta_chuva(POD)": 0.727,
+     "alarme_falso(FAR)": 0.054,
+     "CSI": 0.698,
+     "HSS": 0.738
+    }
+   },
+   "dias_com_pluviometro_INMET": {
+    "limiar_1": {
+     "n": 166,
+     "acerto": 0.849,
+     "detecta_chuva(POD)": 0.657,
+     "alarme_falso(FAR)": 0.043,
+     "CSI": 0.638,
+     "HSS": 0.67
+    }
+   },
+   "chuva_longa(>=3_boletins)": {
+    "n": 813,
+    "acerto": 0.882,
+    "detecta_chuva(POD)": 0.893,
+    "alarme_falso(FAR)": 0.342,
+    "CSI": 0.61,
+    "HSS": 0.682
+   }
+  },
+  "era5": {
+   "todos_dias": {
+    "limiar_0.2": {
+     "n": 753,
+     "acerto": 0.78,
+     "detecta_chuva(POD)": 0.915,
+     "alarme_falso(FAR)": 0.354,
+     "CSI": 0.609,
+     "HSS": 0.566
+    },
+    "limiar_1": {
+     "n": 753,
+     "acerto": 0.841,
+     "detecta_chuva(POD)": 0.813,
+     "alarme_falso(FAR)": 0.226,
+     "CSI": 0.657,
+     "HSS": 0.664
+    }
+   },
+   "dias_sem_pluviometro_INMET": {
+    "limiar_1": {
+     "n": 587,
+     "acerto": 0.831,
+     "detecta_chuva(POD)": 0.796,
+     "alarme_falso(FAR)": 0.242,
+     "CSI": 0.635,
+     "HSS": 0.641
+    }
+   },
+   "dias_com_pluviometro_INMET": {
+    "limiar_1": {
+     "n": 166,
+     "acerto": 0.873,
+     "detecta_chuva(POD)": 0.866,
+     "alarme_falso(FAR)": 0.171,
+     "CSI": 0.734,
+     "HSS": 0.739
+    }
+   },
+   "chuva_longa(>=3_boletins)": {
+    "n": 813,
+    "acerto": 0.78,
+    "detecta_chuva(POD)": 0.935,
+    "alarme_falso(FAR)": 0.517,
+    "CSI": 0.467,
+    "HSS": 0.501
+   }
+  },
+  "inmet": {
+   "todos_dias": {
+    "limiar_1": {
+     "n": 753,
+     "acerto": 0.675,
+     "detecta_chuva(POD)": 0.145,
+     "alarme_falso(FAR)": 0.068,
+     "CSI": 0.143,
+     "HSS": 0.166
+    }
+   }
+  }
+ },
+ "dias_conhecidos": {
+  "2026-11-02": {
+   "merge": 12.2,
+   "merge3": 15.4,
+   "max3": 20.2,
+   "inmet": null,
+   "metar": 1.0,
+   "metar_horas": 14.0,
+   "era5": 10.0
+  },
+  "2026-11-03": {
+   "merge": 11.6,
+   "merge3": 11.8,
+   "max3": 18.2,
+   "inmet": null,
+   "metar": null,
+   "metar_horas": null,
+   "era5": 7.6
+  },
+  "2026-11-16": {
+   "merge": 1.1,
+   "merge3": 2.0,
+   "max3": 4.2,
+   "inmet": null,
+   "metar": 1.0,
+   "metar_horas": 1.0,
+   "era5": 3.6
+  },
+  "2026-11-17": {
+   "merge": 2.9,
+   "merge3": 2.0,
+   "max3": 2.9,
+   "inmet": null,
+   "metar": 1.0,
+   "metar_horas": 1.0,
+   "era5": 4.4
+  },
+  "2026-11-19": {
+   "merge": 0.0,
+   "merge3": 0.0,
+   "max3": 0.0,
+   "inmet": null,
+   "metar": 0.0,
+   "metar_horas": 0.0,
+   "era5": null
+  },
+  "2026-11-20": {
+   "merge": 1.5,
+   "merge3": 0.6,
+   "max3": 1.5,
+   "inmet": null,
+   "metar": 0.0,
+   "metar_horas": 0.0,
+   "era5": null
+  },
+  "2026-11-21": {
+   "merge": 16.4,
+   "merge3": 20.7,
+   "max3": 31.0,
+   "inmet": null,
+   "metar": 1.0,
+   "metar_horas": 4.0,
+   "era5": null
+  },
+  "2026-11-22": {
+   "merge": 0.0,
+   "merge3": 0.1,
+   "max3": 0.3,
+   "inmet": null,
+   "metar": 1.0,
+   "metar_horas": 1.0,
+   "era5": null
+  }
+ }
+}
