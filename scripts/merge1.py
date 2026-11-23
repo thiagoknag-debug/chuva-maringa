@@ -1,45 +1,45 @@
-"""Sonda o MERGE (CPTEC/INPE): onde estão os arquivos, formato, data mais recente e o valor no ponto de Maringá."""
-import sys, subprocess, re, json, datetime as dt, requests
+"""Sonda o MERGE (CPTEC/INPE) com prazos curtos e salvando cada etapa."""
+import sys, subprocess, re, json, time, socket, ftplib, datetime as dt, requests
+UA = {"User-Agent": "Mozilla/5.0 (chuva-maringa-auditoria)"}; R = {}; LAT, LON = -23.42, -51.94; H = "ftp.cptec.inpe.br"
+def salva(): json.dump(R, open("lab/merge1.json", "w"), ensure_ascii=False, indent=1)
+def passo(nome, f):
+    t = time.time()
+    try: R[nome] = f()
+    except Exception as e: R[nome] = {"erro": f"{type(e).__name__}: {str(e)[:200]}"}
+    if isinstance(R[nome], dict): R[nome]["seg"] = round(time.time() - t, 1)
+    print(nome, json.dumps(R[nome], ensure_ascii=False)[:900], flush=True); salva()
+def get(u, maxs=60):
+    t0 = time.time(); r = requests.get(u, headers=UA, timeout=(15, 30), stream=True); buf = b""
+    for ch in r.iter_content(65536):
+        buf += ch
+        if time.time() - t0 > maxs: raise TimeoutError(f"lento: {len(buf)} bytes em {maxs}s")
+    return r.status_code, buf
+def hrefs(b): return [h for h in re.findall(r'href="([^"?#][^"]*)"', b.decode("latin-1")) if not h.startswith(("/", "http", "..")) and h != "./"]
+passo("dns", lambda: {"ips": sorted({a[4][0] for a in socket.getaddrinfo(H, None)})})
+def tcp(p):
+    t = time.time(); s = socket.create_connection((H, p), timeout=10); s.close(); return {"ok": True, "ms": int((time.time() - t) * 1000)}
+for p in (80, 443, 21): passo(f"tcp_{p}", lambda p=p: tcp(p))
+for u in (f"http://{H}/", f"https://{H}/", f"http://{H}/modelos/tempo/MERGE/GPM/DAILY/"):
+    passo("http " + u, lambda u=u: (lambda s, b: {"status": s, "bytes": len(b), "itens": hrefs(b)[-15:]})(*get(u, 45)))
+def ftp():
+    f = ftplib.FTP(H, timeout=25); f.login(); out = {"boas_vindas": f.getwelcome()[:120]}
+    for d in ("/modelos/tempo/MERGE/GPM/DAILY", "/modelos/tempo/MERGE/GPM/DAILY/2026/11"):
+        try: out[d] = sorted(f.nlst(d))[-8:]
+        except Exception as e: out[d] = str(e)[:120]
+    f.quit(); return out
+passo("ftp", ftp)
+# arquivos diretos (sem listar): últimos dias e dias conhecidos
+hoje = dt.date.today(); dias = [hoje - dt.timedelta(days=k) for k in range(1, 5)] + [dt.date(2026, 11, 19), dt.date(2026, 11, 2)]
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", "pygrib", "numpy"], check=False)
-UA = {"User-Agent": "chuva-maringa-auditoria"}; R = {}; LAT, LON = -23.42, -51.94
-def lista(u):
-    r = requests.get(u, headers=UA, timeout=90)
-    hs = [h for h in re.findall(r'href="([^"?#][^"]*)"', r.text) if not h.startswith(("/", "http", "..")) and h != "./"]
-    return r.status_code, hs
-def tenta(u):
-    try: s, h = lista(u); R[u] = {"status": s, "n": len(h), "itens": h[:6] + ["…"] + h[-12:] if len(h) > 18 else h}
-    except Exception as e: R[u] = {"erro": str(e)[:200]}
-    print(u, json.dumps(R[u], ensure_ascii=False)[:900], flush=True); return R[u]
-B = "http://ftp.cptec.inpe.br/modelos/tempo/MERGE/"
-for u in (B, B + "GPM/", B + "GPM/DAILY/", B + "GPM/HOURLY/", "https://ftp.cptec.inpe.br/modelos/tempo/MERGE/GPM/DAILY/"): tenta(u)
-# navega até o arquivo diário mais recente
-def ultimo(u):
-    s, h = lista(u); return sorted(h)[-1] if h else None
-D = B + "GPM/DAILY/"; arqs = []
-try:
-    ano = ultimo(D); mes = ultimo(D + ano); s, fs = lista(D + ano + mes)
-    fs = sorted(f for f in fs if "MERGE" in f.upper()); R["diario_mais_recente"] = {"pasta": ano + mes, "ultimos": fs[-6:]}
-    print("diário:", R["diario_mais_recente"], flush=True)
-    gr = [f for f in fs if f.endswith((".grib2", ".grb2", ".grib"))]; arqs = [(D + ano + mes + gr[-1])] if gr else []
-    # dias conhecidos: 19/11 (chuva forte que os modelos não viram) e 02/11 (tornado)
-    for d in ("20261119", "20261120", "20261102", "20261103"):
-        nm = [f for f in fs if d in f and f.endswith((".grib2", ".grb2", ".grib"))]
-        if nm: arqs.append(D + ano + mes + nm[0])
-except Exception as e: R["navegacao_erro"] = str(e)[:300]; print("erro navegação", e, flush=True)
-try:
+def le(d):
+    u = f"http://{H}/modelos/tempo/MERGE/GPM/DAILY/{d:%Y/%m}/MERGE_CPTEC_{d:%Y%m%d}.grib2"
+    s, b = get(u, 90)
+    if s != 200: return {"status": s}
     import pygrib, numpy as np
-    for u in arqs:
-        r = requests.get(u, headers=UA, timeout=180); open("/tmp/m.grib2", "wb").write(r.content)
-        g = pygrib.open("/tmp/m.grib2"); info = {"bytes": len(r.content), "msgs": []}
-        for m in g:
-            la, lo = m.latlons(); v = m.values
-            if lo.max() > 180: lo = np.where(lo > 180, lo - 360, lo)
-            i, j = np.unravel_index(np.argmin((la - LAT) ** 2 + (lo - LON) ** 2), la.shape)
-            viz = np.asarray(v[max(0, i - 1):i + 2, max(0, j - 1):j + 2], dtype=float)
-            info["msgs"].append({"nome": m.name, "un": m.units, "dataDate": m.dataDate, "dataTime": m.dataTime,
-                                 "validityDate": getattr(m, "validityDate", None), "validityTime": getattr(m, "validityTime", None),
-                                 "stepRange": getattr(m, "stepRange", None), "grade": [round(float(la.min()), 2), round(float(la.max()), 2), round(float(lo.min()), 2), round(float(lo.max()), 2), list(la.shape)],
-                                 "ponto": [round(float(la[i, j]), 3), round(float(lo[i, j]), 3)], "mm_ponto": round(float(v[i, j]), 2), "mm_3x3": round(float(np.nanmean(viz)), 2), "mm_max_3x3": round(float(np.nanmax(viz)), 2)})
-        R[u.split("/")[-1]] = info; print(u.split("/")[-1], json.dumps(info, ensure_ascii=False)[:1000], flush=True)
-except Exception as e: R["grib_erro"] = str(e)[:300]; print("erro grib", e, flush=True)
-json.dump(R, open("lab/merge1.json", "w"), ensure_ascii=False, indent=1)
+    open("/tmp/m.grib2", "wb").write(b); m = pygrib.open("/tmp/m.grib2").message(1); la, lo = m.latlons(); v = m.values
+    lo = np.where(lo > 180, lo - 360, lo); i, j = np.unravel_index(np.argmin((la - LAT) ** 2 + (lo - LON) ** 2), la.shape)
+    viz = np.asarray(v[i - 1:i + 2, j - 1:j + 2], dtype=float)
+    return {"bytes": len(b), "nome": m.name, "un": m.units, "dataDate": m.dataDate, "dataTime": m.dataTime, "stepRange": getattr(m, "stepRange", None),
+            "grade": [float(la.min()), float(la.max()), float(lo.min()), float(lo.max()), list(la.shape)], "ponto": [round(float(la[i, j]), 3), round(float(lo[i, j]), 3)],
+            "mm": round(float(v[i, j]), 2), "mm_3x3": round(float(np.nanmean(viz)), 2), "max_3x3": round(float(np.nanmax(viz)), 2)}
+for d in dias: passo(f"arquivo {d}", lambda d=d: le(d))
