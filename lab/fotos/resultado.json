@@ -10,7 +10,7 @@
    },
    "t": "Mon Nov 23 2026 10:00:00 GMT-0300 (Horário Padrão de Brasília)",
    "hora": "10h",
-   "idade": 38.438066666666664,
+   "idade": 41.396433333333334,
    "fresco": true,
    "ws": 28,
    "wd": 30,
@@ -24,7 +24,7 @@
  },
  "share": true,
  "raios": {
-  "txt": "RAIOS AGORA\nsatélite · atraso 5 min\n\nSem raios perto · o mais próximo a 120 km",
+  "txt": "RAIOS AGORA\nsatélite · atraso 6 min\n\nSem raios perto · o mais próximo a 120 km",
   "R": {
    "perto": 119.96953719961529,
    "dir": "sul",
@@ -32,27 +32,27 @@
    "c10": 0,
    "c20": 0,
    "c40": 0,
-   "atraso": 5
+   "atraso": 6
   },
   "err": null,
   "hero": "☁️\n27°\nNublado\npelo radar agora\nVento NE 28 km/h\nmedido às 10h no aeroporto de Maringá"
  },
  "nc": {
-  "txt": "PRÓXIMOS 60 MINUTOS\nConfiança baixa\n\nSem chuva no radar agora · pancadas isoladas podem se formar a qualquer momento\n\nRadar das 10h30: nenhuma chuva prevista sobre Maringá na próxima hora.\n\n⚠️ O radar ainda não mostra chuva por aqui, mas os modelos dão até 23% de chance de chuva por hora e 54% de trovoada por perto nas próximas horas. Pancadas pequenas podem cair sobre a cidade sem aparecer no radar: o radar mais próximo fica longe e não enxerga bem as nuvens baixas daqui.\n\nPróximas horas (radar + modelos): até 11h 4% · 11h–12h 14% · 12h–13h 21%\n\nChuva mais próxima: moderada a 15 km ao sul, se afastando. A chuva na região anda do noroeste para o sudeste a ~28 km/h.\n\nPor que confiança baixa: a atmosfera está instável e pancadas podem se formar sem aparecer antes no radar.\n\nComo funciona e quanto acerta",
+  "txt": "PRÓXIMOS 60 MINUTOS\nConfiança baixa\n\nSem chuva no radar agora · pancadas isoladas podem se formar a qualquer momento\n\nRadar das 10h40: nenhuma chuva prevista sobre Maringá na próxima hora.\n\n⚠️ O radar ainda não mostra chuva por aqui, mas os modelos dão até 23% de chance de chuva por hora e 54% de trovoada por perto nas próximas horas. Pancadas pequenas podem cair sobre a cidade sem aparecer no radar: o radar mais próximo fica longe e não enxerga bem as nuvens baixas daqui.\n\nPróximas horas (radar + modelos): até 11h 4% · 11h–12h 14% · 12h–13h 21%\n\nChuva mais próxima: moderada a 17 km ao sul, se afastando. A chuva na região anda do noroeste para o sudeste a ~28 km/h.\n\nPor que confiança baixa: a atmosfera está instável e pancadas podem se formar sem aparecer antes no radar.\n\nComo funciona e quanto acerta",
   "err": null,
   "est": {
    "fonte": "radar",
    "kmh": 28,
-   "disp": 5.923153523836812,
+   "disp": 5.813055366375754,
    "prox": {
-    "km": 15,
+    "km": 17,
     "dir": "sul",
-    "z": 36,
+    "z": 31,
     "vem": "se afastando"
    },
    "tipo": {
-    "cob": 0.13557435440783616,
-    "forte": 0.006568144499178982
+    "cob": 0.15716829919857525,
+    "forte": 0.007790368271954674
    },
    "p": [
     [
@@ -178,6 +178,6 @@
  ],
  "sheet_head": "⛈️Amanhã, terça 24/11Tempestades · temporal severo moderado (21%), mais provável entre 13h e 16h, pico ~14h",
  "pinfo": "Amanhã às 18h — sobre Maringá: 1,2 mm/h (fraca). Pelos 212 cenários: 31% de chance de chuva, 32% de trovoada, rajada ~21 km/h. Chuva mais forte do mapa: 5,2 mm/h a ~206 km ao sudoeste.",
- "overlay": 2,
- "volta": "Radar 09:40"
+ "overlay": 1,
+ "volta": "Radar 09:50"
 }
