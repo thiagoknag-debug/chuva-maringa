@@ -1,5 +1,5 @@
 {
- "gerado": "2026-11-23T07:02Z",
+ "gerado": "2026-11-23T13:15Z",
  "ultimo_dado_inmet": "2026-10-31 20:00:00",
  "dias_validos": 488,
  "chuva_medida": {
@@ -2408,6 +2408,7 @@
    {
     "treino": "2024-25",
     "brier_bruto": 0.1518,
+    "casos_teste": 93,
     "brier_calibrado": 0.1206,
     "confiabilidade": [
      {
@@ -2475,6 +2476,7 @@
    {
     "treino": "2025-26",
     "brier_bruto": 0.1574,
+    "casos_teste": 87,
     "brier_calibrado": 0.1118,
     "confiabilidade": [
      {
@@ -2542,6 +2544,7 @@
    {
     "treino": "2026-27",
     "brier_bruto": 0.1631,
+    "casos_teste": 122,
     "brier_calibrado": 0.1199,
     "confiabilidade": [
      {
@@ -2610,7 +2613,8 @@
   "d1_10mm": [
    {
     "treino": "2024-25",
-    "brier_bruto": 0.262,
+    "brier_bruto": 0.1192,
+    "casos_teste": 41,
     "brier_calibrado": 0.1148,
     "confiabilidade": [
      {
@@ -2671,7 +2675,8 @@
    },
    {
     "treino": "2025-26",
-    "brier_bruto": 0.2352,
+    "brier_bruto": 0.1075,
+    "casos_teste": 47,
     "brier_calibrado": 0.0959,
     "confiabilidade": [
      {
@@ -2726,7 +2731,8 @@
    },
    {
     "treino": "2026-27",
-    "brier_bruto": 0.2164,
+    "brier_bruto": 0.0872,
+    "casos_teste": 62,
     "brier_calibrado": 0.0905,
     "confiabilidade": [
      {
@@ -2768,10 +2774,115 @@
     ]
    }
   ],
+  "d1_25mm": [
+   {
+    "treino": "2024-25",
+    "brier_bruto": 0.0553,
+    "casos_teste": 20,
+    "brier_calibrado": 0.0565,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 197,
+      "prevista": 0.01,
+      "real": 0.02
+     },
+     {
+      "faixa": "10-20%",
+      "n": 28,
+      "prevista": 0.16,
+      "real": 0.07
+     },
+     {
+      "faixa": "20-30%",
+      "n": 32,
+      "prevista": 0.25,
+      "real": 0.22
+     },
+     {
+      "faixa": "30-40%",
+      "n": 16,
+      "prevista": 0.34,
+      "real": 0.38
+     }
+    ]
+   },
+   {
+    "treino": "2025-26",
+    "brier_bruto": 0.0695,
+    "casos_teste": 20,
+    "brier_calibrado": 0.067,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 218,
+      "prevista": 0.02,
+      "real": 0.03
+     },
+     {
+      "faixa": "10-20%",
+      "n": 23,
+      "prevista": 0.15,
+      "real": 0.17
+     },
+     {
+      "faixa": "20-30%",
+      "n": 10,
+      "prevista": 0.25,
+      "real": 0.2
+     },
+     {
+      "faixa": "40-50%",
+      "n": 9,
+      "prevista": 0.46,
+      "real": 0.22
+     },
+     {
+      "faixa": "50-60%",
+      "n": 7,
+      "prevista": 0.55,
+      "real": 0.29
+     }
+    ]
+   },
+   {
+    "treino": "2026-27",
+    "brier_bruto": 0.0531,
+    "casos_teste": 28,
+    "brier_calibrado": 0.0527,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 378,
+      "prevista": 0.04,
+      "real": 0.04
+     },
+     {
+      "faixa": "10-20%",
+      "n": 30,
+      "prevista": 0.14,
+      "real": 0.2
+     },
+     {
+      "faixa": "20-30%",
+      "n": 11,
+      "prevista": 0.24,
+      "real": 0.27
+     },
+     {
+      "faixa": "30-40%",
+      "n": 5,
+      "prevista": 0.35,
+      "real": 0.6
+     }
+    ]
+   }
+  ],
   "d2_1mm": [
    {
     "treino": "2024-25",
     "brier_bruto": 0.1642,
+    "casos_teste": 93,
     "brier_calibrado": 0.1335,
     "confiabilidade": [
      {
@@ -2839,6 +2950,7 @@
    {
     "treino": "2025-26",
     "brier_bruto": 0.1814,
+    "casos_teste": 87,
     "brier_calibrado": 0.1227,
     "confiabilidade": [
      {
@@ -2900,6 +3012,7 @@
    {
     "treino": "2026-27",
     "brier_bruto": 0.1846,
+    "casos_teste": 122,
     "brier_calibrado": 0.147,
     "confiabilidade": [
      {
@@ -2968,7 +3081,8 @@
   "d2_10mm": [
    {
     "treino": "2024-25",
-    "brier_bruto": 0.2725,
+    "brier_bruto": 0.1232,
+    "casos_teste": 41,
     "brier_calibrado": 0.114,
     "confiabilidade": [
      {
@@ -3029,7 +3143,8 @@
    },
    {
     "treino": "2025-26",
-    "brier_bruto": 0.2617,
+    "brier_bruto": 0.1153,
+    "casos_teste": 47,
     "brier_calibrado": 0.108,
     "confiabilidade": [
      {
@@ -3078,7 +3193,8 @@
    },
    {
     "treino": "2026-27",
-    "brier_bruto": 0.2418,
+    "brier_bruto": 0.0919,
+    "casos_teste": 62,
     "brier_calibrado": 0.0957,
     "confiabilidade": [
      {
@@ -3108,10 +3224,127 @@
     ]
    }
   ],
+  "d2_25mm": [
+   {
+    "treino": "2024-25",
+    "brier_bruto": 0.059,
+    "casos_teste": 20,
+    "brier_calibrado": 0.0547,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 199,
+      "prevista": 0.02,
+      "real": 0.03
+     },
+     {
+      "faixa": "10-20%",
+      "n": 35,
+      "prevista": 0.14,
+      "real": 0.06
+     },
+     {
+      "faixa": "20-30%",
+      "n": 19,
+      "prevista": 0.25,
+      "real": 0.16
+     },
+     {
+      "faixa": "30-40%",
+      "n": 11,
+      "prevista": 0.36,
+      "real": 0.45
+     },
+     {
+      "faixa": "40-50%",
+      "n": 6,
+      "prevista": 0.44,
+      "real": 0.33
+     },
+     {
+      "faixa": "50-60%",
+      "n": 5,
+      "prevista": 0.53,
+      "real": 0.6
+     }
+    ]
+   },
+   {
+    "treino": "2025-26",
+    "brier_bruto": 0.0732,
+    "casos_teste": 20,
+    "brier_calibrado": 0.0646,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 225,
+      "prevista": 0.02,
+      "real": 0.04
+     },
+     {
+      "faixa": "10-20%",
+      "n": 24,
+      "prevista": 0.14,
+      "real": 0.12
+     },
+     {
+      "faixa": "20-30%",
+      "n": 6,
+      "prevista": 0.25,
+      "real": 0.33
+     },
+     {
+      "faixa": "30-40%",
+      "n": 8,
+      "prevista": 0.35,
+      "real": 0.5
+     },
+     {
+      "faixa": "40-50%",
+      "n": 6,
+      "prevista": 0.45,
+      "real": 0.17
+     }
+    ]
+   },
+   {
+    "treino": "2026-27",
+    "brier_bruto": 0.0548,
+    "casos_teste": 28,
+    "brier_calibrado": 0.0512,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 370,
+      "prevista": 0.04,
+      "real": 0.03
+     },
+     {
+      "faixa": "10-20%",
+      "n": 28,
+      "prevista": 0.14,
+      "real": 0.14
+     },
+     {
+      "faixa": "20-30%",
+      "n": 19,
+      "prevista": 0.24,
+      "real": 0.37
+     },
+     {
+      "faixa": "30-40%",
+      "n": 5,
+      "prevista": 0.34,
+      "real": 0.4
+     }
+    ]
+   }
+  ],
   "d3_1mm": [
    {
     "treino": "2024-25",
     "brier_bruto": 0.1769,
+    "casos_teste": 93,
     "brier_calibrado": 0.1413,
     "confiabilidade": [
      {
@@ -3173,6 +3406,7 @@
    {
     "treino": "2025-26",
     "brier_bruto": 0.1871,
+    "casos_teste": 87,
     "brier_calibrado": 0.1298,
     "confiabilidade": [
      {
@@ -3240,6 +3474,7 @@
    {
     "treino": "2026-27",
     "brier_bruto": 0.2006,
+    "casos_teste": 122,
     "brier_calibrado": 0.1534,
     "confiabilidade": [
      {
@@ -3308,7 +3543,8 @@
   "d3_10mm": [
    {
     "treino": "2024-25",
-    "brier_bruto": 0.2716,
+    "brier_bruto": 0.1205,
+    "casos_teste": 41,
     "brier_calibrado": 0.1019,
     "confiabilidade": [
      {
@@ -3363,7 +3599,8 @@
    },
    {
     "treino": "2025-26",
-    "brier_bruto": 0.2684,
+    "brier_bruto": 0.1328,
+    "casos_teste": 47,
     "brier_calibrado": 0.1125,
     "confiabilidade": [
      {
@@ -3418,7 +3655,8 @@
    },
    {
     "treino": "2026-27",
-    "brier_bruto": 0.2482,
+    "brier_bruto": 0.0935,
+    "casos_teste": 62,
     "brier_calibrado": 0.0989,
     "confiabilidade": [
      {
@@ -3444,6 +3682,128 @@
       "n": 117,
       "prevista": 0.35,
       "real": 0.43
+     }
+    ]
+   }
+  ],
+  "d3_25mm": [
+   {
+    "treino": "2024-25",
+    "brier_bruto": 0.0551,
+    "casos_teste": 20,
+    "brier_calibrado": 0.051,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 209,
+      "prevista": 0.02,
+      "real": 0.02
+     },
+     {
+      "faixa": "10-20%",
+      "n": 32,
+      "prevista": 0.14,
+      "real": 0.06
+     },
+     {
+      "faixa": "20-30%",
+      "n": 12,
+      "prevista": 0.25,
+      "real": 0.25
+     },
+     {
+      "faixa": "30-40%",
+      "n": 9,
+      "prevista": 0.34,
+      "real": 0.44
+     },
+     {
+      "faixa": "40-50%",
+      "n": 8,
+      "prevista": 0.44,
+      "real": 0.5
+     },
+     {
+      "faixa": "50-60%",
+      "n": 5,
+      "prevista": 0.57,
+      "real": 0.6
+     }
+    ]
+   },
+   {
+    "treino": "2025-26",
+    "brier_bruto": 0.0686,
+    "casos_teste": 20,
+    "brier_calibrado": 0.0699,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 217,
+      "prevista": 0.02,
+      "real": 0.02
+     },
+     {
+      "faixa": "10-20%",
+      "n": 23,
+      "prevista": 0.14,
+      "real": 0.3
+     },
+     {
+      "faixa": "20-30%",
+      "n": 5,
+      "prevista": 0.24,
+      "real": 0.2
+     },
+     {
+      "faixa": "30-40%",
+      "n": 8,
+      "prevista": 0.35,
+      "real": 0.38
+     },
+     {
+      "faixa": "40-50%",
+      "n": 8,
+      "prevista": 0.47,
+      "real": 0.12
+     },
+     {
+      "faixa": "60-70%",
+      "n": 6,
+      "prevista": 0.66,
+      "real": 0.33
+     }
+    ]
+   },
+   {
+    "treino": "2026-27",
+    "brier_bruto": 0.0482,
+    "casos_teste": 28,
+    "brier_calibrado": 0.0486,
+    "confiabilidade": [
+     {
+      "faixa": "0-10%",
+      "n": 347,
+      "prevista": 0.03,
+      "real": 0.01
+     },
+     {
+      "faixa": "10-20%",
+      "n": 50,
+      "prevista": 0.14,
+      "real": 0.18
+     },
+     {
+      "faixa": "20-30%",
+      "n": 20,
+      "prevista": 0.24,
+      "real": 0.35
+     },
+     {
+      "faixa": "30-40%",
+      "n": 7,
+      "prevista": 0.34,
+      "real": 0.86
      }
     ]
    }
@@ -3995,7 +4355,7 @@
   "INMET 2025: 2025/INMET_S_PR_A835_MARINGA_01-01-2025_A_31-12-2025.CSV — 8760 horas, chuva válida 966",
   "INMET 2026: INMET_S_PR_A835_MARINGA_01-01-2026_A_31-10-2026.CSV — 7296 horas, chuva válida 678",
   "último dado de chuva do INMET: 2026-10-31 20:00:00",
-  "MERGE: baixados 11 de 11 · série com 814 dias até 2026-11-22 00:00:00",
+  "MERGE: baixados 10 de 10 · série com 814 dias até 2026-11-22 00:00:00",
   "previsões 2024-09-01 2024-09-30 ok",
   "previsões 2024-10-01 2024-10-31 ok",
   "previsões 2024-11-01 2024-11-30 ok",
@@ -4006,14 +4366,13 @@
   "previsões 2025-03-01 2025-03-31 ok",
   "previsões 2025-09-01 2025-09-30 ok",
   "previsões 2025-10-01 2025-10-31 ok",
-  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=300)",
   "previsões 2025-11-01 2025-11-30 ok",
   "previsões 2025-12-01 2025-12-31 ok",
+  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=300)",
   "previsões 2026-01-01 2026-01-31 ok",
   "previsões 2026-02-01 2026-02-28 ok",
   "previsões 2026-03-01 2026-03-31 ok",
   "previsões 2026-09-01 2026-09-30 ok",
-  "erro https://previous-runs-api.open-meteo.com/v1/forecast HTTPSConnectionPool(host='previous-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=300)",
   "previsões 2026-10-01 2026-10-31 ok",
   "dias com chuva medida e previsão: 488 · INMET 180 · MERGE 308",
   "SBMG: horas 11562 dias completos 484 dias com trovoada 149",
