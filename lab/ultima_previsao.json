@@ -1,48 +1,53 @@
 {
- "gerado": "2026-11-23T20:24:03.584147+00:00",
+ "gerado": "2026-11-24T10:36:01.535813+00:00",
  "dias": [
   {
-   "dia": "2026-11-23",
-   "chuva_mm": 13.0,
-   "chance": 99,
-   "tmin": 22,
-   "tmax": 27,
-   "rajada": 34,
-   "aviso": "amarelo",
-   "pico_chuva": null,
-   "pico_rajada": 17,
-   "trovoada": null,
-   "risco": {
-    "pct": 15,
-    "nivel": "Moderado",
-    "parecido_2_11": false,
-    "bruto": 15,
-    "piso_inmet": 10
-   },
-   "cenarios": 212
-  },
-  {
    "dia": "2026-11-24",
-   "chuva_mm": 13.4,
-   "chance": 93,
-   "tmin": 23,
-   "tmax": 30,
-   "rajada": 42,
+   "chuva_mm": 10.5,
+   "chance": 86,
+   "tmin": 22,
+   "tmax": 29,
+   "rajada": 43,
    "aviso": "vermelho",
    "pico_chuva": 18,
-   "pico_rajada": 11,
+   "pico_rajada": 13,
    "trovoada": {
     "de": 13,
     "ate": 19,
-    "pico": 15,
-    "pct": 51
+    "pico": 16,
+    "pct": 44
    },
    "risco": {
     "pct": 65,
     "nivel": "Muito alto",
-    "parecido_2_11": true,
-    "bruto": 19,
+    "parecido_2_11": false,
+    "bruto": 8,
     "piso_inmet": 65
+   },
+   "cenarios": 212
+  },
+  {
+   "dia": "2026-11-25",
+   "chuva_mm": 26.5,
+   "chance": 99,
+   "tmin": 23,
+   "tmax": 27,
+   "rajada": 31,
+   "aviso": "amarelo",
+   "pico_chuva": 15,
+   "pico_rajada": 10,
+   "trovoada": {
+    "de": 13,
+    "ate": 16,
+    "pico": 13,
+    "pct": 74
+   },
+   "risco": {
+    "pct": 38,
+    "nivel": "Alto",
+    "parecido_2_11": false,
+    "bruto": 38,
+    "piso_inmet": 10
    },
    "cenarios": 212
   }
@@ -51,23 +56,17 @@
   {
    "lvl": "amarelo",
    "tit": "tempestade",
-   "ini": "2026-11-23",
-   "fim": "2026-11-23"
+   "ini": "2026-11-24",
+   "fim": "2026-11-24"
   },
   {
-   "lvl": "amarelo",
+   "lvl": "laranja",
    "tit": "tempestade",
    "ini": "2026-11-24",
    "fim": "2026-11-24"
   },
   {
    "lvl": "vermelho",
-   "tit": "tempestade",
-   "ini": "2026-11-24",
-   "fim": "2026-11-24"
-  },
-  {
-   "lvl": "laranja",
    "tit": "tempestade",
    "ini": "2026-11-24",
    "fim": "2026-11-24"
