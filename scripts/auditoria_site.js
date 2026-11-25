@@ -24,7 +24,7 @@ async function cenario(b, nome, { hash = '', dev = devices['iPhone 13'], hora = 
     const E = window.__NCUI && window.__NCUI.estado ? window.__NCUI.estado() : null;
     return { cidade: t('#cidade'), stamp: t('#stamp'), now: t('#hero .now'), proxima: t('#nxlab') + ' | ' + t('#nxhead') + ' | ' + t('#nxsub'),
       hoje: t('.hero .box'), dia0: t('.day'), horas: document.querySelectorAll('#hours .h, .hours .h').length, nc: t('#nc .nc-h') || t('#nc .hint'), conf: t('#nc .nc-conf'),
-      p0: E ? +E.P[0].p.toFixed(2) : null, vento: t('#vt .vt-main') + ' | ' + t('#vt .vt-av'), raios: t('#ra .ra-h'), blend: t('#nc .nc-blend'), satlinha: t('#nc .nc-sat'), sat: window.__SAT ? JSON.stringify(window.__SAT) : null, cal: !!(window.__L && window.__L.H && window.__L.H.cal), hrsnota: t('#hrsnota'), r_marcas: document.querySelectorAll('#hours .p sup').length, avisos: [...document.querySelectorAll('.chip summary')].map(x => x.textContent.trim()),
+      p0: E ? +E.P[0].p.toFixed(2) : null, vento: t('#vt .vt-main') + ' | ' + t('#vt .vt-av'), raios: t('#ra .ra-h'), blend: t('#nc .nc-blend'), quando: t('#qh-res'), satlinha: t('#nc .nc-sat'), sat: window.__SAT ? JSON.stringify(window.__SAT) : null, cal: !!(window.__L && window.__L.H && window.__L.H.cal), hrsnota: t('#hrsnota'), r_marcas: document.querySelectorAll('#hours .p sup').length, avisos: [...document.querySelectorAll('.chip summary')].map(x => x.textContent.trim()),
       dias: document.querySelectorAll('.day').length };
   });
   // abre o painel de cada dia
