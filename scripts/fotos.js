@@ -14,6 +14,12 @@ const fs = require('fs');
   await p.screenshot({ path: 'lab/fotos/1_topo.png' });
   await p.waitForSelector('#nc .nc-h', { timeout: 60000 }).catch(e => erros.push('nc ' + e));
   await p.locator('#nc').screenshot({ path: 'lab/fotos/0_nowcast.png' }).catch(() => {});
+  /* caixa 'Como vai estar às…': hoje 18h e amanhã 8h */
+  await p.waitForSelector('#qh-res .qh-h', { timeout: 30000 }).catch(e => erros.push('qh ' + e));
+  await p.fill('#qh-hora', '18:00').catch(() => {}); await p.dispatchEvent('#qh-hora', 'change').catch(() => {}); await p.waitForTimeout(500);
+  await p.locator('#qh').screenshot({ path: 'lab/fotos/0_quando_18h.png' }).catch(() => {});
+  await p.click('#qh-dias button:nth-child(2)').catch(() => {}); await p.fill('#qh-hora', '08:00').catch(() => {}); await p.dispatchEvent('#qh-hora', 'change').catch(() => {}); await p.waitForTimeout(500);
+  await p.locator('#qh').screenshot({ path: 'lab/fotos/0_quando_amanha8h.png' }).catch(() => {});
   await p.waitForTimeout(4000); await p.locator('#vt').screenshot({ path: 'lab/fotos/0_vento.png' }).catch(() => {});
   out.vento = await p.evaluate(() => ({ txt: document.getElementById('vt').innerText.slice(0, 800), obs: window.__OBS ? { ...window.__OBS, t: String(window.__OBS.t) } : null }));
   out.share = await p.evaluate(() => !document.getElementById('share').hidden);
