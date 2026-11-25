@@ -1,47 +1,42 @@
 {
- "gerado": "2026-11-25T10:37:18.341065+00:00",
+ "gerado": "2026-11-25T20:25:17.088586+00:00",
  "dias": [
   {
    "dia": "2026-11-25",
-   "chuva_mm": 18.2,
+   "chuva_mm": 8.8,
    "chance": 99,
    "tmin": 22,
-   "tmax": 26,
-   "rajada": 33,
+   "tmax": 25,
+   "rajada": 30,
    "aviso": "laranja",
-   "pico_chuva": 13,
-   "pico_rajada": 11,
-   "trovoada": {
-    "de": 13,
-    "ate": 18,
-    "pico": 14,
-    "pct": 43
-   },
+   "pico_chuva": 17,
+   "pico_rajada": 17,
+   "trovoada": null,
    "risco": {
     "pct": 35,
     "nivel": "Alto",
-    "parecido_2_11": true,
-    "bruto": 15,
+    "parecido_2_11": false,
+    "bruto": 13,
     "piso_inmet": 35
    },
    "cenarios": 212
   },
   {
    "dia": "2026-11-26",
-   "chuva_mm": 13.1,
-   "chance": 84,
+   "chuva_mm": 8.3,
+   "chance": 91,
    "tmin": 21,
-   "tmax": 26,
-   "rajada": 39,
+   "tmax": 25,
+   "rajada": 40,
    "aviso": "amarelo",
-   "pico_chuva": 16,
+   "pico_chuva": 12,
    "pico_rajada": 23,
    "trovoada": null,
    "risco": {
     "pct": 10,
     "nivel": "Moderado",
     "parecido_2_11": false,
-    "bruto": 9,
+    "bruto": 5,
     "piso_inmet": 10
    },
    "cenarios": 212
