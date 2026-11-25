@@ -364,6 +364,21 @@ footer.foot p{margin:4px 0}
 .nc-blend{margin:8px 0 0;font-size:14px;text-align:center;color:var(--ink)}.nc-blend b{color:var(--rain)}
 .h .p sup{font-size:9px;color:var(--muted);margin-left:1px}
 .nc-sat{margin:8px 0 0;font-size:14px;line-height:1.45;padding:8px 10px;border-radius:10px;background:var(--card);border:1px solid var(--line)}
+.qh-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.qh-top h2{margin:0}
+.qh input[type=time]{font:inherit;font-size:20px;font-weight:700;padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-width:120px}
+.qh-dias{display:flex;gap:6px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
+.qh-dias::-webkit-scrollbar{display:none}
+.qh-dias button{flex:0 0 auto;font:inherit;font-size:14px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.qh-dias button[aria-pressed=true]{background:var(--rain);border-color:var(--rain);color:#fff;font-weight:700}
+.qh-res{margin-top:8px}
+.qh-q{margin:0;font-size:14px;color:var(--muted)}.qh-q span{font-size:13px}
+.qh-h{margin:4px 0 6px;font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;text-wrap:balance}
+.qh-ic{font-size:28px;line-height:1}
+.qh-d{margin:2px 0;font-size:15px;line-height:1.45}.qh-d b{color:var(--rain)}
+.qh-f{margin:8px 0 0;font-size:13px;color:var(--muted);line-height:1.45}
+.qh-map{font:inherit;font-size:13px;margin-left:4px;padding:2px 10px;border-radius:999px;border:1px solid var(--rain);background:transparent;color:var(--rain);cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 </style>
 </head>
 <body>
@@ -380,6 +395,11 @@ footer.foot p{margin:4px 0}
   <div id="recentes" class="recentes" hidden></div>
   <div id="alerts" class="alerts"></div>
   <section id="hero" class="hero" aria-live="polite"><div class="skeleton"></div></section>
+  <section class="card qh" id="qh" hidden aria-labelledby="qh-t">
+    <div class="qh-top"><h2 id="qh-t">Como vai estar às…</h2><label class="qh-lab"><span class="sr">Horário</span><input type="time" id="qh-hora" step="900" aria-label="Horário"></label></div>
+    <div class="qh-dias" id="qh-dias" role="group" aria-label="Dia"></div>
+    <div class="qh-res" id="qh-res" aria-live="polite"></div>
+  </section>
   <section class="card nc" id="nc" aria-live="polite"><div class="nc-top"><h2>Próximos 60 minutos</h2></div><p class="hint">Lendo o radar…</p></section>
   <section class="card ra" id="ra" aria-live="polite"><div class="ra-top"><h2>Raios agora</h2></div><p class="hint">Lendo o satélite…</p></section>
   <section class="card vt" id="vt" aria-live="polite"><div class="vt-top"><h2>Vento</h2></div><p class="hint">Carregando…</p></section>
@@ -875,6 +895,74 @@ window.__VTUI={set(c){if(c.H)H=c.H;ctx=Object.assign(ctx,c);desenha();},redesenh
 atualiza();setInterval(()=>{if(!document.hidden)atualiza();},10*60e3);setInterval(()=>{if(!document.hidden)desenha();},60e3);
 })();
 }catch(e){console.error('módulo vento.ui.js',e);}
+try{
+/* "Como vai estar às…": escolho o dia e o horário e o site responde em texto.
+   Até 90 min: radar (minuto a minuto) junto com os modelos; até 3 h: radar + modelos; até 3 dias (Maringá): chance por hora
+   calibrada com o aeroporto; depois disso: fração dos cenários dos modelos (tendência). */
+(()=>{const el=document.getElementById('qh');if(!el)return;
+ const pad=n=>String(n).padStart(2,'0'),DIA=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],RUMO=['N','NE','L','SE','S','SO','O','NO'];
+ const fmt=(v,d=1)=>Number(v).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}),mmTxt=v=>v<0.5?'menos de 0,5':v<10?'~'+fmt(v):'~'+fmt(v,0);
+ const chave=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+ let L=null,diaSel=null;
+ const inp=el.querySelector('#qh-hora'),dias=el.querySelector('#qh-dias'),res=el.querySelector('#qh-res');
+ function nomeDia(k){const d=new Date(k+'T12:00:00'),h=new Date(),am=new Date(h.getTime()+864e5);
+   return k===chave(h)?'Hoje':k===chave(am)?'Amanhã':`${DIA[d.getDay()]} ${d.getDate()}`;}
+ /* hora que termina em 'fim' (rótulo do Open-Meteo: chuva da hora anterior) no dia k */
+ function hora(k,h){if(!L)return null;let i=L.D.findIndex(d=>d[0]===k);if(i<0)return null;if(h===24){i++;h=0;}const dh=L.DH[i];return dh?dh.find(o=>o.h===h)||null:null;}
+ function doH(k,h){/* índice na faixa de 48 h (tem a mistura radar + modelos) */const H=L.H;if(!H||!H.start)return -1;
+   const t0=new Date(H.start+':00'),t=new Date(k+'T'+pad(h%24)+':00:00');if(h===24)t.setDate(t.getDate()+1);
+   const n=Math.round((t-t0)/36e5);return n>=0&&n<H.p.length?n:-1;}
+ function responde(){if(!L||!inp.value)return;
+   const agora=new Date();let k=diaSel||chave(agora);const [hh,mi]=inp.value.split(':').map(Number);
+   let alvo=new Date(k+'T'+pad(hh)+':'+pad(mi)+':00'),nota='';
+   if(alvo<agora-30*60e3&&k===chave(agora)){alvo=new Date(alvo.getTime()+864e5);k=chave(alvo);nota=' (esse horário já passou hoje)';marca(k);}
+   const min=Math.round((alvo-agora)/60e3);
+   if(L.D.findIndex(d=>d[0]===k)<0){res.innerHTML='<p class="qh-d">Não tenho previsão para esse dia.</p>';return;}
+   /* chuva: hora que vai de hh a hh+1 (rótulo hh+1); temperatura, vento e nuvens: o rótulo mais perto do horário */
+   const oc=hora(k,hh+1),ot=hora(k,mi>=30?hh+1:hh)||oc;if(!oc||!ot){res.innerHTML='<p class="qh-d">Não tenho previsão para esse horário.</p>';return;}
+   const H=L.H,ih=doH(k,hh+1),cal=!!(oc.cal||(ih>=0&&H.cal)),LIM=H&&H.lim?H.lim:{hora:25};
+   let p=ih>=0&&H.p[ih]!=null?H.p[ih]:oc.p,fonte=cal?'modelos, com chance calibrada pelo aeroporto de Maringá':'modelos (fração dos cenários)',radarTxt='';
+   if(ih>=0&&H.blend&&H.blend[ih])fonte='radar + modelos';
+   const tc=cal?(ih>=0&&H.tc?H.tc[ih]:oc.tc):null,pt=oc.pt;
+   /* até 90 min: o radar minuto a minuto */
+   const E=window.__NCUI&&window.__NCUI.estado&&window.__NCUI.estado();
+   if(E&&min>=-5&&min<=90){const m=Math.max(0,min),x=E.P.find(o=>o.m===m)||E.P[E.P.length-1];
+     if(x&&x.u<0.5){const tau=(window.__L&&window.__L.D[0]&&window.__L.D[0][16]&&window.__L.D[0][16].ts>=40)?45:75,w=Math.exp(-m/tau),pm=(p??0)/100;
+       p=Math.round(100*(w*x.p+(1-w)*pm));fonte='radar + modelos';
+       if(x.p>=0.5&&x.z>=20){const c=x.z>=55?'temporal':x.z>=48?'muito forte':x.z>=40?'forte':x.z>=30?'moderada':'fraca';radarTxt=`O radar projeta chuva ${c} nesse horário.`;}
+       else if(x.p<0.15)radarTxt='O radar não projeta chuva chegando até lá.';}}
+   p=p??0;
+   /* palavras: com chance calibrada o número é a chance real daquela hora; sem calibração, a fração de cenários exagera */
+   const b=cal?[60,35,20,10]:[80,50,30,15],trov=cal?(tc??0)>=25:(pt??0)>=30,mm=oc.mm??0,dia=ot.dia,cc=ot.cc??null;
+   let ic,tit;
+   if(p>=b[0]){ic=trov?'⛈️':'🌧️';tit=trov?'Chuva com trovoada quase certa':'Chuva quase certa';}
+   else if(p>=b[1]){ic=trov?'⛈️':'🌧️';tit=trov?'Chuva com trovoada provável':'Chuva provável';}
+   else if(p>=b[2]){ic=trov?'⛈️':'🌦️';tit=trov?'Pode chover, com trovoada':'Pode chover';}
+   else if(trov){ic='🌩️';tit='Trovoada por perto; chuva aqui é menos provável';}
+   else if(p>=b[3]){ic=dia?'🌤️':'☁️';tit='Pequena chance de chuva';}
+   else{tit=cc==null?'Sem chuva provável':cc>=85?'Nublado, sem chuva provável':cc>=50?(dia?'Sol entre nuvens':'Parcialmente nublado'):(dia?'Céu limpo ou com poucas nuvens':'Céu limpo');
+     ic=cc!=null&&cc>=85?'☁️':cc!=null&&cc>=50?(dia?'⛅':'☁️'):(dia?'☀️':'🌙');}
+   const quando=min<60?`daqui a ${Math.max(0,min)} min`:min<48*60?`daqui a ${Math.round(min/60)} h`:`daqui a ${Math.round(min/1440)} dias`;
+   const vento=ot.ws!=null?`vento ${ot.wd!=null?RUMO[Math.round(ot.wd/45)%8]+' ':''}${ot.ws} km/h${ot.wg!=null&&ot.wg>=ot.ws+8?`, rajadas até ${ot.wg} km/h`:''}`:'';
+   const conf=min<=30&&fonte==='radar + modelos'?'Boa confiança nos próximos 30 min.':min<=6*60?'Confiança média: o horário exato da chuva pode variar 1 a 2 h.':min<=72*60?'Confiança média: o horário exato pode variar algumas horas.':'Para tantos dias à frente, trate como tendência.';
+   res.innerHTML=`<p class="qh-q">${nomeDia(k)} às ${pad(hh)}h${mi?pad(mi):''} <span>· ${quando}${nota}</span></p>
+    <p class="qh-h"><span class="qh-ic" aria-hidden="true">${ic}</span>${tit}</p>
+    <p class="qh-d">Chance de chuva entre ${pad(hh)}h e ${pad((hh+1)%24)}h: <b>${p}%</b>${cal&&tc!=null&&tc>=10?` · trovoada por perto: ${tc}%`:''}${!cal&&pt!=null&&pt>=20?` · sinal de temporal: ${pt}%`:''}${p>=b[2]&&mm>=0.1?` · se chover, ${mmTxt(mm)} mm`:''}</p>
+    ${radarTxt?`<p class="qh-d">${radarTxt}</p>`:''}
+    <p class="qh-d">${ot.t!=null?ot.t+'°':''}${vento?' · '+vento:''}${cc!=null?` · nuvens ${cc}%`:''}</p>
+    <p class="qh-f">Fonte: ${fonte}. ${conf} ${window.__MAPA_EM&&min<=48*60?'<button type="button" class="qh-map">Ver no mapa</button>':''}</p>`;
+   const bm=res.querySelector('.qh-map');if(bm)bm.addEventListener('click',()=>window.__MAPA_EM(k,hh));}
+ function marca(k){diaSel=k;dias.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.k===k)));}
+ function monta(){L=window.__L;if(!L||!L.D)return;el.hidden=false;
+   dias.innerHTML=L.D.slice(0,10).map(d=>`<button type="button" data-k="${d[0]}" aria-pressed="false">${nomeDia(d[0])}</button>`).join('');
+   dias.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{marca(b.dataset.k);responde();}));
+   if(!inp.value){const t=new Date(Date.now()+2*36e5);inp.value=pad(t.getHours())+':00';if(!diaSel)diaSel=chave(t);}
+   marca(diaSel||chave(new Date()));responde();}
+ inp.addEventListener('change',responde);inp.addEventListener('input',responde);
+ window.addEventListener('previsao-pronta',monta);if(window.__L)monta();
+ setInterval(()=>{if(L)responde();},60e3);   /* o radar e a mistura se atualizam sozinhos */
+})();
+}catch(e){console.error('módulo quando.ui.js',e);}
 /* Configuração: o que usar do arquivo de pesos da auditoria (lab/pesos.json) */
 /* Auditoria de 488 dias com chuva medida (INMET + MERGE/INPE, set/2024–out/2026): mediana dos modelos venceu; correção de volume não ajudou;
    chance de chuva forte calibrada melhorou muito; vento calibrado pela estação do INMET. */
@@ -1126,6 +1214,8 @@ async function pModo(on){const RD=window.__RD;$('tab-agora').setAttribute('aria-
   if($('tab-prev').getAttribute('aria-selected')!=='true')return;
   pAtualiza();}
 $('tab-agora').addEventListener('click',()=>pModo(false));$('tab-prev').addEventListener('click',()=>pModo(true));
+/* atalho da caixa 'Como vai estar às…': abre o mapa de previsão nesse dia e hora */
+window.__MAPA_EM=async(d,h)=>{try{await pModo(true);if(!PV)return;const o=[...$('pdia').options].some(x=>x.value===d);if(o)$('pdia').value=d;$('phora').value=pad(h)+':00';pVaiPara();$('radar').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){console.error(e);}};
 $('pslider').addEventListener('input',pAtualiza);$('pmod').addEventListener('change',pAtualiza);$('pcam').addEventListener('change',pAtualiza);
 $('phora').addEventListener('change',pVaiPara);$('pdia').addEventListener('change',pVaiPara);$('pplay').addEventListener('click',()=>PV&&pPlay());
 document.querySelectorAll('[data-h]').forEach(b=>b.addEventListener('click',()=>{$('phora').value=b.dataset.h;pVaiPara();}));
@@ -1141,7 +1231,7 @@ try{[L,O]=await Promise.all([coletar(),LOC.padrao?fetch('lab/mes.json?v='+Date.n
 catch(e){let c=null;try{c=JSON.parse(localStorage.getItem(CK)||'null');}catch(_){}
   if(c&&c.L&&Date.now()-c.t<36*3600e3){L=c.L;O=null;offline=new Date(c.t);}
   else{$('stamp').textContent='Sem conexão com os serviços de tempo';$('hero').outerHTML='<div class="err">Não foi possível buscar a previsão agora. Verifique a internet e toque em ↻.</div>';return;}}
-window.__L=L;
+window.__L=L;window.dispatchEvent(new Event('previsao-pronta'));
 
 /* carimbo */
 const g=new Date(L.gen);if(L.ens&&L.ens.length){const f=document.querySelector('.foot');const n=L.ens.reduce((s,x)=>s+x[1],0);if(f)f.textContent+=/conjuntos fora/.test(L.ens[0][0])?` Agora a chance de chuva usa só os ${n} modelos: os conjuntos de cenários não responderam.`:` Chance de chuva com ${n} cenários de ${L.ens.length} sistema${L.ens.length>1?'s':''} (${L.ens.map(x=>x[0]).join(', ')}).`;}if(L.pesos){const f=document.querySelector('.foot');if(f)f.textContent+=' Pesos da auditoria de '+L.pesos.slice(8,10)+'/'+L.pesos.slice(5,7)+'/'+L.pesos.slice(0,4)+'.';}$('stamp').textContent='Atualizado às '+pad(g.getHours())+'h'+pad(g.getMinutes())+' · '+WD[g.getDay()]+', '+g.getDate()+'/'+(g.getMonth()+1);if(offline){$('stamp').innerHTML='<span class="semcal">Sem conexão</span> · mostrando a previsão de '+WD[offline.getDay()].toLowerCase()+' às '+pad(offline.getHours())+'h'+pad(offline.getMinutes());}if(!LOC.padrao){$('stamp').insertAdjacentHTML('beforeend',' · <span class="semcal">sem calibração local</span>');const n=$('calibNota');if(n)n.hidden=false;}
