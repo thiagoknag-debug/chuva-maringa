@@ -1,36 +1,36 @@
 {
- "gerado": "2026-11-27T20:26:49.173851+00:00",
+ "gerado": "2026-11-28T10:30:03.024902+00:00",
  "dias": [
   {
-   "dia": "2026-11-27",
-   "chuva_mm": 0.5,
-   "chance": 57,
-   "tmin": 18,
-   "tmax": 26,
-   "rajada": 40,
-   "aviso": "amarelo",
-   "pico_chuva": null,
+   "dia": "2026-11-28",
+   "chuva_mm": 4.3,
+   "chance": 85,
+   "tmin": 19,
+   "tmax": 27,
+   "rajada": 34,
+   "aviso": null,
+   "pico_chuva": 17,
    "pico_rajada": 23,
    "trovoada": null,
    "risco": {
-    "pct": 10,
-    "nivel": "Moderado",
+    "pct": 8,
+    "nivel": "Baixo",
     "parecido_2_11": false,
-    "bruto": 0,
-    "piso_inmet": 10
+    "bruto": 8,
+    "piso_inmet": 0
    },
    "cenarios": 212
   },
   {
-   "dia": "2026-11-28",
-   "chuva_mm": 4.4,
-   "chance": 87,
+   "dia": "2026-11-29",
+   "chuva_mm": 1.1,
+   "chance": 59,
    "tmin": 20,
-   "tmax": 27,
-   "rajada": 33,
+   "tmax": 28,
+   "rajada": 34,
    "aviso": null,
    "pico_chuva": null,
-   "pico_rajada": 23,
+   "pico_rajada": 2,
    "trovoada": null,
    "risco": {
     "pct": 8,
@@ -42,12 +42,5 @@
    "cenarios": 212
   }
  ],
- "avisos": [
-  {
-   "lvl": "amarelo",
-   "tit": "chuvas intensas",
-   "ini": "2026-11-27",
-   "fim": "2026-11-27"
-  }
- ]
+ "avisos": []
 }
